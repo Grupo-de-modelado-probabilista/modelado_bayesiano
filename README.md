@@ -33,9 +33,9 @@ Este es un curso introductorio para personas sin conocimiento previo de estadís
 
 ## Cómo usar este material
 
-* Versión estática: Al hacer click en los archivos que se muestran arriba (los que empiezan con 01_, 02_, 03_, etc) podrás leer una versión estática del material. Es decir podrás ver el texto y las figuras pero no podrás modificarlos, ni interactuar con el material.
+* Versión estática: Al hacer click en los archivos que se muestran arriba (los que terminan en ipynb) podrás leer una versión estática del material. Es decir podrás ver el texto y las figuras pero no podrás modificarlos, ni interactuar con el material.
 
-* Versión interactiva online. Al hacer click [acá](https://mybinder.org/v2/gh/aloctavodia/Modelado_Bayesiano/master) podrás correr una versión _online_.
+* Versión interactiva online [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aloctavodia/Modelado_Bayesiano/master).
 
 * Versión interactiva local. También es posible descargar el material y ejecutarlo en tu propia computadora. Para ello has click [acá](https://github.com/aloctavodia/Modelado_Bayesiano/archive/master.zip) y sigue las instrucciones de la próxima sección (Instalación).
 
@@ -44,12 +44,12 @@ Este es un curso introductorio para personas sin conocimiento previo de estadís
 Para usar este material es necesario tener instalado Python. Se recomienda la versión 3.6 o superior. Además es necesario instalar los siguientes paquetes:
 
 * PyMC3 3.6
-* NumPy 1.14
+* NumPy 1.15
 * SciPy 1.1
 * Matplotlib 3.0.2
-* Ipython 7
+* Ipython 7.2
 * Jupyter 1.0.0
-* ArviZ 0.3.1
+* ArviZ 0.3.3
 
 Se recomienda instalar primero [Anaconda](https://www.continuum.io/downloads). Luego instalar el resto de los paquetes con los comandos:
 
