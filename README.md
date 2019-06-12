@@ -43,20 +43,17 @@ Este es un curso introductorio para personas sin conocimiento previo de estadís
 ## Instalación
 Para usar este material es necesario tener instalado Python. Se recomienda la versión 3.6 o superior. Además es necesario instalar los siguientes paquetes:
 
-* PyMC3 3.6
+* PyMC3 3.7
 * NumPy 1.15
 * SciPy 1.1
 * Matplotlib 3.0.2
 * Ipython 7.2
 * Jupyter 1.0.0
-* ArviZ 0.3.3
+* ArviZ 0.4.1
 
 Se recomienda instalar primero [Anaconda](https://www.continuum.io/downloads). Luego instalar el resto de los paquetes con los comandos:
 
-* `conda install -c conda-forge pymc3 jupyter ipython seaborn`
-
-* `pip install arviz`
-
+* `conda install -c conda-forge pymc3 arviz`
 
 ## Contribuciones
 Todo el contenido de este repositorio es abierto, esto quiere decir que cualquier persona interesada puede contribuir al mismo. Todas las contribuciones serán bien recibidas incluyendo:
