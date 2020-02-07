@@ -6,9 +6,10 @@ dependencies:
   - ipython=6.5
   - jupyter=1.0.0
   - matplotlib=3.0.2
-  - pymc3=3.6
+  - pymc3=3.8
   - seaborn=0.9
   - numpy=1.15
   - scipy=1.1
   - pip:
     - git+git://github.com/arviz-devs/arviz.git
+
