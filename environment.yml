@@ -2,14 +2,15 @@ name: mol_bayes
 channels:
   - conda-forge
 dependencies:
-  - python=3.6
-  - ipython=6.5
+  - python=3.9
+  - ipython=8.6
   - jupyter=1.0.0
-  - matplotlib=3.0.2
-  - pymc3=3.8
-  - seaborn=0.9
-  - numpy=1.15
-  - scipy=1.1
+  - matplotlib=3.5.2
+  - pymc=4.3.0
+  - seaborn=0.12.1
+  - numpy=1.23
+  - scipy=1.9.3
+  - arviz=0.13.0
   - pip:
-    - git+git://github.com/arviz-devs/arviz.git
+    - git+git://github.com/arviz-devs/preliz.git
 

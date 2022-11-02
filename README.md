@@ -35,25 +35,27 @@ Este es un curso introductorio para personas sin conocimiento previo de estadís
 
 * Versión estática: Al hacer click en los archivos que se muestran arriba (los que terminan en ipynb) podrás leer una versión estática del material. Es decir podrás ver el texto y las figuras pero no podrás modificarlos, ni interactuar con el material.
 
-* Versión interactiva online [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aloctavodia/Modelado_Bayesiano/master).
+* Versión interactiva online [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Grupo-de-modelado-probabilista/Modelado_Bayesiano/main).
 
-* Versión interactiva local. También es posible descargar el material y ejecutarlo en tu propia computadora. Para ello has click [acá](https://github.com/aloctavodia/Modelado_Bayesiano/archive/master.zip) y sigue las instrucciones de la próxima sección (Instalación).
+* Versión interactiva local. También es posible descargar el material y ejecutarlo en tu propia computadora. Para ello hacé click [acá](https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano/archive/main.zip) y sigue las instrucciones de la próxima sección (Instalación).
 
 
 ## Instalación
-Para usar este material es necesario tener instalado Python. Se recomienda la versión 3.6 o superior. Además es necesario instalar los siguientes paquetes:
+Para usar este material es necesario tener instalado Python. Se recomienda la versión 3.9 o superior. Además es necesario instalar los siguientes paquetes:
 
-* PyMC3 3.7
-* NumPy 1.15
-* SciPy 1.1
-* Matplotlib 3.0.2
-* Ipython 7.2
+* PyMC 4.3
+* ArviZ 0.13.0
+* NumPy 1.23
+* SciPy 1.9.3
+* Matplotlib 3.5.2
+* Ipython 8.6
 * Jupyter 1.0.0
-* ArviZ 0.4.1
+* Seaborn 0.12.1
+* Preliz 0.1.0
 
 Se recomienda instalar primero [Anaconda](https://www.continuum.io/downloads). Luego instalar el resto de los paquetes con los comandos:
 
-* `conda install -c conda-forge pymc3 arviz`
+* `conda install -c conda-forge pymc arviz`
 
 ## Contribuciones
 Todo el contenido de este repositorio es abierto, esto quiere decir que cualquier persona interesada puede contribuir al mismo. Todas las contribuciones serán bien recibidas incluyendo:
