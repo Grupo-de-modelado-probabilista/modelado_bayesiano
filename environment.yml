@@ -13,5 +13,5 @@ dependencies:
   - arviz=0.13.0
   - anaconda::pip
   - pip:
-    - git+https://github.com/arviz-devs/preliz.git
+    - preliz==0.0.2
 
