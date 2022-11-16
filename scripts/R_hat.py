@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 from matplotlib.animation import FuncAnimation
 
-az.style.use("arviz-white")
+az.style.use("arviz-doc")
 np.random.seed(172)
 
 fig, axes = plt.subplots(2, 1, figsize=(10, 6), sharey=True, sharex=True)

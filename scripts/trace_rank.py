@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 
-az.style.use("arviz-white")
+az.style.use("arviz-doc")
 
 
 np.random.seed(42)
