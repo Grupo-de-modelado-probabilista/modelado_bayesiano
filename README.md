@@ -8,28 +8,31 @@ Existen dos grandes conjuntos de herramientas para analizar datos:
 
 **Estadística Inferencial**: Consiste en usar datos para generar enunciados que exceden los propios datos. A veces esto implica realizar predicciones, a veces entender los detalles de algún fenómeno en particular o elegir entre varias explicaciones plausibles.
 
-> El foco de este curso está en aprender a realizar inferencias Bayesiana y luego usar métodos del análisis exploratorio de datos para resumir, interpretar, evaluar y comunicar los resultados de tales inferencias.
+> Este curso es sobre inferencia Bayesiana, pero como verán hacemos uso de métodos parcialmente inspirados en el análisis exploratorio de datos para resumir, interpretar, evaluar y comunicar los resultados de tales inferencias.
 
-Muchos de los cursos y libros sobre estadística, al menos los dirigidos a no-estadísticos, enseñan una serie de recetas que más o menos tienen la siguiente forma. 
+Muchos de los cursos y libros sobre estadística, principalmente aquellos dirigidos a no-estadísticos, enseñan una serie de recetas que más o menos tienen la siguiente forma. 
 
 1. Diríjase a la alacena estadística
 2. Elija una lata y ábrala
 3. Agregue datos a gusto
-4. Revuelva hasta que los p-valores estén a punto, es decir por debajo de 0.05
+4. Revuelva hasta que los p-valores estén a punto
 
-
-La principal meta de estos cursos es la de enseñar a usar la lata adecuada y con suerte alguna que otra discusión sobre el _emplatado_. Personalmente nunca me gustó esta aproximación, la razón principal es que por lo general tiene como resultado gente confundida he incapaz de percibir o entender conceptualmente la unidad de los diferentes métodos enseñados.
+La principal meta de estos cursos es la de enseñar a usar la lata adecuada y con suerte alguna que otra discusión sobre el _emplatado_. Esta aproximación pedagógica, dificulta entender conceptualmente la unidad de los diferentes métodos enseñados y tiene como resultado la reproducción de prácticas poco transparentes y/o útiles. 
 
 En este curso se intenta una aproximación totalmente diferente. También aprenderemos recetas, pero intentaremos que los platos tengan un sabor más casero y menos enlatado, aprenderemos a mezclar ingredientes frescos que se acomoden a diferentes situaciones gastronómicas.
 
 Este enfoque es posible por dos razones:
 
-* Una es ontológica: la estadística es una forma de modelado unificada bajo el marco de la teoría de probabilidad.
-* La otra es técnica: Software moderno como PyMC3 permite que a los practicantes definir resolver modelos de forma sencilla.
+* Una es ontológica: La estadística es una forma de modelado unificada bajo el marco de la teoría de probabilidad.
+* La otra es técnica: Software moderno permite a los practicantes definir, resolver y analizar modelos de forma cada vez más sencilla.
 
 ## A quienes está dirijido?
 
-Este es un curso introductorio para personas sin conocimiento previo de estadística o ciencia de datos. Se asume familiaridad con Python y librerías de Python usadas en análisis de datos como Numpy, matplotlib, Pandas, etc
+Este es un curso introductorio para personas sin conocimiento previo de estadística o ciencia de datos. Se asume familiaridad con Python y librerías de Python usadas en análisis de datos como Numpy, matplotlib, Pandas, etc.
+
+Quienes no sepan Python, pero tengan familiaridad con otros lenguajes de programación también podrán aprovechar el curso, aunque puede que experimente un poco más de fricción.
+
+Por último quienes no tengan interés en aprender a usar código para analisis de datos pueden aún aprovechar parte del material para obtener una visión a vuelo de pájaro de los métodos Bayesianos.
 
 ## Cómo usar este material
 
