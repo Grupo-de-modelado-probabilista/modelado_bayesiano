@@ -33,9 +33,9 @@ for idx, (ax, chain) in enumerate(
     ax.plot(chain, "0.4")
     ax.set_yticks([])
     if idx == 0:
-        plt.setp(ax.spines.values(), color="C2", lw=3)
-    else:
         plt.setp(ax.spines.values(), color="C1", lw=3)
+    else:
+        plt.setp(ax.spines.values(), color="C9", lw=3)
 
 plt.savefig("../diapo/img/trace_single_good_bad.png")
 
@@ -47,7 +47,7 @@ with plt.style.context("arviz-grayscale"):
     _, ax = plt.subplots(1, 1, figsize=(10, 4), sharex=True)
     ax.plot(good_chains)
     ax.set_yticks([])
-plt.setp(ax.spines.values(), color="C2", lw=3)
+plt.setp(ax.spines.values(), color="C1", lw=3)
 
 
 plt.savefig("../diapo/img/trace_multiple_good.png")
@@ -92,9 +92,9 @@ for idx, (ax, chain) in enumerate(
 
     ax.set_yticks([])
     if idx == 0:
-        plt.setp(ax.spines.values(), color="C2", lw=3)
-    else:
         plt.setp(ax.spines.values(), color="C1", lw=3)
+    else:
+        plt.setp(ax.spines.values(), color="C9", lw=3)
 
 plt.savefig("../diapo/img/rankbar_single_good_bad.png")
 
@@ -130,8 +130,8 @@ for idx, (ax, chain) in enumerate(
 
     ax.set_yticks([])
     if idx == 0:
-        plt.setp(ax.spines.values(), color="C2", lw=3)
-    else:
         plt.setp(ax.spines.values(), color="C1", lw=3)
+    else:
+        plt.setp(ax.spines.values(), color="C9", lw=3)
 
 plt.savefig("../diapo/img/rankvlines_single_good_bad.png")
