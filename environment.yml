@@ -1,4 +1,4 @@
-name: mol_bayes
+name: bayes
 channels:
   - conda-forge
 dependencies:
@@ -14,5 +14,5 @@ dependencies:
   - arviz==0.14.0
   - pip==22.3.1
   - pip:
-    - preliz==0.0.2
+    - preliz==0.0.3
 
