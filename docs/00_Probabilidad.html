@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>probabilidad</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Capítulo 0</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_Probabilidad.html" class="sidebar-item-text sidebar-link active">Probabilidad</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Capítulo 1</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Inferencia_Bayesiana.html" class="sidebar-item-text sidebar-link">Inferencia Bayesiana</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Capítulo 2</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Programación_probabilística.html" class="sidebar-item-text sidebar-link">Programación probabilista</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Capítulo 3</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Modelos_jerárquicos.html" class="sidebar-item-text sidebar-link">Modelado Jerárquico</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Capítulo 4</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Diagnóstico_MCMC.html" class="sidebar-item-text sidebar-link">MCMC y diagnóstico del muestro</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">Capítulo 5</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link">Regresión Lineal</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Capítulo 6</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link">Regresión polinomial</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">Capítulo 7</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Comparación_de_modelos.html" class="sidebar-item-text sidebar-link">Comparación de modelos</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#probabilidad" id="toc-probabilidad" class="nav-link active" data-scroll-target="#probabilidad">Probabilidad</a>
+  <ul class="collapse">
+  <li><a href="#azahar-azar-y-dados" id="toc-azahar-azar-y-dados" class="nav-link" data-scroll-target="#azahar-azar-y-dados">Azahar, azar y dados</a></li>
+  <li><a href="#probabilidades" id="toc-probabilidades" class="nav-link" data-scroll-target="#probabilidades">Probabilidades</a></li>
+  <li><a href="#probabilidad-condicional" id="toc-probabilidad-condicional" class="nav-link" data-scroll-target="#probabilidad-condicional">Probabilidad condicional</a></li>
+  <li><a href="#distribuciones-de-probabilidad" id="toc-distribuciones-de-probabilidad" class="nav-link" data-scroll-target="#distribuciones-de-probabilidad">Distribuciones de probabilidad</a></li>
+  <li><a href="#variables-aleatorias-discretas-y-distribuciones-de-probabilidad" id="toc-variables-aleatorias-discretas-y-distribuciones-de-probabilidad" class="nav-link" data-scroll-target="#variables-aleatorias-discretas-y-distribuciones-de-probabilidad">Variables aleatorias discretas y distribuciones de probabilidad</a>
+  <ul class="collapse">
+  <li><a href="#distribución-uniforme-discreta" id="toc-distribución-uniforme-discreta" class="nav-link" data-scroll-target="#distribución-uniforme-discreta">Distribución uniforme discreta</a></li>
+  <li><a href="#distribución-binomial" id="toc-distribución-binomial" class="nav-link" data-scroll-target="#distribución-binomial">Distribución binomial</a></li>
+  <li><a href="#distribución-de-poisson" id="toc-distribución-de-poisson" class="nav-link" data-scroll-target="#distribución-de-poisson">Distribución de Poisson</a></li>
+  </ul></li>
+  <li><a href="#variables-aleatorias-y-distribuciones-de-probabilidad-continuas" id="toc-variables-aleatorias-y-distribuciones-de-probabilidad-continuas" class="nav-link" data-scroll-target="#variables-aleatorias-y-distribuciones-de-probabilidad-continuas">Variables aleatorias y distribuciones de probabilidad continuas</a>
+  <ul class="collapse">
+  <li><a href="#distribución-uniforme" id="toc-distribución-uniforme" class="nav-link" data-scroll-target="#distribución-uniforme">Distribución uniforme</a></li>
+  <li><a href="#distribución-gaussiana-o-normal" id="toc-distribución-gaussiana-o-normal" class="nav-link" data-scroll-target="#distribución-gaussiana-o-normal">Distribución Gaussiana (o normal)</a></li>
+  <li><a href="#distribución-t-de-student" id="toc-distribución-t-de-student" class="nav-link" data-scroll-target="#distribución-t-de-student">Distribución t de Student</a></li>
+  <li><a href="#distribución-exponencial" id="toc-distribución-exponencial" class="nav-link" data-scroll-target="#distribución-exponencial">Distribución exponencial</a></li>
+  <li><a href="#distribución-de-laplace" id="toc-distribución-de-laplace" class="nav-link" data-scroll-target="#distribución-de-laplace">Distribución de Laplace</a></li>
+  <li><a href="#distribución-beta" id="toc-distribución-beta" class="nav-link" data-scroll-target="#distribución-beta">Distribución Beta</a></li>
+  <li><a href="#distribución-gamma" id="toc-distribución-gamma" class="nav-link" data-scroll-target="#distribución-gamma">Distribución Gamma</a></li>
+  </ul></li>
+  <li><a href="#valor-esperado" id="toc-valor-esperado" class="nav-link" data-scroll-target="#valor-esperado">Valor esperado</a></li>
+  <li><a href="#distribución-acumulada" id="toc-distribución-acumulada" class="nav-link" data-scroll-target="#distribución-acumulada">Distribución acumulada</a></li>
+  <li><a href="#relación-entre-probabilidad-conjunta-condicional-y-marginal" id="toc-relación-entre-probabilidad-conjunta-condicional-y-marginal" class="nav-link" data-scroll-target="#relación-entre-probabilidad-conjunta-condicional-y-marginal">Relación entre probabilidad conjunta, condicional y marginal</a></li>
+  <li><a href="#límites" id="toc-límites" class="nav-link" data-scroll-target="#límites">Límites</a>
+  <ul class="collapse">
+  <li><a href="#la-ley-de-los-grandes-números" id="toc-la-ley-de-los-grandes-números" class="nav-link" data-scroll-target="#la-ley-de-los-grandes-números">La ley de los grandes números</a></li>
+  <li><a href="#el-teorema-central-del-límite" id="toc-el-teorema-central-del-límite" class="nav-link" data-scroll-target="#el-teorema-central-del-límite">El teorema central del límite</a></li>
+  </ul></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="probabilidad" class="level1">
+<h1>Probabilidad</h1>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> preliz <span class="im">as</span> pz</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interact</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> special, stats</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> ipyw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)  <span class="co"># aplica estilo a los gráficos</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)  <span class="co"># semilla para fijar números aleatorios</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'lines.linewidth'</span>] <span class="op">=</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>javascript</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>IPython.OutputArea.prototype._should_scroll <span class="op">=</span> function(lines) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> false<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/javascript">
+IPython.OutputArea.prototype._should_scroll = function(lines) {
+    return false;
+}
+
+</script>
+</div>
+</div>
+<p>El objetivo de este primer capítulo es introducir algunos términos y conceptos generales de estadística, los cuales nos serán de utilidad para discutir todos los tópicos centrales de este curso. La introducción es bastante general, por lo que a lo largo del texto se proveen de enlaces para seguir leyendo y profundizando en el tema.</p>
+<section id="azahar-azar-y-dados" class="level2">
+<h2 class="anchored" data-anchor-id="azahar-azar-y-dados">Azahar, azar y dados</h2>
+<p>Las palabras azahar y azar no son similares por casualidad ambas provienen de la misma palabra árabe que significa flor. Desde la antigüedad, y hasta el día de hoy, ciertos juegos, como el juego de la <a href="https://es.wikipedia.org/wiki/Juego_de_las_tabas">taba</a>, utilizan un hueso con dos lados planos a modo de dado. De hecho se podría decir que la taba es el antecesor del dado moderno. Para facilitar distinguir un lado del otro, es común que uno de los lados esté marcado de alguna forma. Resulta ser que los árabes usaban una flor. Con el tiempo el castellano adoptó azahar, para designar solo ciertas flores como las del <a href="https://www.youtube.com/watch?v=JNKnWEHdcH0">naranjo</a> y azar como sinónimo de aleatorio.</p>
+<p>Empecemos, entonces imaginando que tenemos un dado de 6 caras, cada vez que arrojamos el dado solo es posible obtener un número entero del 1-6 es decir <code>[1, 2, 3, 4, 5, 6]</code>. Al arrojar el dado podemos obtener cualquier de estos números sin preferencia de uno sobre otro. Usando Python podemos programar un dado de 6 caras de la siguiente forma:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dado():</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    resultados_posibles <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.random.choice(resultados_posibles)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>dado()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>4</code></pre>
+</div>
+</div>
+<p>Supongamos que sospechamos que el dado está trucado. ¿Qué podríamos hacer para evaluar esta posibilidad?</p>
+<ul>
+<li>Una posibilidad es consultar a los astros o los ángeles.</li>
+<li>Otra sería pensar mucho sobre el problema para luego quizá declararse agnóstico sobre la <em>truquez</em> no solo del dado en cuestión si no de los dados en general y aún más sobre la posibilidad misma de acceder al conocimiento.</li>
+<li>Una tercera alternativa es recolectar datos y analizarlos, esta última es la opción preferida por quienes practican disciplinas científicas, en particualr la estadística.</li>
+</ul>
+<p>Usando Python podemos <em>simular</em> la recolección de datos de la siguiente forma.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> experimento(N<span class="op">=</span><span class="dv">10000</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    muestra <span class="op">=</span> [dado() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N)]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">7</span>):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>muestra<span class="sc">.</span>count(i)<span class="op">/</span>N<span class="sc">:.2g}</span><span class="ss">'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>experimento()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1: 0.17
+2: 0.17
+3: 0.16
+4: 0.17
+5: 0.17
+6: 0.17</code></pre>
+</div>
+</div>
+<p>Los números en la primer columna son los posibles resultados. Los de la segunda columna corresponden con la frecuencia con la que aparece cada número. La frecuencia es la cantidad de veces que aparece cada uno de los posibles resultados dividido por <code>N</code>. Siendo <code>N</code> el total de veces que arrojamos el dado.</p>
+<p>Hay al menos dos aspectos que vale resaltar en este ejemplo:</p>
+<ul>
+<li><p>Cada vez que se ejecuta la celda anterior, es decir cada vez que realizamos el experimento, se obtiene un resultado distinto. Esta es precisamente la razón de usar dados en juegos <em>de azar</em>, cada vez que los arrojamos obtenemos un número que no podemos predecir con absoluta certeza.</p></li>
+<li><p>Si arrojamos muchas veces un mismo dado la capacidad de predecir cada una de las tiradas no mejora. En ese sentido recolectar datos no nos ayuda. Pero recolectar datos si mejora la capacidad de predecir el <em>listado de las frecuencias</em>, de hecho la capacidad mejora de forma consistente al aumentar <code>N</code>. Para un valor de <code>N=10000</code> verás que las frecuencias obtenidas son aproximadamente <span class="math inline">\(0.17\)</span> y resulta ser que <span class="math inline">\(0.17 \approx \frac{1}{6}\)</span> que es lo que esperado si cada número en el dado tuviera la misma posibilidad de aparecer.</p></li>
+</ul>
+<p>Estas dos observaciones no están restringidas a los dados y los juegos de azar. Si nos pesáramos todos los días obtendríamos distintos valores ya que el peso tiene relación con la cantidad de comida que ingerimos, el agua que tomamos, cuantos orinamos y defecamos, la precisión de la balanza, la ropa que usamos. Por todo ello una sola medida podría no ser representativa de nuestro peso. Es cierto que todas estas variaciones podrían ser demasiado pequeñas para nuestro propósito y podriamos considerarlas irrelevantes, pero eso es adelantarse a nuestra discusión. El punto importante en este momento es que los datos van acompañados de incertidumbre, gran parte de la estadística tiene que ver con métodos y prácticas para lidear con esa incertidumbre.</p>
+</section>
+<section id="probabilidades" class="level2">
+<h2 class="anchored" data-anchor-id="probabilidades">Probabilidades</h2>
+<p>Es posible utilizar probabilidades para asignar números precisos a la incertidumbre de lo que observamos, medimos, modelamos, etc. Por ello Joseph K. Blitzstein y Jessica Hwang dicen <em>La matemática es la lógica de la certeza mientras que la probabilidad es la lógica de la incerteza</em>.</p>
+<p>Entender como pensar en presencia de incerteza es central en Estadística y Ciencia de Datos y prácticamente en cualquier disciplina científica. Esta incerteza proviene de diversas fuentes, incluyendo datos incompletos, errores de medición, límites de los diseños experimentales, dificultad de observar ciertos eventos, aproximaciones, etc.</p>
+<p>A continuación veremos una breve introducción a conceptos centrales en probabilidad a partir de lo cuales podremos comprender mejor los fundamentos del modelado Bayesiano. Para quienes tengan interés en profundizar en el tema recomiendo leer el libro <a href="https://www.routledge.com/Introduction-to-Probability--Second-Edition/Blitzstein-Hwang/p/book/9781138369917">Introduction to Probability</a> de Joseph K. Blitzstein y Jessica Hwang.</p>
+<p>El marco matemático para trabajar con las probabilidades se construye alrededor de los conjuntos matemáticos.</p>
+<p>El espacio muestral <span class="math inline">\(\mathcal{X}\)</span> es el conjunto de todos los posibles resultados de un experimento. Un evento <span class="math inline">\(A\)</span> es un subconjunto de <span class="math inline">\(\mathcal{X}\)</span>. Decimos que <span class="math inline">\(A\)</span> ha ocurrido si al realizar un <em>experimento</em> obtenemos como resultado <span class="math inline">\(A\)</span>. Si tuviéramos un típico dado de 6 caras tendríamos que:</p>
+<p><span class="math display">\[\mathcal{X} = \{1, 2, 3, 4, 5, 6\} \tag {0.0}\]</span></p>
+<p>Podemos definir al evento <span class="math inline">\(A\)</span> como:</p>
+<p><span class="math display">\[A = \{2\} \tag {0.1}\]</span></p>
+<p>Si queremos indicar la probabilidad del evento <span class="math inline">\(A\)</span> escribimos <span class="math inline">\(P(A=2)\)</span> o de forma abreviada <span class="math inline">\(P(A)\)</span>.</p>
+<p><span class="math inline">\(P(A)\)</span> puede tomar cualquier valor en el intervalo comprendido entre 0 y 1 (incluidos ambos extremos), en <a href="https://es.wikipedia.org/wiki/Intervalo_(matem%C3%A1tica)#Notaci%C3%B3n">notación de intervalos</a> esto se escribe como [0, 1]. Es importante notar que no es necesariamente cierto que <span class="math inline">\(P(A) = \frac{1}{6}\)</span>.</p>
+<p>Al definir el evento <span class="math inline">\(A\)</span> podemos usar más de un elemento de <span class="math inline">\(\mathcal{X}\)</span>. Por ejemplo, números impares <span class="math inline">\(A = \{1, 3, 5\}\)</span>, o números mayores o iguales a 4 <span class="math inline">\(A = \{4,5,6\}\)</span>, o <span class="math inline">\(A = \{1,2,4,6\}\)</span>. Para cualquier problema concreto la definición de un evento como <span class="math inline">\(A\)</span> dependerá directamente del problema.</p>
+<p>Resumiendo, los eventos son subconjuntos de un espacio muestral definido adecuadamente y las probabilidades son números entre 0 y 1 asociados a la posibilidad que esos eventos ocurran. Si el evento es imposible entonces la probabilidad de ese evento será exactamente 0, si en cambio el evento sucede siempre entonces la probabilidad de ese evento será de 1. Todos los valores intermedios reflejan grados de incerteza. Desde este punto de vista es <em>natural</em> preguntarse cual es la probabilidad que la masa de Saturno sea <span class="math inline">\(x\)</span> kg, o hablar sobre la probabilidad de lluvia durante el 25 de Mayo de 1810, o la probabilidad de que mañana amanezca.</p>
+<p>Esta interpretación del concepto de probabilidad como medida de incertidumbre se suele llamar interpretación Bayesiana o subjetiva. Existen otras interpretaciones, por ej según la interpretación fecuentista una probabilidad es la proporción de veces que un evento sucedería si pudieramos repetir infinitas veces una observación bajo las mismas condiciones. Es importante destacar que estas interpretaciones son andamiajes conceptuales, interpretaciones filosóficas. El aparato matemático que describe las probabilidades es uno solo y no distingue entre estas u otras interpretaciones.</p>
+</section>
+<section id="probabilidad-condicional" class="level2">
+<h2 class="anchored" data-anchor-id="probabilidad-condicional">Probabilidad condicional</h2>
+<p>Una probabilidad condicional es simplemente la probabilidad de un evento dado que conocemos que otro evento ha sucedido. Al preguntar cual es la probabilidad que llueva dado que está nublado estamos planteando una probabilidad condicional.</p>
+<p>Dado dos eventos <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> siendo <span class="math inline">\(P(B) &gt; 0\)</span>, la probabilidad de <span class="math inline">\(A\)</span> dado <span class="math inline">\(B\)</span> es definida como:</p>
+<p><span class="math display">\[
+P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
+\]</span></p>
+<p><span class="math inline">\(P(A, B)\)</span> es la <em>probabilidad conjunta</em>, es decir la probabiliad que suceda el evento <span class="math inline">\(A\)</span> y que ocurra el evento <span class="math inline">\(B\)</span>, también se suele escribir como <span class="math inline">\(P(A \cap B)\)</span>, el símbolo <span class="math inline">\(\cap\)</span> indica intersección de conjuntos.</p>
+<p><span class="math inline">\(P(A \mid B)\)</span> es lo que se conoce como probabilidad condicional, y es la probabilidad de que ocurra el evento A <em>condicionada</em> por el conocimiento que B ha ocurrido. Por ejemplo la probabilidad que una vereda esté mojada puede set diferente de la probabilidad que esa vereda esté mojada dado que está lloviendo.</p>
+<p>Una probabilidad condicional se puede visualizar como la reducción del espacio muestral. Para ver esto de forma más clara vamos a usar una figura adaptada del libro <a href="https://www.routledge.com/Introduction-to-Probability--Second-Edition/Blitzstein-Hwang/p/book/9781138369917">Introduction to Probability</a> de Joseph K. Blitzstein y Jessica Hwang. En ella se puede ver como pasamos de tener los eventos <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> en el espacio muestral <span class="math inline">\(\mathcal{X}\)</span>, en el primer cuadro, a tener <span class="math inline">\(P(A \mid B)\)</span> en el último cuadro donde el espacio muestral se redujo de <span class="math inline">\(\mathcal{X}\)</span> a <span class="math inline">\(B\)</span>.</p>
+<p><img src="img/cond.png" width="500"></p>
+<p>El concepto de probabilidad condicional está en el corazón de la estadística y es central para pensar en como debemos actualizar el conocimiento que tenemos de un evento a la luz de nuevos datos. Veremos más sobre esto en los proximos capítulos. Por ahora dejamos este tema con la siguiente aclaración. Desde el punto de vista práctico, todas las probabilidades son condicionales (respecto de algún supuesto o modelo) aún cuando no lo expresemos explícitamente, no existen probabilidades sin contexto.</p>
+</section>
+<section id="distribuciones-de-probabilidad" class="level2">
+<h2 class="anchored" data-anchor-id="distribuciones-de-probabilidad">Distribuciones de probabilidad</h2>
+<p>A nosotros en general no nos interesará calcular la probabilidad de eventos concretos sino que nos interesará calcular distribuciones de probabilidad. Es decir, en vez de calcular la probabilidad de obtener el número 5 al arrojar un dado, nos interesará averiguar el <em>listado de las frecuencias</em> de todas las posibilidades del dado (1 al 6). Una vez obtenido este listado podremos hacer preguntas como ¿Cuál es la probabilidad de obtener el número 5?, ¿Cuánto más probable es obtener número pares que impares? u otras preguntas relacionadas. El nombre formal de este <em>listado</em> es <strong>distribución de probabilidad</strong>.</p>
+<p>En el ejemplo del dado obtuvimos una distribución de probabilidad empírica, es decir una distribución calculada a partir de datos. Pero también existen distribuciones teóricas, las cuales son centrales en estadística entre otras razones por que permiten construir modelos probabilístas.</p>
+<p>Las distribuciones de probabilidad teóricas tienen formulas matemáticas precisas, de forma similar a como las circunferencias tienen una definición matemática precisa.</p>
+<blockquote class="blockquote">
+<p>Una circunferencia es el lugar geométrico de los puntos de un plano que equidistan a otro punto llamado centro.</p>
+</blockquote>
+<p>Dado el parámetro <code>radio</code> una circunferencia queda perfectamente definida. Si necesitáramos ubicar la circunferencia respecto de otros objetos en el plano, necesitaríamos además las coordenadas del centro, pero omitamos ese <em>detalle</em> por el momento.</p>
+<p>Veamos el siguiente ejemplo:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dibuja_circ(radio):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    _, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">100</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ax.plot(radio<span class="op">*</span>np.cos(x), radio<span class="op">*</span>np.sin(x))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(<span class="op">-</span><span class="dv">11</span>, <span class="dv">11</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim(<span class="op">-</span><span class="dv">11</span>, <span class="dv">11</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks([])</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    ax.set_yticks([])</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>interact(dibuja_circ,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>         radio<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="fl">2.</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"a88affbc2d684eac8a27355f16fdb4ab","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<p>Podríamos decir que no existe una sola circunferencia, sino una familia de circunferencias donde cada miembro se diferencia del resto solo por el valor del parámetro <code>radio</code>, ya que una vez definido este parámetro la circunferencia queda definida.</p>
+<p>De forma similar las distribuciones de probabilidad vienen en familias cuyos miembros quedan definidos por uno o más parámetros. Es común que los nombres de los parámetros de las distribuciones de probabilidad sean letras del alfabeto griego, aunque esto no es siempre así.</p>
+<p>En el siguiente ejemplo tenemos una distribución de probabilidad que podríamos usar para representar un dado y que es controlada por dos parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>:</p>
+<div class="cell" data-scrolled="true" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dist_dado(α, β):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">6</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    dist_pmf <span class="op">=</span> special.binom(n, x) <span class="op">*</span> (special.beta(x<span class="op">+</span>α, n<span class="op">-</span>x<span class="op">+</span>β) <span class="op">/</span> special.beta(α, β))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    plt.vlines(x, <span class="dv">0</span>, dist_pmf, colors<span class="op">=</span><span class="st">'C0'</span>, lw<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    plt.xticks(x, x<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>interact(dist_dado,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>         α<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">1</span>),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"ae953a304cad4da88b4a0521c89169b3","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<p>Esta distribución (o familia de distribuciones) se llama <code>beta-binomial</code>, si cambiamos los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span> la “forma particular” de la distribución cambiará, podemos hacer que sea <em>plana</em> o concentrada más hacia el medio o hacia uno u otro extremo, etc. Así como el radio de la circunferencia debe ser positivo, los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span> también están restringidos a ser positivos.</p>
+</section>
+<section id="variables-aleatorias-discretas-y-distribuciones-de-probabilidad" class="level2">
+<h2 class="anchored" data-anchor-id="variables-aleatorias-discretas-y-distribuciones-de-probabilidad">Variables aleatorias discretas y distribuciones de probabilidad</h2>
+<p>Una variable aleatoria es una función que asocia números reales <span class="math inline">\(\mathbb{R}\)</span> con un espacio muestral. Continuando con el ejemplo del dado si los eventos de interés fuesen los números del dado entonces el mapeo es simple, ya que asociamos ⚀ con el número 1, ⚁ con el 2, etc. Si tuviéramos dos dados podríamos definir una variable aleatoria <span class="math inline">\(S\)</span> como la suma de ambos dados. En este caso la variable aleatoria tomaría los valores <span class="math inline">\(\{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}\)</span> y si los dados no están trucados la distribución de probabilidad de la variable sería</p>
+<p><a href="https://en.wikipedia.org/wiki/File:Dice_Distribution_(bar).svg"><img src="img/dist_dos_dados.png" width="500"></a></p>
+<p>Otra variable aleatoria podría ser <span class="math inline">\(C\)</span> cuyo espacio muestral es <span class="math inline">\(\{rojo, verde, azul\}\)</span>. Si los eventos de interés fuesen <code>rojo, verde, azul,</code> entonces podríamos <em>codificarlos</em> de la siguiente forma:</p>
+<p><code>C(rojo) = 0, C(verde)=1, C(azul)=2</code></p>
+<p>Esta <em>codificación</em> es útil ya que en general es más fácil operar con números que con <em>cadenas (strings)</em>, ya sea que las operaciones las hagamos manualmente o con una computadora.</p>
+<p>Una variable es aleatoria en el sentido de que en cada <em>experimento</em> es posible obtener un evento distinto sin que la sucesión de eventos siga un patrón determinista. Por ejemplo si <em>preguntamos</em> cual es el valor de <span class="math inline">\(C\)</span> tres veces seguida podríamos obtener, <code>rojo, rojo, azul</code> o quizá <code>azul, verde, azul</code>, etc.</p>
+<p>Cuando se habla de <em>variables aleatorias</em>, es común que surgan algunos malos entendidos:</p>
+<ul>
+<li>La variable NO puede tomar cualquier valor imaginable, en el ejemplo de los colores solo son posibles 3 valores. En el ejemplo del dado solo 6 valores son posibles.</li>
+<li><em>Aleatorio</em> NO implica que todos los eventos tengan igual probabilidad.</li>
+</ul>
+<p>bien podría darse el siguiente ejemplo:</p>
+<p><span class="math display">\[P(C=rojo) = \frac{1}{2}, P(C=verde) = \frac{1}{4}, P(C=azul) = \frac{1}{4}\]</span></p>
+<p>La equiprobabilidad de los eventos es solo un caso especial.</p>
+<hr>
+<p>Una variable aleatoria discreta es una variable que puede tomar valores discretos, los cuales forman un conjunto finito (o infinito <a href="https://es.wikipedia.org/wiki/Conjunto_numerable">numerable</a>). En nuestro ejemplo <span class="math inline">\(C\)</span> es discreta ya que solo puede tomar 3 valores, sin posibilidad de valores intermedios entre ellos, no es posible obtener el valor <em>verde-rojizo</em>! <span class="math inline">\(S\)</span> también es discreta y como ya dijimos solo es posible obtener los enteros en el intervalo [2-12].</p>
+<p>Si en vez de “rótulos” hubiéramos usado el espectro <em>continuo</em> de longitudes onda <em>visibles</em> otro sería el caso, ya que podríamos haber definido a <span class="math inline">\(C=\{400 \text{ nm} ... 750\text{ nm}\}\)</span> y en este caso no hay dudas que sería posible obtener un valor <em>a mitad de camino</em> entre <em>rojo</em> (<span class="math inline">\(\approx 700 \text{ nm}\)</span>) y <em>verde</em> (<span class="math inline">\(\approx 530 \text{ nm}\)</span>), de hecho podemos encontrar infinitos valores entre ellos. Este sería el ejemplo de una variable aleatoria continua.</p>
+<p>Una variable aleatoria tiene una <em>lista</em> asociada con la probabilidad de cada evento. El nombre formal de esta <em>lista</em> es disribución de probabilidad, en el caso particular de variables aleatorias discretas se le suele llamar también función de masa de probabilidad (o <strong>pmf</strong> por su sigla en inglés). Es importante destacar que la <span class="math inline">\(pmf\)</span> es una función que devuelve probabilidades, por lo tanto siempre obtendremos valores comprendidos entre [0, 1] y cuya suma total (sobre todos los eventos) dará 1.</p>
+<p>En principio nada impide que uno defina su propia distribución de probabilidad. Pero a lo largo de los últimos 3 siglos se han identificado y estudiado muchas distribuciones de probabilidad que dado su utilidad se les ha asignado “nombre propio”, por lo que conviene saber sobre su existencia. El siguiente listado no es exhaustivo ni tiene como propósito que <em>memoricen</em> las distribuciones y sus propiedades, solo que ganen cierta familiaridad con las mismas. Si en el futuro necesitan utilizar alguna <span class="math inline">\(pmf\)</span> pueden volver a esta <em>notebook</em> o pueden revisar Wikipedia donde encontrarán información muy completa.</p>
+<p>En las siguientes gráficas las <em>alturas</em> de los puntos azules indican la probabilidad de cada valor de <span class="math inline">\(x\)</span>. Se indican, además, la media (<span class="math inline">\(\mu\)</span>) y desviación estándar (<span class="math inline">\(\sigma\)</span>) de las distribuciones, es importante destacar que estos valores NO son calculados a partir de <em>datos</em>, de hecho no hay datos solo objetos matemáticos. Los valores de <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span> son propiedades matemáticas de las distribuciones, de la misma forma que el área de un círculo es una propiedad que queda definida una vez que fijamos el parámetro radio.</p>
+<section id="distribución-uniforme-discreta" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-uniforme-discreta">Distribución uniforme discreta</h3>
+<p>Es una <a href="https://en.wikipedia.org/wiki/Discrete_uniform_distribution">distribución</a> que asigna igual probabilidad a un conjunto finitos de valores, su <span class="math inline">\(pmf\)</span> es:</p>
+<p><span class="math display">\[p(k \mid a, b)={\frac {1}{b - a + 1}} = \frac{1}{n}\tag {0.3}\]</span></p>
+<p>Para valores de <span class="math inline">\(k\)</span> en el intervalo [a, b], fuera de este intervalo <span class="math inline">\(p(k) = 0\)</span>, donde <span class="math inline">\(n=b-a+1\)</span> es la cantidad total de valores que puede tomar <span class="math inline">\(k\)</span>.</p>
+<p>Podemos usar esta distribución para modelar, por ejemplo un dado no cargado.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.DiscreteUniform(lower<span class="op">=</span><span class="dv">1</span>, upper<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>, support<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">7</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>En la figura anterior la altura de cada punto indica la probabilidad de cada evento, usamos puntos y lineas punteadas para remarcar que la distribución es discreta. En este ejemplo en concreto la distribución uniforme está definida en el intervalo [1, 6]. Por lo tanto todos los valores menores a 1 y mayores a 6 tienen probabilidad 0. Al ser una distribución uniforme todos los puntos tienen la misma altura y esa altura es <span class="math inline">\(\frac{1}{6}\)</span>.</p>
+<p>Los <strong>parámetros</strong> de la distribución discreta uniforme son dos: * El límite inferior representado con la letra “a” en la expresión 0.3 * El límite superior representado con la letra “b” en la expresión 0.3</p>
+<p>Si cambiamos los parámetros la “forma particular” de la distribución cambiará (prueben por ejemplo reemplazar <code>upper=6</code> en el bloque de código anterior por <code>upper=4</code>). Es por ello que se suele hablar de familia de distribuciones, cada miembro de esa familia es una distribución con una combinación particular y válida de parámetros. Por ejemplo <em>la familia de distribuciones discretas uniforme</em> es aquella indicada en la expresión 0.3, siempre y cuando: * <span class="math inline">\(a &lt; b\)</span> * <span class="math inline">\(a \in \mathbb {Z}\)</span> * <span class="math inline">\(b \in \mathbb {Z}\)</span></p>
+<p>donde <span class="math inline">\(\mathbb {Z}\)</span> es el conjunto de los números enteros.</p>
+<p>Es común vincular los parámetros con cantidades que tienen sentido <em>físico</em> por ejemplo en un dado de 6 caras tiene sentido que <span class="math inline">\(a=1\)</span> y <span class="math inline">\(b=6\)</span>. A veces desconocemos los valores de los parámetros y es nuestro trabajo utilizar datos y métodos estadísticos para encontrar esos valores.</p>
+</section>
+<section id="distribución-binomial" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-binomial">Distribución binomial</h3>
+<p>Es la <a href="https://en.wikipedia.org/wiki/Binomial_distribution">distribución</a> de probabilidad discreta que cuenta el número de éxitos en una secuencia de <span class="math inline">\(n\)</span> ensayos de Bernoulli (experimentos si/no) independientes entre sí, con una probabilidad fija <span class="math inline">\(p\)</span> de ocurrencia del éxito entre los ensayos. Cuando <span class="math inline">\(n=1\)</span> esta distribución se reduce a la distribución de Bernoulli.</p>
+<p><span class="math display">\[p(x \mid n,p) = \frac{n!}{x!(n-x)!}p^x(1-p)^{n-x} \tag {0.4}\]</span></p>
+<p>El término <span class="math inline">\(p^x(1-p)^{n-x}\)</span> indica la probabilidad de obtener <span class="math inline">\(x\)</span> éxitos en <span class="math inline">\(n\)</span> intentos. Este término solo tiene en cuenta el número total de éxitos obtenidos pero no la secuencia en la que aparecieron. El primer término conocido como <strong>coeficiente binomial</strong> calcula todas las posibles combinaciones de <span class="math inline">\(n\)</span> en <span class="math inline">\(x\)</span>, es decir el número de subconjuntos de <span class="math inline">\(x\)</span> elementos escogidos de un conjunto con <span class="math inline">\(n\)</span> elementos.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Binomial(n<span class="op">=</span><span class="dv">4</span>, p<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="distribución-de-poisson" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-de-poisson">Distribución de Poisson</h3>
+<p>Es una <a href="https://en.wikipedia.org/wiki/Poisson_distribution">distribución</a> de probabilidad discreta que expresa la probabilidad que <span class="math inline">\(x\)</span> eventos sucedan en un intervalo fijo de tiempo (o espacio o volumen) cuando estos eventos suceden con una tasa promedio <span class="math inline">\(\mu\)</span> y de forma independiente entre si. Se la utiliza para modelar eventos con probabilidades pequeñas (sucesos <em>raros</em>) como accidentes de tráfico o decaimiento radiactivo.</p>
+<p><span class="math display">\[
+p(x \mid \mu) = \frac{\mu^{x} e^{-\mu}}{x!} \tag {0.5}
+\]</span></p>
+<p>Tanto la media como la varianza de esta distribución están dadas por <span class="math inline">\(\mu\)</span>.</p>
+<p>A medida que <span class="math inline">\(\mu\)</span> aumenta la distribución de Poisson se aproxima a una distribución Gaussiana (aunque sigue siendo discreta). La distribución de Poisson tiene estrecha relación con otra distribución de probabilidad, la binomial. Una distribución binomial puede ser aproximada con una distribución de Poisson, cuando <span class="math inline">\(n &gt;&gt; p\)</span>, es decir, cuando la cantidad de “éxitos” (<span class="math inline">\(p\)</span>) es baja respecto de la cantidad de “intentos” (p) entonces <span class="math inline">\(\text{Poisson}(np) \approx \text{Binon}(n, p)\)</span>. Por esta razón la distribución de Poisson también se conoce como “ley de los pequeños números” o “ley de los eventos raros”. Ojo que esto no implica que <span class="math inline">\(\mu\)</span> deba ser pequeña, quien es pequeño/raro es <span class="math inline">\(p\)</span> respecto de <span class="math inline">\(n\)</span>.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Poisson(mu<span class="op">=</span><span class="fl">2.3</span>)  <span class="co"># número de veces que se espera que ocurra un evento.</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="variables-aleatorias-y-distribuciones-de-probabilidad-continuas" class="level2">
+<h2 class="anchored" data-anchor-id="variables-aleatorias-y-distribuciones-de-probabilidad-continuas">Variables aleatorias y distribuciones de probabilidad continuas</h2>
+<p>Hasta ahora hemos visto variables aleatorias discretas y distribuciones de masa de probabilidad. Existe otro tipo de variable aleatoria que son muy usadas y son las llamadas variables aleatorias continuas, ya que toman valores en <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<p>La diferencia más importante entre variables aleatoria discretas y continuas es que para las continuas <span class="math inline">\(P(X=x) = 0\)</span>, es decir, la probabilidad de cualquier valor es exactamente 0.</p>
+<p>En las gráficas anteriores, para variables discretas, es la altura de los puntos lo que define la probabilidad de cada evento. Si sumamos todas las alturas siempre obtenemos 1. En una distribución continua no tenemos una cantidad finita de <em>puntos</em> que sumar, en cambio tenemos una cantidad infinita de <em>puntos</em> que definen una curva continua, la altura de esa curva es la <em>densidad de probabilidad</em>. Si queremos averiguar cuanto más probable es el valor <span class="math inline">\(x_1\)</span> respecto de <span class="math inline">\(x_2\)</span> basta calcular:</p>
+<p><span class="math display">\[\frac{pdf(x_1)}{pdf(x_2)} \tag {0.6}\]</span></p>
+<p>Donde <span class="math inline">\(pdf\)</span> es la función de densidad de probabilidad (por su sigla en inglés). Y es análoga a la <span class="math inline">\(pmf\)</span> que vimos para variables discretas. Una diferencia importante es que la <span class="math inline">\(pdf(x)\)</span> puede ser mayor a 1. Para obtener una probabilidad a partir de una pdf debemos integrar en un intervalo dado, ya que es el área bajo la curva y no la altura lo que nos da la probabilidad, es decir es esta integral la que debe dar entre 0 y 1.</p>
+<p><span class="math display">\[P(a \lt X \lt b) =  \int_a^b pdf(x) dx\]</span></p>
+<p>En muchos textos es común usar <span class="math inline">\(p\)</span> para referirse a la probabilidad de un evento en particular o a la <span class="math inline">\(pmf\)</span> o a la <span class="math inline">\(pdf\)</span>, esperando que la diferencia se entienda por contexto.</p>
+<p>A continuación veremos varias distribuciones continuas.</p>
+<section id="distribución-uniforme" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-uniforme">Distribución uniforme</h3>
+<p>Aún siendo simple, la distribución <a href="https://en.wikipedia.org/wiki/Uniform_distribution_%28continuous%29">uniforme</a> es muy usada en estadística, por ejemplo para representar nuestra ignorancia sobre el valor que pueda tomar un parámetro.</p>
+<p><span class="math display">\[
+p(x \mid a,b)=\begin{cases} \frac{1}{b-a} &amp; para\ a \le x \le b \\ 0 &amp;  \text{para el resto} \end{cases} \tag {0.7}
+\]</span></p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>)  </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>En la figura anterior la curva azul representa la <span class="math inline">\(pdf\)</span>. La <span class="math inline">\(pdf\)</span> es un objeto matemático que da la descripción exacta de la distribución, no es algo que exista en la <em>realidad</em> si no una construcción matemática que es útil para aproximar o modelar algún aspecto de la <em>realidad</em>. La <span class="math inline">\(pdf\)</span> es como las esferas, las esferas no existen pero pueden ser útiles para describir objetos tales como pelotas, planetas, átomos, aún cuando ni las pelotas, planetas o átomos sean esferas.</p>
+<p>El histograma en turquesa representa una muestra tomadas a partir de la <span class="math inline">\(pdf\)</span> representada en azul. A diferencia de la curva azul, que es un objeto (matemático) concreto. Una muestra es aleatoria. Cada vez que ejecutemos la celda anterior la curva azul será la misma pero el histograma cambiará.</p>
+<p>Una aclaración antes de continuar. Los histogramas no son lo mismo que los gráficos de barras. Los histogramas son una forma de representación visual de datos que usa barras a fin de aproximar una distribución continua. Si bien la cantidad de barras es discreta, la distribución que intenta aproximar es continua, es por ello que las barras se dibujan de forma contigua, mientras que en los gráficos de barras (que representan distribuciones discretas) las barras se dibujan espaciadas.</p>
+<p>Luego de estas aclaraciones continuemos con otras distribuciones de probabilidad continuas.</p>
+</section>
+<section id="distribución-gaussiana-o-normal" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-gaussiana-o-normal">Distribución Gaussiana (o normal)</h3>
+<p>Es quizá la <a href="https://en.wikipedia.org/wiki/Normal_distribution">distribución</a> más conocida. Por un lado por que muchos fenómenos pueden ser descriptos (aproximadamente) usando esta distribución. Por otro lado por que posee ciertas propiedades matemáticas que facilitan trabajar con ella de forma analítica. Es por ello que muchos de los resultados de la estadística se basan en asumir una distribución Gaussiana.</p>
+<p>La distribución Gaussiana queda definida por dos parámetros, la media <span class="math inline">\(\mu\)</span> y la desviación estándar <span class="math inline">\(\sigma\)</span>. Una distribución Gaussiana con <span class="math inline">\(\mu = 0\)</span> y <span class="math inline">\(\sigma = 1\)</span> es conocida como la <em>distribución Gaussiana estándar</em>.</p>
+<p><span class="math display">\[
+p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 } {2 \sigma^2}} \tag {0.8}
+\]</span></p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Normal(mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>)  </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="distribución-t-de-student" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-t-de-student">Distribución t de Student</h3>
+<p>Históricamente esta <a href="http://es.wikipedia.org/wiki/Distribuci%C3%B3n_t_de_Student">distribución</a> surgió para estimar la media de una población normalmente distribuida cuando el tamaño de la muestra es pequeño. En estadística Bayesiana su uso más frecuente es el de generar modelos robustos a datos aberrantes.</p>
+<p><span class="math display">\[p(x \mid \nu,\mu,\sigma) = \frac{\Gamma(\frac{\nu + 1}{2})}{\Gamma(\frac{\nu}{2})\sqrt{\pi\nu}\sigma} \left(1+\frac{1}{\nu}\left(\frac{x-\mu}{\sigma}\right)^2\right)^{-\frac{\nu+1}{2}} \tag {0.9}
+\]</span></p>
+<p>donde <span class="math inline">\(\Gamma\)</span> es la función <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma</a> y donde <span class="math inline">\(\nu\)</span> es un parámetro llamado <em>grados de libertad</em> en la mayoría de los textos aunque también se le dice <em>grado de normalidad</em>, ya que a medida que <span class="math inline">\(\nu\)</span> aumenta la distribución se aproxima a una Gaussiana. En el caso extremo de <span class="math inline">\(\lim_{\nu\to\infty}\)</span> la distribución es exactamente igual a una Gaussiana.</p>
+<p>En el otro <em>extremo</em>, cuando <span class="math inline">\(\nu=1\)</span>, (aunque en realidad <span class="math inline">\(\nu\)</span> puede tomar valores por debajo de 1) estamos frente a una distribución de <a href="https://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy</a>. Es similar a una Gaussiana pero las colas decrecen muy lentamente, eso provoca que en teoría esta distribución no poseen una media o varianza definidas. Es decir, es posible calcular a partir de un conjunto de datos una media, pero si los datos provienen de una distribución de Cauchy, la dispersión alrededor de la media será alta y esta dispersión no disminuirá a medida que aumente el tamaño de la muestra. La razón de este comportamiento extraño es que en distribuciones como la Cauchy están dominadas por lo que sucede en las colas de la distribución, contrario a lo que sucede por ejemplo con la distribución Gaussiana.</p>
+<p>Para esta distribución <span class="math inline">\(\sigma\)</span> no es la desviación estándar, que como ya se dijo podría estar indefinida, <span class="math inline">\(\sigma\)</span> es la <em>escala</em>. A medida que <span class="math inline">\(\nu\)</span> aumenta la <em>escala</em> converge a la desviación estándar de una distribución Gaussiana.</p>
+<div class="cell" data-scrolled="true" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Student(nu<span class="op">=</span><span class="dv">4</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">2</span>)  </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="distribución-exponencial" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-exponencial">Distribución exponencial</h3>
+<p>La distribución <a href="https://en.wikipedia.org/wiki/Exponential_distribution">exponencial</a> se define solo para <span class="math inline">\(x &gt; 0\)</span>. Esta distribución se suele usar para describir el tiempo que transcurre entre dos eventos que ocurren de forma continua e independiente a una taza fija. El número de tales eventos para un tiempo fijo lo da la distribución de Poisson.</p>
+<p><span class="math display">\[
+p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
+\]</span></p>
+<p>La media y la desviación estándar de esta distribución están dadas por <span class="math inline">\(\frac{1}{\lambda}\)</span></p>
+<p>Scipy usa una parametrización diferente donde la escala es igual a <span class="math inline">\(\frac{1}{\lambda}\)</span></p>
+<div class="cell" data-scrolled="true" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Exponential(<span class="dv">3</span>)  </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="distribución-de-laplace" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-de-laplace">Distribución de Laplace</h3>
+<p>También llamada distribución <a href="https://en.wikipedia.org/wiki/Laplace_distribution">doble exponencial</a>, ya que puede pensarse como una distribución exponencial “más su imagen especular”. Esta distribución surge de medir la diferencia entre dos variables exponenciales (idénticamente distribuidas).</p>
+<p><span class="math display">\[p(x \mid \mu, b) = \frac{1}{2b} \exp \left\{ - \frac{|x - \mu|}{b} \right\} \tag {0.11}\]</span></p>
+<div class="cell" data-scrolled="true" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Laplace(<span class="dv">0</span>, <span class="fl">0.7</span>)  </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="distribución-beta" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-beta">Distribución Beta</h3>
+<p>Es una <a href="https://en.wikipedia.org/wiki/Beta_distribution">distribución</a> definida en el intervalo [0, 1]. Se usa para modelar el comportamiento de variables aleatorias limitadas a un intervalo finito. Es útil para modelar proporciones o porcentajes.</p>
+<p><span class="math display">\[
+p(x \mid \alpha, \beta)= \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\, x^{\alpha-1}(1-x)^{\beta-1} \tag {0.12}
+\]</span></p>
+<p>El primer término es simplemente una constante de normalización que asegura que la integral de la <span class="math inline">\(pdf\)</span> de 1. <span class="math inline">\(\Gamma\)</span> es la función <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma</a>. Cuando <span class="math inline">\(\alpha=1\)</span> y <span class="math inline">\(\beta=1\)</span> la distribución beta se reduce a la distribución uniforme.</p>
+<p>Si queremos expresar la distribución beta en función de la media y la dispersión alrededor de la media podemos hacerlo de la siguiente forma.</p>
+<p><span class="math display">\[\alpha = \mu \kappa\]</span> <span class="math display">\[\beta = (1 − \mu) \kappa\]</span></p>
+<p>Siendo <span class="math inline">\(\mu\)</span> la media y <span class="math inline">\(\kappa\)</span> una parámetro llamado concentración a media que <span class="math inline">\(\kappa\)</span> aumenta la dispersión disminuye. Nótese, además que <span class="math inline">\(\kappa = \alpha + \beta\)</span>.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Beta(<span class="dv">5</span>, <span class="dv">2</span>)  </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="distribución-gamma" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-gamma">Distribución Gamma</h3>
+<p>Scipy parametriza a la distribución <a href="https://en.wikipedia.org/wiki/Gamma_distribution">gamma</a> usando un parámetro <span class="math inline">\(\alpha\)</span> y uno <span class="math inline">\(\theta\)</span>, usando estos parámetros la <span class="math inline">\(pdf\)</span> es:</p>
+<p><span class="math display">\[
+p(x \mid \alpha, \theta) = \frac{1}{\Gamma(\alpha) \theta^\alpha} x^{\alpha \,-\, 1} e^{-\frac{x}{\theta}} \tag {0.13}
+\]</span></p>
+<p>Una parametrización más común en estadística Bayesiana usa los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>, siendo <span class="math inline">\(\beta = \frac{1}{\theta}\)</span>. En este caso la pdf queda como:</p>
+<p><span class="math display">\[
+p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\alpha)} \tag {0.14}
+\]</span></p>
+<p>La distribución gamma se reduce a la exponencial cuando <span class="math inline">\(\alpha=1\)</span>.</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Gamma(alpha<span class="op">=</span><span class="dv">3</span>, beta<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="valor-esperado" class="level2">
+<h2 class="anchored" data-anchor-id="valor-esperado">Valor esperado</h2>
+<p>El valor esperado (también conocido como esperanza o media) es un número que resume el centro de masa de una distribución. Por ejemplo, si <span class="math inline">\(X\)</span> es una variable aleatoria discreta, podemos calcular su valor esperado como:</p>
+<p><span class="math display">\[
+    \mathbb{E}(X) = \sum_x x P(X = x)
+\]</span></p>
+<p>En estadística usualmente también queremos medir la dispersión de una distribución, por ejemplo, para representar la incertidumbre en torno a una estimación puntual como la media. Podemos hacer esto con la varianza, que también es un valor esperado:</p>
+<p><span class="math display">\[
+\mathbb{V}(X) = \mathbb{E}(X - \mathbb{E}X)^2 = \mathbb{E}(X^2 ) - (\mathbb{E}X)^2
+\]</span></p>
+<p>La varianza aparece <em>naturalmente</em> en muchos cálculos estadísticos. Sin embargo, para reportar los resultados de un análisis suele ser más útil la desviación estándar, que es la raíz cuadrada de la varianza. La principal ventaja es que esta última está en la mismas escala/unidades que la variable aleatoria.</p>
+<p>El <span class="math inline">\(n\)</span>-ésimo momento de una variable aleatoria <span class="math inline">\(X\)</span> es <span class="math inline">\(\mathbb{E}(X^n)\)</span>, por lo que el valor esperado (media) y la varianza también se conocen como el primer y segundo momento de una distribución.</p>
+<p>Una vez fijados los parámetros de una distribución de probabilidad. Es posible calcularle sus momentos, el primer momento es la media y el segundo la varianza. Es importante notar que estos valores son propiedades de la distribución y no propiedades de una muestra. Por ejemplo la media y varianza de una distribución Beta(4, 6) es 0.4 y <span class="math inline">\(\approx 0.22\)</span>, respectivamente</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">6</span>).plot_pdf(moments<span class="op">=</span><span class="st">"mv"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Existen otros momentos, el tercer momento se conoce como sesgo y habla de la asimetría de una distribución</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">10</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>pz.Beta(<span class="dv">10</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>El cuarto momento, conocido como curtosis, nos habla del comportamiento de las colas o <em>valores extremos</em>. Suele calcularse de forma tal que de 0 para una Normal. Además las discusiones suelen centrarse en torno a distribuciones con curtosis positiva (como la distribución de Laplace o Student T con <span class="math inline">\(\nu &gt; 4\)</span>) por lo que es común hablar de <em>exceso</em> de curtosis. Mientras más grande la curtosis de una distribución más pesadas sus colas, es decir es más factible observar valores alejados de la media.</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pz.Normal(<span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>pz.Student(<span class="fl">4.1</span>, <span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>pz.Uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="distribución-acumulada" class="level2">
+<h2 class="anchored" data-anchor-id="distribución-acumulada">Distribución acumulada</h2>
+<p>La <code>pdf</code> (o la <code>pmf</code>) son formas comunes de representar y trabajar con variables aleatorias, pero no son las únicas formas posibles. Existen otras representaciones equivalentes. Por ejemplo la función de distribución acumulada (<code>cdf</code> en inglés). Al integrar una <code>pdf</code> se obtiene la correspondiente <code>cdf</code>, y al derivar la <code>cdf</code> se obtiene la <code>pdf</code>.</p>
+<p>La integral de la <code>pdf</code> es llamada función de distribución acumulada (<code>cdf</code>):</p>
+<p><span class="math display">\[
+cdf(x) = \int_{-\infty}^{x} pdf(x) d(x) \tag {0.17}
+\]</span></p>
+<p>En algunas situaciones se prefiere hablar de la función de supervivencia:</p>
+<p><span class="math display">\[
+S(x) = 1 - cdf  \tag {0.18}
+\]</span></p>
+<p>A continuación un ejemplo de la <code>pdf</code> y <code>cdf</code> para 4 distribuciones de la familia Gaussiana.</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>x_valores <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">500</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>valores <span class="op">=</span> [(<span class="fl">0.</span>, <span class="fl">.2</span>), (<span class="fl">0.</span>, <span class="fl">1.</span>), (<span class="fl">0.</span>, <span class="fl">2.</span>), (<span class="fl">2.</span>, <span class="fl">.5</span>)]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> val <span class="kw">in</span> valores:</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    pz.Normal(<span class="op">*</span>val).plot_pdf(ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    pz.Normal(<span class="op">*</span>val).plot_cdf(ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">1</span>].get_legend().remove()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>La siguiente figura tomada del libro <a href="http://greenteapress.com/thinkstats2/html/index.html">Think Stats</a> resume las relaciones entre la <code>cdf</code>, <code>pdf</code> y <code>pmf</code>.</p>
+<p><img src="img/cmf_pdf_pmf.png" width="600"></p>
+</section>
+<section id="relación-entre-probabilidad-conjunta-condicional-y-marginal" class="level2">
+<h2 class="anchored" data-anchor-id="relación-entre-probabilidad-conjunta-condicional-y-marginal">Relación entre probabilidad conjunta, condicional y marginal</h2>
+<p>Al definir probabilidad condicional usamos la <em>expresión 0.2</em>. Ahora que ya estamos familiarizados con las distribuciones de probabilidad podemos representar gráficamente los tres términos en la <em>expresión 0.2</em>, tal como se muestra en la siguiente figura.</p>
+<p><img src="img/probabilidades.png" width="500"></p>
+<ul>
+<li>Probabilidad conjunta <span class="math inline">\(p(A, B)\)</span></li>
+<li>Probabilidad marginal <span class="math inline">\(p(A)\)</span> o <span class="math inline">\(p(B)\)</span></li>
+<li>Probabilidad condicional <span class="math inline">\(p(A \mid B)\)</span></li>
+</ul>
+<p>Podemos re-escribir la <em>expresión 0.2</em> de la siguiente manera:</p>
+<p><span class="math display">\[
+p(A, B) = p(A \mid B) {p(B)}  \tag {0.15}
+\]</span></p>
+<p>Es decir si tomo una probabilidad condicional y la <em>evalúo</em> para todos los valores de la cantidad <em>condicionante</em> (<span class="math inline">\(B\)</span> en este caso), obtengo la distribución conjunta. Esto se puede ver graficamente si pensamos que <span class="math inline">\(p(A \mid B)\)</span> es una <em>rebanada</em> de p(A, B); rebanada que tomamos <em>a la altura</em> de <span class="math inline">\(B\)</span>. Si tomamos todas las rebanadas entonces obtendremos <span class="math inline">\(p(A, B)\)</span>.</p>
+<p>Para obtener las probabilidades marginales, que se encuentran en los <em>margenes</em> 😉, podemos calcular algo similar:</p>
+<p><span class="math display">\[
+p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
+\]</span></p>
+<p>Cambiando la sumatoria por una integral para distribuciones continuas.</p>
+</section>
+<section id="límites" class="level2">
+<h2 class="anchored" data-anchor-id="límites">Límites</h2>
+<p>Los dos teoremas más conocidos y usados en probabilidad son la ley de los grandes números y el teorema del límite central. Ambos nos dicen que le sucede a la media muestral a medida que el tamaño de la muestra aumenta.</p>
+<section id="la-ley-de-los-grandes-números" class="level3">
+<h3 class="anchored" data-anchor-id="la-ley-de-los-grandes-números">La ley de los grandes números</h3>
+<p>El valor promedio calculado para una muestra converge al valor esperado (media) de dicha distribución. Esto no es cierto para algunas distribuciones como la distribución de Cauchy (la cual no tiene media ni varianza finita).</p>
+<p>La ley de los grandes números se suele malinterpretar y dar lugar a la paradoja del apostador. Un ejemplo de esta paradoja es creer que conviene apostar en la lotería/quiniela a un número <em>atrasado</em>, es decir un número que hace tiempo que no sale. El razonamiento, erróneo, es que como todos los números tienen la misma probabilidad a largo plazo si un número viene <em>atrasado</em> entonces hay alguna especie de fuerza que aumenta la probabilidad de ese número en los próximo sorteos para así re-establecer la equiprobabilidad de los números.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tamaño_muestra <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>muestras <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, tamaño_muestra)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> stats.uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>media_verdadera <span class="op">=</span> dist.stats(moments<span class="op">=</span><span class="st">'m'</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    muestra <span class="op">=</span> dist.rvs(tamaño_muestra)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    media_estimada <span class="op">=</span> [muestra[:i].mean() <span class="cf">for</span> i <span class="kw">in</span> muestras]</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    plt.plot(muestras, media_estimada, lw<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>plt.hlines(media_verdadera, <span class="dv">0</span>, tamaño_muestra, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"media"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"# de muestras"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="el-teorema-central-del-límite" class="level3">
+<h3 class="anchored" data-anchor-id="el-teorema-central-del-límite">El teorema central del límite</h3>
+<p>El teorema central del límite (también llamado teorema del límite central) establece que si tomamos <span class="math inline">\(n\)</span> valores (de forma independiente) de una distribución arbitraria la media <span class="math inline">\(\bar X\)</span> de esos valores se <em>distribuirá aproximadamente como</em> una Gaussiana a medida que <span class="math inline">\({n \rightarrow \infty}\)</span>:</p>
+<p><span class="math display">\[
+\bar X_n \dot\sim \mathcal{N} \left(\mu,  \frac{\sigma^2}{n}\right) \tag {0.19}
+\]</span></p>
+<p>Donde <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma^2\)</span> son la media y varianza poblacionales.</p>
+<p>Para que el teorema del límite central se cumpla se deben cumplir los siguientes supuestos:</p>
+<ol type="1">
+<li>Las variables se muestrean de forma independiente</li>
+<li>Las variables provienen de la misma distribución</li>
+<li>La media y la desviación estándar de la distribución tiene que ser finitas</li>
+</ol>
+<p>Los criterios 1 y 2 se pueden relajar <em>bastante</em> y aún así obtendremos aproximadamente una Gaussiana, pero del criterio 3 no hay forma de escapar. Para distribuciones como la distribución de Cauchy, que no posen media ni varianza definida este teorema no se aplica. El promedio de <span class="math inline">\(N\)</span> valores provenientes de una distribución Cauchy no siguen una Gaussiana sino una distribución de Cauchy.</p>
+<p>El teorema del límite central explica la prevalencia de la distribución Gaussiana en la naturaleza. Muchos de los fenómenos que estudiamos se pueden explicar como fluctuaciones alrededor de una media, o ser el resultado de la suma de muchos factores diferentes. Además, las Gaussianas son muy comunes en probabilidad, estadística y <em>machine learning</em> ya que que esta familia de distribuciones son más simples de manipular matemáticamente que muchas otras distribuciones.</p>
+<p>A continuación vemos una simulación que nos muestra el teorema del límite central en acción.</p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>iters <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>distri <span class="op">=</span> stats.expon(scale<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>media, var <span class="op">=</span> distri.stats(moments<span class="op">=</span><span class="st">'mv'</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, n <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">100</span>]):</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    sample <span class="op">=</span> np.mean(distri.rvs((n, iters)), axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    sd <span class="op">=</span> (var<span class="op">/</span>n)<span class="op">**</span><span class="fl">0.5</span> </span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(media <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> sd, media <span class="op">+</span> <span class="dv">4</span> <span class="op">*</span> sd, <span class="dv">200</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">0</span>, i].plot(x, stats.norm(media, sd).pdf(x))</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">0</span>, i].hist(sample, density<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">0</span>, i].set_title(<span class="st">'n = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(n))</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    osm, osr <span class="op">=</span> stats.probplot(sample, dist<span class="op">=</span>stats.norm(media, sd), fit<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">1</span>, i].plot(osm, osm)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">1</span>, i].plot(osm, osr, <span class="st">'o'</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'observados'</span>)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'esperados'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<ol type="1">
+<li><p>De las siguientes expresiones cual(es) se corresponde(n) con el enunciado “la probabilidad de lluvia dado que es 25 de Mayo de 1810”?</p>
+<ul>
+<li>p(lluvia)</li>
+<li>p(lluvia | mayo)</li>
+<li>p(25 de Mayo de 1810 | lluvia)</li>
+<li>p(lluvia | 25 de Mayo de 1810 )</li>
+<li>p(lluvia, 25 de Mayo de 1810) / p(25 de Mayo de 1810)</li>
+</ul></li>
+<li><p>Enuncie con palabras cada una de las expresiones del punto anterior.</p></li>
+<li><p>Según la definición de probabilidad condicional</p>
+<ul>
+<li>Cual es el valor de <span class="math inline">\(P(A \mid A)\)</span>?</li>
+<li>Cual es la probabilidad de <span class="math inline">\(P(A, B)\)</span>?</li>
+<li>Cual es la probabilidad de <span class="math inline">\(P(A, B)\)</span> en el caso especial que <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> sean independientes?</li>
+<li>Cuando se cumple que <span class="math inline">\(P(A \mid B) = P(A)\)</span>?</li>
+<li>Es posible que <span class="math inline">\(P(A \mid B) &gt; P(A)\)</span>, cuando?</li>
+<li>Es posible que <span class="math inline">\(P(A \mid B) &lt; P(A)\)</span>, cuando?</li>
+</ul></li>
+</ol>
+<p>Los siguientes ejercicios se deben realizar usando Python (y NumPy, SciPy, Matplotlib) 1. Ilustrar que la distribución de Poisson se aproxima a una binomial cuando para la binomial <span class="math inline">\(n &gt;&gt; p\)</span>.</p>
+<ol type="1">
+<li><p>Para alguna de las distribuciones discretas presentadas en esta notebook verificar que la probabilidad total es 1.</p></li>
+<li><p>Para alguna de las distribuciones continuas presentadas en esta notebook verificar que el área bajo la curva es 1.</p></li>
+<li><p>Obtener la cdf a partir de la pdf (usar el método pdf provisto por SciPy). La función <code>np.cumsum</code> puede ser de utilidad.</p></li>
+<li><p>Obtener la pdf a partir de la cdf (usar el método cdf provisto por SciPy). La función <code>np.diff</code> puede ser de utilidad.</p></li>
+<li><p>Repetir la simulación para la ley de los grandes números para al menos 3 distribuciones de probabilidad. Para cada distribución probar más de un conjunto de parámetros.</p></li>
+<li><p>Repetir la simulación para el teorema central del límite para al menos 3 distribuciones de probabilidad. Para cada distribución probar más de un conjunto de parámetros.</p></li>
+<li><p>Mostrar en un gráfico que la media <span class="math inline">\(\bar X\)</span> converge a <span class="math inline">\(\mu\)</span> y la varianza converge a <span class="math inline">\(\frac{\sigma^2}{n}\)</span> a medida que aumenta el tamaño de la muestra.</p></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

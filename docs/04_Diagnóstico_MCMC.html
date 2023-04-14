@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>diagnóstico_mcmc</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Capítulo 0</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_Probabilidad.html" class="sidebar-item-text sidebar-link">Probabilidad</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Capítulo 1</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Inferencia_Bayesiana.html" class="sidebar-item-text sidebar-link">Inferencia Bayesiana</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Capítulo 2</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Programación_probabilística.html" class="sidebar-item-text sidebar-link">Programación probabilista</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Capítulo 3</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Modelos_jerárquicos.html" class="sidebar-item-text sidebar-link">Modelado Jerárquico</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Capítulo 4</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Diagnóstico_MCMC.html" class="sidebar-item-text sidebar-link active">MCMC y diagnóstico del muestro</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">Capítulo 5</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link">Regresión Lineal</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Capítulo 6</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link">Regresión polinomial</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">Capítulo 7</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Comparación_de_modelos.html" class="sidebar-item-text sidebar-link">Comparación de modelos</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#mcmc-y-diagnóstico-del-muestro" id="toc-mcmc-y-diagnóstico-del-muestro" class="nav-link active" data-scroll-target="#mcmc-y-diagnóstico-del-muestro">MCMC y diagnóstico del muestro</a>
+  <ul class="collapse">
+  <li><a href="#objetivos" id="toc-objetivos" class="nav-link" data-scroll-target="#objetivos">Objetivos</a></li>
+  <li><a href="#método-de-la-grilla" id="toc-método-de-la-grilla" class="nav-link" data-scroll-target="#método-de-la-grilla">Método de la grilla</a></li>
+  <li><a href="#markov-chain-monte-carlo-mcmc" id="toc-markov-chain-monte-carlo-mcmc" class="nav-link" data-scroll-target="#markov-chain-monte-carlo-mcmc">Markov Chain Monte Carlo (MCMC)</a></li>
+  <li><a href="#metropolis-hastings" id="toc-metropolis-hastings" class="nav-link" data-scroll-target="#metropolis-hastings">Metropolis-Hastings</a>
+  <ul class="collapse">
+  <li><a href="#metropolis-hastings-en-detalle" id="toc-metropolis-hastings-en-detalle" class="nav-link" data-scroll-target="#metropolis-hastings-en-detalle">Metropolis-Hastings en detalle</a></li>
+  <li><a href="#montecarlo-hamiltoniano-hmc" id="toc-montecarlo-hamiltoniano-hmc" class="nav-link" data-scroll-target="#montecarlo-hamiltoniano-hmc">Montecarlo Hamiltoniano (HMC)</a></li>
+  <li><a href="#montecarlo-secuencial" id="toc-montecarlo-secuencial" class="nav-link" data-scroll-target="#montecarlo-secuencial">Montecarlo secuencial</a></li>
+  </ul></li>
+  <li><a href="#para-seguir-leyendo" id="toc-para-seguir-leyendo" class="nav-link" data-scroll-target="#para-seguir-leyendo">Para seguir leyendo</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="mcmc-y-diagnóstico-del-muestro" class="level1">
+<h1>MCMC y diagnóstico del muestro</h1>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> preliz <span class="im">as</span> pz</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interact</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> ipyw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="objetivos" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos">Objetivos</h2>
+<ul>
+<li><p>Obtener nociones básicas de métodos de Markov Chain Monte Carlo y su rol en estadística Bayesiana</p></li>
+<li><p>Discutir algunos de los métodos de diagnóstico del muestreo más usados</p></li>
+</ul>
+<p>El teorema de Bayes, tiene una formulación que a primera vista parece muy inocente. Tan solo cuatro términos relacionados por una multiplicación y una división.</p>
+<p><span class="math display">\[
+\underbrace{p(\boldsymbol{\theta} \mid \boldsymbol{Y})}_{\text{posterior}} = \frac{\overbrace{p(\boldsymbol{Y} \mid \boldsymbol{\theta})}^{\text{likelihood}}\; \overbrace{p(\boldsymbol{\theta})}^{\text{prior}}}{\underbrace{{p(\boldsymbol{Y})}}_{\text{marginal likelihood}}}
+\]</span></p>
+<p>Pareciera que no sirve de mucho y que es fácil de calcular. Sin embargo, ambas apreciaciones son incorrectas. El resto de los capítulos se centran en mostrar contra ejemplos a la primera aseveración, asi que veamos por que a veces su cálculo puede ser dificil y se requieren métodos numéricos.</p>
+<p>La razón está en el cálculo del likelihood marginal. El cual toma la forma de una integral.</p>
+<p><span class="math display">\[
+{p(\boldsymbol{Y}) = \int_{\boldsymbol{\Theta}} p(\boldsymbol{Y} \mid \boldsymbol{\theta})p(\boldsymbol{\theta}) d\boldsymbol{\theta}}
+\]</span></p>
+<p>Esta integral suele ser dificil de resolver. Veamos, esta expresión nos dice que debemos evaluar el likelihood para cada uno de los posibles valores del prior <span class="math inline">\(\theta\)</span>. Estrictamente no podemos dejar ningún valor afuera, ni siquera focalizarnos en las combinaciones de prior y likelihood que resulten en valores de alta probabilidad para el likelihood (area gris en la siguiente figura). No, debemos evaluar todas y cada una de las posibilidades. Además si <span class="math inline">\(\theta\)</span> representa un solo parámetro desconocido (como en el modelo beta-binomial) entonces solo hay que resolver una integral, pero si <span class="math inline">\(\theta\)</span> representa dos parámetros (como en el modelo Gaussiano) entonces la integral será doble. En definitiva la integral tendrá tantas dimensiones como parámetros el modelo.</p>
+<p>Para algunos pocos problemas es posible calcular el posterior de forma analítica. Esto ya lo vimos para el modelo beta-binomial donde el posterior es:</p>
+<p><span class="math display">\[
+p(\theta \mid y) \propto \operatorname{Beta}(\alpha_{a priori} + y, \beta_{a priori} + N - y)
+\]</span></p>
+<p>Pero en general no tenemos expresiones analíticas y entonces debemos confiar en métodos numéricos.</p>
+</section>
+<section id="método-de-la-grilla" class="level2">
+<h2 class="anchored" data-anchor-id="método-de-la-grilla">Método de la grilla</h2>
+<p>El método de grilla es un enfoque simple de fuerza bruta. La idea central es que incluso si no somos capaces de calcular todo la distribución a posteriori, en general si somos capaces de evaluar el a priori y el likelihood punto-a-punto.</p>
+<p>Para un modelo con un solo parámetro el método de la grilla se puede resumir de la siguiente forma:</p>
+<ul>
+<li><p>Encuentre un intervalo razonable para el parámetro (el prior debe dar algunas pistas).</p></li>
+<li><p>Defina una grilla de puntos (generalmente equidistantes) en ese intervalo.</p></li>
+<li><p>Para cada punto de la grilla, evalue el prior y el likelihood en ese punto y multiplique</p></li>
+</ul>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> a_posteriori_grilla(grilla<span class="op">=</span><span class="dv">10</span>, a<span class="op">=</span><span class="dv">1</span>, b<span class="op">=</span><span class="dv">1</span>, caras<span class="op">=</span><span class="dv">6</span>, tiradas<span class="op">=</span><span class="dv">9</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, grilla)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    prior <span class="op">=</span> pz.Beta(a, b).rv_frozen.pdf(grid)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    likelihood <span class="op">=</span> pz.Binomial(n<span class="op">=</span>tiradas, p<span class="op">=</span>grid).rv_frozen.pmf(caras)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    posterior <span class="op">=</span> likelihood <span class="op">*</span> prior</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    posterior <span class="op">/=</span> posterior.<span class="bu">sum</span>()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    _, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">4</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">0</span>].set_title(<span class="st">'caras = </span><span class="sc">{}</span><span class="ch">\n</span><span class="st">tiradas = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(caras, tiradas))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, (e, e_n) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>([prior, likelihood, posterior], [<span class="st">'a priori'</span>, <span class="st">'likelihood'</span>, <span class="st">'a posteriori'</span>])):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        ax[i].set_yticks([])</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        ax[i].plot(grid, e, <span class="st">'o-'</span>, label<span class="op">=</span>e_n)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        ax[i].legend(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>interact(a_posteriori_grilla, grilla<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">2</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">100</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">15</span>), a<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), b<span class="op">=</span>ipyw.FloatSlider(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), caras<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">6</span>), tiradas<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">9</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"d7c7cead5bd04b5e8bd98b08cfbb6ce5","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<p>Podemos obtener una mejor aproximación aumentando el número de puntos de la cuadrícula. Esta estrategia puede ser útil en unas pocas dimensiones (parámetros). Pero no escala. Supongamos que para el grado de precisión que necesitamos, 100 puntos fuesen suficiente. Para el mismo grado de precisión pero con 2 parámetros necesitariamos 10000 puntos y para 10 parámetros 1e+20 puntos! Además en espacios de alta dimensión se dan una serie de fenómemos conocidos como concentración de la medida o maldición de la dimensionalidad. Por ejemplo:</p>
+<ul>
+<li><p>En una hiper-esfera casi todo el volumen está en la superficie. Es decir, si uno pelara una hiper-naranja se quedaría casi sin naranja!</p></li>
+<li><p>En un hyper-cubo la masa se concentra en las esquinas</p></li>
+<li><p>En una Gaussiana hiper-dimensional casi toda la masa está lejos de la moda</p></li>
+</ul>
+<p>La idea de evaluar punto a punto es buena, pero la idea de construir una grilla predefinida solo funciona en bajas dimensiones.</p>
+</section>
+<section id="markov-chain-monte-carlo-mcmc" class="level2">
+<h2 class="anchored" data-anchor-id="markov-chain-monte-carlo-mcmc">Markov Chain Monte Carlo (MCMC)</h2>
+<p>Esta es una familia muy extensa de métodos utilizados para resolver muchos problemas, entre los que se encuentra el cálculo del posterior. Conceptualmente se puede pensar a estos métodos como generalizaciones del método de la grilla, ya que también se basan en la posibilidad de realizar evaluaciones punto a punto del prior y likelihood. La diferencia crucial es que en vez de utilizar una grilla predefinida el método realiza evaluaciones que progresivamente se concentran en regiones de alta probabilidad. No solo eso si no que eventualmente el método devolverá muestras de forma proporcional a la probabilidad a posteriori. Es decir si una región es 3 veces más probable que otra obtendremos 3 veces más muestras de esa región que de la otra.</p>
+<p>A muy grandes razgos los métodos MCMC, constan de dos pasos</p>
+<ol type="1">
+<li>Generar un nuevo punto a partir de perturbar uno preexistente.</li>
+<li>Aceptar o rechazar ese nuevo punto de forma probabilista y comparando la probabilidad del punto preexistente y del nuevo punto.</li>
+</ol>
+</section>
+<section id="metropolis-hastings" class="level2">
+<h2 class="anchored" data-anchor-id="metropolis-hastings">Metropolis-Hastings</h2>
+<p>Metropolis-Hastings no es un algoritmo muy moderno o particularmente eficiente, pero Metropolis-Hastings es simple de entender y también proporciona una base para comprender métodos más sofisticados y poderosos.</p>
+<p>El algoritmo Metropolis-Hasting se define de la siguiente manera:</p>
+<ol type="1">
+<li>Inicialice el valor del parámetro <span class="math inline">\(\boldsymbol{X}\)</span> en <span class="math inline">\(x_i\)</span></li>
+<li>Utilice una distribución de propuesta <span class="math inline">\(q(x_{i + 1} \mid x_i)\)</span> para generar un nuevo valor <span class="math inline">\(x_{i + 1}\)</span></li>
+<li>Calcule la probabilidad de aceptar el nuevo valor como:</li>
+</ol>
+<p><span class="math display">\[
+p_a (x_{i + 1} \mid x_i) = \min \left (1, \frac{p(x_{i + 1}) \;
+q(x_i \mid x_{i + 1})} {p(x_i) \; q (x_{i + 1} \mid x_i)} \right)
+\label{acceptance_prob}
+\]</span></p>
+<ol start="4" type="1">
+<li>Si <span class="math inline">\(p_a &gt; R\)</span> donde <span class="math inline">\(R \sim \mathcal{U}(0, 1)\)</span>, guarde el nuevo valor; de lo contrario, guarde el anterior.</li>
+<li>Iterar de 2 a 4 hasta que se haya generado una muestra de valores </li>
+</ol>
+<p>El algoritmo Metropolis es muy general y se puede usar en aplicaciones no Bayesianas, pero para la presente discusión, <span class="math inline">\(p(x_i)\)</span> es la densidad del posterior evaluada en el valor del parámetro <span class="math inline">\(x_i\)</span>. Observe que si <span class="math inline">\(q\)</span> es una distribución simétrica, los términos <span class="math inline">\(q(x_i \mid x_{i + 1})\)</span> y <span class="math inline">\(q(x_{i + 1} \mid x_i)\)</span> se cancelarán (conceptualmente significa que es igualmente probable que vayamos de <span class="math inline">\(x_{i+1}\)</span> a <span class="math inline">\(x_i\)</span> o de <span class="math inline">\(x_{i}\)</span> a <span class="math inline">\(x_{i+1}\)</span>), dejando solo un cociente entre el psoterior evaluado en dos puntos. Este algoritmo siempre aceptará moverse de una región de baja probabilidad a una más alta y aceptará probabilísticamente moverse de una región de alta a una baja probabilidad.</p>
+<p>¡Otra observación importante es que el algoritmo Metropolis-Hastings no es un método de optimización! No nos importa encontrar el valor del parámetro con la máxima probabilidad, queremos <em>explorar</em> la distribución <span class="math inline">\(p\)</span>. Es decir aún si el método encuentra un máximo aún puede moverse a regiones de probabilidades más bajas.</p>
+<p>Para hacer las cosas más concretas, intentemos resolver el modelo Beta-Binomial.</p>
+<p><span class="math display">\[\begin{align}
+\begin{split}
+    \theta \sim &amp;\; \text{Beta}(\alpha, \beta) \\
+    Y \sim &amp;\; \text{Bin}(n=1, p=\theta)
+\label{eq:beta_binomial}
+\end{split}
+\end{align}\]</span></p>
+<p>Este modelo tiene una solución analítica. Pero supongamos que no sabemos cómo calcular el posterior y, por lo tanto, implementaremos el algoritmo Metropolis-Hastings usando Python.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> post(θ, Y, α<span class="op">=</span><span class="dv">1</span>, β<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="dv">0</span> <span class="op">&lt;=</span> θ <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        prior <span class="op">=</span> stats.beta(α, β).pdf(θ)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        like  <span class="op">=</span> stats.bernoulli(θ).pmf(Y).prod()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        prob <span class="op">=</span> like <span class="op">*</span> prior</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        prob <span class="op">=</span> <span class="op">-</span>np.inf</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>También necesitamos datos, por lo que generaremos algunos datos falsos aleatorios para este propósito.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> stats.bernoulli(<span class="fl">0.7</span>).rvs(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y finalmente ejecutamos nuestra implementación del algoritmo Metropolis-Hastings:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n_iters <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>can_sd <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> β <span class="op">=</span>  <span class="dv">1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>θ <span class="op">=</span> <span class="fl">0.5</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>trace <span class="op">=</span> {<span class="st">"θ"</span>:np.zeros(n_iters)}</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> post(θ, Y, α, β)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(n_iters):</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    θ_can <span class="op">=</span> stats.norm(θ, can_sd).rvs(<span class="dv">1</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    p1 <span class="op">=</span> post(θ_can, Y, α, β)  </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    pa <span class="op">=</span> p1 <span class="op">/</span> p2</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pa <span class="op">&gt;</span> stats.uniform(<span class="dv">0</span>, <span class="dv">1</span>).rvs(<span class="dv">1</span>):</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        θ <span class="op">=</span> θ_can</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        p2 <span class="op">=</span> p1</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    trace[<span class="st">"θ"</span>][<span class="bu">iter</span>] <span class="op">=</span> θ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>En la línea 9 del bloque de código anterior generamos un valor propuesto muestreando una distribución Normal con desviación estándar <code>can_sd</code>. En la línea 10 evaluamos el posterior en el nuevo valor generado <code>θ_can</code> y en la línea 11 calculamos la probabilidad de aceptación. En la línea 20 guardamos un valor de <code>θ</code> en el array <code>trace</code>. Dependiendo del resultado de la comparación en la línea 13, el valor guardado será nuevo o repetiremos el anterior.</p>
+<p>El primer panel de la siguiente figura muestra cada valor muestreado en cada paso, y el panel de la derecha el histograma de esos valores. El resultado parece razonable. Nada mal para unas pocas lineas de código!</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(trace[<span class="st">'θ'</span>])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'θ'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].hist(trace[<span class="st">'θ'</span>], orientation<span class="op">=</span><span class="st">"horizontal"</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks([])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<section id="metropolis-hastings-en-detalle" class="level3">
+<h3 class="anchored" data-anchor-id="metropolis-hastings-en-detalle">Metropolis-Hastings en detalle</h3>
+<p>Ahora veremos algunos detalles teóricos sobre el método. Esta sección puede ser omitida sin pérdida de dignidad.</p>
+<p>La probabilidad de aceptación viene dada por:</p>
+<p><span class="math display">\[
+p_a (x_{i + 1} \mid x_i) = \min \left (1, \frac{p(x_{i + 1}) \;
+q(x_i \mid x_{i + 1})} {p(x_i) \; q (x_{i + 1} \mid x_i)} \right)
+\]</span></p>
+<p>Es decir, proponemos con probabilidad <span class="math inline">\(q_{ij}\)</span> (léase el subíndice <span class="math inline">\(ij\)</span> como de <span class="math inline">\(i\)</span> a <span class="math inline">\(j\)</span>) y se acepta la propuesta con probabilidad <span class="math inline">\(a_{ij}\)</span>. Una de las ventajas de este método es que no necesitamos saber la constante de normalización de la distribución que queremos muestrear, ya que esa constante se cancela cuando calculamos <span class="math inline">\(\frac{p_j}{p_i}\)</span>. Esto es muy importante porque en muchos problemas, incluida la inferencia Bayesiana, computar esa constante de normalización (la verosimilitud marginal) es muy difícil.</p>
+<p>Ahora probaremos que este método es correcto, es decir que la cadena generada por el método de Metropolis-Hastings es estacionaria con distribución <span class="math inline">\(p\)</span>. Para probar ese es suficiente probar la condición de balance detallado.</p>
+<p>Sea <span class="math inline">\(\mathbf{T}\)</span> la matriz de transición, solo necesitamos mostrar que <span class="math inline">\(p_i t_{ij} = p_j t_{ji}\)</span> para todos los <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span>, esto es trivial cuando <span class="math inline">\(i = j\)</span> por lo que asumimos que <span class="math inline">\(i \neq j\)</span>, podemos escribir:</p>
+<p><span class="math display">\[
+t_{ij} = q_{ij} a_{ij} \tag{4.1}
+\]</span></p>
+<p>Lo que significa que la probabilidad de transición de <span class="math inline">\(i\)</span> a <span class="math inline">\(j\)</span> es la probabilidad de proponer el movimiento por la probabilidad de aceptarlo. Veamos primero el caso donde la probabilidad de aceptación es menor que 1, esto pasa cuando <span class="math inline">\(p_j q_{ji} \le p_i q_{ij}\)</span>, entonces tenemos que</p>
+<p><span class="math display">\[
+a_{ij} = \frac{p_j q_{ji}}{p_i q_{ij}} \tag{4.2}
+\]</span></p>
+<p>y también</p>
+<p><span class="math display">\[
+a_{ji} = 1
+\]</span></p>
+<p>Usando la ecuación <span class="math inline">\(4.1\)</span>, tenemos</p>
+<p><span class="math display">\[
+p_i t_{ij} = p_i q_{ij} a_{ij}
+\]</span></p>
+<p>reemplazando <span class="math inline">\(a_{ij}\)</span> in la expresión <span class="math inline">\(4.2\)</span></p>
+<p><span class="math display">\[
+p_i t_{ij} = p_i q_{ij} \frac{p_j q_{ji}}{p_i q_{ij}}
+\]</span></p>
+<p>simplificando obtenemos:</p>
+<p><span class="math display">\[
+p_i t_{ij} = p_j q_{ji}
+\]</span></p>
+<p>Como <span class="math inline">\(a_{ji} = 1\)</span> podemos incluirlo sin cambiar la validez de la expresión</p>
+<p><span class="math display">\[
+p_i t_{ij} = p_j q_{ji} a_{ji}
+\]</span></p>
+<p>finalmente obtenemos</p>
+<p><span class="math display">\[
+p_i t_{ij} = p_j t_{ji}
+\]</span></p>
+<p>Por simetría cuando <span class="math inline">\(p_j q_{ji} &gt; p_i q_{ij}\)</span> llegaremos al mismo resultado. Como se cumple la condición de reversibilidad, <span class="math inline">\(p\)</span> es la distribución estacionario de nuestra cadena de Markov con matriz de transición <span class="math inline">\(\mathbf{T}\)</span>.</p>
+<p>La prueba anterior nos da la confianza teórica de que podemos usar Metropolis-Hastings para muestrear de prácticamente cualquier distribución que queramos. También podemos ver que este es un resultado muy general, y no probee de pistas sobre como elegir una distribución de propuesta.</p>
+<p>En la práctica la distribución de propuesta es muy importante ya que la eficiencia del método depende fuertemente en esta elección. En general se observa que si la propuesta hace grandes saltos la probabilidad de aceptación es muy baja, y el método rechazará la mayoría de los nuevos estados. Por el contrario, si la propuesta da saltos demasiado pequeños, la la tasa de aceptación será alta pero la exploración del espacio de los parámetros sera muy pobre.</p>
+<p>Entonces una buena distribución de propuesta será aquella que genera nuevos estados lejos del antiguo estado con alta tasa de aceptación. Esto es generalmente difícil de hacer si no conocemos la geometría de la distribución posterior, que es precisamente lo que queremos averiguar. En la práctica lo métodos útiles tienen que ser adaptativos. Por ejemplo, podemos usar una distribución gaussiana multivariada como distribución de propuesta y realizar unos pasos de pruena o pasos de “ajust” (tuning), lo que usaremos para calcular la covarianza empírica de las muestras. Luego podemos utilizar esa covarianza para modificar la distribución de propuesta. Existe evidencia empírica y teórica indicando que la tasa de aceptación optima de los métodos de Metropolis-Hastings es de 0.4 para una dimensión y converge a 0.234 a medida que el número de parámetros se aproxima a infinito. También se sabe que en este caso “infinito” es basicamente menos de 10. Es decir aún si logramos obtener una buena distribución de propuesta recharazeremos más del 75% de los puntos propuestos.</p>
+<p>En la siguiente sección discutiremos una forma inteligente de generar propuestas.</p>
+</section>
+<section id="montecarlo-hamiltoniano-hmc" class="level3">
+<h3 class="anchored" data-anchor-id="montecarlo-hamiltoniano-hmc">Montecarlo Hamiltoniano (HMC)</h3>
+<p>Este es un tipo de método MCMC que hace uso de gradientes para proponer nuevos estados. Los gradientes proporcionan información de la geometría del posterior. De esa forma, HMC intenta evitar el comportamiento de paseo aleatorio típico de Metropolis-Hastings utilizando el gradiente para proponer nuevas posiciones lejos de la actual, pero con alta probabilidad de aceptación. Esto permite a HMC escalar mejor a dimensiones más altas y en principio más complejas.</p>
+<p>En términos simples, un hamiltoniano es una descripción de la energía total de un sistema físico. Podemos descomponer la energía total en dos términos, el cinética y la energía potencial. Para un sistema real como una pelota que rueda cuesta abajo, la energía potencial viene dada por la posición de la pelota. Cuanto más alta se encuentre la pelota, mayor será la energía potencial. La energía cinética viene dada por la velocidad de la pelota, o más correctamente por su momemtum (que tiene en cuenta tanto la velocidad como la masa del objeto). Supongamos que la energía total se conserva, lo que significa que si el sistema gana energía cinética entonces es porque ha perdido la misma cantidad de energía potencial. Podemos escribir el hamiltoniano de tales sistemas como:</p>
+<p><span class="math display">\[
+H(\mathbf{q}, \mathbf{p})  = K(\mathbf{p}, \mathbf{q}) + V(\mathbf{q})
+\]</span></p>
+<p>donde <span class="math inline">\(K(\mathbf{p}, \mathbf{q})\)</span> se llama energía cinética, y <span class="math inline">\(V(\mathbf{q})\)</span> es la energía potencial. La probabilidad de encontrar la pelota en una posición particular con un impulso particular es:</p>
+<p><span class="math display">\[
+p(\mathbf{q}, \mathbf{p}) = e^{-H(\mathbf{q}, \mathbf{p})} \tag{4.3}
+\]</span></p>
+<p>Para simular estos sistemás necesitamos resolver las ecuaciones Hamiltonianas:</p>
+<span class="math display">\[\begin{aligned}
+\frac{d \mathbf{q}}{dt} =&amp; \quad \frac{\partial H}{\partial \mathbf{p}} = \frac{\partial K}{\partial \mathbf{p}} + \frac{\partial V}{\partial \mathbf{p}} \\
+\frac{d \mathbf{p}}{dt} =&amp; -\frac{\partial H}{\partial \mathbf{q}}= -\frac{\partial K}{\partial \mathbf{q}} - \frac{\partial V}{\partial \mathbf{q}}
+\end{aligned}\]</span>
+<p>Tenga en cuenta que <span class="math inline">\(\frac{\parcial V}{\parcial \mathbf{p}} = \mathbf{0}\)</span>.</p>
+<p>Ya que no estamos interesados en modelar una pelota idealizada rodando hacia abajo de una colina idealizada, si no que queremos modelar una partícula idealizada a lo largo de la distribución posterior, necesitamos hacer algunos ajustes. Primero la energía potencial está dada por la densidad de probabilidad que estamos tratando de muestrar, <span class="math inline">\(p(\mathbf{q})\)</span>, es decir el posterior. Para el momemtum, vamos a invocar una variable auxiliar. Es decir, una variable inventada. Si elegimos <span class="math inline">\(p(\mathbf{p} \mid \mathbf{q})\)</span> entonces podemos escribir:</p>
+<p><span class="math display">\[
+p(\mathbf{q}, \mathbf{p}) = p(\mathbf{p} | \mathbf{q}) p(\mathbf{q}) \tag{4.4}
+\]</span></p>
+<p>Esto nos asegura que podemos recuperar nuestra distribución objetivo al marginalizar el momemtum. Al introducir la variable auxiliar, podemos continuar trabajando con la analogía física, y luego al eliminarla podemos volver al problema que realmente no interesa, obtener muestras del posterior.</p>
+<p>Si reemplazamos 4.3 en 4.4 obtenemos:</p>
+<p><span class="math display">\[
+H(\mathbf{q}, \mathbf{p}) = \overbrace{-\log p(\mathbf{p} \mid \mathbf{q})}^{K(\mathbf{p}, \mathbf{ q})} \overbrace{- \log p(\mathbf{q})}^{ + V(\mathbf{q})}
+\]</span></p>
+<p>Como se explicó anteriormente, la energía potencial <span class="math inline">\(V(\mathbf{q})\)</span> está dada por <span class="math inline">\(p(\mathbf{q})\)</span> la función de densidad de la distribución a posteriori y somos libres de elegir la energía cinética. Si elegimos una gaussiana y suprimimos la constante de normalización, tenemos:</p>
+<p><span class="math display">\[
+K(\mathbf{p}, \mathbf{q}) = \frac{1}{2}\mathbf{p}^T M^{-1}\mathbf{p} + \log |M|
+\]</span></p>
+<p>donde <span class="math inline">\(M\)</span> es la <strong>matriz de precisión</strong> que parametriza la distribución Gaussiana (también conocida como la matriz de masa). Y si elegimos <span class="math inline">\(M = I\)</span>, es decir, la matriz identidad, una matriz cuadrara de <span class="math inline">\(n \times n\)</span> con unos en la diagonal principal y ceros en otros lugares, tenemos:</p>
+<p><span class="math display">\[
+K(\mathbf{p}, \mathbf{q}) = \frac{1}{2}\mathbf{p}^T \mathbf{p}
+\]</span></p>
+<p>Esto hace que los cálculos sean más fáciles como ahora.</p>
+<p><span class="math display">\[
+\frac{\parcial K}{\mathbf{p}} = \mathbf{p}
+\]</span></p>
+<p><span class="math display">\[
+\frac{\parcial K}{\mathbf{q}} = \mathbf{0}
+\]</span></p>
+<p>Entonces podemos simplificar las ecuaciones Hamiltonianas:</p>
+<p><span class="math display">\[\begin{align}
+\frac{d \mathbf{q}}{dt} =&amp; \mathbf{p} \\
+\frac{d \mathbf{p}}{dt} =&amp; - \frac{\parcial V}{\parcial \mathbf{q}}
+\end{align}\]</span></p>
+<p>Resumiendo, el algoritmo HMC es entonces:</p>
+<ol type="1">
+<li><p>Muestreamos <span class="math inline">\(\mathbf{p} \sim \mathcal{N}(0, I)\)</span></p></li>
+<li><p>Simulamos <span class="math inline">\(\mathbf{q}_t\)</span> y <span class="math inline">\(\mathbf{p}_t\)</span> durante un período de tiempo <span class="math inline">\(T\)</span></p></li>
+<li><p><span class="math inline">\(\mathbf{q}_T\)</span> es nuestro nuevo estado propuesto</p></li>
+<li><p>Utilizamos el criterio de aceptación de Metropolis para aceptar o rechazar <span class="math inline">\(\mathbf{q}_T\)</span>.</p></li>
+</ol>
+<p>¿Por qué todavía necesitamos usar el criterio de aceptación de Metropolis? Intuitivamente podemos pensar en HMC como un Metropolis-Hasting con una mejor distribución de propuestas. Pero también hay una muy buena justificación numérica, este paso corrige errores introducido por la simulación numérica de las ecuaciones Hamiltonianas.</p>
+<p>Para calcular las ecuaciones hamiltonianas tenemos que calcular una trayectoria de la partícula, es decir, todos los puntos intermedios entre un estado y el siguiente. En la práctica, esto implica calcular una serie de pequeños pasos de <em>integración</em> usando un método integrador. El más popular es se llama leap-frog. La integración de Leapfrog es equivalente a actualizar la posición y el momento impulso de forma intercalada.</p>
+<p>El siguiente bloque de código muestra el integrador leap-frog. Los argumentos son: <code>q</code> y <code>p</code>, la posición inicial y el momento respectivamente. <code>dVdq</code> es una función de Python que devuelve el gradiente <span class="math inline">\(\frac{\parcial V}{\\mathbf{q}}\)</span> . Usamos JAX para generar esta función. <code>path_len</code> indica cuánto tiempo se integrará y <code>step_size</code> qué tamaño tiene cada uno de los pasos de integración. Como resultado obtenemos una nueva posición y momento.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> leapfrog(q, p, dVdq, path_len, step_size):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">-=</span> step_size <span class="op">*</span> dVdq(q) <span class="op">/</span> <span class="dv">2</span>  <span class="co"># half step</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">int</span>(path_len <span class="op">/</span> step_size) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        q <span class="op">+=</span> step_size <span class="op">*</span> p  <span class="co"># whole step</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        p <span class="op">-=</span> step_size <span class="op">*</span> dVdq(q)  <span class="co"># whole step</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    q <span class="op">+=</span> step_size <span class="op">*</span> p  <span class="co"># whole step</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    p <span class="op">-=</span> step_size <span class="op">*</span> dVdq(q) <span class="op">/</span> <span class="dv">2</span>  <span class="co"># half step</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> q, <span class="op">-</span>p  <span class="co"># momentum flip at end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>
+::: {.cell-output .cell-output-error}</code></pre>
+<p>SyntaxError: invalid syntax (657178628.py, line 10)</p>
+<pre><code>:::
+:::
+
+
+En la función `leapfrog` cambiamos el signo del momemtum. Esta es una forma sencilla de lograr una propuesta reversible.
+
+Ahora tenemos todos los ingredientes para implementar un método HMC en Python. Esta implementación es pedagógica y no tiene como objetivo ser utilizada para problemas reales. Los argumentos son `n_samples` el
+número de muestras a devolver, `negative_log_prob` el logaritmo negativo de la probabilidad a mujestrear, `initial_position` la posición inicial.
+
+::: {.cell}
+``` {.python .cell-code}
+def hamiltonian_monte_carlo(
+    n_samples, negative_log_prob, initial_position, 
+    path_len, step_size):
+    # autograd magic
+    dVdq = jax.grad(negative_log_prob)
+
+    # collect all our samples in a list
+    samples = [initial_position]
+
+    # Keep a single object for momentum resampling
+    momentum = stats.norm(0, 1)
+    # If initial_position is a 10d vector and n_samples is 100, we want
+    # 100 x 10 momentum draws. We can do this in one call to momentum.rvs, and
+    # iterate over rows
+    size = (n_samples,) + initial_position.shape[:1]
+    for p0 in momentum.rvs(size=size):
+        # Integrate over our path to get a new position and momentum
+        q_new, p_new = leapfrog(
+            samples[-1], p0, dVdq, path_len=path_len, step_size=step_size,
+        )
+
+        # Check Metropolis acceptance criterion
+        start_log_p = negative_log_prob(samples[-1]) - np.sum(momentum.logpdf(p0))
+        new_log_p = negative_log_prob(q_new) - np.sum(momentum.logpdf(p_new))
+        if np.log(np.random.rand()) &lt; start_log_p - new_log_p:
+            samples.append(q_new)
+        else:
+            samples.append(np.copy(samples[-1]))
+
+    return np.array(samples[1:])</code></pre>
+</div>
+<p>La siguiente figura muestra 3 trayectorias diferentes alrededor de la misma distribución normal 2D. El momento se indica por el tamaño y la dirección de las flechas, con flechas pequeñas indicando una valor pequeño de la energía cinética. Todas estas trayectorias se calculan de tal manera que terminan en su posición inicial</p>
+<p>En la práctica no queremos que las trayectorias sean circulares, por que eso implica llegar a la misma posición en la que empezamos. En cambio, lo que queremos es movernos lo más lejos posible de nuestro punto de partida. Una variante de HMC que evita estás vueltas en U es NUTS, el método por defecto en PyMC. Cuya sigla es No-U-Turn Sampler.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>figures<span class="op">/</span>normal_leapfrog.png</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La siguiente figura muestra 3 trayectorias diferentes alrededor del mismo embudo de Neal, una geometría común en modelos jerárquicos. Estos son ejemplos de trayectorias que no logra seguir el camino correcta. Tales trayectorias se llaman trayectorias divergentes, o simplemente divergencias. Es posible utilizar estas divergecias como diagnósticos, es decir si obtenemos divergencias quiere decir que el muestreo puede no ser confiable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>figures<span class="op">/</span>funnel_leapfrog.png</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Las dos figuras anteriores resaltan el hecho de que un HMC eficiente requiere de un ajuste adecuado de sus hiperparámetros. HMC tiene tres hiparámetros:</p>
+<ul>
+<li><p>la discretización del tiempo (tamaño de paso del salto)</p></li>
+<li><p>el tiempo de integración (número de pasos de salto)</p></li>
+<li><p>la matriz de precisión <span class="math inline">\(M\)</span> que parametriza la energía cinética</p></li>
+</ul>
+<p>Si el tamaño del paso es demasiado grande, el integrador será inexacto y se rechazarán demasiadas propuestas. Sin embargo, si es demasiado pequeño desperdiciaremos recursos de cómputo. Si el número de pasos es demasiado pequeño, la trayectoria simulada en cada iteración será demasiado corta y el muestreo se comportará de forma similar a una caminata aleatoria. Pero si es demasiado grande, la trayectoria podría correr en círculos y nuevamente desperdiciaremos recursos. Si la covarianza estimada (inversa de la matriz de precisión) es demasiado diferente de la covarianza del posterior, el momemtum será subóptimo y el movimiento de la partícula será demasiado grande o demasiado pequeño en alguna dimensión.</p>
+<p>Métodos de Monte Carlo Hamiltonianos dinámicos y adaptativos, como el utilizado por PyMC y otros PPL pueden adaptar estos hiperparámetros automáticamente durante la fase de calentamiento o ajuste. El tamaño del paso puede ser aprendiendo automáticamente ajustándolo para que coincida con un valor predefinido de la tasa de aceptación. En PyMC este valor predefinido se puede modificar con el argumento <code>target_accept</code>, por defecto es 0.8, pero a veces puede ser necesario aumentarlo. La matriz de precisión <span class="math inline">\(M\)</span> o su inversa puede ser estimada a partir de las muestras durante la fase de calentamiento/tuning y el número de pasos se puede adaptar dinámicamente en cada paso. Para evitar una trayectoria demasiado larga que podría pasar cerca el punto de inicialización, NUTS extiende la trayectoria hacia atrás y hacia adelante hasta que se cumpla un criterio de giro en U. Además, NUTS aplica un muestreo multinomial para elegir entre todos los puntos generados de la trayectoria, ya que esto proporciona un mejor criterio para una exploración eficiente de la distribución objetivo que simplemente el final de la trayectoria.</p>
+</section>
+<section id="montecarlo-secuencial" class="level3">
+<h3 class="anchored" data-anchor-id="montecarlo-secuencial">Montecarlo secuencial</h3>
+<p>Sequential Monte Carlo es una familia de métodos de Monte Carlo también conocida como filtros de partículas. Hay muchos variaciones e implementación bajo el mismo nombre. Por lo que la literatura sobre el temas suele ser bastante confusa. Daremos una breve descripción del método SMC/SMC-ABC implementado en PyMC y TFP. Para una discusión detallada de los métodos SMC bajo un marco unificado recomendamos el libro <a href="https://link.springer.com/book/10.1007/978-3-030-47845-2">An Introduction to Montecarlo secuencial</a>.</p>
+<p>Primero tenga en cuenta que podemos escribir el posterior de la siguiente manera:</p>
+<p><span class="math display">\[
+p(\boldsymbol{\theta} \mid Y)_{\beta} \propto
+    p(Y \mid \boldsymbol{\theta})^{\beta} \; p(\boldsymbol{\theta})
+\]</span></p>
+<p>Cuando <span class="math inline">\(\beta = 0\)</span> vemos que <span class="math inline">\(p(\boldsymbol{\theta} \mid Y)_{\beta}\)</span> es el prior y cuando <span class="math inline">\(\beta = 1\)</span> vemos que <span class="math inline">\(p(\boldsymbol{\theta} \mid Y)_{\beta}\)</span> es el <em>verdadero</em> posterior.</p>
+<p>SMC procede aumentando el valor de <span class="math inline">\(\beta\)</span> en <span class="math inline">\(s\)</span> etapas sucesivas <span class="math inline">\(\{\beta_0=0 &lt; \beta_1 &lt; ... &lt; \beta_s=1\}\)</span>. ¿Por qué es una buena idea? Hay dos formas relacionadas de justificarlo. En lugar de tratar directamente de tomar muestras del posterior, comenzamos muestreando desde el prior, que generalmente es una tarea más sencilla. Después vamos añadiendo distribuciones intermedias hasta llegar al posterior, de forma tal que pasar de una a otra sea siemple una tarea realtivamente simple. La segunda es una analogía con la temperatura. Los parámetros <span class="math inline">\(\beta\)</span> son análogos a la temperatura inversa de un sistema físico, a medida que disminuimos su valor (aumentamos la temperatura) el sistema es capaz de acceder a más estados, y a medida que aumentamos su valor (disminuimos la temperatura) el sistema se “congela” en la disribución a posteriori.</p>
+<p>En la siguiente figura se muestra una secuencia hipotética de posteriores templados.</p>
+<p>El método SMC, implementado en PyMC y TFP, se puede resumir como sigue:</p>
+<ol type="1">
+<li><p>Inicialice <span class="math inline">\(\beta\)</span> en cero.</p></li>
+<li><p>Genere <span class="math inline">\(N\)</span> muestras <span class="math inline">\(s_{\beta}\)</span> del posterior templado.</p></li>
+<li><p>Aumente <span class="math inline">\(\beta\)</span> para mantener el tamaño efectivo de la muestra en un valor predefinido.</p></li>
+<li><p>Calcule un conjunto de pesos de importancia <span class="math inline">\(N\)</span> <span class="math inline">\(W\)</span>. los pesos son calculado de acuerdo con al posterior templado nuevo y antiguo.</p></li>
+<li><p>Obtenga <span class="math inline">\(s_w\)</span> remuestreando <span class="math inline">\(s_{\beta}\)</span> según <span class="math inline">\(W\)</span>.</p></li>
+<li><p>Ejecute <span class="math inline">\(N\)</span> cadenas MCMC para <span class="math inline">\(k\)</span> pasos, comenzando cada uno desde un muestra diferente en <span class="math inline">\(s_w\)</span> y conservando solo las muestras en el último paso.</p></li>
+<li><p>Repita desde el paso 3 hasta <span class="math inline">\(\beta=1\)</span></p></li>
+</ol>
+<p>El paso de remuestreo funciona eliminando muestras con baja probabilidad y reemplazándolos con muestras con una mayor probabilidad. Este paso disminuye la diversidad de las muestras. Entonces, el paso MCMC perturba las muestras, con la esperanza de aumentar la diversidad y, por lo tanto, ayudar a SMC a explorar el espacio de parámetros.</p>
+<p>La eficiencia del método temperado depende en gran medida de la valores intermedios de <span class="math inline">\(\beta\)</span>. Cuanto menor sea la diferencia entre dos valores sucesivos de <span class="math inline">\(\beta\)</span>, más cercas serán las distribuciones a posteriori templadas y por lo tanto más fácil será la transición de una etapa a la siguiente. Pero si los pasos son demasiado pequeños, necesitaremos muchas estapas intermedias y estaremos desperdiciando una gran cantidad de recursos computacionales sin mejorar realmente la precisión de los resultados. Otro factor importante es la eficiencia del método de MCMC utilizado. Para ayudar a mejorar la eficiencia de la transición, se pueden emplear las muestras de la etapa anterior para ajustar la distribución de propuesta y otro hiperparámetros. En cierto sentido todos los pasos, excepto <span class="math inline">\(\beta=1\)</span> pueden considerarse como pasos de tuning cuya función es lograr que el muestro durante el estado <span class="math inline">\(\beta=1\)</span> sea eficiente.</p>
+</section>
+</section>
+<section id="para-seguir-leyendo" class="level2">
+<h2 class="anchored" data-anchor-id="para-seguir-leyendo">Para seguir leyendo</h2>
+<p><a href="https://github.com/arviz-devs/Exploratory-Analysis-of-Bayesian-Models/tree/master/content">Exploratory Analysis of Bayesian Models</a> Trabajo en Progreso!</p>
+<p><a href="https://arxiv.org/abs/1701.02434">A Conceptual Introduction to Hamiltonian Monte Carlo</a></p>
+<p><a href="https://arxiv.org/abs/1903.08008">Rank-normalization, folding, and localization</a></p>
+<p><a href="https://arxiv.org/abs/2004.06425">Computing Bayes: Bayesian Computation from 1763 to the 21st Century</a>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

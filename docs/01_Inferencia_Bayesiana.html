@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>inferencia_bayesiana</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Capítulo 0</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_Probabilidad.html" class="sidebar-item-text sidebar-link">Probabilidad</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Capítulo 1</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Inferencia_Bayesiana.html" class="sidebar-item-text sidebar-link active">Inferencia Bayesiana</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Capítulo 2</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Programación_probabilística.html" class="sidebar-item-text sidebar-link">Programación probabilista</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Capítulo 3</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Modelos_jerárquicos.html" class="sidebar-item-text sidebar-link">Modelado Jerárquico</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Capítulo 4</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Diagnóstico_MCMC.html" class="sidebar-item-text sidebar-link">MCMC y diagnóstico del muestro</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">Capítulo 5</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link">Regresión Lineal</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Capítulo 6</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link">Regresión polinomial</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">Capítulo 7</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Comparación_de_modelos.html" class="sidebar-item-text sidebar-link">Comparación de modelos</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#inferencia-bayesiana" id="toc-inferencia-bayesiana" class="nav-link active" data-scroll-target="#inferencia-bayesiana">Inferencia Bayesiana</a>
+  <ul class="collapse">
+  <li><a href="#objetivos-de-este-capítulo" id="toc-objetivos-de-este-capítulo" class="nav-link" data-scroll-target="#objetivos-de-este-capítulo">Objetivos de este capítulo</a></li>
+  </ul></li>
+  <li><a href="#el-universo-bayesiano" id="toc-el-universo-bayesiano" class="nav-link" data-scroll-target="#el-universo-bayesiano">El universo Bayesiano</a>
+  <ul class="collapse">
+  <li><a href="#teorema-de-bayes" id="toc-teorema-de-bayes" class="nav-link" data-scroll-target="#teorema-de-bayes">Teorema de Bayes</a></li>
+  <li><a href="#el-a-posteriori-como-único-estimador" id="toc-el-a-posteriori-como-único-estimador" class="nav-link" data-scroll-target="#el-a-posteriori-como-único-estimador">El <em>a posteriori</em> como único estimador</a></li>
+  <li><a href="#estadística-bayesiana-en-tres-pasos" id="toc-estadística-bayesiana-en-tres-pasos" class="nav-link" data-scroll-target="#estadística-bayesiana-en-tres-pasos">Estadística Bayesiana en tres pasos</a></li>
+  </ul></li>
+  <li><a href="#inferencia-bayesiana-1" id="toc-inferencia-bayesiana-1" class="nav-link" data-scroll-target="#inferencia-bayesiana-1">Inferencia Bayesiana</a>
+  <ul class="collapse">
+  <li><a href="#el-problema-de-la-moneda" id="toc-el-problema-de-la-moneda" class="nav-link" data-scroll-target="#el-problema-de-la-moneda">El problema de la moneda</a></li>
+  <li><a href="#influencia-y-elección-del-a-priori" id="toc-influencia-y-elección-del-a-priori" class="nav-link" data-scroll-target="#influencia-y-elección-del-a-priori">Influencia y elección del <em>a priori</em></a></li>
+  <li><a href="#cuantificando-el-peso-del-a-priori" id="toc-cuantificando-el-peso-del-a-priori" class="nav-link" data-scroll-target="#cuantificando-el-peso-del-a-priori">Cuantificando el peso del <em>a priori</em></a></li>
+  <li><a href="#resumiendo-el-a-posteriori" id="toc-resumiendo-el-a-posteriori" class="nav-link" data-scroll-target="#resumiendo-el-a-posteriori">Resumiendo el <em>a posteriori</em></a>
+  <ul class="collapse">
+  <li><a href="#distribución-predictivas-a-posteriori" id="toc-distribución-predictivas-a-posteriori" class="nav-link" data-scroll-target="#distribución-predictivas-a-posteriori">Distribución predictivas <em>a posteriori</em></a></li>
+  <li><a href="#distribución-predictiva-a-priori" id="toc-distribución-predictiva-a-priori" class="nav-link" data-scroll-target="#distribución-predictiva-a-priori">Distribución predictiva <em>a priori</em></a></li>
+  <li><a href="#distribución-predictiva-a-priori-y-a-posterior-para-el-problema-de-la-moneda." id="toc-distribución-predictiva-a-priori-y-a-posterior-para-el-problema-de-la-moneda." class="nav-link" data-scroll-target="#distribución-predictiva-a-priori-y-a-posterior-para-el-problema-de-la-moneda.">Distribución predictiva <em>a priori</em> y a posterior para el problema de la moneda.</a></li>
+  <li><a href="#cuarteto-bayesiano" id="toc-cuarteto-bayesiano" class="nav-link" data-scroll-target="#cuarteto-bayesiano">Cuarteto Bayesiano</a></li>
+  </ul></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen">Resumen</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="inferencia-bayesiana" class="level1">
+<h1>Inferencia Bayesiana</h1>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interact</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> ipyw</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> preliz <span class="im">as</span> pz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="objetivos-de-este-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-de-este-capítulo">Objetivos de este capítulo</h2>
+<ul>
+<li>Comprender el teorema de Bayes</li>
+<li>Comprender que implica hacer estadística Bayesiana</li>
+<li>Aprender cómo se interpretan las probabilidades en estadística Bayesiana</li>
+<li>Entender las distribuciones a priori, a posteriori, a priori predictiva y a posteriori predictiva</li>
+</ul>
+</section>
+</section>
+<section id="el-universo-bayesiano" class="level1">
+<h1>El universo Bayesiano</h1>
+<blockquote class="blockquote">
+<p>La teoría de la probabilidad es tan solo sentido común reducido a cálculo. -Pierre-Simon Laplace</p>
+</blockquote>
+<p>En este curso aprenderemos sobre una forma de hacer estadística llamada usualmente estadística Bayesiana. El nombre se debe a Thomas Bayes (1702-1761) un ministro presbiteriano, y matemático aficionado, quien derivó por primera vez lo que ahora conocemos como el <strong>teorema de Bayes</strong>, el cual fue publicado (postumanente) en 1763. Sin embargo una de las primeras personas en realmente desarrollar métodos Bayesianos, fue Pierre-Simon Laplace (1749-1827), por lo que tal vez sería un poco más correcto hablar de <em>Estadística Laplaciana</em> y no Bayesiana.</p>
+<p>Existe otro paradigma estadístico llamado estadística clásica o frecuentista. Si ustedes han tenido un curso de estadística (ya sea en el grado o posgrado) es casi seguro que dicho curso fue sobre métodos frecuentistas (aun cuando esto no haya sido explicitado). Es interesante notar que mientras los orígenes de las estadística Bayesiana se remontan al siglo XVIII. Los métodos “<em>clásicos</em>” (o frecuentistas) fueron desarrollados principalmente durante el siglo XX! De hecho una de las motivaciones para desarrollar métodos frecuentistas fue un <em>sentimiento</em> e ideología anti-bayesiano. A lo largo del curso nos centraremos en los métodos Bayesianos.</p>
+<p>Hay dos ideas centrales que hacen que un método sea Bayesiano:</p>
+<ul>
+<li>Toda cantidad desconocida es modelada utilizando una distribución de probabilidad de algún tipo.</li>
+<li>El teorema de Bayes es usado para actualizar dicha distribución a la luz de los datos.</li>
+</ul>
+<p>En el universo Bayesiano las cantidades conocidas son consideradas fijas y usualmente les llamamos <strong>datos</strong>. Por el contrario toda cantidad desconocida es considerada como una variable aleatoria y modelada usando una distribución de probabilidad.</p>
+<section id="teorema-de-bayes" class="level2">
+<h2 class="anchored" data-anchor-id="teorema-de-bayes">Teorema de Bayes</h2>
+<p>El teorema de Bayes es una consecuencia directa de la regla del producto, veamos.</p>
+<p><span class="math display">\[
+p(\theta, Y) = p(\theta \mid Y)\; p(Y) \\
+p(\theta, Y) = p(Y \mid \theta)\; p(\theta)
+\]</span> Dado que los dos términos a la derecha de la igualdad son iguales entre si podemos escribir que:</p>
+<p><span class="math display">\[
+p(\theta \mid Y) \; p(Y) = p(Y \mid \theta)\; p(\theta)
+\]</span></p>
+<p>Reordenando llegamos al Teorema de Bayes!</p>
+<p><span class="math display">\[
+p(\theta \mid Y) = \frac{p(Y \mid \theta) p(\theta)}{p(Y)}
+\]</span></p>
+<p>El cual también suele ser escrito de la siguiente forma:</p>
+<p><span class="math display">\[
+\overbrace{p(\theta \mid Y)}^{\text{posterior}} = \frac{\overbrace{p(Y \mid \theta)}^{\text{likelihood}} \overbrace{p(\theta)}^{\text{prior}}}{\underbrace{\int_{\Theta} p(Y \mid \theta) p(\theta) \text{d}\theta}_{\text{likelihood marginal}}}
+\]</span></p>
+<p>El <strong><em>a priori</em></strong> es la forma de introducir conocimiento previo sobre los valores que pueden tomar los parámetros. A veces cuando no sabemos demasiado se suelen usar <em>a prioris</em> que asignan igual probabilidad a todos los valores de los parámetros, otras veces se puede elegir <em>a prioris</em> que restrijan los valores de los parámetros a rangos razonables, algo que se conoce como regularización, por ejemplo solo valores positivos. Muchas veces contamos con información mucho más precisa como medidas experimentales previas o límites impuesto por alguna teoría.</p>
+<p>El <strong><em>likelihood</em></strong> es la forma de incluir nuestros datos en el análisis. Es una expresión matemática que especifica la plausibilidad de los datos. El <em>likelihood</em> es central tanto en estadística Bayesiana como en estadística no-Bayesiana. A medida que la cantidad de datos aumenta el <em>likelihood</em> tiene cada vez más peso en los resultados, esto explica el porqué a veces los resultados de la estadística Bayesiana y frecuentista coinciden cuando la muestra es <em>grande</em>.</p>
+<p>El <strong><em>a posteriori</em></strong> es la distribución de probabilidad para los parámetros. Es la consecuencia lógica de haber usado un conjunto de datos, un <em>likelihood</em> y un <em>a priori</em>. Se lo suele pensar como la versión actualizada del <em>a priori</em>. De hecho un <em>a posteriori</em> puede ser un <em>a priori</em> de un análisis a futuro.</p>
+<p>La <strong><em>likelihood marginal</em></strong> (también llamado <em>evidencia</em>) es el likelihood promediado sobre todas los posibles hipótesis (o conjunto de parámetros) <span class="math inline">\(\theta\)</span>, esto es equivalente a <span class="math inline">\(p(Y)\)</span>. En general, la <em>evidencia</em> puede ser vista como una simple constante de normalización que en la mayoría de los problemas prácticos puede (y suele) omitirse. Por lo que el teorema de Bayes suele aparecer escrito como:</p>
+<p><span class="math display">\[
+p(\theta \mid Y) \propto p(Y \mid \theta) p(\theta)
+\]</span></p>
+<p>El rol de todos estos términos irá quedando más claro a medida que avancemos.</p>
+</section>
+<section id="el-a-posteriori-como-único-estimador" class="level2">
+<h2 class="anchored" data-anchor-id="el-a-posteriori-como-único-estimador">El <em>a posteriori</em> como único estimador</h2>
+<p>El <em>a posteriori</em> representa todo lo que sabemos de un problema, dado un modelo y un conjunto de datos. Y por lo tanto cualquier cantidad que nos interese sobre el problema puede deducirse a partir de él. Tipicamente esto toma la forma de integrales como la siguiente.</p>
+<p><span class="math display">\[
+J = \int \varphi(\theta) \ \ p(\theta \mid Y) d\theta
+\]</span></p>
+<p>Por ejemplo, para calcular la media de <span class="math inline">\(\theta\)</span> deberíamos reemplazar <span class="math inline">\(\varphi(\theta)\)</span>, por <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[
+\bar \theta = \int \theta \ \ p(\theta \mid Y) d\theta
+\]</span></p>
+<p>Esto no es más que la definición de un promedio pesado, donde cada valor de <span class="math inline">\(\theta\)</span> es <em>pesado</em> según la probabilidad asignada por el <em>a posteriori</em>.</p>
+<p>En la práctica, y al usar métodos computacionales como los usados en este curso, estas integrales pueden aproximarse usando sumas.</p>
+</section>
+<section id="estadística-bayesiana-en-tres-pasos" class="level2">
+<h2 class="anchored" data-anchor-id="estadística-bayesiana-en-tres-pasos">Estadística Bayesiana en tres pasos</h2>
+<p>El teorema de Bayes es el único estimador usado en estadística Bayesiana. Por lo que conceptualmente la estadística Bayesiana resulta muy simple. Según George Box y <a href="https://www.crcpress.com/Bayesian-Data-Analysis-Third-Edition/Gelman-Carlin-Stern-Dunson-Vehtari-Rubin/p/book/9781439840955">Andrew Gelman et al.&nbsp;(2013)</a> la estadística Bayesiana se reduce a tres pasos:</p>
+<ol type="1">
+<li><p><strong>Crear un modelo probabilístico</strong>. Los modelos probabilísticos son <em>historias</em> que dan cuenta de como se generan los datos observados (o por observar). Los modelos se expresan usando distribuciones de probabilidad.</p></li>
+<li><p><strong>Condicionar el modelo a los datos observados a fin de obtener el <em>a posteriori</em></strong>. Usando el teorema de Bayes se actualizan las probabilidades asignadas <em>a priori</em> de acuerdo a los datos observados obteniéndose las probabilidades <em>a posteriori</em>.</p></li>
+<li><p><strong>Criticar el ajuste del modelo generado a los datos y evaluar las consecuencias del modelo</strong>. Se puede demostrar que dada la información previa y los datos observados no existe otro mecanismo capaz de generar una <em>mejor</em> inferencia que la estadística Bayesiana. Esto parece maravilloso, pero hay un problema, solo es cierto si se asumen que los datos y el modelo son correctos. En la práctica, los datos pueden contener errores y los modelos son <em>a duras penas</em> aproximaciones de fenómenos <em>reales</em>. Por lo tanto es necesario realizar varias evaluaciones, incluyendo si las predicciones generadas por el modelo se ajustan a los datos observados, si las conclusiones obtenidas tienen sentido dado el marco conceptual en el que uno trabaja, la sensibilidad de los resultados a los <em>detalles</em> del modelo (sobre todo a detalles para los cuales no tenemos demasiada información), etc.</p></li>
+</ol>
+</section>
+</section>
+<section id="inferencia-bayesiana-1" class="level1">
+<h1>Inferencia Bayesiana</h1>
+<p>En la práctica la mayoría de los modelos tendrán más de un parámetro, pero al usar software como PyMC modelar 1 o 1000 parámetros es más o menos lo mismo. Sin embargo, esos modelos pueden distraernos de los conceptos esenciales, por lo que considero importante comenzar por el caso más sencillo.</p>
+<section id="el-problema-de-la-moneda" class="level2">
+<h2 class="anchored" data-anchor-id="el-problema-de-la-moneda">El problema de la moneda</h2>
+<p>A juzgar por la cantidad de ejemplos sobre monedas arrojadas al aires en libros de estadística y probabilidad, pareciera que las monedas son uno de los objetos de estudio centrales de estas disciplinas.</p>
+<p>Una de las razones detrás de la ubiquidad de este ejemplo es que las monedas son objetos familiares que facilitan discutir conceptos que de otra forma podrían sonar demasiado abstractos. De todas formas quizá la razón más importante sea que el problema puede ser modelado de forma simple y que muchos problemas <em>reales</em> son conceptualmente similares, de hecho cualquier problema en donde obtengamos resultados binarios (0/1, enfermo/sano, spam/no-spam, etc) puede ser pensado como si estuviéramos hablando de monedas. En definitiva el modelo que veremos a continuación (ejemplificado con monedas) sirve para cualquier situación en la cual los datos observados solo pueden tomar dos valores mutuamente excluyentes. Debido a que estos valores son nominales y son dos, a este modelo se le llama binomial.</p>
+<p>En el siguiente ejemplo trataremos de determinar el grado en que una moneda está sesgada. En general cuando se habla de sesgo se hace referencia a la desviación de algún valor (por ejemplo, igual proporción de caras y cecas), pero aquí usaremos el termino <em>sesgo</em> de forma más general. Diremos que el sesgo es un valor en el intervalo [0, 1], siendo 0 para una moneda que siempre cae ceca y 1 para una moneda que siempre cae cara y lo representaremos con la variable <span class="math inline">\(\theta\)</span>. A fin de cuantificar <span class="math inline">\(\theta\)</span> arrojaremos una moneda al aire repetidas veces, por practicidad arrojaremos la moneda de forma computacional (¡pero nada nos impide hacerlo manualmente!). Llevaremos registro del resultado en la variable <span class="math inline">\(y\)</span>. Siendo <span class="math inline">\(y\)</span> la cantidad de caras obtenidas en un experimento.</p>
+<p>Habiendo definido nuestro problema debemos expresarlo en términos del teorema de Bayes,</p>
+<p><span class="math display">\[
+p(\theta \mid Y) \propto p(Y \mid  \theta) p(\theta)
+\]</span></p>
+<p>Donde, como dijimos <span class="math inline">\(\theta = 1\)</span> quiere decir 100% cara y <span class="math inline">\(\theta = 0\)</span> 100% ceca.</p>
+<p>Ahora solo restar reemplazar los dos términos a la derecha de la igualdad, el <em>a priori</em> y el <em>likelihood</em>, por distribuciones de probabilidad <em>adecuadas</em> y luego multiplicarlas para obtener el término a la izquierda, el <em>a posteriori</em>. Como es la primera vez que haremos ésto, lo haremos paso a paso y analíticamente. En el próximo capítulo veremos cómo hacerlo computacionalmente.</p>
+<section id="definiendo-el-a-priori" class="level4">
+<h4 class="anchored" data-anchor-id="definiendo-el-a-priori">Definiendo el <em>a priori</em></h4>
+<p>El <em>a priori</em> lo modelaremos usando una distribución beta, que es una distribución muy usada en estadística Bayesiana. La <span class="math inline">\(pdf\)</span> de esta distribución es:</p>
+<p><span class="math display">\[
+p(\theta)= \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\, \theta^{\alpha-1}(1-\theta)^{\beta-1}
+\]</span></p>
+<p>El primer término es una constante de normalización. Por suerte para nuestro problema nos basta con establecer una proporcionalidad, por lo que podemos simplificar esta expresión y escribir la distribución beta de la siguiente forma.</p>
+<p><span class="math display">\[
+p(\theta) \propto  \theta^{\alpha-1}(1-\theta)^{\beta-1}
+\]</span></p>
+<p>Hay varias razones para usar una distribución beta para este y otros problemas:</p>
+<ul>
+<li>La distribución beta varía entre 0 y 1, de igual forma que lo hace <span class="math inline">\(\theta\)</span> en nuestro modelo.</li>
+<li>Esta distribución combinada con la que elegiremos como <em>likelihood</em> (ver más adelante), nos permitirá resolver el problema de forma analítica.</li>
+<li>Es una distribución versátil para expresar distintas situaciones.</li>
+</ul>
+<p>Respecto al último punto, veamos un ejemplo. Supongamos que el experimento de la moneda es realizado por tres personas. Una de ellas dice no saber nada de la moneda por lo tanto <em>a priori</em> todos los valores de <span class="math inline">\(\theta\)</span> son igualmente probables. La segunda persona desconfía de la moneda, ya que sospecha que es una moneda trucada, por lo tanto considera que está sesgada, pero no sabe para cual de las dos opciones. Por último, la tercer persona asegura que lo más probable es que <span class="math inline">\(\theta\)</span> tome un valor alrededor de 0.5 ya que así lo indican experimentos previos y análisis teóricos sobre tiradas de monedas. Todas estas situaciones pueden ser modeladas por la distribución beta, como se ve a continuación.</p>
+<div class="cell" data-nbpresent="{&quot;id&quot;:&quot;0862c2ab-669f-4578-b565-33fbf856f1e5&quot;}" data-scrolled="true" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> [(<span class="dv">1</span>, <span class="dv">1</span>), (<span class="fl">0.5</span>, <span class="fl">0.5</span>), (<span class="dv">20</span>, <span class="dv">20</span>)]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a, b), ax  <span class="kw">in</span> <span class="bu">zip</span>(params, axes):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pz.Beta(a, b).rv_frozen.pdf(x)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ax.plot(x, y)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ax.set_yticks([])</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f'α = </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss"> β = </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="01_Inferencia_Bayesiana_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-nbpresent="{&quot;id&quot;:&quot;75216216-868d-4f0a-ab77-042f673db5c4&quot;}" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> beta(α, β):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">130</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, pz.Beta(α, β).rv_frozen.pdf(x))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    plt.yticks([])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="dv">0</span>, <span class="dv">6</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>interact(beta,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>         α<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"0381d8f1542541daa16b7c2c458bd269","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+</section>
+<section id="definiendo-el-likelihood" class="level4">
+<h4 class="anchored" data-anchor-id="definiendo-el-likelihood">Definiendo el <em>likelihood</em></h4>
+<p>Habiendo definido el <em>a priori</em> veamos ahora el likelihood. Asumiendo que el resultado obtenido al arrojar una moneda no influye en el resultado de posteriores experimentos (es decir los experimentos son independientes entre sí) es razonable utilizar como likelihood la distribución binomial.</p>
+<p><span class="math display">\[
+p(y \mid \theta) = \frac{N!}{y!(N-y)!} \theta^y (1 - \theta)^{N−y}
+\]</span></p>
+<p>Donde N es la cantidad total de experimentos (monedas arrojadas al aire) e <span class="math inline">\(y\)</span> es la cantidad de caras obtenidas. A los fines prácticos podríamos simplificar la igualdad anterior y convertirla en una proporcionalidad, eliminando el término <span class="math inline">\(\frac{N!}{y!(N-y)!}\)</span> ya que ese término no depende de <span class="math inline">\(\theta\)</span> que es lo que nos interesa averiguar. Por lo que podríamos establecer que:</p>
+<p><span class="math display">\[
+p(y \mid \theta) \propto \theta^y (1 - \theta)^{N−y}
+\]</span></p>
+<p>La elección de esta distribución para modelar nuestro problema es razonable ya que <span class="math inline">\(\theta\)</span> es la chance de obtener una cara al arrojar una moneda y ese hecho ha ocurrido <span class="math inline">\(y\)</span> veces, de la misma forma <span class="math inline">\(1-\theta\)</span> es la chance de obtener ceca lo cual ha sido observado <span class="math inline">\(N-y\)</span> veces.</p>
+<div class="cell" data-nbpresent="{&quot;id&quot;:&quot;8f7f8e91-ae8d-4f01-b29b-0f7e2bb0d8b1&quot;}" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> binomial(n, θ):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    plt.bar(<span class="bu">range</span>(n<span class="op">+</span><span class="dv">1</span>), pz.Binomial(n, θ).rv_frozen.pmf(<span class="bu">range</span>(n<span class="op">+</span><span class="dv">1</span>)))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    plt.xticks(<span class="bu">range</span>(n<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="dv">0</span>, <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>interact(binomial, n<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, value<span class="op">=</span><span class="dv">1</span>), θ<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">1</span>, step<span class="op">=</span><span class="fl">0.05</span>, value<span class="op">=</span><span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"01da477245e1405faa9eaeb655fcc798","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+</section>
+<section id="obteniendo-el-a-posteriori" class="level4">
+<h4 class="anchored" data-anchor-id="obteniendo-el-a-posteriori">Obteniendo el <em>a posteriori</em></h4>
+<p>Se puede demostrar que siempre que usemos como <em>prior</em> una función beta y como <em>likelihood</em> una distribución binomial obtendremos como resultado una distribución <em>a posteriori</em>, la cual será una beta con los siguientes parámetros:</p>
+<p><span class="math display">\[
+p(\theta \mid y) \propto \operatorname{Beta}(\alpha_{a priori} + y, \beta_{a priori} + N - y)
+\]</span></p>
+<p>Veamos de donde surge este resultado, según el teorema de Bayes la distribución <em>a posteriori</em> es el producto del <em>likelihood</em> y la distribución <em>a priori</em>.</p>
+<p><span class="math display">\[
+p(\theta \mid y) \propto p(y \mid \theta) p(\theta)
+\]</span></p>
+<p>Por lo tanto, en nuestro caso tendremos que:</p>
+<p><span class="math display">\[
+p(\theta \mid y) \propto \theta^y (1 - \theta)^{N−y} \theta^{\alpha-1}(1-\theta)^{\beta-1}
+\]</span></p>
+<p>Reordenando, obtenemos que el <em>a posteriori</em> es:</p>
+<p><span class="math display">\[
+p(\theta \mid y) \propto \theta^{\alpha-1+y}(1-\theta)^{\beta-1+N−y}
+\]</span></p>
+<p>Esto es una distribución Beta (sin considerar la constante de normalización).</p>
+<p>Cuando se cumple que para un cierto <em>likelihood</em> la forma funcional del <em>a priori</em> y la del <em>a posteriori</em> coinciden se dice que el <em>a priori</em> es conjugado con el <em>likelihood</em>. Historicamente los problemas en estadística Bayesiana estuvieron restringidos al uso de <em>a prioris</em> conjugados, ya que estos garantizan la tratabilidad matemática del problema, es decir garantizan que es posible obtener una expresión analítica para nuestro problema. En el próximo capítulo veremos técnicas computacionales modernas que permiten calcular la distribución <em>a posteriori</em> incluso cuando no se usan <em>a prioris</em> conjugados. Estas técnicas computacionales han permitido el resurgimiento de la estadística Bayesiana en las últimas décadas.</p>
+</section>
+<section id="notación-y-visualización-de-modelos-bayesianos" class="level4">
+<h4 class="anchored" data-anchor-id="notación-y-visualización-de-modelos-bayesianos">Notación y visualización de modelos Bayesianos</h4>
+<p>Para representar modelos en estadística Bayesiana (y en probabilidad en general) se suele utilizar la siguiente notación</p>
+<p><span class="math display">\[
+\begin{align}
+\theta \sim &amp; \operatorname{Beta}(\alpha, \beta) \\
+Y \sim &amp; \operatorname{Bin}(n=1, p=\theta)
+\end{align}
+\]</span></p>
+<p>El símbolo <span class="math inline">\(\sim\)</span> indica que la variable a la izquierda se distribuye según la distribución a la derecha. Entonces podríamos decir que <span class="math inline">\(\mathbf{\theta}\)</span> es una variable aleatoria con distribución <span class="math inline">\(\operatorname{Beta}\)</span>, y que <span class="math inline">\(\operatorname{Beta}\)</span> está definida por los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>, este es nuestro <em>a priori</em>. En la siguiente linea tenemos el <em>likelihood</em> el cual está definido por una distribución binomial con parámetros <span class="math inline">\(n=1\)</span> y <span class="math inline">\(p=\theta\)</span>.</p>
+<p>Gráficamente esto se puede representar usando los diagramas de Kruschke:</p>
+<p><img src="img/modelo_1_moneda.png" width="400"></p>
+<p>En el primer nivel (de arriba hacia abajo) se observa el <em>a priori</em>, luego el likelihood, y por último los datos. Las flechas indican la vinculación entre las partes del modelo y el signo <span class="math inline">\(\sim\)</span> la naturaleza estocástica de las variables.</p>
+</section>
+<section id="obteniendo-los-datos" class="level4">
+<h4 class="anchored" data-anchor-id="obteniendo-los-datos">Obteniendo los datos</h4>
+<p>Bien, ahora que sabemos cómo calcular el <em>a posteriori</em>, lo único que resta es conseguir los datos. En este ejemplo los datos son sintéticos, es decir los obtuve computacionalmente mediante un generador de números (pseudo)aleatorios, pero bien podrían haber surgido de un experimento con una moneda <em>real</em>.</p>
+</section>
+<section id="calculando-el-a-posteriori" class="level4">
+<h4 class="anchored" data-anchor-id="calculando-el-a-posteriori">Calculando el <em>a posteriori</em></h4>
+<p>En el próximo capítulo veremos cómo usar métodos computacionales para computar un <em>a posteriori</em> sin necesidad de derivarlo analíticamente. Esto es lo que haremos para resolver el resto de los problemas del curso. Pero dado que ya nos tomamos el trabajo de derivar analíticamente la expresión para el <em>a posteriori</em> vamos a usar esa expresión. Si miran el código de la siguiente celda verán que la mayoría de las lineas se encargan de dibujar los resultados y no de calcularlos. El cálculo del <em>a posteriori</em> ocurre en la línea 20. Cada una de estas lineas computa el <em>a posteriori</em> para cada uno de los <em>a prioris</em> que vimos antes. El cálculo es simple, tan solo se computa el valor del <em>a posteriori</em> (usando la función <em>pdf</em> de la distribución beta provista por SciPy) para 2000 puntos igualmente espaciados entre 0 y 1 (linea 9). El loop que empieza en la linea 11 se debe a que exploraremos cómo cambian las distribuciones <em>a posteriori</em> para distinta cantidad de datos (<em>n_intentos</em>). Con un círculo negro de contorno blanco se indica el valor real de <span class="math inline">\(\theta\)</span>, valor que por supuesto es desconocido en una situación real, pero conocido para mí, ya que los datos son sintéticos.</p>
+<div class="cell" data-nbpresent="{&quot;id&quot;:&quot;bf1b519c-69dd-42d5-b637-80ef31d70d7f&quot;}" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">9</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>n_trials <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>, <span class="dv">50</span>, <span class="dv">150</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">13</span>, <span class="dv">48</span>]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>theta_real <span class="op">=</span> <span class="fl">0.35</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>beta_params <span class="op">=</span> [(<span class="dv">1</span>, <span class="dv">1</span>), (<span class="fl">0.5</span>, <span class="fl">0.5</span>), (<span class="dv">20</span>, <span class="dv">20</span>)]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Beta</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2000</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, N <span class="kw">in</span> <span class="bu">enumerate</span>(n_trials):</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> idx <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        plt.subplot(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        plt.xlabel(<span class="st">'θ'</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        plt.subplot(<span class="dv">4</span>, <span class="dv">3</span>, idx<span class="op">+</span><span class="dv">3</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        plt.xticks([])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> data[idx]</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (a_prior, b_prior) <span class="kw">in</span> beta_params:</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        posterior <span class="op">=</span> dist(a_prior <span class="op">+</span> y, b_prior <span class="op">+</span> N <span class="op">-</span> y).rv_frozen.pdf(x)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        plt.fill_between(x, <span class="dv">0</span>, posterior, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    plt.plot(theta_real, <span class="dv">0</span>, ms<span class="op">=</span><span class="dv">9</span>, marker<span class="op">=</span><span class="st">'o'</span>, mec<span class="op">=</span><span class="st">'w'</span>, mfc<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="dv">0</span>, <span class="dv">0</span>, label<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>N<span class="sc">:4d}</span><span class="ss"> experimentos</span><span class="ch">\n</span><span class="sc">{</span>y<span class="sc">:4d}</span><span class="ss"> caras'</span>, alpha<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    plt.xlim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    plt.yticks([])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="01_Inferencia_Bayesiana_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="analizando-los-resultados" class="level4">
+<h4 class="anchored" data-anchor-id="analizando-los-resultados">Analizando los resultados</h4>
+<p>La primer figura del panel muestra los <em>a priori</em>, nuestra estimación de <span class="math inline">\(\theta\)</span> dado que no hemos realizado ningún experimento. Las sucesivas nueve figuras muestran las distribuciones <em>a posteriori</em> y se indica la cantidad de experimentos y de caras obtenidas. Además se puede ver un círculo negro de contorno blanco en 0.35, la cual representa el valor verdadero de <span class="math inline">\(\theta\)</span>. Por supuesto que en problemas reales este valor es desconocido.</p>
+<p>Este ejemplo es realmente ilustrativo en varios aspectos.</p>
+<ul>
+<li>El resultado de un análisis Bayesiano NO es un solo valor, si no una distribución (<em>a posteriori</em>) de los valores plausibles de los parámetros (dado los datos y el modelo).</li>
+<li>La dispersión o ancho de las curvas es una medida de la incertidumbre sobre los valores.</li>
+<li>El valor más probable viene dado por la moda de la distribución (el <em>pico</em> de la distribución).</li>
+<li>Aún cuando <span class="math inline">\(\frac{2}{1} = \frac{8}{4}\)</span> son numéricamente iguales tenemos menor incertidumbre en un resultado cuando el número de experimentos es mayor.</li>
+<li>Dada una cantidad <em>suficiente</em> de datos los resultados tienden a converger sin importar el <em>a priori</em> usado.</li>
+<li>La rapidez con la que los resultados convergen varía. En este ejemplo las curvas azul y turquesa parecen converger con tan solo 8 experimentos, pero se necesitan más de 50 experimentos para que las tres curvas se muestren similares. Aún con 150 experimentos se observan ligeras diferencias.</li>
+<li>Partiendo de los <em>a priori</em> uniforme (azul) o <em>sesgado</em> (turquesa) y habiendo realizado un solo experimento y observado una sola cara, lo más razonable es pensar que estamos frente a una moneda con dos caras!</li>
+<li>La situación cambia drásticamente al ver por primera vez una moneda caer ceca. Ahora lo más probable (dado cualquiera de los tres <em>a prioris</em>) es inferir que <span class="math inline">\(\theta=0.5\)</span>. Los valores de <span class="math inline">\(\theta\)</span> exactamente 0 o 1 se vuelven imposibles.</li>
+<li>El <em>a priori</em> naranja es más informativo que los otros dos (la distribución esta más concentrada), por ello se requiere de un número mas grande de experimentos para “moverlo”.</li>
+<li>El <em>a priori</em> uniforme (azul) es lo que se conoce como no informativo. El resultado de un análisis Bayesiano usando un <em>a priori</em> no-informativos en general coinciden con los resultados de análisis frecuentistas (en este caso el valor esperado de <span class="math inline">\(\theta = \frac{y}{N}\)</span>).</li>
+</ul>
+</section>
+</section>
+<section id="influencia-y-elección-del-a-priori" class="level2">
+<h2 class="anchored" data-anchor-id="influencia-y-elección-del-a-priori">Influencia y elección del <em>a priori</em></h2>
+<p>De los ejemplos anteriores debería quedar claro que los <em>a priori</em> influencian los resultados de nuestros cálculos. Esto tiene total sentido si no fuese así no haría falta incluirlos en el análisis y todo sería más simple (aunque nos perderíamos la oportunidad de usar información previa). De los ejemplos anteriores también debería quedar claro que a medida que aumentan los datos (como las tiradas de monedas) los resultados son cada vez menos sensibles al <em>a priori</em>. De hecho, para una cantidad infinita de datos el <em>a priori</em> no tiene ningún efecto. Exactamente cuantos datos son necesarios para que el efecto del <em>a priori</em> sea despreciable varía según el problema y los modelos usados. En el ejemplo de la moneda se puede ver que 50 experimentos bastan para hacer que dos de los resultados sean prácticamente indistinguibles, pero hacen falta más de 150 experimentos para que los 3 resultados se vuelvan <em>practicamente</em> independientes del <em>a priori</em>. Esto es así por que los dos primeros <em>a prioris</em> son relativamente <em>planos</em>, mientras que el tercer <em>a priori</em> concentra casi toda la probabilidad en una región relativamente pequeña. El tercer a priori no solo considera que el valor más probable de <span class="math inline">\(\theta\)</span> es 0.5, si no que considera que la mayoría de los otros valores son muy poco probables. ¿Cómo cambiarían los resultados si hubiéramos usado como <em>a priori</em> <span class="math inline">\(\operatorname{Beta}(\alpha=2, \beta=2)\)</span>?</p>
+<p>La elección de los <em>a priori</em> puede poner nervioso a quienes se inician en el análisis Bayesiano (o a los detractores de este paradigma). ¡El temor es que los <em>a prioris</em> censuren a los datos y no les permitan <em>hablar por sí mismos</em>! Eso está muy bien, pero el punto es que los datos no saben hablar, con suerte murmuran. Los datos solo tienen sentido a la luz de los modelos (matemáticos y mentales) usados para interpretarlos, y los <em>a prioris</em> son parte de esos modelos.</p>
+<p>Hay quienes prefieren usar <em>a priori</em> no-informativos (también conocidos como <em>a priori</em> planos, vagos, o difusos). Estos <em>a priori</em> aportan la menor cantidad posible de información y por lo tanto tienen el menor impacto posible en el análisis. Si bien es posible usarlos, en general hay razones prácticas para no preferirlos. En este curso usaremos <em>a priori ligeramente informativos</em> siguendo las recomendaciones de Gelman, McElreath, Kruschke, y otros. En muchos problemas sabemos al menos algo de los valores posibles que pueden tomar nuestros parámetros, por ejemplo que solo pueden ser positivos, o que están restringidos a sumar 1 o el rango aproximado, etc. En esos casos podemos usar <em>a prioris</em> que introduzcan esta <em>ligera</em> información. En estos casos podemos pensar que la función del <em>a priori</em> es la de mantener las inferencias dentro de límites razonables. Estos <em>a priori</em> se suelen llamar regularizadores.</p>
+<p>Por supuesto que también es posible usar <em>a prioris informativos</em> (o <em>fuertes</em>). Hacer esto es razonable solo si contamos con información previa confiable. Esto puede ser ventajoso en casos en que los datos contengan poca información sobre el problema. Si la información no viene por el <em>likelihood</em> (datos), entonces puede venir por el <em>a priori</em>. A modo de ejemplo, en bioinformática estructural es común usar toda la información previa posible (de forma Bayesiana y no-Bayesiana) para resolver problemas. Esto es posible por la existencia de bases de datos que almacenan los resultados de cientos o miles experimentos realizados a lo largo de décadas de esfuerzo (¡No usar esta información sería casi absurdo!). En resumen, si contás con información confiable no hay razón para descartarla, menos si el <em>argumento</em> es algo relacionado con pretender ser <em>objetivo</em> (¡No hay objetividad en negar lo que se sabe!).</p>
+<p>Hasta ahora hemos visto que es posible clasificar, aunque sea de forma vaga o aproximada, a los <em>a priori</em> en función de la información que contienen. Pero saber esta clasificación no necesariamente hace las cosas más simples a la hora de elegir un <em>a priori</em>. ¿Acaso no sería mejor eliminar los <em>a prioris</em> de nuestro análisis? Eso haría el asunto mucho mas simple. Bueno, el punto es que desde una perspectiva Bayesiana todos los modelos tienen <em>a prioris</em>, aun cuando no sean explícitos. De hecho muchos resultados de la estadística frecuentista pueden considerarse casos especiales de modelos Bayesianos usando <em>a prioris planos</em>. Volviendo a la figura anterior se puede ver que la moda del <em>a posteriori</em> para la curva azul. Coincide con la estimación (puntual) frecuentista para el valor de <span class="math inline">\(\theta\)</span></p>
+<p><span class="math display">\[
+\hat \theta = {{y} \over {N}}
+\]</span></p>
+<p>Notar que <span class="math inline">\(\hat \theta\)</span> es una estimación puntual (un número) y no una distribución.</p>
+<p>Este ejemplo nos muestra que no es posible hacer análisis estadísticos y sacarse los <em>a prioris</em> de encima. Un posible corolario es que es más flexible y transparente especificar los <em>a prioris</em> de forma explícita que esconderlos bajo la cama. Al hacerlo ganamos mayor control sobre nuestro modelo, mayor transparencia y por el mismo precio la estimación de la incertidumbre con la que se estima cada parámetro.</p>
+<p>Por último, hay que recordar que el modelado estadístico (como otras formas de modelado) es un proceso iterativo e interactivo. Nada nos impide usar más de un <em>a priori</em> (o un likelihood) si así lo quisiéramos. Una parte importante del modelado es la de cuestionar los supuestos y los <em>a prioris</em> son simplemente un tipo de supuestos (como lo son los <em>likelihoods</em>). Si tuvieramos más de un <em>a priori</em> razonable podríamos realizar un <em>análisis de sensibilidad</em>, es decir evaluar como cambian los resultados con los <em>a prioris</em>, podríamos llegar a la conclusión que para un rango amplio de <em>a prioris</em> ¡los resultados no varían! Más adelante veremos varias herramientas para comparar distintos modelos.</p>
+<p>Dado que los <em>a prioris</em> tienen un papel central en la estadística Bayesiana, seguiremos discutiéndolos a medida que vayamos viendo problemas concretos. Por lo que si esta discusión no ha aclarado todas tus dudas y seguís algo confundido, mejor mantener la calma y no preocuparse demasiado, este tema ha sido motivo de discusión y confusión durante décadas ¡y la discusión todavía continua!</p>
+</section>
+<section id="cuantificando-el-peso-del-a-priori" class="level2">
+<h2 class="anchored" data-anchor-id="cuantificando-el-peso-del-a-priori">Cuantificando el peso del <em>a priori</em></h2>
+<p>En general la distribución más familiar para la mayoría de las personas es la distribución Gaussiana, como esta distribución está definida por dos parámetros, la media y la dispersión de ese valor medio, suele resultarnos <em>natural</em> pensar las distribuciones en esos términos. Si queremos expresar la distribución beta en función de la media y la dispersión podemos hacerlo de la siguiente forma:</p>
+<p><span class="math display">\[\begin{align}
+\alpha &amp;= \mu \kappa \\
+\beta &amp;= (1 - \mu) \kappa
+\end{align}\]</span></p>
+<p>donde <span class="math inline">\(\mu\)</span> es la media y <span class="math inline">\(\kappa\)</span> es un parámetro llamado concentración. Por ejemplo si <span class="math inline">\(\mu=0.5\)</span> y <span class="math inline">\(\kappa=40\)</span>, tenemos que:</p>
+<p><span class="math display">\[\begin{align}
+\alpha = 0.5 \times 40 &amp;= 20 \\
+\beta = (1-0.5) \times 40 &amp;= 20
+\end{align}\]</span></p>
+<p><span class="math inline">\(\kappa\)</span> se puede interpretar como la cantidad de experimentos si/no que realizamos dándonos como resultado la media <span class="math inline">\(\mu\)</span>. Es decir el <em>a priori</em> no sesgado (naranja) equivale a haber arrojado una moneda 40 veces y haber obtenido como media 0.5. Es decir que si usamos ese <em>a priori</em> recién al observar 40 experimentos si/no, los datos tendrán el mismo peso relativo que el <em>a priori</em>, por debajo de este número el <em>a priori</em> contribuye más que los datos al resultado final y por encima menos. El <em>a priori</em> azul (uniforme) equivale a haber observado a la moneda caer una vez cara y otra vez ceca (<span class="math inline">\(\kappa = 2\)</span>). Cuando <span class="math inline">\(\kappa &lt; 2\)</span>, la cosa se pone un poco extraña, por ejemplo el <em>a priori</em> sesgado (turquesa) equivale a haber observado una sola moneda (<span class="math inline">\(\kappa = 1\)</span>) pero en una especie de (a falta de mejor analogía) ¡<em>superposición cuántica de estados</em>!</p>
+</section>
+<section id="resumiendo-el-a-posteriori" class="level2">
+<h2 class="anchored" data-anchor-id="resumiendo-el-a-posteriori">Resumiendo el <em>a posteriori</em></h2>
+<p>El resultado de un análisis Bayesiano es siempre una distribución de probabilidad.</p>
+<p>A la hora de comunicar los resultados de un análisis Bayesiano, lo más informativo es reportar la distribución completa, aunque esto no siempre es posible o deseable, por ejemplo el <em>a posteriori</em> de una distribución multidimensional es imposible de dibujar en papel. En general, se suele recurrir a distintas medidas que resumen el <em>a priori</em>, por ejemplo reportando la media de la distribución <em>a posteriori</em>. Algo un poco más informativo es reportar además un intervalo de credibilidad. Existen varios criterios para definir intervalos de credibilidad, el que usaremos en este curso (y que también es ampliamente usado en la literatura) es lo que se conoce como intervalo de más alta densidad y nos referiremos a él por su sigla en ingles, HDI (<em>Highest Posterior Density interval</em>). Un HDI es el intervalo, más corto, que contiene una porción fija de la densidad de probabilidad, generalmente el 95% (aunque otros valores como 90% o 50% son comunes). Cualquier punto dentro de este intervalo tiene mayor densidad que cualquier punto fuera del intervalo. Para una distribución unimodal, el HDI 95 es simplemente el intervalo entre los percentiles 2,5 y 97,5.</p>
+<p>ArviZ es un paquete de Python para análisis exploratorio de modelos Bayesianos. ArviZ provee de funciones que facilitan el resumir el <em>a posteriori</em>. Por ejemplo <code>plot_posterior</code> puede ser usado para generar un gráfico con la media y HDI. En el siguiente ejemplo en vez de un <em>a posteriori</em> de un ejemplo real estamos usando datos generados al azar según una distribución beta.</p>
+<div class="cell" data-nbpresent="{&quot;id&quot;:&quot;da32677d-9227-420b-98f4-c488eda85a59&quot;}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mock_posterior <span class="op">=</span> pz.Beta(<span class="dv">5</span>, <span class="dv">11</span>).rvs(size<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(mock_posterior, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="01_Inferencia_Bayesiana_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Ahora que estamos aprendiendo que es un HDI por primera vez y antes de que automaticemos el concepto conviene aclarar un par de puntos.</p>
+<ol type="1">
+<li><p><strong>La elección automática de 95% (o cualquier otro valor) es totalmente arbitraria</strong>. En principio no hay ninguna razón para pensar que describir el <em>a posteriori</em> con un HDI 95 sea mejor que describirlo con un HDI 98 o que no podamos usar valores como 87% o 66%. El valor de 95% es tan solo un accidente histórico. Como un sutil recordatorio de esto ArviZ usa por defecto el intervalo de 94%.</p></li>
+<li><p><strong>Un intervalo de credibilidad (que es Bayesiano) no es lo mismo que un intervalo de confianza (que es frecuentista)</strong>. Un intervalo de confianza es un intervalo que se define según un nivel de confianza, en general del 95%. Un intervalo de confianza se construye de tal forma que si repitiéramos infinitas veces un experimento obtendríamos que la proporción de intervalos que contienen el valor <em>verdadero</em> del parámetro que nos interesa coincide con el nivel de confianza estipulado. Contra-intuitivamente esto no es lo mismo que decir que un intervalo en particular tiene una probabilidad <span class="math inline">\(x\)</span> de contener el parámetro (esto sería la definición de un intervalo de credibilidad, que es Bayesiano). De hecho, un intervalo de confianza en particular contiene o no contiene al valor, la teoría frecuentista no nos deja hablar de probabilidades de los parámetros, ya que estos tienen valores fijos. Si no queda clara la diferencia no te hagas problema, la diferencia entre estos dos conceptos suele ser tan difícil de entender que en la práctica estudiantes y científicos por igual interpretan los intervalos de confianza (frecuentistas) como intervalos de credibilidad (Bayesianos).</p></li>
+</ol>
+<blockquote class="blockquote">
+<p>Si bien desde la perspectiva Bayesiana podemos afirmar que un intervalo de credibilidad nos permite asegurar que la probabilidad de un parámetro está acotado en cierto rango. Siempre hay que tener presente que dicha afirmación es correcta SOLO en sentido teórico. Es decir, solo si todos los supuestos contenidos en el modelo son ciertos. Una inferencia es siempre dependiente de los datos y modelos usados.</p>
+</blockquote>
+<section id="distribución-predictivas-a-posteriori" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-predictivas-a-posteriori">Distribución predictivas <em>a posteriori</em></h3>
+<p>Si bien el objeto central de la estadística Bayesiana es la distribución <em>a posteriori</em>. Existen otras distribuciones muy importantes. Una de ellas es la distribución predictiva <em>a posteriori</em>.</p>
+<p>Esta distribución representa las predicciones <span class="math inline">\(\tilde{y}\)</span> de un modelo una vez obtenido el <em>a posteriori</em>. Se calcula de la siguiente manera:</p>
+<p><span class="math display">\[
+p(\tilde{y}  \mid  y) = \int p(\tilde{y} \mid \theta) p(\theta \mid y) d\theta
+\]</span></p>
+<p>Es decir integramos <span class="math inline">\(\theta\)</span> de acuerdo a la distribución <em>a posteriori</em>.</p>
+<p>Computacionalmente podemos generar muestras de esta distribución según el siguiente procedimiento:</p>
+<ol type="1">
+<li>Elegimos un valor de <span class="math inline">\(\theta\)</span> de acuerdo a la distribución a posteriori <span class="math inline">\(p(\theta \mid y)\)</span></li>
+<li>Fijamos <span class="math inline">\(\theta\)</span> en la distribución que usamos como likelihood <span class="math inline">\(p(\tilde{y} \mid \theta)\)</span> y generamos una muestra aleatoria</li>
+<li>Repetimos desde 1, tantas veces como muestras necesitemos</li>
+</ol>
+<p>Los datos generados son predictivos ya que son los datos que se esperaría ver por ejemplo en un futuro experimento, es decir son variables no observadas pero potencialmente observables. Como veremos en el siguiente capítulo un uso muy común para la distribución predictiva <em>a posteriori</em> es compararla con los datos observados y así evaluar si el posterior calculado es razonable.</p>
+</section>
+<section id="distribución-predictiva-a-priori" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-predictiva-a-priori">Distribución predictiva <em>a priori</em></h3>
+<p>Asi como es posible generar datos sintéticos desde el <em>a posteriori</em>. Es posible hacerlo desde el prior. En este caso la distribución se llama distribución predictiva <em>a priori</em>. Y representa los datos <span class="math inline">\(p(Y^\ast)\)</span> que el modelo <em>espera</em> ver antes de haber visto los datos. O más formalmente antes de haber sido condicionado a los datos. Se calcula como:</p>
+<p><span class="math display">\[
+p(Y^\ast) =  \int_{\Theta} p(Y^\ast \mid \theta) \; p(\theta) \; d\theta
+\]</span></p>
+<p>Es importante notar que la definición es muy similar a la distribución predictiva a posteriori, solo que ahora integramos a lo largo del prior en vez del posterior.</p>
+<p>Los datos generados son predictivos ya que son los datos que el modelo esperara ver, es decir son datos no observados pero potencialmente observables. Como veremos en el siguiente capítulo un uso muy común para la distribución predictiva <em>a priori</em> es compararla con nuestro conocimiento previo y así evaluar si el modelo es capaz de generar resultados razonable, incluso antes de haber incorporado los datos.</p>
+</section>
+<section id="distribución-predictiva-a-priori-y-a-posterior-para-el-problema-de-la-moneda." class="level3">
+<h3 class="anchored" data-anchor-id="distribución-predictiva-a-priori-y-a-posterior-para-el-problema-de-la-moneda.">Distribución predictiva <em>a priori</em> y a posterior para el problema de la moneda.</h3>
+<p>En el caso del modelo beta-binomial es posible obtener analíticamente tanto la distribución predictiva a priori como a posteriori y estas son:</p>
+<p><span class="math display">\[
+p(Y^\ast) \propto \operatorname{Beta-binomial}(n=N, \alpha_{a priori}, \beta_{a priori})
+\]</span></p>
+<p><span class="math display">\[
+p(\tilde{Y}  \mid  Y)  \propto \operatorname{Beta-binomial}(n=N, \alpha_{a priori} + y, \beta_{a priori} + N - y)
+\]</span></p>
+<p>Omitiremos la discusión de como se obtienen estas distribuciones</p>
+</section>
+<section id="cuarteto-bayesiano" class="level3">
+<h3 class="anchored" data-anchor-id="cuarteto-bayesiano">Cuarteto Bayesiano</h3>
+<p>El siguiente bloque de código computa las distribuciones <em>a priori</em>, <em>a posteriori</em>, predictica <em>a priori</em> y predictiva <em>a posteriori</em>. En vez de usar la distribución <span class="math inline">\(\operatorname{Beta-binomial}\)</span> para las distribuciones predictivas hemos optado por usar una aproximación más computacional y muestrear primero de la distribuciones beta y luego de la binomial. Esperamos que esta decisión contribuya a comprender mejor que representan estas distribuciones.</p>
+<p>Es importante notar que mientras la distribuciones <em>a priori</em> y <em>a posteriori</em> son distribución <strong>sobre los parámetros en un modelo</strong>, la distribución predictivas <em>a priori</em> y <em>a posteriori</em> son distribuciones <strong>sobre los datos</strong> (predichos).</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), sharex<span class="op">=</span><span class="st">"row"</span>, sharey<span class="op">=</span><span class="st">"row"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> np.ravel(axes)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> pz.Beta</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>a_prior <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>b_prior <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> dist(a_prior, b_prior).rv_frozen.pdf(x)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].fill_between(x, <span class="dv">0</span>, prior)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Prior"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticks([])</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> dist(a_prior <span class="op">+</span> y, b_prior <span class="op">+</span> N <span class="op">-</span> y).rv_frozen.pdf(x)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].fill_between(x, <span class="dv">0</span>, posterior)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Posterior"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> dist(a_prior, b_prior).rvs(<span class="dv">500</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>prior_predictive <span class="op">=</span> np.hstack([pz.Binomial(n<span class="op">=</span>N, p<span class="op">=</span>p).rvs(N) <span class="cf">for</span> p <span class="kw">in</span> prior])</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].hist(prior_predictive, bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, N<span class="op">+</span><span class="dv">2</span>), rwidth<span class="op">=</span><span class="fl">0.9</span>, align<span class="op">=</span><span class="st">"left"</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_title(<span class="st">"Prior predictive"</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> dist(a_prior <span class="op">+</span> y, b_prior <span class="op">+</span> N <span class="op">-</span> y).rvs(<span class="dv">500</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>prior_predictive <span class="op">=</span> np.hstack([pz.Binomial(n<span class="op">=</span>N, p<span class="op">=</span>p).rvs(N) <span class="cf">for</span> p <span class="kw">in</span> posterior])</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">3</span>].hist(prior_predictive, bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, N<span class="op">+</span><span class="dv">2</span>), rwidth<span class="op">=</span><span class="fl">0.9</span>, align<span class="op">=</span><span class="st">"left"</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">3</span>].set_title(<span class="st">"Posterior predictive"</span>)<span class="op">;</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Cuarteto Bayesiano"</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="01_Inferencia_Bayesiana_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="resumen" class="level2">
+<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
+<p>Empezamos este capítulo con una breve discusión sobre el modelado estadístico y la teoría de la probabilidad y teorema de Bayes que se deriva de ella. Luego utilizamos el problema de la moneda como una excusa para introducir aspectos básicos del modelado Bayesiano y el análisis de datos. Utilizamos este ejemplo clásico para transmitir algunas de las ideas más importantes de las estadística Bayesiana, fundamentalmente el uso de distribuciones de probabilidad para construir modelos y representar la incertidumbre. Tratamos de desmitificar el uso de los <em>a prioris</em> dándoles el mismo estatus epistemológico-metodológico que otros elementos que forman parte del proceso de modelado e inferencia, como el <em>likelihood</em> o incluso meta-preguntas, ¿Por qué me interesa este problema en particular? Concluimos el capítulo con una breve y simple descripción de cómo interpretar y comunicar los resultados de un análisis bayesiano.</p>
+<p>La siguiente figura, inspirada en una figura de <a href="https://www.crcpress.com/Mathematical-Foundations-of-Bayesian-Statistics/Watanabe/p/book/9781482238068">Sumio Watanabe</a> resume el <em>flujo de trabajo Bayesiano</em> tal cual se describió en este capítulo.</p>
+<p><img src="img/bayesian_workflow.png" width="500"></p>
+<ol type="1">
+<li>Suponemos que existe una distribución <em>verdadera</em> que, en general, es desconocida (ya sea en la práctica o intrínsecamente). De esta distribucción se obtiene una muestra finita, ya sea haciendo un experimento, una encuesta, una observación, una simulación, etc.</li>
+<li>A partir de la muestra realizamos una inferencia Bayesiana obteniendo una distribución <em>a posteriori</em>. Esta distribución es el objeto central de la estadística Bayesiana ya que contiene toda la información sobre un problema (de acuero al modelo y los datos).</li>
+<li>Una cantidad que podemos derivar del <em>a posteriori</em> es la distribución predictiva <em>a posteriori</em>, es decir predicciones. Una forma de evaluar un modelo es comparar la distribución predictiva <em>a posteriori</em> con la muestra finita que obtuvimos en primer lugar.</li>
+</ol>
+<p>La figura anterior es muy general y omite varios pasos, pero contiene la idea esencial que el modelado es un proceso iterativo. En los siguientes capítulo, veremos como sumar nuevos pasos, como que hacer cuando tenemos más de un modelo y profundizar sobre estos pasos y lo aprendido en este capítulo</p>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<ol type="1">
+<li><p>El estadístico Bruno de Finetti declaró que “Las probabilidades no existen”, queriendo indicar que las probabildiades son solo una herramienta para cuantificar la incerteza y que no tienen existencia objetiva en sí mismas. Edwin Jaynes, físico, declaró que la teoría de probabilidad es la lógica de la ciencia. Discuta estos enunciados a la luz de lo expuesto en este y el anterior capítulo.</p></li>
+<li><p>Supongamos que tenemos dos monedas una que cae la mitad de veces cara y la mitad ceca y una moneda trucada que cae siempre cara. Si tomamos una de las monedas al azar y obtenemos cara, cual es la probabilidad que esa moneda sea la trucada.</p></li>
+<li><p>Estás en un programa de concursos: Hay tres puertas, detrás de una de ellas un 0km, detrás de las otras dos, una cupón para tomar el té con Eduardo Feinmann. Sin saber cuál puerta esconde cada “premio” se te pide que elijas una de ella. Una vez elegida el conductor del programa (que si sabe que hay detrás de cada puerta), abre una de las puertas que contiene el cupón para pasar un rato con Eduardo Feinmann. En ese momento el conductor te advierte que tienes la posiblidad de cambiar de puerta o quedarte con la puerta que elegiste inicialmente. ¿Cuál es la mejor opción?</p></li>
+<li><p>En la cola del supermercado una mujer les cuenta que es madre de dos niñes. Asumiendo que la probabilidad <em>a priori</em> de niña es la misma que la de niño y es igual a 1/2.</p>
+<ul>
+<li>Ustedes le preguntan si tiene algún varón y la mujer dice que sí ¿Cuál es la probabilidad que une de les niñes sea niña?</li>
+<li>Supongamos que en vez del escenario anterior, sucede otra cosa mientras están conversando <em>aparece</em> su hijo varón y la abraza. ¿Cuál es la probabilidad que la mujer tenga una hija?</li>
+</ul></li>
+<li><p>En una escena del crimen se encuentra sangre. La sangre es de un tipo que solo está presente en el 1% de la población.</p>
+<ul>
+<li>El fiscal enuncia: “Si el acusado fuese inocente, la probabilidad que tuviese el mismo tipo de sangre encontrado en la escena del crimen sería de 1%, y de 99% si fuese culpable, por lo tanto ¡lo más probable es que sea culpable!”. Este razonamiento es incorrecto, explique el porqué.</li>
+<li>El abogado defensor enuncia: “El crimen ocurrió en una ciudad de 500000 habitantes por lo que 5000 personas tienen ese tipo de sangre, por lo tanto el acusado sólo tiene una probabiliad de 1/5000 de ser el responsable”. Este razonamiento también es incorrecto, explique el porqué.</li>
+</ul></li>
+<li><p>Use la siguiente función para explorar diversas combinaciones de <em>priors</em> y <em>likelihoods</em>. Enuncie las conclusiones que considere más relevantes.</p></li>
+</ol>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> a_posteriori_grilla(grilla<span class="op">=</span><span class="dv">10</span>, a<span class="op">=</span><span class="dv">1</span>, b<span class="op">=</span><span class="dv">1</span>, caras<span class="op">=</span><span class="dv">6</span>, tiradas<span class="op">=</span><span class="dv">9</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, grilla)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    prior <span class="op">=</span> pz.Beta(a, b).rv_frozen.pdf(grid)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    likelihood <span class="op">=</span> pz.Binomial(n<span class="op">=</span>tiradas, p<span class="op">=</span>grid).rv_frozen.pmf(caras)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    posterior <span class="op">=</span> likelihood <span class="op">*</span> prior</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    posterior <span class="op">/=</span> posterior.<span class="bu">sum</span>()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    _, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">4</span>))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">0</span>].set_title(<span class="st">'caras = </span><span class="sc">{}</span><span class="ch">\n</span><span class="st">tiradas = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(caras, tiradas))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, (e, e_n) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>([prior, likelihood, posterior], [<span class="st">'a priori'</span>, <span class="st">'likelihood'</span>, <span class="st">'a posteriori'</span>])):</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        ax[i].set_yticks([])</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        ax[i].plot(grid, e, <span class="st">'o-'</span>, label<span class="op">=</span>e_n)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        ax[i].legend(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>interact(a_posteriori_grilla, grilla<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">2</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">100</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">15</span>), a<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), b<span class="op">=</span>ipyw.FloatSlider(</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), caras<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">6</span>), tiradas<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">9</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"8eefa1fe98064cecbc12918873fb5bee","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
