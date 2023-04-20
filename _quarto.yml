@@ -1,0 +1,44 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Estadística: inferencia y modelado"
+  subtitle: "Una introducción al modelado probabilista"
+  author: "Osvaldo Martin"
+  chapters:
+    - index.qmd
+    - 00_Probabilidad.ipynb
+    - 01_Inferencia_Bayesiana.ipynb
+    - 02_Programación_probabilística.ipynb
+    - 03_Modelos_jerárquicos.ipynb
+    - 04_Diagnóstico_MCMC.ipynb
+    - 05_Regresión_lineal.ipynb
+    - 06_Generalizando_modelos_lineales.ipynb
+    - 07_Comparación_de_modelos.ipynb
+
+  page-navigation: true
+  reader-mode: true
+  page-footer: <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a><br />Este obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia de Creative Commons Reconocimiento 4.0 Internacional</a>.
+  sidebar:
+    style: "docked"
+    search: true
+    tools:
+      - icon: github
+        menu:
+          - text: Fuente
+            url:  https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano
+          - text: Reportar errores
+            url:  https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano/issues/new
+
+
+format:
+  html:
+    toc: true
+    code-line-numbers: true
+    number-sections: true
+    number-offset: -1
+
+theme:
+  light: cosmo
+  dark: darkly

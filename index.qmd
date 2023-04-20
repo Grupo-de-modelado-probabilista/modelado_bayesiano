@@ -1,4 +1,4 @@
-# Introducción al modelado, inferencia y análisis de modelos Bayesianos 
+#  ‎ {.unnumbered .unlisted}
 
 La estadística trata sobre la recolección, organización, análisis e interpretación de datos, es por ello que la estadística es esencial para el correcto análisis de datos. 
 
