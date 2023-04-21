@@ -12,9 +12,8 @@ book:
       affiliation: IMASL-CONICET
       affiliation-url: https://imasl.conicet.gov.ar/
       orcid: 0000-0001-7419-8978
-      note: https://cafecito.app/my_account
   date: today
-  cover-image: cover.png
+  #cover-image: cover.png
 
   chapters:
     - index.qmd
