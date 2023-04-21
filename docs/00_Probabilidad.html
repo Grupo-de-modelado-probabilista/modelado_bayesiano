@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.2.335">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Estadística: inferencia y modelado - 1&nbsp; Probabilidad</title>
+<title>Modelado Bayesiano - 1&nbsp; Probabilidad</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -114,15 +114,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "type": "textbox",
   "limit": 20,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
@@ -132,6 +132,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<meta name="citation_title" content="[1]{.chapter-number}&nbsp; [Probabilidad]{.chapter-title}">
+<meta name="citation_publication_date" content="2023-04-21">
+<meta name="citation_cover_date" content="2023-04-21">
+<meta name="citation_year" content="2023">
+<meta name="citation_doi" content="https://doi.org/10.5281/zenodo.7851296">
+<meta name="citation_language" content="es">
 </head>
 
 <body class="nav-sidebar docked">
@@ -153,9 +159,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Estadística: inferencia y modelado</a> 
+      <a href="./">Modelado Bayesiano</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="" title="" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
+    <a href="" title="github" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
         <li>
           <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano">
@@ -168,6 +174,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </a>
         </li>
     </ul>
+    <a href="https://cafecito.app/aloctavodia" title="donaciones" class="sidebar-tool px-1"><i class="bi bi-cup"></i></a>
   <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
@@ -235,7 +242,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
   <li><a href="#azahar-azar-y-dados" id="toc-azahar-azar-y-dados" class="nav-link active" data-scroll-target="#azahar-azar-y-dados"><span class="toc-section-number">1.1</span>  Azahar, azar y dados</a></li>
@@ -298,18 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interact</span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="im">from</span> scipy <span class="im">import</span> special, stats</span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> ipywidgets <span class="im">as</span> ipyw</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="im">import</span> time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="im">import</span> time</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)  <span class="co"># aplica estilo a los gráficos</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>np.random.seed(<span class="dv">42</span>)  <span class="co"># semilla para fijar números aleatorios</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>plt.rcParams[<span class="st">'lines.linewidth'</span>] <span class="op">=</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3"></a>plt.rcParams[<span class="st">'lines.linewidth'</span>] <span class="op">=</span> <span class="dv">3</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%%</span>javascript</span>
 <span id="cb3-2"><a href="#cb3-2"></a>IPython.OutputArea.prototype._should_scroll <span class="op">=</span> function(lines) {</span>
 <span id="cb3-3"><a href="#cb3-3"></a>    <span class="cf">return</span> false<span class="op">;</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/javascript">
 IPython.OutputArea.prototype._should_scroll = function(lines) {
@@ -329,7 +336,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb4-2"><a href="#cb4-2"></a>    semilla <span class="op">=</span> time.perf_counter_ns()</span>
 <span id="cb4-3"><a href="#cb4-3"></a>    <span class="cf">return</span> semilla <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>dado()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5"></a>dado()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>6</code></pre>
 </div>
@@ -353,7 +360,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb6-6"><a href="#cb6-6"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">7</span>):</span>
 <span id="cb6-7"><a href="#cb6-7"></a>        <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>muestra<span class="sc">.</span>count(i)<span class="op">/</span>N<span class="sc">:.2g}</span><span class="ss">'</span>)</span>
 <span id="cb6-8"><a href="#cb6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9"></a>experimento()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-9"><a href="#cb6-9"></a>experimento()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1: 0.18
 2: 0.14
@@ -422,7 +429,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <span id="cb8-9"><a href="#cb8-9"></a></span>
 <span id="cb8-10"><a href="#cb8-10"></a></span>
 <span id="cb8-11"><a href="#cb8-11"></a>interact(dibuja_circ,</span>
-<span id="cb8-12"><a href="#cb8-12"></a>         radio<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="fl">2.</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-12"><a href="#cb8-12"></a>         radio<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="fl">2.</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"d1a18264f7554660bcf16e12e4799dfe","version_major":2,"version_minor":0}
@@ -444,7 +451,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <span id="cb9-9"><a href="#cb9-9"></a></span>
 <span id="cb9-10"><a href="#cb9-10"></a>interact(dist_dado,</span>
 <span id="cb9-11"><a href="#cb9-11"></a>         α<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">1</span>),</span>
-<span id="cb9-12"><a href="#cb9-12"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-12"><a href="#cb9-12"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"4f4cdd9625ff4a9e962d858b5cb991b8","version_major":2,"version_minor":0}
@@ -485,7 +492,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>dist <span class="op">=</span> pz.DiscreteUniform(lower<span class="op">=</span><span class="dv">1</span>, upper<span class="op">=</span><span class="dv">6</span>)</span>
 <span id="cb10-2"><a href="#cb10-2"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>, support<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">7</span>))</span>
 <span id="cb10-3"><a href="#cb10-3"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
@@ -505,7 +512,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>dist <span class="op">=</span> pz.Binomial(n<span class="op">=</span><span class="dv">4</span>, p<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb11-2"><a href="#cb11-2"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
@@ -523,7 +530,7 @@ p(x \mid \mu) = \frac{\mu^{x} e^{-\mu}}{x!} \tag {0.5}
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>dist <span class="op">=</span> pz.Poisson(mu<span class="op">=</span><span class="fl">2.3</span>)  <span class="co"># número de veces que se espera que ocurra un evento.</span></span>
 <span id="cb12-2"><a href="#cb12-2"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb12-4"><a href="#cb12-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-4"><a href="#cb12-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
@@ -552,7 +559,7 @@ p(x \mid a,b)=\begin{cases} \frac{1}{b-a} &amp; para\ a \le x \le b \\ 0 &amp;  
 <span id="cb13-3"><a href="#cb13-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb13-4"><a href="#cb13-4"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb13-5"><a href="#cb13-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb13-6"><a href="#cb13-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-6"><a href="#cb13-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
@@ -575,7 +582,7 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 <span id="cb14-3"><a href="#cb14-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb14-4"><a href="#cb14-4"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb14-5"><a href="#cb14-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb14-6"><a href="#cb14-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-6"><a href="#cb14-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
@@ -595,7 +602,7 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 <span id="cb15-3"><a href="#cb15-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb15-4"><a href="#cb15-4"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb15-5"><a href="#cb15-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb15-6"><a href="#cb15-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-6"><a href="#cb15-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
 </div>
@@ -615,7 +622,7 @@ p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 <span id="cb16-3"><a href="#cb16-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb16-4"><a href="#cb16-4"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb16-5"><a href="#cb16-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb16-6"><a href="#cb16-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-6"><a href="#cb16-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
@@ -631,7 +638,7 @@ p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 <span id="cb17-3"><a href="#cb17-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb17-4"><a href="#cb17-4"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb17-5"><a href="#cb17-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb17-6"><a href="#cb17-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-6"><a href="#cb17-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
 </div>
@@ -653,7 +660,7 @@ p(x \mid \alpha, \beta)= \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)
 <span id="cb18-3"><a href="#cb18-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb18-4"><a href="#cb18-4"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb18-5"><a href="#cb18-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb18-6"><a href="#cb18-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-6"><a href="#cb18-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
@@ -676,7 +683,7 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 <span id="cb19-3"><a href="#cb19-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb19-4"><a href="#cb19-4"></a>ax.hist(x_rvs, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb19-5"><a href="#cb19-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb19-6"><a href="#cb19-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-6"><a href="#cb19-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
@@ -697,7 +704,7 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 <p>El <span class="math inline">\(n\)</span>-ésimo momento de una variable aleatoria <span class="math inline">\(X\)</span> es <span class="math inline">\(\mathbb{E}(X^n)\)</span>, por lo que el valor esperado (media) y la varianza también se conocen como el primer y segundo momento de una distribución.</p>
 <p>Una vez fijados los parámetros de una distribución de probabilidad. Es posible calcularle sus momentos, el primer momento es la media y el segundo la varianza. Es importante notar que estos valores son propiedades de la distribución y no propiedades de una muestra. Por ejemplo la media y varianza de una distribución Beta(4, 6) es 0.4 y <span class="math inline">\(\approx 0.22\)</span>, respectivamente</p>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">6</span>).plot_pdf(moments<span class="op">=</span><span class="st">"mv"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">6</span>).plot_pdf(moments<span class="op">=</span><span class="st">"mv"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
@@ -706,7 +713,7 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 <div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span>
 <span id="cb21-2"><a href="#cb21-2"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">10</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a>pz.Beta(<span class="dv">10</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-3"><a href="#cb21-3"></a>pz.Beta(<span class="dv">10</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
 </div>
@@ -715,7 +722,7 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 <div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>pz.Normal(<span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span>
 <span id="cb22-2"><a href="#cb22-2"></a>pz.StudentT(<span class="fl">4.1</span>, <span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>pz.Uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-3"><a href="#cb22-3"></a>pz.Uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
 </div>
@@ -740,7 +747,7 @@ S(x) = 1 - cdf  \tag {0.18}
 <span id="cb23-4"><a href="#cb23-4"></a><span class="cf">for</span> val <span class="kw">in</span> valores:</span>
 <span id="cb23-5"><a href="#cb23-5"></a>    pz.Normal(<span class="op">*</span>val).plot_pdf(ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
 <span id="cb23-6"><a href="#cb23-6"></a>    pz.Normal(<span class="op">*</span>val).plot_cdf(ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
-<span id="cb23-7"><a href="#cb23-7"></a>    ax[<span class="dv">1</span>].get_legend().remove()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-7"><a href="#cb23-7"></a>    ax[<span class="dv">1</span>].get_legend().remove()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
 </div>
@@ -788,7 +795,7 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <span id="cb24-10"><a href="#cb24-10"></a></span>
 <span id="cb24-11"><a href="#cb24-11"></a>plt.hlines(media_verdadera, <span class="dv">0</span>, tamaño_muestra, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
 <span id="cb24-12"><a href="#cb24-12"></a>plt.ylabel(<span class="st">"media"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb24-13"><a href="#cb24-13"></a>plt.xlabel(<span class="st">"# de muestras"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-13"><a href="#cb24-13"></a>plt.xlabel(<span class="st">"# de muestras"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
 </div>
@@ -829,7 +836,7 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <span id="cb25-16"><a href="#cb25-16"></a>    ax[<span class="dv">1</span>, i].plot(osm, osm)</span>
 <span id="cb25-17"><a href="#cb25-17"></a>    ax[<span class="dv">1</span>, i].plot(osm, osr, <span class="st">'o'</span>)</span>
 <span id="cb25-18"><a href="#cb25-18"></a>ax[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'observados'</span>)</span>
-<span id="cb25-19"><a href="#cb25-19"></a>ax[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'esperados'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-19"><a href="#cb25-19"></a>ax[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'esperados'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
 </div>
@@ -1031,12 +1038,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copiado");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copiado");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
@@ -1139,7 +1146,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia de Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
+      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
   </div>
 </footer>
 

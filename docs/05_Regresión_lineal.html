@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.2.335">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Estadística: inferencia y modelado - 6&nbsp; Regresión Lineal</title>
+<title>Modelado Bayesiano - 6&nbsp; Regresión Lineal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -114,15 +114,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "type": "textbox",
   "limit": 20,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
@@ -131,6 +131,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<meta name="citation_title" content="[6]{.chapter-number}&nbsp; [Regresión Lineal]{.chapter-title}">
+<meta name="citation_publication_date" content="2023-04-21">
+<meta name="citation_cover_date" content="2023-04-21">
+<meta name="citation_year" content="2023">
+<meta name="citation_doi" content="https://doi.org/10.5281/zenodo.7851296">
+<meta name="citation_language" content="es">
 </head>
 
 <body class="nav-sidebar docked">
@@ -152,9 +158,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Estadística: inferencia y modelado</a> 
+      <a href="./">Modelado Bayesiano</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="" title="" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
+    <a href="" title="github" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
         <li>
           <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano">
@@ -167,6 +173,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </a>
         </li>
     </ul>
+    <a href="https://cafecito.app/aloctavodia" title="donaciones" class="sidebar-tool px-1"><i class="bi bi-cup"></i></a>
   <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
@@ -234,7 +241,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
   <li><a href="#regresión-lineal" id="toc-regresión-lineal" class="nav-link active" data-scroll-target="#regresión-lineal"><span class="toc-section-number">7</span>  Regresión lineal</a>
@@ -284,10 +291,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-8"><a href="#cb1-8"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
 <span id="cb1-9"><a href="#cb1-9"></a></span>
 <span id="cb1-10"><a href="#cb1-10"></a><span class="im">import</span> warnings</span>
-<span id="cb1-11"><a href="#cb1-11"></a>warnings.simplefilter(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11"></a>warnings.simplefilter(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>plt.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>plt.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La música, ya sea la Suite para violonchelo N° 1 de Bach, <em>el pibe cantina</em> de damas gratis o Libertango de Piazzolla, se construye con patrones recurrentes. Las mismas escalas, progressiones de acordes, riffs, etc. aparecen una y otra vez dando lugar a un maravilloso paisaje sonoro capaz de provocar y modular toda la gama de emociones humanas. De manera similar, el universo estadístico está compuesto de patrones recurrentes, pequeños motivos que aparecen una y otra vez. En este capítulo, vamos a ver uno de los más populares y útiles de ellos, el modelo lineal. Este es un modelo muy útil en sí mismo y también el componente básico de muchos otros modelos. Es probable que algunos de los siguientes términos te resulten familiares: regresión lineal simple, regresión múltiple, regresión logística, ANOVA, ANCOVA. Todos estos métodos son variaciones del mismo motivo subyacente, el modelo de regresión lineal. En este capítulo, cubriremos los siguientes temas:</p>
 <ul>
@@ -345,7 +352,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-12"><a href="#cb3-12"></a><span class="co">#x = x - x.mean()</span></span>
 <span id="cb3-13"><a href="#cb3-13"></a><span class="co"># or standardize the data</span></span>
 <span id="cb3-14"><a href="#cb3-14"></a><span class="co">#x = (x - x.mean())/x.std()</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#y = (y - y.mean())/y.std()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#y = (y - y.mean())/y.std()</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
@@ -355,7 +362,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-5"><a href="#cb4-5"></a>ax[<span class="dv">0</span>].plot(x, y_real, <span class="st">'k'</span>)</span>
 <span id="cb4-6"><a href="#cb4-6"></a>az.plot_kde(y, ax<span class="op">=</span>ax[<span class="dv">1</span>], rug<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb4-7"><a href="#cb4-7"></a>ax[<span class="dv">1</span>].set_xlabel(<span class="st">'$y$'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
-<span id="cb4-8"><a href="#cb4-8"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8"></a>plt.tight_layout()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/tmp/ipykernel_6459/2728887943.py:8: UserWarning: This figure was using constrained_layout, but that is incompatible with subplots_adjust and/or tight_layout; disabling constrained_layout.
   plt.tight_layout()</code></pre>
@@ -365,7 +372,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Escribir este modelo en PyMC es bastante directo, la única diferencia con los modelos anteriores es que ahora hemos especificado a la variable <span class="math inline">\(\mu\)</span> como una variable determinista. Una variable determinista tendrá una distribución <em>a posteriori</em> ya que es función de al menos una variable estocástica. Si en PyMC especificamos un variable como determinista esta será incluida en el <code>idata</code>. Alternativamente podríamos haber escrito:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>μ <span class="op">=</span> α <span class="op">+</span> β <span class="op">*</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>μ <span class="op">=</span> α <span class="op">+</span> β <span class="op">*</span> x</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Esto es igualmente válido, la única diferencia es que en este caso la variable <span class="math inline">\(\mu\)</span> no estaría incluida en el <code>trace</code></p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model_g:</span>
@@ -376,7 +383,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-6"><a href="#cb7-6"></a>    μ <span class="op">=</span> pm.Deterministic(<span class="st">'μ'</span>, α <span class="op">+</span> β <span class="op">*</span> x)</span>
 <span id="cb7-7"><a href="#cb7-7"></a>    y_pred <span class="op">=</span> pm.Normal(<span class="st">'y_pred'</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>ϵ, observed<span class="op">=</span>y)</span>
 <span id="cb7-8"><a href="#cb7-8"></a></span>
-<span id="cb7-9"><a href="#cb7-9"></a>    idata_g <span class="op">=</span> pm.sample(<span class="dv">2000</span>, tune<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-9"><a href="#cb7-9"></a>    idata_g <span class="op">=</span> pm.sample(<span class="dv">2000</span>, tune<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -414,7 +421,7 @@ NUTS: [α, β, ϵ]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>az.plot_trace(idata_g, var_names<span class="op">=</span><span class="st">'~μ'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>az.plot_trace(idata_g, var_names<span class="op">=</span><span class="st">'~μ'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
@@ -423,7 +430,7 @@ NUTS: [α, β, ϵ]</code></pre>
 <h2 data-number="7.1" class="anchored" data-anchor-id="modelos-lineales-y-autocorrelación"><span class="header-section-number">7.1</span> Modelos lineales y autocorrelación</h2>
 <p>En un modelo lineal los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span> están correlacionados. Esto se puede ver en la siguiente figura:</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>az.plot_pair(idata_g, var_names<span class="op">=</span><span class="st">'~μ'</span>, scatter_kwargs<span class="op">=</span>{<span class="st">'alpha'</span>:<span class="fl">0.5</span>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>az.plot_pair(idata_g, var_names<span class="op">=</span><span class="st">'~μ'</span>, scatter_kwargs<span class="op">=</span>{<span class="st">'alpha'</span>:<span class="fl">0.5</span>})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
@@ -466,7 +473,7 @@ y' = \frac{y - \bar y}{y_{sd}} \tag{3.8}
 <span id="cb12-12"><a href="#cb12-12"></a></span>
 <span id="cb12-13"><a href="#cb12-13"></a>plt.xlabel(<span class="st">'x'</span>)</span>
 <span id="cb12-14"><a href="#cb12-14"></a>plt.ylabel(<span class="st">'y'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb12-15"><a href="#cb12-15"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-15"><a href="#cb12-15"></a>plt.legend()<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
@@ -482,14 +489,14 @@ y' = \frac{y - \bar y}{y_{sd}} \tag{3.8}
 <span id="cb13-6"><a href="#cb13-6"></a>az.plot_hdi(x, idata_g.posterior[<span class="st">'μ'</span>], color<span class="op">=</span><span class="st">'C1'</span>)</span>
 <span id="cb13-7"><a href="#cb13-7"></a></span>
 <span id="cb13-8"><a href="#cb13-8"></a>plt.xlabel(<span class="st">'x'</span>)</span>
-<span id="cb13-9"><a href="#cb13-9"></a>plt.ylabel(<span class="st">'y'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">10</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-9"><a href="#cb13-9"></a>plt.ylabel(<span class="st">'y'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">10</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Una tercera opción es representar el HDI de la distribución predictiva a posteriori, es decir la distribución de datos predichos. En la siguiente figura sea usa un gris más oscuro para el HDI 50% y un gris más claro para el HDI 94%. Para poder hacer el siguiente gráfico necesitamos, primero, obtener las muestras predictivas posteriores. Lo cual es fácil usando PyMC con la función <code>sample_ppc</code>:</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>idata_g.extend(pm.sample_posterior_predictive(idata_g, model<span class="op">=</span>model_g))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>idata_g.extend(pm.sample_posterior_predictive(idata_g, model<span class="op">=</span>model_g))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Sampling: [y_pred]</code></pre>
 </div>
@@ -529,7 +536,7 @@ y' = \frac{y - \bar y}{y_{sd}} \tag{3.8}
 <span id="cb16-5"><a href="#cb16-5"></a>az.plot_hdi(x, idata_g.posterior_predictive[<span class="st">'y_pred'</span>], hdi_prob<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'C1'</span>)</span>
 <span id="cb16-6"><a href="#cb16-6"></a></span>
 <span id="cb16-7"><a href="#cb16-7"></a>plt.xlabel(<span class="st">'x'</span>)</span>
-<span id="cb16-8"><a href="#cb16-8"></a>plt.ylabel(<span class="st">'y'</span>, rotation<span class="op">=</span><span class="dv">0</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-8"><a href="#cb16-8"></a>plt.ylabel(<span class="st">'y'</span>, rotation<span class="op">=</span><span class="dv">0</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
@@ -542,7 +549,7 @@ y' = \frac{y - \bar y}{y_{sd}} \tag{3.8}
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>ans <span class="op">=</span> pd.read_csv(<span class="st">'datos/anscombe.csv'</span>)</span>
 <span id="cb17-2"><a href="#cb17-2"></a>x_3 <span class="op">=</span> ans[ans.group <span class="op">==</span> <span class="st">'III'</span>][<span class="st">'x'</span>].values</span>
 <span id="cb17-3"><a href="#cb17-3"></a>y_3 <span class="op">=</span> ans[ans.group <span class="op">==</span> <span class="st">'III'</span>][<span class="st">'y'</span>].values</span>
-<span id="cb17-4"><a href="#cb17-4"></a>x_3 <span class="op">=</span> x_3 <span class="op">-</span> x_3.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-4"><a href="#cb17-4"></a>x_3 <span class="op">=</span> x_3 <span class="op">-</span> x_3.mean()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Y ahora veamos cómo luce este pequeño conjunto de datos:</p>
 <div class="cell" data-execution_count="13">
@@ -552,7 +559,7 @@ y' = \frac{y - \bar y}{y_{sd}} \tag{3.8}
 <span id="cb18-4"><a href="#cb18-4"></a>ax[<span class="dv">0</span>].set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb18-5"><a href="#cb18-5"></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">'y'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">15</span>)</span>
 <span id="cb18-6"><a href="#cb18-6"></a>ax[<span class="dv">1</span>].set_xticks([])</span>
-<span id="cb18-7"><a href="#cb18-7"></a>az.plot_kde(y_3, ax<span class="op">=</span>ax[<span class="dv">1</span>], rug<span class="op">=</span><span class="va">True</span>, rotated<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-7"><a href="#cb18-7"></a>az.plot_kde(y_3, ax<span class="op">=</span>ax[<span class="dv">1</span>], rug<span class="op">=</span><span class="va">True</span>, rotated<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
 </div>
@@ -570,7 +577,7 @@ y' = \frac{y - \bar y}{y_{sd}} \tag{3.8}
 <span id="cb19-8"><a href="#cb19-8"></a>    y_pred <span class="op">=</span> pm.StudentT(<span class="st">'y_pred'</span>, mu<span class="op">=</span>α <span class="op">+</span> β <span class="op">*</span> x_3,</span>
 <span id="cb19-9"><a href="#cb19-9"></a>                         sigma<span class="op">=</span>ϵ, nu<span class="op">=</span>ν, observed<span class="op">=</span>y_3)</span>
 <span id="cb19-10"><a href="#cb19-10"></a>    </span>
-<span id="cb19-11"><a href="#cb19-11"></a>    idata_t <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-11"><a href="#cb19-11"></a>    idata_t <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -609,7 +616,7 @@ NUTS: [α, β, ϵ, ν_]</code></pre>
 </div>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>var_names <span class="op">=</span> [<span class="st">'~ν_'</span>]</span>
-<span id="cb22-2"><a href="#cb22-2"></a>az.plot_trace(idata_t, var_names<span class="op">=</span>var_names, kind<span class="op">=</span><span class="st">"rank_vlines"</span>, combined<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-2"><a href="#cb22-2"></a>az.plot_trace(idata_t, var_names<span class="op">=</span>var_names, kind<span class="op">=</span><span class="st">"rank_vlines"</span>, combined<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
 </div>
@@ -626,7 +633,7 @@ NUTS: [α, β, ϵ, ν_]</code></pre>
 <span id="cb23-8"><a href="#cb23-8"></a></span>
 <span id="cb23-9"><a href="#cb23-9"></a>plt.xlabel(<span class="st">'x'</span>)</span>
 <span id="cb23-10"><a href="#cb23-10"></a>plt.ylabel(<span class="st">'y'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">15</span>)</span>
-<span id="cb23-11"><a href="#cb23-11"></a>plt.legend(loc<span class="op">=</span><span class="dv">2</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-11"><a href="#cb23-11"></a>plt.legend(loc<span class="op">=</span><span class="dv">2</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
@@ -635,7 +642,7 @@ NUTS: [α, β, ϵ, ν_]</code></pre>
 <p>Antes de continuar tómese un momento para contemplar los valores de los parámetros (estoy omitiendo los parámetros intermedios ya que no es de interés directo).</p>
 <p>Antes de continuar tómemonos un momento para contemplar los valores de los parámetros según la distribución a posteriori.</p>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>az.summary(idata_t, var_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>az.summary(idata_t, var_names)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 
 <div>
@@ -740,14 +747,14 @@ NUTS: [α, β, ϵ, ν_]</code></pre>
 <span id="cb25-22"><a href="#cb25-22"></a>    ax[i].set_xlim(<span class="dv">6</span>, <span class="dv">15</span>)</span>
 <span id="cb25-23"><a href="#cb25-23"></a>    ax[i].set_ylim(<span class="dv">7</span>, <span class="dv">17</span>)</span>
 <span id="cb25-24"><a href="#cb25-24"></a>    j <span class="op">+=</span> N</span>
-<span id="cb25-25"><a href="#cb25-25"></a>    k <span class="op">+=</span> N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-25"><a href="#cb25-25"></a>    k <span class="op">+=</span> N</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Vamos a centrar los datos antes de pasárselos al modelo.</p>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>x_centered <span class="op">=</span> x_m <span class="op">-</span> x_m.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>x_centered <span class="op">=</span> x_m <span class="op">-</span> x_m.mean()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> hierarchical_model:</span>
@@ -767,7 +774,7 @@ NUTS: [α, β, ϵ, ν_]</code></pre>
 <span id="cb27-15"><a href="#cb27-15"></a></span>
 <span id="cb27-16"><a href="#cb27-16"></a>    α <span class="op">=</span> pm.Deterministic(<span class="st">'α'</span>, α_tmp <span class="op">-</span> β <span class="op">*</span> x_m.mean()) </span>
 <span id="cb27-17"><a href="#cb27-17"></a></span>
-<span id="cb27-18"><a href="#cb27-18"></a>    idata_hm <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-18"><a href="#cb27-18"></a>    idata_hm <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -805,7 +812,7 @@ NUTS: [α_μ_tmp, α_σ_tmp, β_μ, β_σ, α_tmp, β, ϵ, ν]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>az.plot_forest(idata_hm, var_names<span class="op">=</span>[<span class="st">'α'</span>, <span class="st">'β'</span>], figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>), combined<span class="op">=</span><span class="va">True</span>, r_hat<span class="op">=</span><span class="va">False</span>, ess<span class="op">=</span><span class="va">False</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>az.plot_forest(idata_hm, var_names<span class="op">=</span>[<span class="st">'α'</span>, <span class="st">'β'</span>], figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>), combined<span class="op">=</span><span class="va">True</span>, r_hat<span class="op">=</span><span class="va">False</span>, ess<span class="op">=</span><span class="va">False</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
 </div>
@@ -831,7 +838,7 @@ NUTS: [α_μ_tmp, α_σ_tmp, β_μ, β_σ, α_tmp, β, ϵ, ν]</code></pre>
 <span id="cb31-17"><a href="#cb31-17"></a>    plt.xlim(x_m.<span class="bu">min</span>()<span class="op">-</span><span class="dv">1</span>, x_m.<span class="bu">max</span>()<span class="op">+</span><span class="dv">1</span>)</span>
 <span id="cb31-18"><a href="#cb31-18"></a>    plt.ylim(y_m.<span class="bu">min</span>()<span class="op">-</span><span class="dv">1</span>, y_m.<span class="bu">max</span>()<span class="op">+</span><span class="dv">1</span>)</span>
 <span id="cb31-19"><a href="#cb31-19"></a>    j <span class="op">+=</span> N</span>
-<span id="cb31-20"><a href="#cb31-20"></a>    k <span class="op">+=</span> N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-20"><a href="#cb31-20"></a>    k <span class="op">+=</span> N</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
 </div>
@@ -864,7 +871,7 @@ NUTS: [α_μ_tmp, α_σ_tmp, β_μ, β_σ, α_tmp, β, ϵ, ν]</code></pre>
 <span id="cb32-7"><a href="#cb32-7"></a>X <span class="op">=</span> np.array([np.random.normal(i, j, N) <span class="cf">for</span> i,j <span class="kw">in</span> <span class="bu">zip</span>([<span class="dv">10</span>, <span class="dv">2</span>], [<span class="dv">1</span>, <span class="fl">1.5</span>])]).T</span>
 <span id="cb32-8"><a href="#cb32-8"></a>X_mean <span class="op">=</span> X.mean(axis<span class="op">=</span><span class="dv">0</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb32-9"><a href="#cb32-9"></a>X_centered <span class="op">=</span> X <span class="op">-</span> X_mean</span>
-<span id="cb32-10"><a href="#cb32-10"></a>y <span class="op">=</span> alpha_real <span class="op">+</span> np.dot(X, beta_real) <span class="op">+</span> eps_real</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-10"><a href="#cb32-10"></a>y <span class="op">=</span> alpha_real <span class="op">+</span> np.dot(X, beta_real) <span class="op">+</span> eps_real</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A continuación vamos a definir una función que realiza tres gráficos de dispersión, dos entre cada variable independiente y la variable dependiente y el último entre ambas variables dependientes. Usaremos esta función para ayudarnos durante el resto del capítulo:</p>
 <div class="cell" data-execution_count="24">
@@ -881,7 +888,7 @@ NUTS: [α_μ_tmp, α_σ_tmp, β_μ, β_σ, α_tmp, β, ϵ, ν]</code></pre>
 <span id="cb33-11"><a href="#cb33-11"></a>    plt.xlabel(<span class="st">'x_</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(idx))</span>
 <span id="cb33-12"><a href="#cb33-12"></a>    plt.ylabel(<span class="st">'x_</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(idx<span class="op">+</span><span class="dv">1</span>), rotation<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb33-13"><a href="#cb33-13"></a></span>
-<span id="cb33-14"><a href="#cb33-14"></a>scatter_plot(X_centered, y)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-14"><a href="#cb33-14"></a>scatter_plot(X_centered, y)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
 </div>
@@ -904,7 +911,7 @@ NUTS: [α_μ_tmp, α_σ_tmp, β_μ, β_σ, α_tmp, β, ϵ, ν]</code></pre>
 <span id="cb34-9"><a href="#cb34-9"></a></span>
 <span id="cb34-10"><a href="#cb34-10"></a>    y_pred <span class="op">=</span> pm.Normal(<span class="st">'y_pred'</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>ϵ, observed<span class="op">=</span>y)</span>
 <span id="cb34-11"><a href="#cb34-11"></a></span>
-<span id="cb34-12"><a href="#cb34-12"></a>    trace_mlr <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-12"><a href="#cb34-12"></a>    trace_mlr <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -943,13 +950,13 @@ NUTS: [α_tmp, β, ϵ]</code></pre>
 </div>
 <div class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a>var_names <span class="op">=</span> [<span class="st">'α'</span>, <span class="st">'β'</span>,<span class="st">'ϵ'</span>]</span>
-<span id="cb37-2"><a href="#cb37-2"></a>az.plot_trace(trace_mlr, var_names)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-2"><a href="#cb37-2"></a>az.plot_trace(trace_mlr, var_names)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-27-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>az.summary(trace_mlr, var_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>az.summary(trace_mlr, var_names)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 
 <div>
@@ -1038,11 +1045,11 @@ NUTS: [α_tmp, β, ϵ]</code></pre>
 <span id="cb39-4"><a href="#cb39-4"></a>x_2 <span class="op">=</span> x_1 <span class="op">+</span> np.random.normal(size<span class="op">=</span>N, scale<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb39-5"><a href="#cb39-5"></a><span class="co">#x_2 = x_1 + np.random.normal(size=N, scale=0.01)  </span></span>
 <span id="cb39-6"><a href="#cb39-6"></a>y <span class="op">=</span> x_1 <span class="op">+</span> np.random.normal(size<span class="op">=</span>N)</span>
-<span id="cb39-7"><a href="#cb39-7"></a>X <span class="op">=</span> np.vstack((x_1, x_2)).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-7"><a href="#cb39-7"></a>X <span class="op">=</span> np.vstack((x_1, x_2)).T</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Debido a como generamos los datos estos ya están centrados como se puede ver en la siguiente figura:</p>
 <div class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>scatter_plot(X, y)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>scatter_plot(X, y)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-30-output-1.png" class="img-fluid"></p>
 </div>
@@ -1082,7 +1089,7 @@ NUTS: [α_tmp, β, ϵ]</code></pre>
 <span id="cb41-31"><a href="#cb41-31"></a>    </span>
 <span id="cb41-32"><a href="#cb41-32"></a>    y_pred <span class="op">=</span> pm.Normal(<span class="st">'y_pred'</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>ϵ, observed<span class="op">=</span>y)</span>
 <span id="cb41-33"><a href="#cb41-33"></a> </span>
-<span id="cb41-34"><a href="#cb41-34"></a>    idata_x2 <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-34"><a href="#cb41-34"></a>    idata_x2 <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -1190,7 +1197,7 @@ NUTS: [α, β2, ϵ]</code></pre>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a>ax <span class="op">=</span> az.plot_forest([idata_x1x2, idata_x1, idata_x2], model_names<span class="op">=</span>[<span class="st">'m_x1x2'</span>, <span class="st">'m_x1'</span>, <span class="st">'m_x2'</span>], var_names<span class="op">=</span>[<span class="st">'β1'</span>, <span class="st">'β2'</span>],</span>
 <span id="cb46-2"><a href="#cb46-2"></a>                    r_hat<span class="op">=</span><span class="va">False</span>, ess<span class="op">=</span><span class="va">False</span>, combined<span class="op">=</span><span class="va">True</span>, colors<span class="op">=</span><span class="st">'cycle'</span>,</span>
 <span id="cb46-3"><a href="#cb46-3"></a>                    kind<span class="op">=</span><span class="st">"ridgeplot"</span>,</span>
-<span id="cb46-4"><a href="#cb46-4"></a>                    figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-4"><a href="#cb46-4"></a>                    figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-32-output-1.png" class="img-fluid"></p>
 </div>
@@ -1207,11 +1214,11 @@ NUTS: [α, β2, ϵ]</code></pre>
 <span id="cb47-4"><a href="#cb47-4"></a>x_1 <span class="op">=</span> np.random.normal(size<span class="op">=</span>N)</span>
 <span id="cb47-5"><a href="#cb47-5"></a>x_2 <span class="op">=</span> x_1 <span class="op">+</span> np.random.normal(size<span class="op">=</span>N, scale<span class="op">=</span><span class="fl">0.01</span>)  </span>
 <span id="cb47-6"><a href="#cb47-6"></a>y <span class="op">=</span> x_1 <span class="op">+</span> np.random.normal(size<span class="op">=</span>N)</span>
-<span id="cb47-7"><a href="#cb47-7"></a>X <span class="op">=</span> np.vstack((x_1, x_2)).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-7"><a href="#cb47-7"></a>X <span class="op">=</span> np.vstack((x_1, x_2)).T</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>El cambio en la generación de datos, de la celda anterior, prácticamente equivale a sumar 0 a <span class="math inline">\(x_1\)</span>, por lo tanto ambas variables son iguales para todo propósito práctico. A continuación, pueden intentar variar los valores de la desviación estándar y usar valores menos extremos, pero por ahora queremos que el efecto sea bien claro. En el siguiente gráfico se puede ver que ahora el diagrama de dispersión para <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span> es prácticamente una línea recta con una pendiente alrededor de 1:</p>
 <div class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a>scatter_plot(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a>scatter_plot(X, y)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-34-output-1.png" class="img-fluid"></p>
 </div>
@@ -1227,7 +1234,7 @@ NUTS: [α, β2, ϵ]</code></pre>
 <span id="cb49-7"><a href="#cb49-7"></a>    </span>
 <span id="cb49-8"><a href="#cb49-8"></a>    y_pred <span class="op">=</span> pm.Normal(<span class="st">'y_pred'</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>ϵ, observed<span class="op">=</span>y)</span>
 <span id="cb49-9"><a href="#cb49-9"></a> </span>
-<span id="cb49-10"><a href="#cb49-10"></a>    idata_red <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-10"><a href="#cb49-10"></a>    idata_red <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -1266,14 +1273,14 @@ NUTS: [α, β, ϵ]</code></pre>
 </div>
 <p>Y verificamos los resultados de los parámetros con un forestplot:</p>
 <div class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>az.plot_forest(idata_red, var_names<span class="op">=</span>[<span class="st">'β'</span>], r_hat<span class="op">=</span><span class="dv">0</span>, ess<span class="op">=</span><span class="dv">0</span>, combined<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>az.plot_forest(idata_red, var_names<span class="op">=</span>[<span class="st">'β'</span>], r_hat<span class="op">=</span><span class="dv">0</span>, ess<span class="op">=</span><span class="dv">0</span>, combined<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-36-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Los valores de los HDI para <span class="math inline">\(\beta\)</span> son sospechosamente amplios, podemos obtener una idea de lo que está sucediendo con un diagrama de dispersión de los coeficientes <span class="math inline">\(\beta\)</span></p>
 <div class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>az.plot_pair(idata_red, var_names<span class="op">=</span>[<span class="st">'β'</span>], scatter_kwargs<span class="op">=</span>{<span class="st">'alpha'</span>:<span class="fl">0.05</span>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>az.plot_pair(idata_red, var_names<span class="op">=</span>[<span class="st">'β'</span>], scatter_kwargs<span class="op">=</span>{<span class="st">'alpha'</span>:<span class="fl">0.05</span>})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-37-output-1.png" class="img-fluid"></p>
 </div>
@@ -1303,10 +1310,10 @@ NUTS: [α, β, ϵ]</code></pre>
 <span id="cb54-4"><a href="#cb54-4"></a>x_1 <span class="op">=</span> np.random.normal(size<span class="op">=</span>N)</span>
 <span id="cb54-5"><a href="#cb54-5"></a>x_2 <span class="op">=</span> np.random.normal(x_1, scale<span class="op">=</span>(<span class="dv">1</span> <span class="op">-</span> r <span class="op">**</span> <span class="dv">2</span>) <span class="op">**</span> <span class="fl">0.5</span>)</span>
 <span id="cb54-6"><a href="#cb54-6"></a>y <span class="op">=</span> np.random.normal(x_1 <span class="op">-</span> x_2)</span>
-<span id="cb54-7"><a href="#cb54-7"></a>X <span class="op">=</span> np.vstack((x_1, x_2)).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-7"><a href="#cb54-7"></a>X <span class="op">=</span> np.vstack((x_1, x_2)).T</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a>scatter_plot(X, y)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a>scatter_plot(X, y)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-39-output-1.png" class="img-fluid"></p>
 </div>
@@ -1346,7 +1353,7 @@ NUTS: [α, β, ϵ]</code></pre>
 <span id="cb56-31"><a href="#cb56-31"></a>    </span>
 <span id="cb56-32"><a href="#cb56-32"></a>    y_pred <span class="op">=</span> pm.Normal(<span class="st">'y_pred'</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>ϵ, observed<span class="op">=</span>y)</span>
 <span id="cb56-33"><a href="#cb56-33"></a> </span>
-<span id="cb56-34"><a href="#cb56-34"></a>    trace_x2 <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-34"><a href="#cb56-34"></a>    trace_x2 <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -1454,7 +1461,7 @@ NUTS: [α, β2, ϵ]</code></pre>
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a>az.plot_forest([trace_x1x2, trace_x1, trace_x2], model_names<span class="op">=</span>[<span class="st">'m_x1x2'</span>, <span class="st">'m_x1'</span>, <span class="st">'m_x2'</span>],</span>
 <span id="cb61-2"><a href="#cb61-2"></a>               var_names<span class="op">=</span>[<span class="st">'β1'</span>, <span class="st">'β2'</span>], r_hat<span class="op">=</span><span class="va">False</span>, ess<span class="op">=</span><span class="va">False</span>, combined<span class="op">=</span><span class="va">True</span>, </span>
 <span id="cb61-3"><a href="#cb61-3"></a>               kind<span class="op">=</span><span class="st">"ridgeplot"</span>, colors<span class="op">=</span><span class="st">'cycle'</span>,</span>
-<span id="cb61-4"><a href="#cb61-4"></a>               figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb61-4"><a href="#cb61-4"></a>               figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="05_Regresión_lineal_files/figure-html/cell-41-output-1.png" class="img-fluid"></p>
 </div>
@@ -1672,12 +1679,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copiado");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copiado");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
@@ -1780,7 +1787,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia de Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
+      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
   </div>
 </footer>
 

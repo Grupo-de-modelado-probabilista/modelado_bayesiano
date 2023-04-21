@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.2.335">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Estadística: inferencia y modelado - 8&nbsp; Comparación de modelos</title>
+<title>Modelado Bayesiano - 8&nbsp; Comparación de modelos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,15 +113,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "type": "textbox",
   "limit": 20,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
@@ -130,6 +130,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<meta name="citation_title" content="[8]{.chapter-number}&nbsp; [Comparación de modelos]{.chapter-title}">
+<meta name="citation_publication_date" content="2023-04-21">
+<meta name="citation_cover_date" content="2023-04-21">
+<meta name="citation_year" content="2023">
+<meta name="citation_doi" content="https://doi.org/10.5281/zenodo.7851296">
+<meta name="citation_language" content="es">
 </head>
 
 <body class="nav-sidebar docked">
@@ -151,9 +157,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Estadística: inferencia y modelado</a> 
+      <a href="./">Modelado Bayesiano</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="" title="" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
+    <a href="" title="github" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
         <li>
           <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano">
@@ -166,6 +172,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </a>
         </li>
     </ul>
+    <a href="https://cafecito.app/aloctavodia" title="donaciones" class="sidebar-tool px-1"><i class="bi bi-cup"></i></a>
   <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
@@ -233,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
   <li><a href="#pruebas-predictivas-a-posteriori" id="toc-pruebas-predictivas-a-posteriori" class="nav-link active" data-scroll-target="#pruebas-predictivas-a-posteriori"><span class="toc-section-number">8.1</span>  Pruebas predictivas a posteriori</a></li>
@@ -289,10 +296,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> preliz <span class="im">as</span> pz</span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="im">from</span> scipy.special <span class="im">import</span> betaln</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="im">from</span> scipy.special <span class="im">import</span> betaln</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p>“Un mapa no es el territorio que representa, pero si es correcto, tiene una estructura similar a la del territorio” - Alfred Korzybski</p>
@@ -320,7 +327,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-8"><a href="#cb3-8"></a>y_1s <span class="op">=</span> (y_1 <span class="op">-</span> y_1.mean()) <span class="op">/</span> y_1.std()</span>
 <span id="cb3-9"><a href="#cb3-9"></a>plt.scatter(x_1s[<span class="dv">0</span>], y_1s)</span>
 <span id="cb3-10"><a href="#cb3-10"></a>plt.xlabel(<span class="st">'x'</span>)</span>
-<span id="cb3-11"><a href="#cb3-11"></a>plt.ylabel(<span class="st">'y'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11"></a>plt.ylabel(<span class="st">'y'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
 </div>
@@ -349,7 +356,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-20"><a href="#cb4-20"></a>    y_pred <span class="op">=</span> pm.Normal(<span class="st">'y_pred'</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>ϵ, observed<span class="op">=</span>y_1s)</span>
 <span id="cb4-21"><a href="#cb4-21"></a></span>
 <span id="cb4-22"><a href="#cb4-22"></a>    idata_p <span class="op">=</span> pm.sample(<span class="dv">2000</span>, idata_kwargs<span class="op">=</span>{<span class="st">"log_likelihood"</span>: <span class="va">True</span>})</span>
-<span id="cb4-23"><a href="#cb4-23"></a>    idata_p.extend(pm.sample_posterior_predictive(idata_p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-23"><a href="#cb4-23"></a>    idata_p.extend(pm.sample_posterior_predictive(idata_p))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -496,7 +503,7 @@ Sampling: [y_pred]</code></pre>
 <span id="cb9-17"><a href="#cb9-17"></a>plt.plot(x_1s[<span class="dv">0</span>][idx], y_p_post[idx], <span class="st">'C1'</span>, label<span class="op">=</span><span class="ss">f'polinomio de orden </span><span class="sc">{</span>order<span class="sc">}</span><span class="ss">'</span>)</span>
 <span id="cb9-18"><a href="#cb9-18"></a></span>
 <span id="cb9-19"><a href="#cb9-19"></a>plt.plot(x_1s[<span class="dv">0</span>], y_1s, <span class="st">"k."</span>)</span>
-<span id="cb9-20"><a href="#cb9-20"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-20"><a href="#cb9-20"></a>plt.legend()<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
 </div>
@@ -507,7 +514,7 @@ Sampling: [y_pred]</code></pre>
 <span id="cb10-2"><a href="#cb10-2"></a>az.plot_ppc(idata_l, num_pp_samples<span class="op">=</span><span class="dv">100</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>], legend<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb10-3"><a href="#cb10-3"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'modelo lineal'</span>)</span>
 <span id="cb10-4"><a href="#cb10-4"></a>az.plot_ppc(idata_p, num_pp_samples<span class="op">=</span><span class="dv">100</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>axes[<span class="dv">1</span>].set_title(<span class="ss">f'polinomio de orden </span><span class="sc">{</span>order<span class="sc">}</span><span class="ss">'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-5"><a href="#cb10-5"></a>axes[<span class="dv">1</span>].set_title(<span class="ss">f'polinomio de orden </span><span class="sc">{</span>order<span class="sc">}</span><span class="ss">'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
@@ -538,7 +545,7 @@ Sampling: [y_pred]</code></pre>
 <span id="cb11-20"><a href="#cb11-20"></a>        ax.legend_.legendHandles[idx]._alpha <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb11-21"><a href="#cb11-21"></a>        ax.legend_.legendHandles[idx]._color <span class="op">=</span> c</span>
 <span id="cb11-22"><a href="#cb11-22"></a>        ax.legend_._loc <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb11-23"><a href="#cb11-23"></a>        ax.legend_.texts[idx]._text <span class="op">=</span> modelo <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> ax.legend_.texts[idx]._text</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-23"><a href="#cb11-23"></a>        ax.legend_.texts[idx]._text <span class="op">=</span> modelo <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> ax.legend_.texts[idx]._text</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
@@ -556,7 +563,7 @@ Sampling: [y_pred]</code></pre>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">3</span>))</span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
 <span id="cb12-3"><a href="#cb12-3"></a><span class="cf">for</span> idata, c <span class="kw">in</span> <span class="bu">zip</span>(idatas, colors):</span>
-<span id="cb12-4"><a href="#cb12-4"></a>    az.plot_bpv(idata, color<span class="op">=</span>c, ax<span class="op">=</span>ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-4"><a href="#cb12-4"></a>    az.plot_bpv(idata, color<span class="op">=</span>c, ax<span class="op">=</span>ax)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
@@ -600,7 +607,7 @@ Sampling: [y_pred]</code></pre>
 <span id="cb13-24"><a href="#cb13-24"></a>    ax.plot(x_n, p(x_n), label<span class="op">=</span><span class="ss">f'orden </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">, $R^2$= </span><span class="sc">{</span>r2<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
 <span id="cb13-25"><a href="#cb13-25"></a></span>
 <span id="cb13-26"><a href="#cb13-26"></a>    </span>
-<span id="cb13-27"><a href="#cb13-27"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>, fontsize<span class="op">=</span><span class="dv">12</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-27"><a href="#cb13-27"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>, fontsize<span class="op">=</span><span class="dv">12</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
@@ -631,7 +638,7 @@ Sampling: [y_pred]</code></pre>
 <span id="cb14-20"><a href="#cb14-20"></a>    ax.plot(x_n, ps[idx](x_n), label<span class="op">=</span><span class="ss">f'orden </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">, $R^2$= </span><span class="sc">{</span>r2<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
 <span id="cb14-21"><a href="#cb14-21"></a></span>
 <span id="cb14-22"><a href="#cb14-22"></a>    </span>
-<span id="cb14-23"><a href="#cb14-23"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>, fontsize<span class="op">=</span><span class="dv">12</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-23"><a href="#cb14-23"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>, fontsize<span class="op">=</span><span class="dv">12</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
@@ -734,7 +741,7 @@ w_s = \frac{1}{p(y_i \mid \theta_s)}
 <p>Afortunadamente, calcular los criterios de información con ArviZ es muy simple. Veamos:</p>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>waic_l <span class="op">=</span> az.waic(idata_l)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>waic_l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-2"><a href="#cb15-2"></a>waic_l</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>Computed from 8000 posterior samples and 33 observations log-likelihood matrix.
 
@@ -745,7 +752,7 @@ p_waic        2.36        -</code></pre>
 </div>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>waic_p <span class="op">=</span> az.waic(idata_p)</span>
-<span id="cb17-2"><a href="#cb17-2"></a>waic_p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-2"><a href="#cb17-2"></a>waic_p</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>Computed from 8000 posterior samples and 33 observations log-likelihood matrix.
 
@@ -757,7 +764,7 @@ p_waic        2.61        -</code></pre>
 <p>Lo mismo para LOO.</p>
 <div class="cell" data-scrolled="true" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>loo_l <span class="op">=</span> az.loo(idata_l)</span>
-<span id="cb19-2"><a href="#cb19-2"></a>loo_l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-2"><a href="#cb19-2"></a>loo_l</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>Computed from 8000 posterior samples and 33 observations log-likelihood matrix.
 
@@ -776,7 +783,7 @@ Pareto k diagnostic values:
 </div>
 <div class="cell" data-scrolled="true" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>loo_p <span class="op">=</span> az.loo(idata_p)</span>
-<span id="cb21-2"><a href="#cb21-2"></a>loo_p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-2"><a href="#cb21-2"></a>loo_p</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>Computed from 8000 posterior samples and 33 observations log-likelihood matrix.
 
@@ -803,7 +810,7 @@ Pareto k diagnostic values:
 <p>Los valores de WAIC o LOO no tienen sentido por si mismos, si no que deben ser interpretados de forma relativa. Es por ello que ArviZ ofrece dos funciones auxiliares para facilitar esta comparación veamos primero a <code>az.compare</code>.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>cmp_df <span class="op">=</span> az.compare({<span class="st">'modelo_l'</span>:idata_l, <span class="st">'modelo_p'</span>:idata_p})</span>
-<span id="cb23-2"><a href="#cb23-2"></a>cmp_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-2"><a href="#cb23-2"></a>cmp_df</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 
 <div>
@@ -867,7 +874,7 @@ Pareto k diagnostic values:
 </ul>
 <p>También podemos obtener más o menos la misma información de forma gráfica usando la función <code>az.compareplot</code>.</p>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>az.plot_compare(cmp_df)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>az.plot_compare(cmp_df)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
@@ -885,7 +892,7 @@ Pareto k diagnostic values:
 <p>Una alternativa es seleccionar un solo modelo, pero informar y analizar los diferentes modelos junto con los valores de los criterios de información calculados, sus valores de error estándar y quizás también las pruebas predictivas a posteriori. Es importante poner todos estos números y pruebas en el contexto de nuestro problema para que nosotros y nuestra audiencia podamos tener una mejor idea de las posibles limitaciones y deficiencias de los modelos. Para quienes trabajan en el mundo académico, estos elementos se pueden utilizar para agregar elementos a la sección de discusión de un paper, presentación, tesis, etc. Y en la industria esto puede ser útil para informar a clientes sobre las ventajas y limitaciones de las predicciones o conclusiones del modelado.</p>
 <p>Otra posibilidad es promediar los modelos. De esta forma estamos introduciendo la incertidumbre que tenemos sobre la bondad de cada modelo. De esta fora podemos generar un metamodelo (y meta-predicciones) usando un promedio pesado de cada modelo.</p>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>idata_w <span class="op">=</span> az.weight_predictions(idatas, weights<span class="op">=</span>[<span class="fl">0.35</span>, <span class="fl">0.65</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>idata_w <span class="op">=</span> az.weight_predictions(idatas, weights<span class="op">=</span>[<span class="fl">0.35</span>, <span class="fl">0.65</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>_, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
@@ -895,7 +902,7 @@ Pareto k diagnostic values:
 <span id="cb26-5"><a href="#cb26-5"></a></span>
 <span id="cb26-6"><a href="#cb26-6"></a>plt.plot(y_1s, np.zeros_like(y_1s), <span class="st">'k|'</span>, label<span class="op">=</span><span class="st">'observed data'</span>)</span>
 <span id="cb26-7"><a href="#cb26-7"></a>plt.yticks([])</span>
-<span id="cb26-8"><a href="#cb26-8"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-8"><a href="#cb26-8"></a>plt.legend()<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
@@ -983,12 +990,12 @@ Pareto k diagnostic values:
 <span id="cb27-11"><a href="#cb27-11"></a>    h <span class="op">=</span> np.<span class="bu">sum</span>(y)</span>
 <span id="cb27-12"><a href="#cb27-12"></a>    n <span class="op">=</span> <span class="bu">len</span>(y)</span>
 <span id="cb27-13"><a href="#cb27-13"></a>    p_y <span class="op">=</span> np.exp(betaln(alpha <span class="op">+</span> h, beta <span class="op">+</span> n <span class="op">-</span> h) <span class="op">-</span> betaln(alpha, beta))</span>
-<span id="cb27-14"><a href="#cb27-14"></a>    <span class="cf">return</span> p_y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-14"><a href="#cb27-14"></a>    <span class="cf">return</span> p_y</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nuestros datos para este ejemplo consisten en 100 “lanzamientos de una moneda” y el mismo número de “caras” y cecas” observadas. Compararemos dos modelos uno con un prior uniforme y otro con un prior <em>más concentrado</em> alrededor de <span class="math inline">\(\theta = 0.5\)</span></p>
 <div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>y <span class="op">=</span> np.repeat([<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">50</span>, <span class="dv">50</span>])  <span class="co"># 50 "caras" y 50 "cecas"</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a>priors <span class="op">=</span> ((<span class="dv">1</span>, <span class="dv">1</span>), (<span class="dv">30</span>, <span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-2"><a href="#cb28-2"></a>priors <span class="op">=</span> ((<span class="dv">1</span>, <span class="dv">1</span>), (<span class="dv">30</span>, <span class="dv">30</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="cf">for</span> a, b <span class="kw">in</span> priors:</span>
@@ -997,7 +1004,7 @@ Pareto k diagnostic values:
 <span id="cb29-4"><a href="#cb29-4"></a>    plt.plot(x, x_pdf, label<span class="op">=</span><span class="vs">rf"$\alpha$ = </span><span class="sc">{</span>a<span class="sc">:d}</span><span class="vs">, $\beta$ = </span><span class="sc">{</span>b<span class="sc">:d}</span><span class="vs">"</span>)</span>
 <span id="cb29-5"><a href="#cb29-5"></a>    plt.yticks([])</span>
 <span id="cb29-6"><a href="#cb29-6"></a>    plt.xlabel(<span class="st">"$</span><span class="ch">\\</span><span class="st">theta$"</span>)</span>
-<span id="cb29-7"><a href="#cb29-7"></a>    plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-7"><a href="#cb29-7"></a>    plt.legend()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
 </div>
@@ -1005,7 +1012,7 @@ Pareto k diagnostic values:
 <p>La siguiente celda devuelve el factor de Bayes</p>
 <div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>BF <span class="op">=</span> beta_binom(priors[<span class="dv">1</span>], y) <span class="op">/</span> beta_binom(priors[<span class="dv">0</span>], y)</span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="bu">print</span>(<span class="bu">round</span>(BF))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="bu">print</span>(<span class="bu">round</span>(BF))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>5</code></pre>
 </div>
@@ -1024,7 +1031,7 @@ Pareto k diagnostic values:
 <span id="cb32-6"><a href="#cb32-6"></a>        yl <span class="op">=</span> pm.Bernoulli(<span class="st">"yl"</span>, a, observed<span class="op">=</span>y)</span>
 <span id="cb32-7"><a href="#cb32-7"></a>        idata <span class="op">=</span> pm.sample_smc(random_seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb32-8"><a href="#cb32-8"></a>        models.append(model)</span>
-<span id="cb32-9"><a href="#cb32-9"></a>        idatas.append(idata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-9"><a href="#cb32-9"></a>        idatas.append(idata)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Initializing SMC sampler...
 Sampling 4 chains in 4 jobs</code></pre>
@@ -1103,7 +1110,7 @@ Sampling 4 chains in 4 jobs</code></pre>
 <span id="cb38-2"><a href="#cb38-2"></a>    idatas[<span class="dv">1</span>].sample_stats[<span class="st">"log_marginal_likelihood"</span>].mean()</span>
 <span id="cb38-3"><a href="#cb38-3"></a>    <span class="op">-</span> idatas[<span class="dv">0</span>].sample_stats[<span class="st">"log_marginal_likelihood"</span>].mean()</span>
 <span id="cb38-4"><a href="#cb38-4"></a>)</span>
-<span id="cb38-5"><a href="#cb38-5"></a>np.<span class="bu">round</span>(BF_smc).item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-5"><a href="#cb38-5"></a>np.<span class="bu">round</span>(BF_smc).item()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>5.0</code></pre>
 </div>
@@ -1118,7 +1125,7 @@ Sampling 4 chains in 4 jobs</code></pre>
 <p>Hasta ahora hemos usado los factores de Bayes para juzgar qué modelo parece ser mejor para explicar los datos, y obtenemos que uno de los modelos es <span class="math inline">\(\approx 5\)</span> <em>mejor</em> que el otro.</p>
 <p>Pero, ¿qué pasa con el posterior que obtenemos de estos modelos? ¿Qué tan diferentes son?</p>
 <div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>az.summary(idatas[<span class="dv">0</span>], var_names<span class="op">=</span><span class="st">"a"</span>, kind<span class="op">=</span><span class="st">"stats"</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>az.summary(idatas[<span class="dv">0</span>], var_names<span class="op">=</span><span class="st">"a"</span>, kind<span class="op">=</span><span class="st">"stats"</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 
 <div>
@@ -1147,7 +1154,7 @@ Sampling 4 chains in 4 jobs</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>az.summary(idatas[<span class="dv">1</span>], var_names<span class="op">=</span><span class="st">"a"</span>, kind<span class="op">=</span><span class="st">"stats"</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>az.summary(idatas[<span class="dv">1</span>], var_names<span class="op">=</span><span class="st">"a"</span>, kind<span class="op">=</span><span class="st">"stats"</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 
 <div>
@@ -1178,7 +1185,7 @@ Sampling 4 chains in 4 jobs</code></pre>
 <p>Podemos argumentar que los resultados son bastante similares, tenemos el mismo valor medio para <span class="math inline">\(\theta\)</span> y un posterior ligeramente más ancho para <code>model_0</code>, como se esperaba ya que este modelo tiene un prior más amplio. También podemos verificar la distribución predictiva posterior para ver qué tan similares son.</p>
 <div class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a>ppc_0 <span class="op">=</span> pm.sample_posterior_predictive(idatas[<span class="dv">0</span>], model<span class="op">=</span>models[<span class="dv">0</span>]).posterior_predictive</span>
-<span id="cb42-2"><a href="#cb42-2"></a>ppc_1 <span class="op">=</span> pm.sample_posterior_predictive(idatas[<span class="dv">1</span>], model<span class="op">=</span>models[<span class="dv">1</span>]).posterior_predictive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-2"><a href="#cb42-2"></a>ppc_1 <span class="op">=</span> pm.sample_posterior_predictive(idatas[<span class="dv">1</span>], model<span class="op">=</span>models[<span class="dv">1</span>]).posterior_predictive</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Sampling: [yl]</code></pre>
 </div>
@@ -1259,7 +1266,7 @@ Sampling 4 chains in 4 jobs</code></pre>
 <span id="cb45-18"><a href="#cb45-18"></a>ax.legend()</span>
 <span id="cb45-19"><a href="#cb45-19"></a>ax.set_xlabel(<span class="st">"$</span><span class="ch">\\</span><span class="st">theta$"</span>)</span>
 <span id="cb45-20"><a href="#cb45-20"></a>ax.xaxis.set_major_formatter(FormatStrFormatter(<span class="st">"</span><span class="sc">%0.1f</span><span class="st">"</span>))</span>
-<span id="cb45-21"><a href="#cb45-21"></a>ax.set_yticks([])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-21"><a href="#cb45-21"></a>ax.set_yticks([])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-29-output-1.png" class="img-fluid"></p>
 </div>
@@ -1279,7 +1286,7 @@ BF_{01} = \frac{p(y \mid H_0)}{p(y \mid H_1)} \frac{p(\theta=0.5 \mid y, H_1)}{p
 <span id="cb46-2"><a href="#cb46-2"></a>    a <span class="op">=</span> pm.Beta(<span class="st">"a"</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb46-3"><a href="#cb46-3"></a>    yl <span class="op">=</span> pm.Bernoulli(<span class="st">"yl"</span>, a, observed<span class="op">=</span>y)</span>
 <span id="cb46-4"><a href="#cb46-4"></a>    idata_uni <span class="op">=</span> pm.sample(<span class="dv">2000</span>, random_seed<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb46-5"><a href="#cb46-5"></a>    idata_uni.extend(pm.sample_prior_predictive(<span class="dv">8000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-5"><a href="#cb46-5"></a>    idata_uni.extend(pm.sample_prior_predictive(<span class="dv">8000</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -1319,7 +1326,7 @@ Sampling: [a, yl]</code></pre>
 </div>
 <p>Y ahora llamamos a la función de ArviZ <code>az.plot_bf</code></p>
 <div class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a>az.plot_bf(idata_uni, var_name<span class="op">=</span><span class="st">"a"</span>, ref_val<span class="op">=</span><span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a>az.plot_bf(idata_uni, var_name<span class="op">=</span><span class="st">"a"</span>, ref_val<span class="op">=</span><span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-31-output-1.png" class="img-fluid"></p>
 </div>
@@ -1333,7 +1340,7 @@ Sampling: [a, yl]</code></pre>
 <span id="cb50-2"><a href="#cb50-2"></a>    a <span class="op">=</span> pm.Beta(<span class="st">"a"</span>, <span class="dv">30</span>, <span class="dv">30</span>)</span>
 <span id="cb50-3"><a href="#cb50-3"></a>    yl <span class="op">=</span> pm.Bernoulli(<span class="st">"yl"</span>, a, observed<span class="op">=</span>y)</span>
 <span id="cb50-4"><a href="#cb50-4"></a>    idata_conc <span class="op">=</span> pm.sample(<span class="dv">2000</span>, random_seed<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb50-5"><a href="#cb50-5"></a>    idata_conc.extend(pm.sample_prior_predictive(<span class="dv">8000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-5"><a href="#cb50-5"></a>    idata_conc.extend(pm.sample_prior_predictive(<span class="dv">8000</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -1372,7 +1379,7 @@ Sampling: [a, yl]</code></pre>
 </div>
 </div>
 <div class="cell" data-scrolled="true" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>az.plot_bf(idata_conc, var_name<span class="op">=</span><span class="st">"a"</span>, ref_val<span class="op">=</span><span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>az.plot_bf(idata_conc, var_name<span class="op">=</span><span class="st">"a"</span>, ref_val<span class="op">=</span><span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="07_Comparación_de_modelos_files/figure-html/cell-33-output-1.png" class="img-fluid"></p>
 </div>
@@ -1538,12 +1545,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copiado");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copiado");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
@@ -1643,7 +1650,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia de Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
+      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
   </div>
 </footer>
 

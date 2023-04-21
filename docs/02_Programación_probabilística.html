@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.2.335">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Estadística: inferencia y modelado - 3&nbsp; Programación probabilista</title>
+<title>Modelado Bayesiano - 3&nbsp; Programación probabilista</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -114,15 +114,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "type": "textbox",
   "limit": 20,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
@@ -131,6 +131,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<meta name="citation_title" content="[3]{.chapter-number}&nbsp; [Programación probabilista]{.chapter-title}">
+<meta name="citation_publication_date" content="2023-04-21">
+<meta name="citation_cover_date" content="2023-04-21">
+<meta name="citation_year" content="2023">
+<meta name="citation_doi" content="https://doi.org/10.5281/zenodo.7851296">
+<meta name="citation_language" content="es">
 </head>
 
 <body class="nav-sidebar docked">
@@ -152,9 +158,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Estadística: inferencia y modelado</a> 
+      <a href="./">Modelado Bayesiano</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="" title="" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
+    <a href="" title="github" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
         <li>
           <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano">
@@ -167,6 +173,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </a>
         </li>
     </ul>
+    <a href="https://cafecito.app/aloctavodia" title="donaciones" class="sidebar-tool px-1"><i class="bi bi-cup"></i></a>
   <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
@@ -234,7 +241,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
   <li><a href="#introducción-a-pymc" id="toc-introducción-a-pymc" class="nav-link active" data-scroll-target="#introducción-a-pymc"><span class="toc-section-number">3.1</span>  Introducción a PyMC</a>
@@ -296,16 +303,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>az.style.use(<span class="st">"arviz-doc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>az.style.use(<span class="st">"arviz-doc"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%%</span>javascript</span>
 <span id="cb3-2"><a href="#cb3-2"></a>IPython.OutputArea.prototype._should_scroll <span class="op">=</span> function(lines) {</span>
 <span id="cb3-3"><a href="#cb3-3"></a>    <span class="cf">return</span> false<span class="op">;</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/javascript">
 IPython.OutputArea.prototype._should_scroll = function(lines) {
@@ -347,7 +354,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb4-2"><a href="#cb4-2"></a>n_experimentos <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>theta_real <span class="op">=</span> <span class="fl">0.35</span>  <span class="co"># en una situación real este valor es desconocido</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a>datos <span class="op">=</span> pz.Binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span>theta_real).rvs(size<span class="op">=</span>n_experimentos)</span>
-<span id="cb4-5"><a href="#cb4-5"></a>datos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5"></a>datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>array([1, 0, 0, 0])</code></pre>
 </div>
@@ -368,7 +375,7 @@ Y &amp;\sim \operatorname{Bin}(n=1, p=\theta)
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> nuestro_primer_modelo:</span>
 <span id="cb6-2"><a href="#cb6-2"></a>    θ <span class="op">=</span> pm.Beta(<span class="st">"θ"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">1</span>)  <span class="co"># a priori</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>    y <span class="op">=</span> pm.Bernoulli(<span class="st">"y"</span>, p<span class="op">=</span>θ, observed<span class="op">=</span>datos)  <span class="co"># likelihood</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>    <span class="co"># y = pm.Binomial('y',n=n_experimentos, p=θ, observed=sum(datos))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4"></a>    <span class="co"># y = pm.Binomial('y',n=n_experimentos, p=θ, observed=sum(datos))</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>En la primer linea hemos creado un nuevo objeto llamado <em>nuestro_primer_modelo</em>. Este objeto contiene información sobre el modelo y las variables que lo conforman. PyMC usa el bloque <em>with</em> para indicar que todas las lineas que están dentro de él hacen referencia al mismo modelo (que en este caso se llama <em>nuestro_primer_modelo</em>).</p>
 <p>La segunda linea de código, especifica el <em>a priori</em>, como pueden ver la sintaxis sigue de cerca a la notación matemática, la única diferencia es que el primer argumento es siempre una <em>cadena</em> que especifica el nombre de la variable aleatoria (el nombre es usado internamente por PyMC), este nombre siempre deberá coincidir con el nombre de la variable de Python a la que se le asigna. De no ser así el código correrá igual, pero puede conducir a errores y confusiones al analizar el modelo.</p>
@@ -383,7 +390,7 @@ Y &amp;\sim \operatorname{Bin}(n=1, p=\theta)
 <p>En PyMC la inferencia se realiza escribiendo las siguientes lineas:</p>
 <div class="cell" data-scrolled="true" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="cf">with</span> nuestro_primer_modelo:</span>
-<span id="cb7-2"><a href="#cb7-2"></a>    idata <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2"></a>    idata <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -435,7 +442,7 @@ NUTS: [θ]</code></pre>
 <h3 data-number="3.1.4" class="anchored" data-anchor-id="resumiendo-el-a-posteriori"><span class="header-section-number">3.1.4</span> Resumiendo el <em>a posteriori</em></h3>
 <p>Por lo general, la primer tarea a realizar luego de haber realizado un muestreo es evaluar como lucen los resultados. La función <code>plot_forestplot</code> de ArviZ es muy útil para esta tarea.</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>az.plot_forest(idata, combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>az.plot_forest(idata, combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
@@ -446,7 +453,7 @@ NUTS: [θ]</code></pre>
 </blockquote>
 <p>Si quisieramos un resúmen numérico de los resultados podemos usar:</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>az.summary(idata, kind<span class="op">=</span><span class="st">"stats"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>az.summary(idata, kind<span class="op">=</span><span class="st">"stats"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <div>
@@ -477,7 +484,7 @@ NUTS: [θ]</code></pre>
 <p>Como resultado obtenemos un DataFrame con los valores de la media, la desviación estándar y el intervalo HDI 94% (hdi_3 hdi_97).</p>
 <p>Otra forma de resumir visualmente el a posteriori es usar la función <code>plot_posterior</code> que viene con ArviZ, ya hemos utilizado esta distribución en el capítulo anterior para un falso a posteriori. Vamos a usarlo ahora con un posterior real. Por defecto, esta función muestra un histograma para variables discretas y KDEs para variables continuas. También obtenemos la media de la distribución (podemos preguntar por la mediana o moda usando el argumento <code>point_estimate</code>) y el 94% HDI como una línea negra en la parte inferior de la gráfica. Se pueden establecer diferentes valores de intervalo para el HDI con el argumento <code>hdi_prob</code>. Este tipo de gráfica fue presentado por John K. Kruschke en su gran libro “Doing Bayesian Data Analysis”.</p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>az.plot_posterior(idata)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>az.plot_posterior(idata)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
@@ -500,14 +507,14 @@ NUTS: [θ]</code></pre>
 </blockquote>
 <p>Usando la función <code>plot_posterior</code> de ArviZ, podemos graficar el posterior junto con el HPD y la ROPE.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>az.plot_posterior(idata, rope<span class="op">=</span>[<span class="fl">0.45</span>, <span class="fl">0.55</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>az.plot_posterior(idata, rope<span class="op">=</span>[<span class="fl">0.45</span>, <span class="fl">0.55</span>])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Otra herramienta que nos puede asistir en la toma de decisiones es comparar el <em>a posteriori</em> con un valor de referencia. La función <code>plot_posterior</code> también nos permite hacer esto:</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>az.plot_posterior(idata, ref_val<span class="op">=</span><span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>az.plot_posterior(idata, ref_val<span class="op">=</span><span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
@@ -547,7 +554,7 @@ NUTS: [θ]</code></pre>
 <span id="cb15-18"><a href="#cb15-18"></a>    ax.annotate(<span class="ss">f"</span><span class="sc">{</span>grid[mini]<span class="sc">:.2f}</span><span class="ss">"</span>, (grid[mini], lossf[mini] <span class="op">+</span> pos), color<span class="op">=</span>c)</span>
 <span id="cb15-19"><a href="#cb15-19"></a>    ax.set_yticks([])</span>
 <span id="cb15-20"><a href="#cb15-20"></a>    ax.set_xlabel(<span class="vs">r"$\hat \theta$"</span>)</span>
-<span id="cb15-21"><a href="#cb15-21"></a>    ax.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-21"><a href="#cb15-21"></a>    ax.legend()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
@@ -555,7 +562,7 @@ NUTS: [θ]</code></pre>
 <p>Las curvas son similares entre sí e incluso los mínimos son simialres, <span class="math inline">\(\hat{\theta} \approx 0.31\)</span> para <code>lossf_a</code> y <span class="math inline">\(\hat{\theta} \approx 0.33\)</span> para <code>lossf_b</code></p>
 <p>Lo que es interesante es que el primer valor se corresponde con la mediana del posterior y el segundo con su media.</p>
 <div class="cell" data-scrolled="true" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>np.median(θ_pos).item(), np.mean(θ_pos).item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>np.median(θ_pos).item(), np.mean(θ_pos).item()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>(0.31254373513365896, 0.33241202565639266)</code></pre>
 </div>
@@ -579,7 +586,7 @@ NUTS: [θ]</code></pre>
 <span id="cb18-9"><a href="#cb18-9"></a>pos <span class="op">=</span> (np.<span class="bu">max</span>(lossf) <span class="op">-</span> np.<span class="bu">min</span>(lossf)) <span class="op">*</span> <span class="fl">0.05</span></span>
 <span id="cb18-10"><a href="#cb18-10"></a>plt.annotate(<span class="ss">f"</span><span class="sc">{</span>grid[mini]<span class="sc">:.2f}</span><span class="ss">"</span>, (grid[mini], lossf[mini] <span class="op">+</span> pos))</span>
 <span id="cb18-11"><a href="#cb18-11"></a>plt.yticks([])</span>
-<span id="cb18-12"><a href="#cb18-12"></a>plt.xlabel(<span class="vs">r"$\hat \theta$"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-12"><a href="#cb18-12"></a>plt.xlabel(<span class="vs">r"$\hat \theta$"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
@@ -606,12 +613,12 @@ NUTS: [θ]</code></pre>
 <span id="cb19-6"><a href="#cb19-6"></a>                  <span class="fl">248.36</span>, <span class="fl">248.23</span>, <span class="fl">248.27</span>, <span class="fl">248.27</span>, <span class="fl">248.28</span>, <span class="fl">248.27</span>, <span class="fl">248.31</span>, <span class="fl">248.27</span>,</span>
 <span id="cb19-7"><a href="#cb19-7"></a>                  <span class="fl">248.26</span>, <span class="fl">248.33</span>, <span class="fl">248.26</span>, <span class="fl">248.32</span>, <span class="fl">248.32</span>, <span class="fl">248.24</span>, <span class="fl">248.39</span>, <span class="fl">248.28</span>,</span>
 <span id="cb19-8"><a href="#cb19-8"></a>                  <span class="fl">248.24</span>, <span class="fl">248.25</span>, <span class="fl">248.32</span>, <span class="fl">248.25</span>, <span class="fl">248.29</span>, <span class="fl">248.27</span>, <span class="fl">248.28</span>, <span class="fl">248.29</span>,</span>
-<span id="cb19-9"><a href="#cb19-9"></a>                  <span class="fl">248.16</span>, <span class="fl">248.23</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-9"><a href="#cb19-9"></a>                  <span class="fl">248.16</span>, <span class="fl">248.23</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Si graficamos estas medidas veremos que la distribución parece Gaussiana excepto por dos medidas inusualmente bajas.</p>
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>ax <span class="op">=</span> az.plot_kde(datos, rug<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-2"><a href="#cb20-2"></a>ax.set_yticks([])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-2"><a href="#cb20-2"></a>ax.set_yticks([])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
@@ -636,7 +643,7 @@ y &amp;\sim \mathcal{N}(\mu, \sigma)
 <span id="cb21-6"><a href="#cb21-6"></a>    <span class="co"># σ = pm.HalfNormal('σ', sigma=datos.std() * 100)</span></span>
 <span id="cb21-7"><a href="#cb21-7"></a>    <span class="co"># el likelihood</span></span>
 <span id="cb21-8"><a href="#cb21-8"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>σ, observed<span class="op">=</span>datos)</span>
-<span id="cb21-9"><a href="#cb21-9"></a>    idata_g <span class="op">=</span> pm.sample()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-9"><a href="#cb21-9"></a>    idata_g <span class="op">=</span> pm.sample()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -675,14 +682,14 @@ NUTS: [μ, σ]</code></pre>
 </div>
 <p>Como se puede ver el plot-posterior tiene ahora dos subpaneles, una por cada parámetro. Cada uno se corresponde a una variable <em>marginal</em> del <em>a posteriori</em> que en este caso es bi-dimensional.</p>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>az.plot_posterior(idata_g)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>az.plot_posterior(idata_g)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>La siguiente figura muestra la distribución <em>a posteriori</em> (que como ya mencionamos en bidimensional), junto con las distribuciones marginales para los parámetros <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span>.</p>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>az.plot_pair(idata_g, kind<span class="op">=</span><span class="st">"kde"</span>, marginals<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>az.plot_pair(idata_g, kind<span class="op">=</span><span class="st">"kde"</span>, marginals<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
 </div>
@@ -701,7 +708,7 @@ p(\tilde{y} \,|\, y) = \int p(\tilde{y} \,|\, \theta) \, p(\theta \,|\, y) \, d\
 </ol>
 <p>Usando PyMC podemos calcular esto llamando a la función <code>sample_ppc</code>. El siguiente código devuelve 100 predicciones cada una de ellas de igual tamaño al de los datos.</p>
 <div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>ppc_g <span class="op">=</span> pm.sample_posterior_predictive(idata_g, model<span class="op">=</span>modelo_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>ppc_g <span class="op">=</span> pm.sample_posterior_predictive(idata_g, model<span class="op">=</span>modelo_g)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Sampling: [y]</code></pre>
 </div>
@@ -734,7 +741,7 @@ p(\tilde{y} \,|\, y) = \int p(\tilde{y} \,|\, \theta) \, p(\theta \,|\, y) \, d\
 </div>
 <p>Los datos simulados los podemos usar para compararlos con los datos observados y de esta forma evaluar el modelo. Esto se conoce como prueba predictivas <em>a posteriori</em>, como ya adelantamos algo en el capítulo anterior. En la siguiente gráfica la linea negra corresponde a los datos observados mientras que las lineas azules (semitrasparentes) corresponden a datos predichos por el modelo.</p>
 <div class="cell" data-scrolled="true" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>az.plot_ppc(ppc_g, num_pp_samples<span class="op">=</span><span class="dv">200</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>az.plot_ppc(ppc_g, num_pp_samples<span class="op">=</span><span class="dv">200</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
 </div>
@@ -777,7 +784,7 @@ p(\tilde{y} \,|\, y) = \int p(\tilde{y} \,|\, \theta) \, p(\theta \,|\, y) \, d\
 <span id="cb29-5"><a href="#cb29-5"></a>    ax <span class="op">=</span> pz.StudentT(df, <span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(support<span class="op">=</span>(<span class="op">-</span><span class="dv">7</span>, <span class="dv">7</span>))</span>
 <span id="cb29-6"><a href="#cb29-6"></a></span>
 <span id="cb29-7"><a href="#cb29-7"></a></span>
-<span id="cb29-8"><a href="#cb29-8"></a>ax.legend(loc<span class="op">=</span><span class="st">"center left"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">0.65</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-8"><a href="#cb29-8"></a>ax.legend(loc<span class="op">=</span><span class="st">"center left"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">0.65</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
 </div>
@@ -800,7 +807,7 @@ y &amp;\sim StudentT(\mu, \sigma, \nu)
 <span id="cb30-5"><a href="#cb30-5"></a>    ν <span class="op">=</span> pm.Exponential(<span class="st">"ν"</span>, <span class="dv">1</span> <span class="op">/</span> <span class="dv">30</span>)</span>
 <span id="cb30-6"><a href="#cb30-6"></a>    <span class="co"># el likelihood</span></span>
 <span id="cb30-7"><a href="#cb30-7"></a>    y <span class="op">=</span> pm.StudentT(<span class="st">"y"</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>σ, nu<span class="op">=</span>ν, observed<span class="op">=</span>datos)</span>
-<span id="cb30-8"><a href="#cb30-8"></a>    idata_t <span class="op">=</span> pm.sample()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-8"><a href="#cb30-8"></a>    idata_t <span class="op">=</span> pm.sample()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -839,7 +846,7 @@ NUTS: [μ, σ, ν]</code></pre>
 </div>
 <p>Comparemos las estimaciones entre ambos modelos</p>
 <div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>az.summary(idata_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>az.summary(idata_g)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 
 <div>
@@ -890,7 +897,7 @@ NUTS: [μ, σ, ν]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>az.summary(idata_t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>az.summary(idata_t)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 
 <div>
@@ -955,7 +962,7 @@ NUTS: [μ, σ, ν]</code></pre>
 <p>En este caso, vemos que la estimación de <span class="math inline">\(\mu\)</span> es muy similar entre los dos modelos, aunque la estimación de <span class="math inline">\(\sigma\)</span>, pasó de ser de ~10 a ~4. Esto es consecuencia de que la distribución t asigna menos peso a los valores alejados de la media que la distribución Gaussiana.</p>
 <p>Hagamos un prueba predictiva <em>a posteriori</em> para el nuevo modelo.</p>
 <div class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>ppc_t <span class="op">=</span> pm.sample_posterior_predictive(idata_t, model<span class="op">=</span>modelo_t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>ppc_t <span class="op">=</span> pm.sample_posterior_predictive(idata_t, model<span class="op">=</span>modelo_t)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Sampling: [y]</code></pre>
 </div>
@@ -988,7 +995,7 @@ NUTS: [μ, σ, ν]</code></pre>
 </div>
 <div class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a>az.plot_ppc(ppc_t, num_pp_samples<span class="op">=</span><span class="dv">200</span>)</span>
-<span id="cb37-2"><a href="#cb37-2"></a>plt.xlim(<span class="dv">247</span>, <span class="dv">250</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-2"><a href="#cb37-2"></a>plt.xlim(<span class="dv">247</span>, <span class="dv">250</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-28-output-1.png" class="img-fluid"></p>
 </div>
@@ -1009,12 +1016,12 @@ NUTS: [μ, σ, ν]</code></pre>
 <span id="cb38-5"><a href="#cb38-5"></a>                       <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>,</span>
 <span id="cb38-6"><a href="#cb38-6"></a>                       <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>, np.nan, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">4</span>,</span>
 <span id="cb38-7"><a href="#cb38-7"></a>                       <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb38-8"><a href="#cb38-8"></a>años <span class="op">=</span> np.arange(<span class="dv">1851</span>, <span class="dv">1962</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-8"><a href="#cb38-8"></a>años <span class="op">=</span> np.arange(<span class="dv">1851</span>, <span class="dv">1962</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a>plt.plot(años, accidentes, <span class="st">"."</span>)</span>
 <span id="cb39-2"><a href="#cb39-2"></a>plt.ylabel(<span class="st">"Número de accidentes"</span>)</span>
-<span id="cb39-3"><a href="#cb39-3"></a>plt.xlabel(<span class="st">"Año"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-3"><a href="#cb39-3"></a>plt.xlabel(<span class="st">"Año"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-30-output-1.png" class="img-fluid"></p>
 </div>
@@ -1052,7 +1059,7 @@ pc \sim U(A_0, A_1)
 <span id="cb40-10"><a href="#cb40-10"></a>    tasa <span class="op">=</span> pm.Deterministic(<span class="st">"tasa"</span>, pm.math.switch(pc <span class="op">&gt;=</span> años, t_0, t_1))</span>
 <span id="cb40-11"><a href="#cb40-11"></a></span>
 <span id="cb40-12"><a href="#cb40-12"></a>    acc <span class="op">=</span> pm.Poisson(<span class="st">"acc"</span>, tasa, observed<span class="op">=</span>accidentes)</span>
-<span id="cb40-13"><a href="#cb40-13"></a>    idata_cat <span class="op">=</span> pm.sample(<span class="dv">1000</span>, random_seed<span class="op">=</span><span class="dv">1791</span>, idata_kwargs<span class="op">=</span>{<span class="st">"log_likelihood"</span>: <span class="va">True</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-13"><a href="#cb40-13"></a>    idata_cat <span class="op">=</span> pm.sample(<span class="dv">1000</span>, random_seed<span class="op">=</span><span class="dv">1791</span>, idata_kwargs<span class="op">=</span>{<span class="st">"log_likelihood"</span>: <span class="va">True</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/osvaldo/anaconda3/envs/bayes/lib/python3.10/site-packages/pymc/model.py:1384: RuntimeWarning: invalid value encountered in cast
   data = convert_observed_data(data).astype(rv_var.dtype)
@@ -1098,7 +1105,7 @@ The effective sample size per chain is smaller than 100 for some parameters.  A 
 </div>
 </div>
 <div class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a>idata_cat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a>idata_cat</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
 
 
@@ -3413,13 +3420,13 @@ dl.xr-attrs {
 </div>
 </div>
 <div class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a>ax <span class="op">=</span> az.plot_posterior(idata_cat, var_names<span class="op">=</span>[<span class="st">"~tasa"</span>, <span class="st">"~acc"</span>], figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a>ax <span class="op">=</span> az.plot_posterior(idata_cat, var_names<span class="op">=</span>[<span class="st">"~tasa"</span>, <span class="st">"~acc"</span>], figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-33-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a>az.summary(idata_cat, var_names<span class="op">=</span>[<span class="st">"~tasa"</span>, <span class="st">"~acc"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a>az.summary(idata_cat, var_names<span class="op">=</span>[<span class="st">"~tasa"</span>, <span class="st">"~acc"</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
 
 <div>
@@ -3538,7 +3545,7 @@ dl.xr-attrs {
 <span id="cb46-30"><a href="#cb46-30"></a>    idata_cat.posterior[<span class="st">"acc_missing"</span>].sel(acc_missing_dim_0<span class="op">=</span><span class="dv">1</span>).mean((<span class="st">"chain"</span>, <span class="st">"draw"</span>))</span>
 <span id="cb46-31"><a href="#cb46-31"></a>)</span>
 <span id="cb46-32"><a href="#cb46-32"></a></span>
-<span id="cb46-33"><a href="#cb46-33"></a>ax.plot(años[np.isnan(accidentes)], [faltante0, faltante1], <span class="st">"C2s"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-33"><a href="#cb46-33"></a>ax.plot(años[np.isnan(accidentes)], [faltante0, faltante1], <span class="st">"C2s"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-35-output-1.png" class="img-fluid"></p>
 </div>
@@ -3555,7 +3562,7 @@ dl.xr-attrs {
 <div class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>idata_cat.extend(</span>
 <span id="cb47-2"><a href="#cb47-2"></a>    pm.sample_posterior_predictive(idata_cat, model<span class="op">=</span>modelo_cat, random_seed<span class="op">=</span><span class="dv">1791</span>)</span>
-<span id="cb47-3"><a href="#cb47-3"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-3"><a href="#cb47-3"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Sampling: [acc_observed]</code></pre>
 </div>
@@ -3592,7 +3599,7 @@ dl.xr-attrs {
 <span id="cb49-2"><a href="#cb49-2"></a>az.plot_ppc(idata_cat, ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
 <span id="cb49-3"><a href="#cb49-3"></a>ax[<span class="dv">0</span>].set_xlabel(<span class="st">"acc"</span>)</span>
 <span id="cb49-4"><a href="#cb49-4"></a>az.plot_loo_pit(idata_cat, <span class="st">"acc_observed"</span>, ax<span class="op">=</span>ax[<span class="dv">1</span>], use_hdi<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb49-5"><a href="#cb49-5"></a>ax[<span class="dv">1</span>].set_yticks([])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-5"><a href="#cb49-5"></a>ax[<span class="dv">1</span>].set_yticks([])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-37-output-1.png" class="img-fluid"></p>
 </div>
@@ -3613,7 +3620,7 @@ p(y^\ast) =  \int_{\Theta} p(y^\ast \mid \theta) \; p(\theta) \; d\theta
 <p>En definitiva la principal utilidad de las pruebas predictivas <em>a prior</em> es la de permitirnos inspecticionar críticamente un modelo y tratar de entender el comportamiento del modelo las discrepancias con el conocimiento previo nos pueden llevarnos a entender mejor los límites del modelo, abandonar el modelo por completo o tal vez mejorarlo por ejemplo usando priors más angostos u otros likelihoods.</p>
 <p>Usando PyMC podemos calcular la distribución predictiva a priori de la siguiente forma</p>
 <div class="cell" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>idata_cat.extend(pm.sample_prior_predictive(model<span class="op">=</span>modelo_cat, random_seed<span class="op">=</span><span class="dv">1791</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>idata_cat.extend(pm.sample_prior_predictive(model<span class="op">=</span>modelo_cat, random_seed<span class="op">=</span><span class="dv">1791</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Sampling: [acc_missing, acc_observed, pc, t_0, t_1]</code></pre>
 </div>
@@ -3647,7 +3654,7 @@ p(y^\ast) =  \int_{\Theta} p(y^\ast \mid \theta) \; p(\theta) \; d\theta
 <span id="cb52-26"><a href="#cb52-26"></a>ax[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">"años"</span>)</span>
 <span id="cb52-27"><a href="#cb52-27"></a></span>
 <span id="cb52-28"><a href="#cb52-28"></a>az.plot_dist(idata_cat.prior_predictive[<span class="st">"acc_observed"</span>], ax<span class="op">=</span>ax[<span class="dv">1</span>, <span class="dv">1</span>], rotated<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb52-29"><a href="#cb52-29"></a>ax[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">"probabilidad"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-29"><a href="#cb52-29"></a>ax[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">"probabilidad"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-39-output-1.png" class="img-fluid"></p>
 </div>
@@ -3694,7 +3701,7 @@ ps = \Phi \left ( \frac{\delta}{\sqrt{2}} \right)
 <p>Queremos estudiar el efecto del día de la semana sobre la cantidad de propinas en un restaurante. Para este ejemplo, los diferentes grupos son los días. Comencemos el análisis cargando el conjunto de datos como un DataFrame de Pandas usando solo una línea de código. Si no está familiarizado con Pandas, el comando <em>tail</em> se usa para mostrar las últimas filas de un DataFrame:</p>
 <div class="cell" data-scrolled="true" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>tips <span class="op">=</span> pd.read_csv(<span class="st">"datos/propinas.csv"</span>)</span>
-<span id="cb53-2"><a href="#cb53-2"></a>tips.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-2"><a href="#cb53-2"></a>tips.tail()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
 
 <div>
@@ -3775,7 +3782,7 @@ ps = \Phi \left ( \frac{\delta}{\sqrt{2}} \right)
 <span id="cb54-3"><a href="#cb54-3"></a>    kind<span class="op">=</span><span class="st">"ridgeplot"</span>,</span>
 <span id="cb54-4"><a href="#cb54-4"></a>    hdi_prob<span class="op">=</span><span class="dv">1</span>,</span>
 <span id="cb54-5"><a href="#cb54-5"></a>    figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>),</span>
-<span id="cb54-6"><a href="#cb54-6"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-6"><a href="#cb54-6"></a>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-41-output-1.png" class="img-fluid"></p>
 </div>
@@ -3785,14 +3792,14 @@ ps = \Phi \left ( \frac{\delta}{\sqrt{2}} \right)
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a>categories <span class="op">=</span> np.array([<span class="st">"Thur"</span>, <span class="st">"Fri"</span>, <span class="st">"Sat"</span>, <span class="st">"Sun"</span>])</span>
 <span id="cb55-2"><a href="#cb55-2"></a></span>
 <span id="cb55-3"><a href="#cb55-3"></a>tip <span class="op">=</span> tips[<span class="st">"tip"</span>].values</span>
-<span id="cb55-4"><a href="#cb55-4"></a>idx <span class="op">=</span> pd.Categorical(tips[<span class="st">"day"</span>], categories<span class="op">=</span>categories).codes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-4"><a href="#cb55-4"></a>idx <span class="op">=</span> pd.Categorical(tips[<span class="st">"day"</span>], categories<span class="op">=</span>categories).codes</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>El modelo para este problema es basicamente igual a <code>model_g</code>, con la diferencia que <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span> ahora serán vectores en vez de escalares. La sintáxis de PyMC es super-útil para estos caso, en vez de usar <code>for loops</code> escribimos el modelo de forma vectorizada, para ello especificamos el argumento <code>shape</code> para los priors <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span> y para el likelihood usamos la variable <code>idx</code> para indexar de forma adecuada <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span> para asegurar que usamos los parámetros correctos para cada grupo. En este ejemplo un <span class="math inline">\(\mu\)</span> para jueves, otra para viernes, otra para sábado y una cuarta para domingo, y lo mismo para <span class="math inline">\(\sigma\)</span>.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1"></a>    <span class="cf">with</span> pm.Model() <span class="im">as</span> comparing_groups:</span>
 <span id="cb56-2"><a href="#cb56-2"></a>        μ <span class="op">=</span> pm.Normal(<span class="st">'μ'</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>, shape<span class="op">=</span><span class="dv">4</span>)</span>
 <span id="cb56-3"><a href="#cb56-3"></a>        σ <span class="op">=</span> pm.HalfNormal(<span class="st">'σ'</span>, sigma<span class="op">=</span><span class="dv">10</span>, shape<span class="op">=</span><span class="dv">4</span>)</span>
 <span id="cb56-4"><a href="#cb56-4"></a></span>
-<span id="cb56-5"><a href="#cb56-5"></a>        y <span class="op">=</span> pm.Normal(<span class="st">'y'</span>, mu<span class="op">=</span>μ[idx], sigma<span class="op">=</span>σ[idx], observed<span class="op">=</span>tip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-5"><a href="#cb56-5"></a>        y <span class="op">=</span> pm.Normal(<span class="st">'y'</span>, mu<span class="op">=</span>μ[idx], sigma<span class="op">=</span>σ[idx], observed<span class="op">=</span>tip)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>PyMC provee una sintaxis alternativa, la cual consisten en especificar coordenadas y dimensiones. La ventaja de esta alternativa es que permite una mejor integración con ArviZ.</p>
 <p>Veamos, en este ejemplo tenemos 4 valores para las medias y 4 para las desviaciones estandard, y por eso usamos <code>shape=4</code>. El InferenceData tendrá 4 indices <code>0, 1, 2, 3</code> correspondientes a cada uno de los 4 días. Pero es trabajo del usuario asociaer esos indices númericos con los días.</p>
 <p>Al usar coordendas y dimensiones nosotros podremos usar los rótulos <code>'Thur', 'Fri', 'Sat', 'Sun'</code> para referirnos a los parámetros relacionados con cada uno de estos días. ArviZ también podrá hacer uso de estos rótulos. Vamos a especificar dos coordenadas <code>days</code> con las dimensiones <code>'Thur', 'Fri', 'Sat', 'Sun'</code> y “days_flat” que contendrá los mismo rótulos pero repetidos según el órden y longitud que corresponda con cada observación. Esto último será útil para poder obtener pruebas predictivas a posteriori para cada día.</p>
@@ -3806,7 +3813,7 @@ ps = \Phi \left ( \frac{\delta}{\sqrt{2}} \right)
 <span id="cb57-7"><a href="#cb57-7"></a>    y <span class="op">=</span> pm.Gamma(<span class="st">"y"</span>, mu<span class="op">=</span>μ[idx], sigma<span class="op">=</span>σ[idx], observed<span class="op">=</span>tip, dims<span class="op">=</span><span class="st">"days_flat"</span>)</span>
 <span id="cb57-8"><a href="#cb57-8"></a></span>
 <span id="cb57-9"><a href="#cb57-9"></a>    idata_cg <span class="op">=</span> pm.sample()</span>
-<span id="cb57-10"><a href="#cb57-10"></a>    idata_cg.extend(pm.sample_posterior_predictive(idata_cg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-10"><a href="#cb57-10"></a>    idata_cg.extend(pm.sample_posterior_predictive(idata_cg))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -3879,14 +3886,14 @@ Sampling: [y]</code></pre>
 <span id="cb60-5"><a href="#cb60-5"></a>    coords<span class="op">=</span>{<span class="st">"days_flat"</span>: [categories]},</span>
 <span id="cb60-6"><a href="#cb60-6"></a>    flatten<span class="op">=</span>[],</span>
 <span id="cb60-7"><a href="#cb60-7"></a>    ax<span class="op">=</span>axes,</span>
-<span id="cb60-8"><a href="#cb60-8"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb60-8"><a href="#cb60-8"></a>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-44-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Podemos ver la distribución de cada uno de los parámetros haciendo</p>
 <div class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a>az.plot_posterior(idata_cg, var_names<span class="op">=</span><span class="st">"μ"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a>az.plot_posterior(idata_cg, var_names<span class="op">=</span><span class="st">"μ"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-45-output-1.png" class="img-fluid"></p>
 </div>
@@ -3932,7 +3939,7 @@ Sampling: [y]</code></pre>
 <span id="cb62-18"><a href="#cb62-18"></a>    az.plot_posterior(means_diff.values, ref_val<span class="op">=</span><span class="dv">0</span>, ax<span class="op">=</span>ax)</span>
 <span id="cb62-19"><a href="#cb62-19"></a>    ax.set_title(<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb62-20"><a href="#cb62-20"></a>    ax.plot(<span class="dv">0</span>, label<span class="op">=</span><span class="ss">f"Cohen's d = </span><span class="sc">{</span>d_cohen<span class="sc">:.2f}</span><span class="ch">\n</span><span class="ss">Prob sup = </span><span class="sc">{</span>ps<span class="sc">:.2f}</span><span class="ss">"</span>, alpha<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb62-21"><a href="#cb62-21"></a>    ax.legend(loc<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb62-21"><a href="#cb62-21"></a>    ax.legend(loc<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="02_Programación_probabilística_files/figure-html/cell-46-output-1.png" class="img-fluid"></p>
 </div>
@@ -4131,12 +4138,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copiado");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copiado");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
@@ -4239,7 +4246,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia de Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
+      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
   </div>
 </footer>
 

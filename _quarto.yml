@@ -2,10 +2,20 @@ project:
   type: book
   output-dir: docs
 
+
 book:
-  title: "Estadística: inferencia y modelado"
+  title: "Modelado Bayesiano"
   subtitle: "Una introducción al modelado probabilista"
-  author: "Osvaldo Martin"
+  author:
+    - name: Osvaldo A. Martin 
+      url: https://aloctavodia.github.io/
+      affiliation: IMASL-CONICET
+      affiliation-url: https://imasl.conicet.gov.ar/
+      orcid: 0000-0001-7419-8978
+      note: https://cafecito.app/my_account
+  date: today
+  cover-image: cover.png
+
   chapters:
     - index.qmd
     - 00_Probabilidad.ipynb
@@ -19,18 +29,21 @@ book:
 
   page-navigation: true
   reader-mode: true
-  page-footer: <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a><br />Este obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia de Creative Commons Reconocimiento 4.0 Internacional</a>.
+  page-footer: <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a><br />Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.
   sidebar:
     style: "docked"
     search: true
     tools:
       - icon: github
+        text: github
         menu:
           - text: Fuente
             url:  https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano
           - text: Reportar errores
             url:  https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano/issues/new
-
+      - icon: cup
+        href: https://cafecito.app/aloctavodia
+        text: donaciones
 
 format:
   html:
@@ -38,7 +51,21 @@ format:
     code-line-numbers: true
     number-sections: true
     number-offset: -1
+    lang: es
+    language: 
+      title-block-author-single: "Autor"
+      title-block-published: "Última modificación"
+      toggle-dark-mode: "Modo claro/oscuro"
+      toggle-reader-mode: "Modo sin distracciones"
+      search: "Buscar"
+    
 
 theme:
   light: cosmo
   dark: darkly
+
+citation:
+  type: book
+  doi: https://doi.org/10.5281/zenodo.7851296
+  issued: 2023/04/21
+google-scholar: true
