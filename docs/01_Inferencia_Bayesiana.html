@@ -310,9 +310,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<blockquote class="blockquote">
-<p>La teoría de la probabilidad es tan solo sentido común reducido a cálculo. -Pierre-Simon Laplace</p>
-</blockquote>
 <p>Los objetivos de este capítulo son:</p>
 <ul>
 <li>Comprender el teorema de Bayes</li>
@@ -348,7 +345,7 @@ p(\theta \mid Y) = \frac{p(Y \mid \theta) p(\theta)}{p(Y)}
 <p><span class="math display">\[
 \overbrace{p(\theta \mid Y)}^{\text{posterior}} = \frac{\overbrace{p(Y \mid \theta)}^{\text{likelihood}} \overbrace{p(\theta)}^{\text{prior}}}{\underbrace{\int_{\Theta} p(Y \mid \theta) p(\theta) \text{d}\theta}_{\text{likelihood marginal}}}
 \]</span></p>
-<p>El <strong><em>a priori</em></strong> es la forma de introducir conocimiento previo sobre los valores que pueden tomar los parámetros. A veces cuando no sabemos demasiado se suelen usar <em>a prioris</em> que asignan igual probabilidad a todos los valores de los parámetros, otras veces se puede elegir <em>a prioris</em> que restrijan los valores de los parámetros a rangos razonables, algo que se conoce como regularización, por ejemplo solo valores positivos. Muchas veces contamos con información mucho más precisa como medidas experimentales previas o límites impuesto por alguna teoría.</p>
+<p>El <strong><em>a priori</em></strong> es la forma de introducir conocimiento previo sobre los valores que pueden tomar los parámetros. A veces cuando no sabemos demasiado se suelen usar <em>a prioris</em> que asignan igual probabilidad a todos los valores de los parámetros, otras veces se puede elegir <em>a prioris</em> que restrinjan los valores de los parámetros a rangos razonables, algo que se conoce como regularización, por ejemplo solo valores positivos. Muchas veces contamos con información mucho más precisa como medidas experimentales previas o límites impuesto por alguna teoría.</p>
 <p>El <strong><em>likelihood</em></strong> es la forma de incluir nuestros datos en el análisis. Es una expresión matemática que especifica la plausibilidad de los datos. El <em>likelihood</em> es central tanto en estadística Bayesiana como en estadística no-Bayesiana. A medida que la cantidad de datos aumenta el <em>likelihood</em> tiene cada vez más peso en los resultados, esto explica el porqué a veces los resultados de la estadística Bayesiana y frecuentista coinciden cuando la muestra es <em>grande</em>.</p>
 <p>El <strong><em>a posteriori</em></strong> es la distribución de probabilidad para los parámetros. Es la consecuencia lógica de haber usado un conjunto de datos, un <em>likelihood</em> y un <em>a priori</em>. Se lo suele pensar como la versión actualizada del <em>a priori</em>. De hecho un <em>a posteriori</em> puede ser un <em>a priori</em> de un análisis a futuro.</p>
 <p>La <strong><em>likelihood marginal</em></strong> (también llamado <em>evidencia</em>) es el likelihood promediado sobre todas los posibles hipótesis (o conjunto de parámetros) <span class="math inline">\(\theta\)</span>, esto es equivalente a <span class="math inline">\(p(Y)\)</span>. En general, la <em>evidencia</em> puede ser vista como una simple constante de normalización que en la mayoría de los problemas prácticos puede (y suele) omitirse. Por lo que el teorema de Bayes suele aparecer escrito como:</p>
@@ -359,7 +356,7 @@ p(\theta \mid Y) \propto p(Y \mid \theta) p(\theta)
 </section>
 <section id="el-a-posteriori-como-único-estimador" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="el-a-posteriori-como-único-estimador"><span class="header-section-number">2.1.2</span> El <em>a posteriori</em> como único estimador</h3>
-<p>El <em>a posteriori</em> representa todo lo que sabemos de un problema, dado un modelo y un conjunto de datos. Y por lo tanto cualquier cantidad que nos interese sobre el problema puede deducirse a partir de él. Tipicamente esto toma la forma de integrales como la siguiente.</p>
+<p>El <em>a posteriori</em> representa todo lo que sabemos de un problema, dado un modelo y un conjunto de datos. Y por lo tanto cualquier cantidad que nos interese sobre el problema puede deducirse a partir de él. Típicamente esto toma la forma de integrales como la siguiente.</p>
 <p><span class="math display">\[
 J = \int \varphi(\theta) \ \ p(\theta \mid Y) d\theta
 \]</span></p>
@@ -438,11 +435,8 @@ p(\theta) \propto  \theta^{\alpha-1}(1-\theta)^{\beta-1}
 <span id="cb4-8"><a href="#cb4-8"></a>         α<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">2</span>),</span>
 <span id="cb4-9"><a href="#cb4-9"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="01_Inferencia_Bayesiana_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
-</div>
-<div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"2030ddc0ec5e40aba0fbb7545b1c911c","version_major":2,"version_minor":0}
+{"model_id":"b6323b64fc0e415c850c52ba89461fff","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -466,11 +460,8 @@ p(y \mid \theta) \propto \theta^y (1 - \theta)^{N−y}
 <span id="cb5-5"><a href="#cb5-5"></a></span>
 <span id="cb5-6"><a href="#cb5-6"></a>interact(binomial, n<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, value<span class="op">=</span><span class="dv">1</span>), θ<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">1</span>, step<span class="op">=</span><span class="fl">0.05</span>, value<span class="op">=</span><span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="01_Inferencia_Bayesiana_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
-</div>
-<div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"5ad944fbd92d4051b8b83a0ee31d0641","version_major":2,"version_minor":0}
+{"model_id":"e338e0ad024f481faed55c8625af6974","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -659,7 +650,7 @@ p(\tilde{Y}  \mid  Y)  \propto \operatorname{Beta-binomial}(n=N, \alpha_{a prior
 </section>
 <section id="cuarteto-bayesiano" class="level3" data-number="2.4.4">
 <h3 data-number="2.4.4" class="anchored" data-anchor-id="cuarteto-bayesiano"><span class="header-section-number">2.4.4</span> Cuarteto Bayesiano</h3>
-<p>El siguiente bloque de código computa las distribuciones <em>a priori</em>, <em>a posteriori</em>, predictica <em>a priori</em> y predictiva <em>a posteriori</em>. En vez de usar la distribución <span class="math inline">\(\operatorname{Beta-binomial}\)</span> para las distribuciones predictivas hemos optado por usar una aproximación más computacional y muestrear primero de la distribuciones beta y luego de la binomial. Esperamos que esta decisión contribuya a comprender mejor que representan estas distribuciones.</p>
+<p>El siguiente bloque de código computa las distribuciones <em>a priori</em>, <em>a posteriori</em>, predictiva <em>a priori</em> y predictiva <em>a posteriori</em>. En vez de usar la distribución <span class="math inline">\(\operatorname{Beta-binomial}\)</span> para las distribuciones predictivas hemos optado por usar una aproximación más computacional y muestrear primero de la distribuciones beta y luego de la binomial. Esperamos que esta decisión contribuya a comprender mejor que representan estas distribuciones.</p>
 <p>Es importante notar que mientras la distribuciones <em>a priori</em> y <em>a posteriori</em> son distribución <strong>sobre los parámetros en un modelo</strong>, la distribución predictivas <em>a priori</em> y <em>a posteriori</em> son distribuciones <strong>sobre los datos</strong> (predichos).</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), sharex<span class="op">=</span><span class="st">"row"</span>, sharey<span class="op">=</span><span class="st">"row"</span>)</span>
@@ -706,8 +697,8 @@ p(\tilde{Y}  \mid  Y)  \propto \operatorname{Beta-binomial}(n=N, \alpha_{a prior
 <p>La siguiente figura, inspirada en una figura de <a href="https://www.crcpress.com/Mathematical-Foundations-of-Bayesian-Statistics/Watanabe/p/book/9781482238068">Sumio Watanabe</a> resume el <em>flujo de trabajo Bayesiano</em> tal cual se describió en este capítulo.</p>
 <p><img src="img/bayesian_workflow.png" width="500"></p>
 <ol type="1">
-<li>Suponemos que existe una distribución <em>verdadera</em> que, en general, es desconocida (ya sea en la práctica o intrínsecamente). De esta distribucción se obtiene una muestra finita, ya sea haciendo un experimento, una encuesta, una observación, una simulación, etc.</li>
-<li>A partir de la muestra realizamos una inferencia Bayesiana obteniendo una distribución <em>a posteriori</em>. Esta distribución es el objeto central de la estadística Bayesiana ya que contiene toda la información sobre un problema (de acuero al modelo y los datos).</li>
+<li>Suponemos que existe una distribución <em>verdadera</em> que, en general, es desconocida (ya sea en la práctica o intrínsecamente). De esta distribución se obtiene una muestra finita, ya sea haciendo un experimento, una encuesta, una observación, una simulación, etc.</li>
+<li>A partir de la muestra realizamos una inferencia Bayesiana obteniendo una distribución <em>a posteriori</em>. Esta distribución es el objeto central de la estadística Bayesiana ya que contiene toda la información sobre un problema (de acuerdo al modelo y los datos).</li>
 <li>Una cantidad que podemos derivar del <em>a posteriori</em> es la distribución predictiva <em>a posteriori</em>, es decir predicciones. Una forma de evaluar un modelo es comparar la distribución predictiva <em>a posteriori</em> con la muestra finita que obtuvimos en primer lugar.</li>
 </ol>
 <p>La figura anterior es muy general y omite varios pasos, pero contiene la idea esencial que el modelado es un proceso iterativo. En los siguientes capítulo, veremos como sumar nuevos pasos, como que hacer cuando tenemos más de un modelo y profundizar sobre estos pasos y lo aprendido en este capítulo</p>
@@ -715,20 +706,11 @@ p(\tilde{Y}  \mid  Y)  \propto \operatorname{Beta-binomial}(n=N, \alpha_{a prior
 <section id="ejercicios" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">2.6</span> Ejercicios</h2>
 <ol type="1">
-<li><p>El estadístico Bruno de Finetti declaró que “Las probabilidades no existen”, queriendo indicar que las probabildiades son solo una herramienta para cuantificar la incerteza y que no tienen existencia objetiva en sí mismas. Edwin Jaynes, físico, declaró que la teoría de probabilidad es la lógica de la ciencia. Discuta estos enunciados a la luz de lo expuesto en este y el anterior capítulo.</p></li>
-<li><p>Supongamos que tenemos dos monedas una que cae la mitad de veces cara y la mitad ceca y una moneda trucada que cae siempre cara. Si tomamos una de las monedas al azar y obtenemos cara, cual es la probabilidad que esa moneda sea la trucada.</p></li>
-<li><p>Estás en un programa de concursos: Hay tres puertas, detrás de una de ellas un 0km, detrás de las otras dos, una cupón para tomar el té con Eduardo Feinmann. Sin saber cuál puerta esconde cada “premio” se te pide que elijas una de ella. Una vez elegida el conductor del programa (que si sabe que hay detrás de cada puerta), abre una de las puertas que contiene el cupón para pasar un rato con Eduardo Feinmann. En ese momento el conductor te advierte que tienes la posiblidad de cambiar de puerta o quedarte con la puerta que elegiste inicialmente. ¿Cuál es la mejor opción?</p></li>
-<li><p>En la cola del supermercado una mujer les cuenta que es madre de dos niñes. Asumiendo que la probabilidad <em>a priori</em> de niña es la misma que la de niño y es igual a 1/2.</p>
-<ul>
-<li>Ustedes le preguntan si tiene algún varón y la mujer dice que sí ¿Cuál es la probabilidad que une de les niñes sea niña?</li>
-<li>Supongamos que en vez del escenario anterior, sucede otra cosa mientras están conversando <em>aparece</em> su hijo varón y la abraza. ¿Cuál es la probabilidad que la mujer tenga una hija?</li>
-</ul></li>
-<li><p>En una escena del crimen se encuentra sangre. La sangre es de un tipo que solo está presente en el 1% de la población.</p>
-<ul>
-<li>El fiscal enuncia: “Si el acusado fuese inocente, la probabilidad que tuviese el mismo tipo de sangre encontrado en la escena del crimen sería de 1%, y de 99% si fuese culpable, por lo tanto ¡lo más probable es que sea culpable!”. Este razonamiento es incorrecto, explique el porqué.</li>
-<li>El abogado defensor enuncia: “El crimen ocurrió en una ciudad de 500000 habitantes por lo que 5000 personas tienen ese tipo de sangre, por lo tanto el acusado sólo tiene una probabiliad de 1/5000 de ser el responsable”. Este razonamiento también es incorrecto, explique el porqué.</li>
-</ul></li>
-<li><p>Use la siguiente función para explorar diversas combinaciones de <em>priors</em> y <em>likelihoods</em>. Enuncie las conclusiones que considere más relevantes.</p></li>
+<li><p>El estadístico Bruno de Finetti declaró que “Las probabilidades no existen”, queriendo indicar que las probabilidades son solo una herramienta para cuantificar la incerteza y que no tienen existencia objetiva en sí mismas. Edwin Jaynes, físico, declaró que la teoría de probabilidad es la lógica de la ciencia. Discutí estos enunciados a la luz de lo expuesto en este y el anterior capítulo.</p></li>
+<li><p>Usá pz.Beta().plot_interactive() para explorar distintas combinaciones de parámetros de la distribución beta. Qué es lo que hacen los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>?</p></li>
+<li><p>Repetí el punto anterior pero para otra <a href="https://preliz.readthedocs.io/en/latest/api_reference.html">distribución</a></p></li>
+<li><p>PreliZ tiene una función llamada <a href="https://preliz.readthedocs.io/en/latest/api_reference.html#preliz.unidimensional.maxent">maxent</a>. Explicá que hace y generá un par de ejemplos</p></li>
+<li><p>Usá la siguiente función para explorar diversas combinaciones de <em>priors</em> y <em>likelihoods</em>. Enunciá las conclusiones que consideres más relevantes.</p></li>
 </ol>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> a_posteriori_grilla(grilla<span class="op">=</span><span class="dv">10</span>, a<span class="op">=</span><span class="dv">1</span>, b<span class="op">=</span><span class="dv">1</span>, caras<span class="op">=</span><span class="dv">6</span>, tiradas<span class="op">=</span><span class="dv">9</span>):</span>
@@ -748,11 +730,8 @@ p(\tilde{Y}  \mid  Y)  \propto \operatorname{Beta-binomial}(n=N, \alpha_{a prior
 <span id="cb9-15"><a href="#cb9-15"></a>interact(a_posteriori_grilla, grilla<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">2</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">100</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">15</span>), a<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), b<span class="op">=</span>ipyw.FloatSlider(</span>
 <span id="cb9-16"><a href="#cb9-16"></a>    <span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), caras<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">6</span>), tiradas<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">9</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="01_Inferencia_Bayesiana_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
-</div>
-<div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"902023d88dd84870870b5e2e5e6c9ea4","version_major":2,"version_minor":0}
+{"model_id":"9681def9a6314f7d97db5f98cf7fe107","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>

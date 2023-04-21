@@ -297,6 +297,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<blockquote class="blockquote">
+<p>La teoría de la probabilidad es tan solo sentido común reducido a cálculo. -Pierre-Simon Laplace</p>
+</blockquote>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -326,7 +329,11 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 </script>
 </div>
 </div>
-<p>El objetivo de este primer capítulo es introducir algunos términos y conceptos generales de estadística, los cuales nos serán de utilidad para discutir todos los tópicos centrales de este curso. La introducción es bastante general, por lo que a lo largo del texto se proveen de enlaces para seguir leyendo y profundizando en el tema.</p>
+<p>Los objetivos de este capítulo son:</p>
+<ul>
+<li>Brindar una introducción (o repaso) de nociones de algunos términos y conceptos generales de estadística</li>
+<li>Introducir la librería de Python PreliZ</li>
+</ul>
 <section id="azahar-azar-y-dados" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="azahar-azar-y-dados"><span class="header-section-number">1.1</span> Azahar, azar y dados</h2>
 <p>Las palabras azahar y azar no son similares por casualidad ambas provienen de la misma palabra árabe que significa flor. Desde la antigüedad, y hasta el día de hoy, ciertos juegos, como el juego de la <a href="https://es.wikipedia.org/wiki/Juego_de_las_tabas">taba</a>, utilizan un hueso con dos lados planos a modo de dado. De hecho se podría decir que la taba es el antecesor del dado moderno. Para facilitar distinguir un lado del otro, es común que uno de los lados esté marcado de alguna forma. Resulta ser que los árabes usaban una flor. Con el tiempo el castellano adoptó azahar, para designar solo ciertas flores como las del <a href="https://www.youtube.com/watch?v=JNKnWEHdcH0">naranjo</a> y azar como sinónimo de aleatorio.</p>
@@ -338,12 +345,12 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb4-4"><a href="#cb4-4"></a></span>
 <span id="cb4-5"><a href="#cb4-5"></a>dado()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>6</code></pre>
+<pre><code>4</code></pre>
 </div>
 </div>
 <p>Al ejecutar la celda anterior repetidas veces podrán ver que en cada ejecución se obtiene un número (entero) distinto entre 1 y 6. Entender que está haciendo exactamente esta función no es del todo relevante, pero si es útil entender la idea general detrás de esta función. Veamos:</p>
 <p>Las computadoras son en esencia deterministas. Es decir para una misma entrada la salida será siempre igual. Es como calcular <span class="math inline">\(\sqrt{4}\)</span> el resultado será siempre <span class="math inline">\(2\)</span>. Esta consistencia es útil, en el funcionamiento de un desfibrilador automático, en un sistema de control aéreo, o en una app para reproducir música. Pero existen casos en donde necesitamos números aleatorios, por ejemplo en probabilidad y estadística, pero también otras áreas como cyber-seguridad. Para esos casos existen algoritmos que a partir de un valor inicial llamado <strong>semilla</strong> son capaces de producir una secuencia de valores, que si bien es determinista, a los fines prácticos tiene toda la pinta de aleatoria. Estos número se llaman <strong>pseudoaleatorios</strong></p>
-<p>En el caso de la función <code>dado</code> la semilla la generamos en la linea <code>semilla = time.perf_counter_ns()</code>, time.perf_counter_ns() es una función que mide el tiempo con presición de nanosegundos. Cada vez que llamamos a <code>dado</code> ese valor será distinto. Luego en la última linea <code>return semilla % 6 + 1</code> se calcula el resto de la división de la semilla por 6 y se le suma 1. Por ejemplo si la semilla fuese 12 el resto de dividir por 6 (<code>12%6</code>) sería 0, ya que <span class="math inline">\(\frac{12}{6}=2\)</span>. Pero si la semilla fuese 10 entonces el resto de dividir por 6 (<code>10%6</code>) sería 4.</p>
+<p>En el caso de la función <code>dado</code> la semilla la generamos en la linea <code>semilla = time.perf_counter_ns()</code>, time.perf_counter_ns() es una función que mide el tiempo con precisión de nanosegundos. Cada vez que llamamos a <code>dado</code> ese valor será distinto. Luego en la última linea <code>return semilla % 6 + 1</code> se calcula el resto de la división de la semilla por 6 y se le suma 1. Por ejemplo si la semilla fuese 12 el resto de dividir por 6 (<code>12%6</code>) sería 0, ya que <span class="math inline">\(\frac{12}{6}=2\)</span>. Pero si la semilla fuese 10 entonces el resto de dividir por 6 (<code>10%6</code>) sería 4.</p>
 <p>Supongamos que ustedes, con justa razón, no me creen que <code>dado</code> realmente se comporta como un dado no trucado. Es decir, que todos los números tienen igual chance de salir. ¿Cómo podríamos hacer para evaluar esta posibilidad?</p>
 <ul>
 <li>Una posibilidad es consultar a los astros o los ángeles.</li>
@@ -362,12 +369,12 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb6-8"><a href="#cb6-8"></a></span>
 <span id="cb6-9"><a href="#cb6-9"></a>experimento()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1: 0.18
-2: 0.14
-3: 0.19
-4: 0.17
-5: 0.14
-6: 0.18</code></pre>
+<pre><code>1: 0.13
+2: 0.16
+3: 0.15
+4: 0.19
+5: 0.2
+6: 0.17</code></pre>
 </div>
 </div>
 <p>Los números en la primer columna son los posibles resultados. Los de la segunda columna corresponden con la frecuencia con la que aparece cada número. La frecuencia es la cantidad de veces que aparece cada uno de los posibles resultados dividido por <code>N</code>. Siendo <code>N</code> el total de veces que arrojamos el dado.</p>
@@ -376,7 +383,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <li><p>Cada vez que se ejecuta la celda anterior, es decir cada vez que realizamos el experimento, se obtiene un resultado distinto. Esta es precisamente la razón de usar dados en juegos <em>de azar</em>, cada vez que los arrojamos obtenemos un número que no podemos predecir con absoluta certeza.</p></li>
 <li><p>Si arrojamos muchas veces un mismo dado la capacidad de predecir cada una de las tiradas no mejora. En ese sentido recolectar datos no nos ayuda. Pero recolectar datos si mejora la capacidad de predecir el <em>listado de las frecuencias</em>, de hecho la capacidad mejora de forma consistente al aumentar <code>N</code>. Para un valor de <code>N=10000</code> verás que las frecuencias obtenidas son aproximadamente <span class="math inline">\(0.17\)</span> y resulta ser que <span class="math inline">\(0.17 \approx \frac{1}{6}\)</span> que es lo que esperado si cada número en el dado tuviera la misma posibilidad de aparecer.</p></li>
 </ul>
-<p>Estas dos observaciones no están restringidas a los dados y los juegos de azar. Si nos pesáramos todos los días obtendríamos distintos valores ya que el peso tiene relación con la cantidad de comida que ingerimos, el agua que tomamos, cuantos orinamos y defecamos, la precisión de la balanza, la ropa que usamos. Por todo ello una sola medida podría no ser representativa de nuestro peso. Es cierto que todas estas variaciones podrían ser demasiado pequeñas para nuestro propósito y podriamos considerarlas irrelevantes, pero eso es adelantarse a nuestra discusión. El punto importante en este momento es que los datos van acompañados de incertidumbre, gran parte de la estadística tiene que ver con métodos y prácticas para lidiar con esa incertidumbre.</p>
+<p>Estas dos observaciones no están restringidas a los dados y los juegos de azar. Si nos pesáramos todos los días obtendríamos distintos valores ya que el peso tiene relación con la cantidad de comida que ingerimos, el agua que tomamos, cuantos orinamos y defecamos, la precisión de la balanza, la ropa que usamos. Por todo ello una sola medida podría no ser representativa de nuestro peso. Es cierto que todas estas variaciones podrían ser demasiado pequeñas para nuestro propósito y podríamos considerarlas irrelevantes, pero eso es adelantarse a nuestra discusión. El punto importante en este momento es que los datos van acompañados de incertidumbre, gran parte de la estadística tiene que ver con métodos y prácticas para lidiar con esa incertidumbre.</p>
 </section>
 <section id="probabilidades" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="probabilidades"><span class="header-section-number">1.2</span> Probabilidades</h2>
@@ -392,7 +399,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <p><span class="math inline">\(P(A)\)</span> puede tomar cualquier valor en el intervalo comprendido entre 0 y 1 (incluidos ambos extremos), en <a href="https://es.wikipedia.org/wiki/Intervalo_(matem%C3%A1tica)#Notaci%C3%B3n">notación de intervalos</a> esto se escribe como [0, 1]. Es importante notar que no es necesariamente cierto que <span class="math inline">\(P(A) = \frac{1}{6}\)</span>.</p>
 <p>Al definir el evento <span class="math inline">\(A\)</span> podemos usar más de un elemento de <span class="math inline">\(\mathcal{X}\)</span>. Por ejemplo, números impares <span class="math inline">\(A = \{1, 3, 5\}\)</span>, o números mayores o iguales a 4 <span class="math inline">\(A = \{4,5,6\}\)</span>, o <span class="math inline">\(A = \{1,2,4,6\}\)</span>. Para cualquier problema concreto la definición de un evento como <span class="math inline">\(A\)</span> dependerá directamente del problema.</p>
 <p>Resumiendo, los eventos son subconjuntos de un espacio muestral definido adecuadamente y las probabilidades son números entre 0 y 1 asociados a la posibilidad que esos eventos ocurran. Si el evento es imposible entonces la probabilidad de ese evento será exactamente 0, si en cambio el evento sucede siempre entonces la probabilidad de ese evento será de 1. Todos los valores intermedios reflejan grados de incerteza. Desde este punto de vista es <em>natural</em> preguntarse cual es la probabilidad que la masa de Saturno sea <span class="math inline">\(x\)</span> kg, o hablar sobre la probabilidad de lluvia durante el 25 de Mayo de 1810, o la probabilidad de que mañana amanezca.</p>
-<p>Esta interpretación del concepto de probabilidad como medida de incertidumbre se suele llamar interpretación Bayesiana o subjetiva. Existen otras interpretaciones, por ej según la interpretación fecuentista una probabilidad es la proporción de veces que un evento sucedería si pudieramos repetir infinitas veces una observación bajo las mismas condiciones. Es importante destacar que estas interpretaciones son andamiajes conceptuales, interpretaciones filosóficas. El aparato matemático que describe las probabilidades es uno solo y no distingue entre estas u otras interpretaciones.</p>
+<p>Esta interpretación del concepto de probabilidad como medida de incertidumbre se suele llamar interpretación Bayesiana o subjetiva. Existen otras interpretaciones, por ej según la interpretación frecuentista una probabilidad es la proporción de veces que un evento sucedería si pudiéramos repetir infinitas veces una observación bajo las mismas condiciones. Es importante destacar que estas interpretaciones son andamiajes conceptuales, interpretaciones filosóficas. El aparato matemático que describe las probabilidades es uno solo y no distingue entre estas u otras interpretaciones.</p>
 </section>
 <section id="probabilidad-condicional" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="probabilidad-condicional"><span class="header-section-number">1.3</span> Probabilidad condicional</h2>
@@ -401,11 +408,11 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <p><span class="math display">\[
 P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 \]</span></p>
-<p><span class="math inline">\(P(A, B)\)</span> es la <em>probabilidad conjunta</em>, es decir la probabiliad que suceda el evento <span class="math inline">\(A\)</span> y que ocurra el evento <span class="math inline">\(B\)</span>, también se suele escribir como <span class="math inline">\(P(A \cap B)\)</span>, el símbolo <span class="math inline">\(\cap\)</span> indica intersección de conjuntos.</p>
+<p><span class="math inline">\(P(A, B)\)</span> es la <em>probabilidad conjunta</em>, es decir la probabilidad que suceda el evento <span class="math inline">\(A\)</span> y que ocurra el evento <span class="math inline">\(B\)</span>, también se suele escribir como <span class="math inline">\(P(A \cap B)\)</span>, el símbolo <span class="math inline">\(\cap\)</span> indica intersección de conjuntos.</p>
 <p><span class="math inline">\(P(A \mid B)\)</span> es lo que se conoce como probabilidad condicional, y es la probabilidad de que ocurra el evento A <em>condicionada</em> por el conocimiento que B ha ocurrido. Por ejemplo la probabilidad que una vereda esté mojada puede ser diferente de la probabilidad que esa vereda esté mojada dado que está lloviendo.</p>
 <p>Una probabilidad condicional se puede visualizar como la reducción del espacio muestral. Para ver esto de forma más clara vamos a usar una figura adaptada del libro <a href="https://www.routledge.com/Introduction-to-Probability--Second-Edition/Blitzstein-Hwang/p/book/9781138369917">Introduction to Probability</a> de Joseph K. Blitzstein y Jessica Hwang. En ella se puede ver como pasamos de tener los eventos <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> en el espacio muestral <span class="math inline">\(\mathcal{X}\)</span>, en el primer cuadro, a tener <span class="math inline">\(P(A \mid B)\)</span> en el último cuadro donde el espacio muestral se redujo de <span class="math inline">\(\mathcal{X}\)</span> a <span class="math inline">\(B\)</span>.</p>
 <p><img src="img/cond.png" width="500"></p>
-<p>El concepto de probabilidad condicional está en el corazón de la estadística y es central para pensar en como debemos actualizar el conocimiento que tenemos de un evento a la luz de nuevos datos. Veremos más sobre esto en los proximos capítulos. Por ahora dejamos este tema con la siguiente aclaración. Desde el punto de vista práctico, todas las probabilidades son condicionales (respecto de algún supuesto o modelo) aún cuando no lo expresemos explícitamente, no existen probabilidades sin contexto.</p>
+<p>El concepto de probabilidad condicional está en el corazón de la estadística y es central para pensar en como debemos actualizar el conocimiento que tenemos de un evento a la luz de nuevos datos. Veremos más sobre esto en los próximos capítulos. Por ahora dejamos este tema con la siguiente aclaración. Desde el punto de vista práctico, todas las probabilidades son condicionales (respecto de algún supuesto o modelo) aún cuando no lo expresemos explícitamente, no existen probabilidades sin contexto.</p>
 </section>
 <section id="distribuciones-de-probabilidad" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="distribuciones-de-probabilidad"><span class="header-section-number">1.4</span> Distribuciones de probabilidad</h2>
@@ -432,7 +439,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <span id="cb8-12"><a href="#cb8-12"></a>         radio<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="fl">2.</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"d1a18264f7554660bcf16e12e4799dfe","version_major":2,"version_minor":0}
+{"model_id":"f403e7807ab247a8833e15286bc6dc3a","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -454,7 +461,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <span id="cb9-12"><a href="#cb9-12"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"4f4cdd9625ff4a9e962d858b5cb991b8","version_major":2,"version_minor":0}
+{"model_id":"1cc84e696b4d476798a6cf589c10a164","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -468,7 +475,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <p><code>C(rojo) = 0, C(verde)=1, C(azul)=2</code></p>
 <p>Esta <em>codificación</em> es útil ya que en general es más fácil operar con números que con <em>cadenas (strings)</em>, ya sea que las operaciones las hagamos manualmente o con una computadora.</p>
 <p>Una variable es aleatoria en el sentido de que en cada <em>experimento</em> es posible obtener un evento distinto sin que la sucesión de eventos siga un patrón determinista. Por ejemplo si <em>preguntamos</em> cual es el valor de <span class="math inline">\(C\)</span> tres veces seguida podríamos obtener, <code>rojo, rojo, azul</code> o quizá <code>azul, verde, azul</code>, etc.</p>
-<p>Cuando se habla de <em>variables aleatorias</em>, es común que surgan algunos malos entendidos:</p>
+<p>Cuando se habla de <em>variables aleatorias</em>, es común que surjan algunos malos entendidos:</p>
 <ul>
 <li>La variable NO puede tomar cualquier valor imaginable, en el ejemplo de los colores solo son posibles 3 valores. En el ejemplo del dado solo 6 valores son posibles.</li>
 <li><em>Aleatorio</em> NO implica que todos los eventos tengan igual probabilidad.</li>
@@ -479,7 +486,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <hr>
 <p>Una variable aleatoria discreta es una variable que puede tomar valores discretos, los cuales forman un conjunto finito (o infinito <a href="https://es.wikipedia.org/wiki/Conjunto_numerable">numerable</a>). En nuestro ejemplo <span class="math inline">\(C\)</span> es discreta ya que solo puede tomar 3 valores, sin posibilidad de valores intermedios entre ellos, no es posible obtener el valor <em>verde-rojizo</em>! <span class="math inline">\(S\)</span> también es discreta y como ya dijimos solo es posible obtener los enteros en el intervalo [2-12].</p>
 <p>Si en vez de “rótulos” hubiéramos usado el espectro <em>continuo</em> de longitudes onda <em>visibles</em> otro sería el caso, ya que podríamos haber definido a <span class="math inline">\(C=\{400 \text{ nm} ... 750\text{ nm}\}\)</span> y en este caso no hay dudas que sería posible obtener un valor <em>a mitad de camino</em> entre <em>rojo</em> (<span class="math inline">\(\approx 700 \text{ nm}\)</span>) y <em>verde</em> (<span class="math inline">\(\approx 530 \text{ nm}\)</span>), de hecho podemos encontrar infinitos valores entre ellos. Este sería el ejemplo de una variable aleatoria continua.</p>
-<p>Una variable aleatoria tiene una <em>lista</em> asociada con la probabilidad de cada evento. El nombre formal de esta <em>lista</em> es disribución de probabilidad, en el caso particular de variables aleatorias discretas se le suele llamar también función de masa de probabilidad (o <strong>pmf</strong> por su sigla en inglés). Es importante destacar que la <span class="math inline">\(pmf\)</span> es una función que devuelve probabilidades, por lo tanto siempre obtendremos valores comprendidos entre [0, 1] y cuya suma total (sobre todos los eventos) dará 1.</p>
+<p>Una variable aleatoria tiene una <em>lista</em> asociada con la probabilidad de cada evento. El nombre formal de esta <em>lista</em> es distribución de probabilidad, en el caso particular de variables aleatorias discretas se le suele llamar también función de masa de probabilidad (o <strong>pmf</strong> por su sigla en inglés). Es importante destacar que la <span class="math inline">\(pmf\)</span> es una función que devuelve probabilidades, por lo tanto siempre obtendremos valores comprendidos entre [0, 1] y cuya suma total (sobre todos los eventos) dará 1.</p>
 <p>En principio nada impide que uno defina su propia distribución de probabilidad. Pero a lo largo de los últimos 3 siglos se han identificado y estudiado muchas distribuciones de probabilidad que dado su utilidad se les ha asignado “nombre propio”, por lo que conviene saber sobre su existencia. El siguiente listado no es exhaustivo ni tiene como propósito que <em>memoricen</em> las distribuciones y sus propiedades, solo que ganen cierta familiaridad con las mismas. Si en el futuro necesitan utilizar alguna <span class="math inline">\(pmf\)</span> pueden volver a esta <em>notebook</em> o pueden revisar Wikipedia donde encontrarán información muy completa.</p>
 <p>En las siguientes gráficas las <em>alturas</em> de los puntos azules indican la probabilidad de cada valor de <span class="math inline">\(x\)</span>. Se indican, además, la media (<span class="math inline">\(\mu\)</span>) y desviación estándar (<span class="math inline">\(\sigma\)</span>) de las distribuciones, es importante destacar que estos valores NO son calculados a partir de <em>datos</em>, de hecho no hay datos solo objetos matemáticos. Los valores de <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span> son propiedades matemáticas de las distribuciones, de la misma forma que el área de un círculo es una propiedad que queda definida una vez que fijamos el parámetro radio.</p>
 <section id="distribución-uniforme-discreta" class="level3" data-number="1.5.1">
@@ -615,7 +622,6 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 \]</span></p>
 <p>La media y la desviación estándar de esta distribución están dadas por <span class="math inline">\(\frac{1}{\lambda}\)</span></p>
-<p>Scipy usa una parametrización diferente donde la escala es igual a <span class="math inline">\(\frac{1}{\lambda}\)</span></p>
 <div class="cell" data-scrolled="true" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>dist <span class="op">=</span> pz.Exponential(<span class="dv">3</span>)  </span>
 <span id="cb16-2"><a href="#cb16-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
@@ -668,15 +674,12 @@ p(x \mid \alpha, \beta)= \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)
 </section>
 <section id="distribución-gamma" class="level3" data-number="1.6.7">
 <h3 data-number="1.6.7" class="anchored" data-anchor-id="distribución-gamma"><span class="header-section-number">1.6.7</span> Distribución Gamma</h3>
-<p>Scipy parametriza a la distribución <a href="https://en.wikipedia.org/wiki/Gamma_distribution">gamma</a> usando un parámetro <span class="math inline">\(\alpha\)</span> y uno <span class="math inline">\(\theta\)</span>, usando estos parámetros la <span class="math inline">\(pdf\)</span> es:</p>
-<p><span class="math display">\[
-p(x \mid \alpha, \theta) = \frac{1}{\Gamma(\alpha) \theta^\alpha} x^{\alpha \,-\, 1} e^{-\frac{x}{\theta}} \tag {0.13}
-\]</span></p>
-<p>Una parametrización más común en estadística Bayesiana usa los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>, siendo <span class="math inline">\(\beta = \frac{1}{\theta}\)</span>. En este caso la pdf queda como:</p>
+<p>Existen varias parametrizaciones para la distribución Gamma. Nosotros usaremos la siguiente:</p>
 <p><span class="math display">\[
 p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\alpha)} \tag {0.14}
 \]</span></p>
 <p>La distribución gamma se reduce a la exponencial cuando <span class="math inline">\(\alpha=1\)</span>.</p>
+<p>Otra parametrización, disponible por ej en paquetes como PyMC y Preliz, es en términos de la media y la desviación estándar.</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>dist <span class="op">=</span> pz.Gamma(alpha<span class="op">=</span><span class="dv">3</span>, beta<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb19-2"><a href="#cb19-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
@@ -768,7 +771,7 @@ S(x) = 1 - cdf  \tag {0.18}
 <p><span class="math display">\[
 p(A, B) = p(A \mid B) {p(B)}  \tag {0.15}
 \]</span></p>
-<p>Es decir si tomo una probabilidad condicional y la <em>evalúo</em> para todos los valores de la cantidad <em>condicionante</em> (<span class="math inline">\(B\)</span> en este caso), obtengo la distribución conjunta. Esto se puede ver graficamente si pensamos que <span class="math inline">\(p(A \mid B)\)</span> es una <em>rebanada</em> de p(A, B); rebanada que tomamos <em>a la altura</em> de <span class="math inline">\(B\)</span>. Si tomamos todas las rebanadas entonces obtendremos <span class="math inline">\(p(A, B)\)</span>.</p>
+<p>Es decir si tomo una probabilidad condicional y la <em>evalúo</em> para todos los valores de la cantidad <em>condicionante</em> (<span class="math inline">\(B\)</span> en este caso), obtengo la distribución conjunta. Esto se puede ver gráficamente si pensamos que <span class="math inline">\(p(A \mid B)\)</span> es una <em>rebanada</em> de p(A, B); rebanada que tomamos <em>a la altura</em> de <span class="math inline">\(B\)</span>. Si tomamos todas las rebanadas entonces obtendremos <span class="math inline">\(p(A, B)\)</span>.</p>
 <p>Para obtener las probabilidades marginales, que se encuentran en los <em>margenes</em> 😉, podemos calcular algo similar:</p>
 <p><span class="math display">\[
 p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
@@ -785,8 +788,8 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>tamaño_muestra <span class="op">=</span> <span class="dv">200</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a>muestras <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, tamaño_muestra)</span>
-<span id="cb24-3"><a href="#cb24-3"></a>dist <span class="op">=</span> stats.uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb24-4"><a href="#cb24-4"></a>media_verdadera <span class="op">=</span> dist.stats(moments<span class="op">=</span><span class="st">'m'</span>)</span>
+<span id="cb24-3"><a href="#cb24-3"></a>dist <span class="op">=</span> pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb24-4"><a href="#cb24-4"></a>media_verdadera <span class="op">=</span> dist.rv_frozen.stats(<span class="st">'m'</span>)</span>
 <span id="cb24-5"><a href="#cb24-5"></a></span>
 <span id="cb24-6"><a href="#cb24-6"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
 <span id="cb24-7"><a href="#cb24-7"></a>    muestra <span class="op">=</span> dist.rvs(tamaño_muestra)</span>
@@ -819,20 +822,20 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <p>A continuación vemos una simulación que nos muestra el teorema del límite central en acción.</p>
 <div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>iters <span class="op">=</span> <span class="dv">2000</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>distri <span class="op">=</span> stats.expon(scale<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb25-3"><a href="#cb25-3"></a>media, var <span class="op">=</span> distri.stats(moments<span class="op">=</span><span class="st">'mv'</span>)</span>
+<span id="cb25-2"><a href="#cb25-2"></a>dist <span class="op">=</span> pz.Exponential(<span class="dv">1</span>)</span>
+<span id="cb25-3"><a href="#cb25-3"></a>media, var <span class="op">=</span> dist.rv_frozen.stats(<span class="st">'mv'</span>)</span>
 <span id="cb25-4"><a href="#cb25-4"></a></span>
 <span id="cb25-5"><a href="#cb25-5"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb25-6"><a href="#cb25-6"></a></span>
 <span id="cb25-7"><a href="#cb25-7"></a><span class="cf">for</span> i, n <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">100</span>]):</span>
-<span id="cb25-8"><a href="#cb25-8"></a>    sample <span class="op">=</span> np.mean(distri.rvs((n, iters)), axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb25-8"><a href="#cb25-8"></a>    sample <span class="op">=</span> np.mean(dist.rvs((n, iters)), axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb25-9"><a href="#cb25-9"></a></span>
 <span id="cb25-10"><a href="#cb25-10"></a>    sd <span class="op">=</span> (var<span class="op">/</span>n)<span class="op">**</span><span class="fl">0.5</span> </span>
 <span id="cb25-11"><a href="#cb25-11"></a>    x <span class="op">=</span> np.linspace(media <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> sd, media <span class="op">+</span> <span class="dv">4</span> <span class="op">*</span> sd, <span class="dv">200</span>)</span>
-<span id="cb25-12"><a href="#cb25-12"></a>    ax[<span class="dv">0</span>, i].plot(x, stats.norm(media, sd).pdf(x))</span>
+<span id="cb25-12"><a href="#cb25-12"></a>    ax[<span class="dv">0</span>, i].plot(x, pz.Normal(media, sd).pdf(x))</span>
 <span id="cb25-13"><a href="#cb25-13"></a>    ax[<span class="dv">0</span>, i].hist(sample, density<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">20</span>)</span>
 <span id="cb25-14"><a href="#cb25-14"></a>    ax[<span class="dv">0</span>, i].set_title(<span class="st">'n = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(n))</span>
-<span id="cb25-15"><a href="#cb25-15"></a>    osm, osr <span class="op">=</span> stats.probplot(sample, dist<span class="op">=</span>stats.norm(media, sd), fit<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb25-15"><a href="#cb25-15"></a>    osm, osr <span class="op">=</span> stats.probplot(sample, dist<span class="op">=</span>pz.Normal(media, sd), fit<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb25-16"><a href="#cb25-16"></a>    ax[<span class="dv">1</span>, i].plot(osm, osm)</span>
 <span id="cb25-17"><a href="#cb25-17"></a>    ax[<span class="dv">1</span>, i].plot(osm, osr, <span class="st">'o'</span>)</span>
 <span id="cb25-18"><a href="#cb25-18"></a>ax[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'observados'</span>)</span>
@@ -865,12 +868,12 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <li>Es posible que <span class="math inline">\(P(A \mid B) &lt; P(A)\)</span>, cuando?</li>
 </ul></li>
 </ol>
-<p>Los siguientes ejercicios se deben realizar usando Python (y NumPy, SciPy, Matplotlib) 1. Ilustrar que la distribución de Poisson se aproxima a una binomial cuando para la binomial <span class="math inline">\(n &gt;&gt; p\)</span>.</p>
+<p>Los siguientes ejercicios se deben realizar usando Python (y NumPy, PreliZ, Matplotlib) 1. Ilustrar que la distribución de Poisson se aproxima a una binomial cuando para la binomial <span class="math inline">\(n &gt;&gt; p\)</span>.</p>
 <ol type="1">
 <li><p>Para alguna de las distribuciones discretas presentadas en esta notebook verificar que la probabilidad total es 1.</p></li>
 <li><p>Para alguna de las distribuciones continuas presentadas en esta notebook verificar que el área bajo la curva es 1.</p></li>
-<li><p>Obtener la cdf a partir de la pdf (usar el método pdf provisto por SciPy). La función <code>np.cumsum</code> puede ser de utilidad.</p></li>
-<li><p>Obtener la pdf a partir de la cdf (usar el método cdf provisto por SciPy). La función <code>np.diff</code> puede ser de utilidad.</p></li>
+<li><p>Obtener la cdf a partir de la pdf (usar el método pdf provisto por PreliZ). La función <code>np.cumsum</code> puede ser de utilidad.</p></li>
+<li><p>Obtener la pdf a partir de la cdf (usar el método cdf provisto por PreliZ). La función <code>np.diff</code> puede ser de utilidad.</p></li>
 <li><p>Repetir la simulación para la ley de los grandes números para al menos 3 distribuciones de probabilidad. Para cada distribución probar más de un conjunto de parámetros.</p></li>
 <li><p>Repetir la simulación para el teorema central del límite para al menos 3 distribuciones de probabilidad. Para cada distribución probar más de un conjunto de parámetros.</p></li>
 <li><p>Mostrar en un gráfico que la media <span class="math inline">\(\bar X\)</span> converge a <span class="math inline">\(\mu\)</span> y la varianza converge a <span class="math inline">\(\frac{\sigma^2}{n}\)</span> a medida que aumenta el tamaño de la muestra.</p></li>

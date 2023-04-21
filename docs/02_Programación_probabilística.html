@@ -296,6 +296,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<blockquote class="blockquote">
+<p>Nuestros golems raramente tienen forma física, pero a menudo están hechos de arcilla y viven <em>in silicio</em> como código de computadora -Richard McElreath</p>
+</blockquote>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
@@ -322,20 +325,12 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 </script>
 </div>
 </div>
-<blockquote class="blockquote">
-<p>Nuestros golems raramente tienen forma física, pero a menudo están hechos de arcilla y viven <em>in silicio</em> como código de computadora -Richard McElreath</p>
-</blockquote>
 <p>Los objetivos de este capítulo son:</p>
 <ul>
 <li>Construir modelos con PyMC</li>
 <li>Analizar modelos con PyMC y ArviZ</li>
 <li>Explorar formas alternativas de interpretar el <em>a posteriori</em></li>
-<li>La importancia del tamaño del efecto vs la irrelavancia de la significancia.</li>
-<li>Aprender sobre modelos jerárquicos
-<ul>
-<li>agrupamiento-parcial</li>
-<li>efecto de <em>contracción</em></li>
-</ul></li>
+<li>La importancia del tamaño del efecto</li>
 </ul>
 <p>La estadística Bayesiana es conceptualmente muy simple, tenemos lo <em>conocido</em> y lo <em>desconocido</em>. El teorema de Bayes se utiliza para condicionar lo desconocido usando lo conocido, si tenemos suerte este proceso conducirá a una reducción de la incertidumbre sobre lo desconocido. Por lo general nos referimos a lo conocido como datos y los consideramos fijo mientras que lo desconocido toma la forma de parámetros de distribuciones de probabilidad. La simpleza conceptual para formular modelos Bayesianos contrasta con la dificultad matemático/computacional para resolverlos. Por muchos años esto fue un verdadero problema y retrasó la adopción de métodos Bayesianos.</p>
 <p>A fin de poder resolver los modelos Bayesianos se recurre a métodos numéricos que pueden ser considerados como <em>motores universales de inferencia</em>. El hecho que tales motores sean posibles ha motivado el surgimiento de la programación probabilística, este tipo de lenguajes permiten una separación clara entre la creación de los modelos y el proceso de inferencia.</p>
@@ -344,11 +339,11 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <section id="introducción-a-pymc" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="introducción-a-pymc"><span class="header-section-number">3.1</span> Introducción a PyMC</h2>
 <p>PyMC es un paquete para programación probabilística bajo Python. PyMC es lo suficientemente madura para resolver muchos problemas estadísticos. PyMC permite crear modelos probabilísticos usando una sintaxis intuitiva y fácil de leer que es muy similar a la sintaxis usada para describir modelos probabilísticos.</p>
-<p>La mayoría de las funciones de PyMC están escritas en Python. Mientras que las partes computacionalmente demandantes están escritas en NumPy y <a href="https://pytensor.readthedocs.io/en/latest/">PyTensor</a>. Pytensor es una biblioteca de Python que permite definir, optimizar y evaluar expresiones matemáticas que involucran matrices multidimensionales de manera eficiente. PyTensor es hija de Theano una librería de Python originalmente desarrollada para <em>deep learning</em> (que es a su vez la antesesora de TensorFlow, PyTorch, etc).</p>
+<p>La mayoría de las funciones de PyMC están escritas en Python. Mientras que las partes computacionalmente demandantes están escritas en NumPy y <a href="https://pytensor.readthedocs.io/en/latest/">PyTensor</a>. Pytensor es una biblioteca de Python que permite definir, optimizar y evaluar expresiones matemáticas que involucran matrices multidimensionales de manera eficiente. PyTensor es hija de Theano una librería de Python originalmente desarrollada para <em>deep learning</em> (que es a su vez la antecesora de TensorFlow, PyTorch, etc).</p>
 <section id="el-problema-de-la-moneda-ahora-usando-pymc-y-arviz" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="el-problema-de-la-moneda-ahora-usando-pymc-y-arviz"><span class="header-section-number">3.1.1</span> El problema de la moneda, ahora usando PyMC y ArviZ</h3>
-<p>A continuación revisitaremos el problema de la moneda visto en el capítulo anterior, usando esta vez PyMC para definir nuestro modelo y hacer inferencia. Luego usaremos ArviZ para analizar el <em>a posterori</em>.</p>
-<p>A continuación generaremos datos sintéticos, en este caso asumiremos que conocemos el valor the <span class="math inline">\(\theta\)</span> y lo llamaremos <code>theta_real</code>, y luego intentaremos <em>averiguar</em> este valor <em>como si no</em> lo conocieramos. En un problema <em>real</em> <code>theta_real</code> sería desconocido y realizaríamos un proceso de inferencia precisamtente para averiguar su valor.</p>
+<p>A continuación revistaremos el problema de la moneda visto en el capítulo anterior, usando esta vez PyMC para definir nuestro modelo y hacer inferencia. Luego usaremos ArviZ para analizar el <em>a posterori</em>.</p>
+<p>A continuación generaremos datos sintéticos, en este caso asumiremos que conocemos el valor the <span class="math inline">\(\theta\)</span> y lo llamaremos <code>theta_real</code>, y luego intentaremos <em>averiguar</em> este valor <em>como si no</em> lo conociéramos. En un problema <em>real</em> <code>theta_real</code> sería desconocido y realizaríamos un proceso de inferencia precisamente para averiguar su valor.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>np.random.seed(<span class="dv">123</span>)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>n_experimentos <span class="op">=</span> <span class="dv">4</span></span>
@@ -434,8 +429,8 @@ NUTS: [θ]</code></pre>
 <li>La segunda linea nos da información sobre cómo se inicializaron los valores de NUTS. Un detalle que por ahora no nos preocupa.</li>
 <li>La tercer linea indica que PyMC correrá cuatro cadenas en paralelo, es decir generará cuatro muestras independientes del <em>a posteriori</em>. Esta cantidad puede ser diferente en sus computadoras ya que es determinada automáticamente en función de los procesadores disponibles (que en mi caso, 4). <code>sample</code> tiene un argumento <code>chains</code> que permite modificar este comportamiento.</li>
 <li>La cuarta linea indica qué variable ha sido asignada a cual método de muestreo. En este caso la información es redundante, ya que tenemos una sola variable, pero esto no siempre es así. PyMC permite combinar métodos de muestreo, ya sea de forma automática basado en propiedades de las variables a muestrear o especificado por el usuario usando el argumento <code>step</code>.</li>
-<li>La quinta linea es una barra de progreso con varias métricas sobre la velocidad del muestreo, que en este caso (y para referencia futura) es muy alta. Tambiém indica la cantidad de cadenas usadas y la cantidad de divergencias. Tener 0 divergencias es ideal, más adelante discutiremos la razón.</li>
-<li>Por último tenemos un detalle de la cantidad de muestras generadas, aunque pedimos 1000 obtuvimos 8000, la razón es que es son 1000 por cadena (4 cadenas en mi caso), es decir 4000. Todavía nos queda explicar 4000 muestras <em>extras</em>, estas se corresponden a 1000 por cadena y son muestras que PyMC utiliza para <em>auto-tunear</em> el método de muestreo. Estás muestras son luego descartadas automáticametne ya que no son muestras representativas del posterior. La cantidad de pasos que se usan para <em>tunear</em> el algoritmo de muestro se puede cambiar con el argumento <code>tune</code> de la función <code>pm.sample(.)</code>.</li>
+<li>La quinta linea es una barra de progreso con varias métricas sobre la velocidad del muestreo, que en este caso (y para referencia futura) es muy alta. También indica la cantidad de cadenas usadas y la cantidad de divergencias. Tener 0 divergencias es ideal, más adelante discutiremos la razón.</li>
+<li>Por último tenemos un detalle de la cantidad de muestras generadas, aunque pedimos 1000 obtuvimos 8000, la razón es que es son 1000 por cadena (4 cadenas en mi caso), es decir 4000. Todavía nos queda explicar 4000 muestras <em>extras</em>, estas se corresponden a 1000 por cadena y son muestras que PyMC utiliza para <em>auto-tunear</em> el método de muestreo. Estás muestras son luego descartadas automáticamente ya que no son muestras representativas del posterior. La cantidad de pasos que se usan para <em>tunear</em> el algoritmo de muestro se puede cambiar con el argumento <code>tune</code> de la función <code>pm.sample(.)</code>.</li>
 </ul>
 </section>
 <section id="resumiendo-el-a-posteriori" class="level3" data-number="3.1.4">
@@ -447,11 +442,11 @@ NUTS: [θ]</code></pre>
 <p><img src="02_Programación_probabilística_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>El punto indica la media, la linea gruesa el rango intercuartial y las lineas finas el HDI 94%</p>
+<p>El punto indica la media, la linea gruesa el rango intercuartil y las lineas finas el HDI 94%</p>
 <blockquote class="blockquote">
 <p>Es importante notar que la variable <code>y</code> es una variable observada, es decir conocida. Mientras que en gráfico anterior estamos dibujando solo <span class="math inline">\(\theta\)</span> que es la única variables desconocida, y por lo tanto muestreada.</p>
 </blockquote>
-<p>Si quisieramos un resúmen numérico de los resultados podemos usar:</p>
+<p>Si quisiéramos un resumen numérico de los resultados podemos usar:</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>az.summary(idata, kind<span class="op">=</span><span class="st">"stats"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -559,7 +554,7 @@ NUTS: [θ]</code></pre>
 <p><img src="02_Programación_probabilística_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Las curvas son similares entre sí e incluso los mínimos son simialres, <span class="math inline">\(\hat{\theta} \approx 0.31\)</span> para <code>lossf_a</code> y <span class="math inline">\(\hat{\theta} \approx 0.33\)</span> para <code>lossf_b</code></p>
+<p>Las curvas son similares entre sí e incluso los mínimos son similares, <span class="math inline">\(\hat{\theta} \approx 0.31\)</span> para <code>lossf_a</code> y <span class="math inline">\(\hat{\theta} \approx 0.33\)</span> para <code>lossf_b</code></p>
 <p>Lo que es interesante es que el primer valor se corresponde con la mediana del posterior y el segundo con su media.</p>
 <div class="cell" data-scrolled="true" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>np.median(θ_pos).item(), np.mean(θ_pos).item()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -571,8 +566,8 @@ NUTS: [θ]</code></pre>
 <blockquote class="blockquote">
 <p>Diferentes funciones de pérdida se relacionan con diferentes estimaciones puntuales</p>
 </blockquote>
-<p>Por lo tanto, si queremos ser formales al momento de computar una estimación puntual, debemos decidir qué función de costo utilizar. O a la inversa, si elegimos una estimación puntual implicitamente estamos eligiendo una función de pérdida.</p>
-<p>La ventaja de elegir explicitamente una función de perdida es que podemos ajustarla a las necesidades de un problema particular, en vez de utilizar un criterio predefinido. En muchos casos el costo asociado a una toma de decisión es asimétrico, esto es común en salud pública como sucede con vacunas o con la interrupción voluntaria del embarazo; procedimientos simples, baratos y seguros que previenen una gran cantidad de inconvenientes con un bajo riesgo de complicaciones.</p>
+<p>Por lo tanto, si queremos ser formales al momento de computar una estimación puntual, debemos decidir qué función de costo utilizar. O a la inversa, si elegimos una estimación puntual implícitamente estamos eligiendo una función de pérdida.</p>
+<p>La ventaja de elegir explícitamente una función de perdida es que podemos ajustarla a las necesidades de un problema particular, en vez de utilizar un criterio predefinido. En muchos casos el costo asociado a una toma de decisión es asimétrico, esto es común en salud pública como sucede con vacunas o con la interrupción voluntaria del embarazo; procedimientos simples, baratos y seguros que previenen una gran cantidad de inconvenientes con un bajo riesgo de complicaciones.</p>
 <p>Dado que, en general, el <em>a posteriori</em> toma la forma de muestras finitas almacenadas en una computadora, es posible escribir código que refleje funciones de perdidas sin necesidad de estar acotado por la conveniencia matemática o la simplicidad. El siguiente es un ejemplo bastante pavo de esto.</p>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>lossf <span class="op">=</span> []</span>
@@ -591,7 +586,7 @@ NUTS: [θ]</code></pre>
 <p><img src="02_Programación_probabilística_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Ahora bien, en la práctica no es cierto que todo el mundo elija una estimación puntual porque realmente acuerda, o tiene presente, alguna función de perdida en particular, en general la elección es por conveniencia, o tradición. Se usa la mediana porque es más robusta que la media a valores extremos o se usa la media porque es un concepto familiar y simple de entender, o porque pensamos que tal o cual observable es realmente un promedio de algún fenómeo subyacente (como moléculas golpeandose entre sí o genes interactuando con el ambiente).</p>
+<p>Ahora bien, en la práctica no es cierto que todo el mundo elija una estimación puntual porque realmente acuerda, o tiene presente, alguna función de perdida en particular, en general la elección es por conveniencia, o tradición. Se usa la mediana porque es más robusta que la media a valores extremos o se usa la media porque es un concepto familiar y simple de entender, o porque pensamos que tal o cual observable es realmente un promedio de algún fenómeno subyacente (como moléculas golpeándose entre sí o genes interactuando con el ambiente).</p>
 </section>
 </section>
 <section id="modelos-multiparamétricos" class="level2" data-number="3.3">
@@ -739,7 +734,7 @@ p(\tilde{y} \,|\, y) = \int p(\tilde{y} \,|\, \theta) \, p(\theta \,|\, y) \, d\
     
 </div>
 </div>
-<p>Los datos simulados los podemos usar para compararlos con los datos observados y de esta forma evaluar el modelo. Esto se conoce como prueba predictivas <em>a posteriori</em>, como ya adelantamos algo en el capítulo anterior. En la siguiente gráfica la linea negra corresponde a los datos observados mientras que las lineas azules (semitrasparentes) corresponden a datos predichos por el modelo.</p>
+<p>Los datos simulados los podemos usar para compararlos con los datos observados y de esta forma evaluar el modelo. Esto se conoce como prueba predictivas <em>a posteriori</em>, como ya adelantamos algo en el capítulo anterior. En la siguiente gráfica la linea negra corresponde a los datos observados mientras que las lineas azules (semitransparentes) corresponden a datos predichos por el modelo.</p>
 <div class="cell" data-scrolled="true" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>az.plot_ppc(ppc_g, num_pp_samples<span class="op">=</span><span class="dv">200</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -750,7 +745,7 @@ p(\tilde{y} \,|\, y) = \int p(\tilde{y} \,|\, \theta) \, p(\theta \,|\, y) \, d\
 </section>
 <section id="modelos-robustos" class="level3" data-number="3.3.2">
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="modelos-robustos"><span class="header-section-number">3.3.2</span> Modelos robustos</h3>
-<p>Un problema con el modelo anterior es que asume una distribución normal pero tenemos dos puntos que caen muy alejados de los valores medios. Esos puntos podrían estar alejados debido a errores experimentales en la toma de esos dos datos o podría haber un error al registrarlos o al trascribirlos. Si algo de esto sucedió podríamos justificar su eliminación de nuestro conjunto de datos (dejando registro de la eliminación y de las razones por las cuales lo hicimos). Otra opción es usar el rango inter-cuartil (u otro método <em>estadístico</em>) para declarar esos dos puntos como datos aberrantes ¡y desterrarlos de nuestros datos! Otra opción es dejarlos pero utilizar un modelo más robusto a valores alejados de la media.</p>
+<p>Un problema con el modelo anterior es que asume una distribución normal pero tenemos dos puntos que caen muy alejados de los valores medios. Esos puntos podrían estar alejados debido a errores experimentales en la toma de esos dos datos o podría haber un error al registrarlos o al transcribirlos. Si algo de esto sucedió podríamos justificar su eliminación de nuestro conjunto de datos (dejando registro de la eliminación y de las razones por las cuales lo hicimos). Otra opción es usar el rango inter-cuartil (u otro método <em>estadístico</em>) para declarar esos dos puntos como datos aberrantes ¡y desterrarlos de nuestros datos! Otra opción es dejarlos pero utilizar un modelo más robusto a valores alejados de la media.</p>
 <p>Uno de los inconvenientes al asumir normalidad, es que la media es muy sensible a valores aberrantes. La razón está en la colas de la Gaussiana, aún cuando las colas se extienden de <span class="math inline">\(-\infty\)</span> a <span class="math inline">\(\infty\)</span>, la probabilidad de encontrar un valor cae rápidamente a medida que nos alejamos de la media, como se puede apreciar en la siguiente tabla que indica el porcentaje de valores que se encuentra a medida que nos alejamos de la media en unidades de desviación estándar (sd).</p>
 <table class="table">
 <thead>
@@ -1042,7 +1037,7 @@ t_0 \sim Expon(1) \\
 t_1 \sim Expon(1) \\
 pc \sim U(A_0, A_1)
 \end{align}\]</span></p>
-<p>Donde la distribucion uniforme es discreta y <span class="math inline">\(A_0\)</span> y <span class="math inline">\(A_1\)</span> corresponden al primer y último año considerado en el análisis respectivamente.</p>
+<p>Donde la distribución uniforme es discreta y <span class="math inline">\(A_0\)</span> y <span class="math inline">\(A_1\)</span> corresponden al primer y último año considerado en el análisis respectivamente.</p>
 <p>Gráficamente el modelo es:</p>
 <p><img src="img/modelo_mineros.png" width="350"></p>
 <p>Una peculiaridad de la implementación de este modelo en PyMC es el uso de la función <code>pm.switch</code> (linea 10). Esta es en realidad una función de PyMC y equivale a un <em>if else</em> de Python. Si el primer argumento es <em>True</em> entonces devuelve el segundo argumento caso contrario el tercer argumento. Como resultado tenemos que <em>tasa</em> es un vector de longitud igual a la de <em>años</em> y cuyos elementos corresponden a una repetición <span class="math inline">\(t_0\)</span> seguida de una repetición <span class="math inline">\(t_1\)</span>, la cantidad exacta de repeticiones de <span class="math inline">\(t_0\)</span> y <span class="math inline">\(t_1\)</span> está controlada por la condición <span class="math inline">\(pc \ge\)</span> <em>años</em>. De esta forma, podemos al muestrear <span class="math inline">\(pc\)</span>, modificar que años reciben cual tasa para el cálculo del <em>likelihood</em>.</p>
@@ -3606,7 +3601,7 @@ dl.xr-attrs {
 </div>
 <ul>
 <li><p><code>az.plot_ppc</code>: Por defecto esta función representa los datos observados, varias muestras de la distribución predictiva a posteriori (predicciones) y la distribución media de estas muestras. Si los datos son discretos se usan histogramas, si los datos son continuos KDEs.</p></li>
-<li><p><code>az.plot_loo_pit</code>: Muestra la diferencia entre datos observados y predichos (linea azul), de tal forma que si no hubiera diferencia obtendríamos una distribuión uniforme (linea blanca). En el eje x están los cuantiles de la distribución. Por lo que si hubiera diferencia alrededor de 0.5 esto implica diferencia alrededor de la mediana, si en cambio la diferencia estuviera entre 0 y 0.2 esto implicaría diferencias en la cola izquierda (primer 20% de la masa total de la distribución), etc. Si la curva está por encima de la linea blanca esto quiere decir que hay más observaciones que predicciones en esa región, y si la curva está por debajo lo contrario. El grafico muestra un banda, que indica las desviaciones esperadas respecto de la distribución uniforme para el tamaño de muestra dado. Cualquier diferencia dentro de esa banda es “esperable”.</p></li>
+<li><p><code>az.plot_loo_pit</code>: Muestra la diferencia entre datos observados y predichos (linea azul), de tal forma que si no hubiera diferencia obtendríamos una distribución uniforme (linea blanca). En el eje x están los cuantiles de la distribución. Por lo que si hubiera diferencia alrededor de 0.5 esto implica diferencia alrededor de la mediana, si en cambio la diferencia estuviera entre 0 y 0.2 esto implicaría diferencias en la cola izquierda (primer 20% de la masa total de la distribución), etc. Si la curva está por encima de la linea blanca esto quiere decir que hay más observaciones que predicciones en esa región, y si la curva está por debajo lo contrario. El gráfico muestra un banda, que indica las desviaciones esperadas respecto de la distribución uniforme para el tamaño de muestra dado. Cualquier diferencia dentro de esa banda es “esperable”.</p></li>
 </ul>
 </section>
 <section id="pruebas-predictivas-a-priori" class="level2" data-number="3.5">
@@ -3617,7 +3612,7 @@ p(y^\ast) =  \int_{\Theta} p(y^\ast \mid \theta) \; p(\theta) \; d\theta
 \]</span></p>
 <p>Los datos generados son predictivos ya que son los datos que el modelo esperara ver, es decir son datos no observados pero potencialmente observables. La prueba consiste en comparar los datos observados con el conocimiento previo que tenemos sobre el problema, ojo que NO se trata de comparar con los datos observados!</p>
 <p>Las pruebas predictivas <em>a priori</em> son pruebas de consistencia con nuestro conocimiento previo. Este ejercicio nos permite evaluar si el modelo es razonable, en el sentido de si es capaz de generar datos que concuerdan con lo que sabemos de un problema. Por ejemplo un modelo del tamaño de planetas no es muy razonable si predice planetas de escala nanométrica o incluso de unos pocos kilómetros. Es importante destacar que dado suficiente cantidad y calidad de datos un modelo de este tipo podría dar resultados razonables, una vez condicionado a esos datos. Es decir el posterior podría no incluir, o asignar probabilidades despreciables a nanoplanetas.</p>
-<p>En definitiva la principal utilidad de las pruebas predictivas <em>a prior</em> es la de permitirnos inspecticionar críticamente un modelo y tratar de entender el comportamiento del modelo las discrepancias con el conocimiento previo nos pueden llevarnos a entender mejor los límites del modelo, abandonar el modelo por completo o tal vez mejorarlo por ejemplo usando priors más angostos u otros likelihoods.</p>
+<p>En definitiva la principal utilidad de las pruebas predictivas <em>a prior</em> es la de permitirnos inspeccionar críticamente un modelo y tratar de entender el comportamiento del modelo las discrepancias con el conocimiento previo nos pueden llevarnos a entender mejor los límites del modelo, abandonar el modelo por completo o tal vez mejorarlo por ejemplo usando priors más angostos u otros likelihoods.</p>
 <p>Usando PyMC podemos calcular la distribución predictiva a priori de la siguiente forma</p>
 <div class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>idata_cat.extend(pm.sample_prior_predictive(model<span class="op">=</span>modelo_cat, random_seed<span class="op">=</span><span class="dv">1791</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3682,7 +3677,7 @@ p(y^\ast) =  \int_{\Theta} p(y^\ast \mid \theta) \; p(\theta) \; d\theta
 <blockquote class="blockquote">
 <p>Un d de Cohen es una forma de medir el tamaño del efecto donde la diferencia de las medias se estandariza al considerar las desviaciones estándar de ambos grupos.</p>
 </blockquote>
-<p>Cohen introduce la variabilidad de cada grupo al usar sus desviaciones estándar. Esto es realmente importante, una diferencia de 1 cuando la desviación estándar es de 0.1 es muy grande en comparación con la misma diferencia cuando la desviación estándar es 10. Además, un cambio de x unidades de un grupo respecto del otro podría explicarse por cada punto <em>desplazandose</em> exactamente x unidades o la mitad de los puntos sin cambiar mientras la otra mitad cambia 2x unidades, y así con otras combinaciones. Por lo tanto, incluir las variaciones intrínsecas de los grupos es una forma de poner las diferencias en contexto. Re-escalar (estandarizar) las diferencias nos ayuda a dar sentido a la diferencia entre grupos y facilita evaluar si el cambio es importante, incluso cuando no estamos muy familiarizados con la escala utilizada para las mediciones.</p>
+<p>Cohen introduce la variabilidad de cada grupo al usar sus desviaciones estándar. Esto es realmente importante, una diferencia de 1 cuando la desviación estándar es de 0.1 es muy grande en comparación con la misma diferencia cuando la desviación estándar es 10. Además, un cambio de x unidades de un grupo respecto del otro podría explicarse por cada punto <em>desplazándose</em> exactamente x unidades o la mitad de los puntos sin cambiar mientras la otra mitad cambia 2x unidades, y así con otras combinaciones. Por lo tanto, incluir las variaciones intrínsecas de los grupos es una forma de poner las diferencias en contexto. Re-escalar (estandarizar) las diferencias nos ayuda a dar sentido a la diferencia entre grupos y facilita evaluar si el cambio es importante, incluso cuando no estamos muy familiarizados con la escala utilizada para las mediciones.</p>
 <p>Un d de Cohen se puede interpretar como un Z-score. Un Z-score es la cantidad de desviaciones estándar que un valor difiere del valor medio de lo que se está observando o midiendo, puede ser positivo o negativo dependiendo de si la diferencia es por exceso o por defecto. Por lo tanto, un d de Cohen de -1.2, indica que la media de un grupo está 1.2 desviación estándar por debajo de la media del otro grupo.</p>
 <p>Incluso con las diferencias de medias estandarizadas, puede ser necesario tener que <em>calibrarnos</em> en función del contexto de un problema determinado para poder decir si un valor de d de Cohen es <em>grande</em>, <em>pequeño</em>, <em>mediano</em>, <em>importante</em>, <em>despreciable</em>, etc. Afortunadamente, esta calibración se puede adquirir con la práctica, a modo de ejemplo si estamos acostumbrados a realizar varios análisis para más o menos el mismo tipo de problemas, podemos acostumbrarnos a un d de Cohen de entre 0.8 y 1.2, de modo que si obtenemos un valor de 2 podría ser que estamos frente a algo importante, inusual (¡o un error!). Una alternativa es consultar con expertos en el tema.</p>
 <p>Una muy buena página web para explorar cómo se ven los diferentes valores de Cohen’s es http://rpsychologist.com/d3/cohend. En esa página, también encontrarán otras formas de expresar el tamaño del efecto; algunas de ellos podrían ser más intuitivas, como la probabilidad de superioridad que analizaremos a continuación.</p>
@@ -3801,8 +3796,8 @@ ps = \Phi \left ( \frac{\delta}{\sqrt{2}} \right)
 <span id="cb56-4"><a href="#cb56-4"></a></span>
 <span id="cb56-5"><a href="#cb56-5"></a>        y <span class="op">=</span> pm.Normal(<span class="st">'y'</span>, mu<span class="op">=</span>μ[idx], sigma<span class="op">=</span>σ[idx], observed<span class="op">=</span>tip)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>PyMC provee una sintaxis alternativa, la cual consisten en especificar coordenadas y dimensiones. La ventaja de esta alternativa es que permite una mejor integración con ArviZ.</p>
-<p>Veamos, en este ejemplo tenemos 4 valores para las medias y 4 para las desviaciones estandard, y por eso usamos <code>shape=4</code>. El InferenceData tendrá 4 indices <code>0, 1, 2, 3</code> correspondientes a cada uno de los 4 días. Pero es trabajo del usuario asociaer esos indices númericos con los días.</p>
-<p>Al usar coordendas y dimensiones nosotros podremos usar los rótulos <code>'Thur', 'Fri', 'Sat', 'Sun'</code> para referirnos a los parámetros relacionados con cada uno de estos días. ArviZ también podrá hacer uso de estos rótulos. Vamos a especificar dos coordenadas <code>days</code> con las dimensiones <code>'Thur', 'Fri', 'Sat', 'Sun'</code> y “days_flat” que contendrá los mismo rótulos pero repetidos según el órden y longitud que corresponda con cada observación. Esto último será útil para poder obtener pruebas predictivas a posteriori para cada día.</p>
+<p>Veamos, en este ejemplo tenemos 4 valores para las medias y 4 para las desviaciones estándar, y por eso usamos <code>shape=4</code>. El InferenceData tendrá 4 indices <code>0, 1, 2, 3</code> correspondientes a cada uno de los 4 días. Pero es trabajo del usuario asociar esos indices numéricos con los días.</p>
+<p>Al usar coordenadas y dimensiones nosotros podremos usar los rótulos <code>'Thur', 'Fri', 'Sat', 'Sun'</code> para referirnos a los parámetros relacionados con cada uno de estos días. ArviZ también podrá hacer uso de estos rótulos. Vamos a especificar dos coordenadas <code>days</code> con las dimensiones <code>'Thur', 'Fri', 'Sat', 'Sun'</code> y “days_flat” que contendrá los mismo rótulos pero repetidos según el orden y longitud que corresponda con cada observación. Esto último será útil para poder obtener pruebas predictivas a posteriori para cada día.</p>
 <div class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a>coords <span class="op">=</span> {<span class="st">"days"</span>: categories, <span class="st">"days_flat"</span>: categories[idx]}</span>
 <span id="cb57-2"><a href="#cb57-2"></a></span>
@@ -3899,7 +3894,7 @@ Sampling: [y]</code></pre>
 </div>
 </div>
 <p>La figura anterior es bastante informativa, por ejemplo vemos que los valores medios de las propinas difieren en solo unos pocos centavos y que para los domingos el valor es ligeramente más alto que para el resto de los días analizados.</p>
-<p>Pero quizá consideramos que puede ser mejor mostrar los datos de otra forma. Por ejemplo podemos calcular todas las diferencias de medias <em>a posteriori</em> entre si. Además podríamos quere usar alguna medida del tamaño del efecto que sea popular entre nuestra audiencia, como podrían ser la <em>probabilidad de superioridad</em> o <em>d de Cohen</em>.</p>
+<p>Pero quizá consideramos que puede ser mejor mostrar los datos de otra forma. Por ejemplo podemos calcular todas las diferencias de medias <em>a posteriori</em> entre si. Además podríamos querer usar alguna medida del tamaño del efecto que sea popular entre nuestra audiencia, como podrían ser la <em>probabilidad de superioridad</em> o <em>d de Cohen</em>.</p>
 <p><strong>Cohen’s d</strong></p>
 <p><span class="math display">\[
 \frac{\mu_2 - \mu_1}{\sqrt{\frac{\sigma_1^2 + \sigma_2^2}{2}}}
@@ -3917,7 +3912,7 @@ Sampling: [y]</code></pre>
 \text{ps} = \Phi \left ( \frac{\delta}{\sqrt{2}} \right)
 \]</span></p>
 <p><span class="math inline">\(\Phi\)</span> es la <code>cdf</code> de una distribución normal <span class="math inline">\(\delta\)</span> es el valor del Cohen’s d.</p>
-<p>Con el siguiente código usamos <code>plot_posterior</code> para graficar todas las diferencias no triviales o redundantes. Es decir evitamos las diferencias de un día con sigo mismo y evitamos calcular ‘Fri - Thur’ si ya hemos calculado ‘Thur- Fri’. Si lo vieramos como una matriz de diferencias solo estaríamos calculando la porción triangular superior.</p>
+<p>Con el siguiente código usamos <code>plot_posterior</code> para graficar todas las diferencias no triviales o redundantes. Es decir evitamos las diferencias de un día con sigo mismo y evitamos calcular ‘Fri - Thur’ si ya hemos calculado ‘Thur- Fri’. Si lo viéramos como una matriz de diferencias solo estaríamos calculando la porción triangular superior.</p>
 <div class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1"></a>cg_posterior <span class="op">=</span> az.extract(idata_cg)</span>
 <span id="cb62-2"><a href="#cb62-2"></a></span>
@@ -3952,9 +3947,9 @@ Sampling: [y]</code></pre>
 <h2 data-number="3.7" class="anchored" data-anchor-id="resumen"><span class="header-section-number">3.7</span> Resumen</h2>
 <p>Aunque la estadística Bayesiana es conceptualmente simple, los modelos probabilísticos a menudo conducen a expresiones analíticamente intratables. Durante muchos años, esta fue una gran barrera que obstaculizó la adopción amplia de métodos Bayesianos. Afortunadamente, la matemática, la física y la informática vinieron al rescate en forma de métodos numéricos capaces, al menos en principio, de resolver cualquier inferencia. La posibilidad de automatizar el proceso de inferencia ha llevado al desarrollo de los lenguajes de programación probabilista que permiten una clara separación entre la definición del modelo y la inferencia.</p>
 <p>PyMC es una librería de Python para programación probabilística con una sintaxis simple, intuitiva y fácil de leer que también está muy cerca de la sintaxis estadística utilizada para describir modelos probabilísticos. En este capítulo introducimos PyMC revisando el problema de la moneda que vimos en el capítulo anterior. La diferencia es que no tuvimos que derivar analíticamente la distribución <em>a posteriori</em>. Los modelos en PyMC se definen dentro de un bloque <code>with</code>; para agregar una distribución de probabilidad a un modelo, solo necesitamos escribir una línea de código. Las distribuciones se pueden combinar y se pueden usar como priors (variables no observadas) o likelihoods (variables observadas). En la sintaxis de PyMC la única diferencia entre ambas es que para esta última debemos pasar los datos usando el argumento <code>observed</code>. Si todo va bien las muestras generadas por PyMC serán representativas de la distribución <em>a posteriori</em> y por lo tanto serán una representación de las consecuencias lógicas del modelo y los datos.</p>
-<p>ArviZ es una librería que nos ayuda a explorar los modelos definidos por PyMC (u otroas librerías como PyStan, TFP, BeanMachine, etc). Una forma de usar el posterior para ayudarnos a tomar decisiones es comparando la ROPE con el intervalo HDI. También mencionamos brevemente la noción de funciones de pérdida, una aproximación formal para cuantificar los costos y beneficios asociados a la toma de decisiones. Aprendimos que las funciones de pérdida y las estimaciones puntuales están íntimamente asociadas.</p>
-<p>Hasta este momento todos los ejemplos estuvieron basado en modelos con un solo parámetro. Sin embargo PyMC permite, en principiop, usar un número arbitrario de parámetros, esto lo ejemplificamos con un modelo Gaussiano y luego una generalización de este, el modelo t de Student. La distribución t de Student suele usarse como alternativa a la Gaussiana cuando queremos hacer inferencias robustas a valores aberrantes. Pronto veremos cómo se puede usar estos modelos como para construir regresiónes lineales.</p>
-<p>Finalizamos comparanod medias entre grupos, una tarea común en análisis de datos. Si bien esto a veces se enmarca en el contexto de las pruebas de hipótesis, tomamos otra ruta y trabajamos este problema como una inferencia del tamaño del efecto.</p>
+<p>ArviZ es una librería que nos ayuda a explorar los modelos definidos por PyMC (u otras librerías como PyStan, TFP, BeanMachine, etc). Una forma de usar el posterior para ayudarnos a tomar decisiones es comparando la ROPE con el intervalo HDI. También mencionamos brevemente la noción de funciones de pérdida, una aproximación formal para cuantificar los costos y beneficios asociados a la toma de decisiones. Aprendimos que las funciones de pérdida y las estimaciones puntuales están íntimamente asociadas.</p>
+<p>Hasta este momento todos los ejemplos estuvieron basado en modelos con un solo parámetro. Sin embargo PyMC permite, en principiop, usar un número arbitrario de parámetros, esto lo ejemplificamos con un modelo Gaussiano y luego una generalización de este, el modelo t de Student. La distribución t de Student suele usarse como alternativa a la Gaussiana cuando queremos hacer inferencias robustas a valores aberrantes. Pronto veremos cómo se puede usar estos modelos como para construir regresiones lineales.</p>
+<p>Finalizamos comparando medias entre grupos, una tarea común en análisis de datos. Si bien esto a veces se enmarca en el contexto de las pruebas de hipótesis, tomamos otra ruta y trabajamos este problema como una inferencia del tamaño del efecto.</p>
 </section>
 <section id="para-seguir-leyendo" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="para-seguir-leyendo"><span class="header-section-number">3.8</span> Para seguir leyendo</h2>
