@@ -10,8 +10,13 @@ book:
     - name: Osvaldo A. Martin 
       url: https://aloctavodia.github.io/
       affiliation: IMASL-CONICET
-      affiliation-url: https://imasl.conicet.gov.ar/
+      affiliation-url: https://gmp.net.ar
       orcid: 0000-0001-7419-8978
+      address: Italia 1556
+      city: San Luis
+      state: San Luis
+      country: Argentina
+      postal-code: 5700
   date: today
   #cover-image: cover.png
 
