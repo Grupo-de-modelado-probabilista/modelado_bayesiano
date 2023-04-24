@@ -46,15 +46,9 @@ Por último quienes no tengan interés en aprender a usar código para analisis 
 ## Instalación
 Para usar este material es necesario tener instalado Python. Se recomienda la versión 3.9 o superior. Además es necesario instalar los siguientes paquetes:
 
-* PyMC 4.3
-* ArviZ 0.13.0
-* NumPy 1.23
-* SciPy 1.9.3
-* Matplotlib 3.5.2
-* Ipython 8.6
-* Jupyter 1.0.0
-* Seaborn 0.12.1
-* Preliz 0.1.0
+* PyMC 5.3.0
+* ArviZ 0.15.1
+* Preliz 0.3.0
 
 Se recomienda instalar primero [Anaconda](https://www.continuum.io/downloads). Luego instalar el resto de los paquetes con los comandos:
 
