@@ -345,7 +345,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb4-4"><a href="#cb4-4"></a></span>
 <span id="cb4-5"><a href="#cb4-5"></a>dado()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>2</code></pre>
+<pre><code>6</code></pre>
 </div>
 </div>
 <p>Al ejecutar la celda anterior repetidas veces podrán ver que en cada ejecución se obtiene un número (entero) distinto entre 1 y 6. Entender que está haciendo exactamente esta función no es del todo relevante, pero si es útil entender la idea general detrás de esta función. Veamos:</p>
@@ -369,12 +369,12 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb6-8"><a href="#cb6-8"></a></span>
 <span id="cb6-9"><a href="#cb6-9"></a>experimento()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1: 0.11
-2: 0.16
-3: 0.13
-4: 0.16
-5: 0.24
-6: 0.2</code></pre>
+<pre><code>1: 0.26
+2: 0.13
+3: 0.14
+4: 0.1
+5: 0.18
+6: 0.19</code></pre>
 </div>
 </div>
 <p>Los números en la primer columna son los posibles resultados. Los de la segunda columna corresponden con la frecuencia con la que aparece cada número. La frecuencia es la cantidad de veces que aparece cada uno de los posibles resultados dividido por <code>N</code>. Siendo <code>N</code> el total de veces que arrojamos el dado.</p>
@@ -439,7 +439,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <span id="cb8-12"><a href="#cb8-12"></a>         radio<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="fl">2.</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"ec59178f51c440de97a401e70cac629b","version_major":2,"version_minor":0}
+{"model_id":"373e682c010f44f5a80f9f1b222d0008","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -461,7 +461,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <span id="cb9-12"><a href="#cb9-12"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"efd3c8c18ae0466a843bbf8fbdc89724","version_major":2,"version_minor":0}
+{"model_id":"45f347856b274e35acbaa97c19aac885","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
