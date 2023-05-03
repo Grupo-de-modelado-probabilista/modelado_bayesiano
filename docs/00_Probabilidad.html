@@ -345,7 +345,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb4-4"><a href="#cb4-4"></a></span>
 <span id="cb4-5"><a href="#cb4-5"></a>dado()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>4</code></pre>
+<pre><code>3</code></pre>
 </div>
 </div>
 <p>Al ejecutar la celda anterior repetidas veces podrán ver que en cada ejecución se obtiene un número (entero) distinto entre 1 y 6. Entender que está haciendo exactamente esta función no es del todo relevante, pero si es útil entender la idea general detrás de esta función. Veamos:</p>
@@ -369,12 +369,12 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <span id="cb6-8"><a href="#cb6-8"></a></span>
 <span id="cb6-9"><a href="#cb6-9"></a>experimento()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1: 0.13
-2: 0.16
-3: 0.15
-4: 0.19
-5: 0.2
-6: 0.17</code></pre>
+<pre><code>1: 0.15
+2: 0.13
+3: 0.19
+4: 0.09
+5: 0.16
+6: 0.28</code></pre>
 </div>
 </div>
 <p>Los números en la primer columna son los posibles resultados. Los de la segunda columna corresponden con la frecuencia con la que aparece cada número. La frecuencia es la cantidad de veces que aparece cada uno de los posibles resultados dividido por <code>N</code>. Siendo <code>N</code> el total de veces que arrojamos el dado.</p>
@@ -424,7 +424,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 </blockquote>
 <p>Dado el parámetro <code>radio</code> una circunferencia queda perfectamente definida. Si necesitáramos ubicar la circunferencia respecto de otros objetos en el plano, necesitaríamos además las coordenadas del centro, pero omitamos ese <em>detalle</em> por el momento.</p>
 <p>Veamos el siguiente ejemplo:</p>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">def</span> dibuja_circ(radio):</span>
 <span id="cb8-2"><a href="#cb8-2"></a>    _, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
 <span id="cb8-3"><a href="#cb8-3"></a>    x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">100</span>)</span>
@@ -439,14 +439,14 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <span id="cb8-12"><a href="#cb8-12"></a>         radio<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="fl">2.</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"f403e7807ab247a8833e15286bc6dc3a","version_major":2,"version_minor":0}
+{"model_id":"6e31342bd637453b8561fadde4f28605","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
 <p>Podríamos decir que no existe una sola circunferencia, sino una familia de circunferencias donde cada miembro se diferencia del resto solo por el valor del parámetro <code>radio</code>, ya que una vez definido este parámetro la circunferencia queda definida.</p>
 <p>De forma similar las distribuciones de probabilidad vienen en familias cuyos miembros quedan definidos por uno o más parámetros. Es común que los nombres de los parámetros de las distribuciones de probabilidad sean letras del alfabeto griego, aunque esto no es siempre así.</p>
 <p>En el siguiente ejemplo tenemos una distribución de probabilidad que podríamos usar para representar un dado y que es controlada por dos parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>:</p>
-<div class="cell" data-scrolled="true" data-execution_count="7">
+<div class="cell" data-scrolled="true" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> dist_dado(α, β):</span>
 <span id="cb9-2"><a href="#cb9-2"></a>    n <span class="op">=</span> <span class="dv">5</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>    x <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">6</span>)</span>
@@ -461,7 +461,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <span id="cb9-12"><a href="#cb9-12"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"1cc84e696b4d476798a6cf589c10a164","version_major":2,"version_minor":0}
+{"model_id":"cfe5bd01d65549b4ba44dd3274e45333","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -495,11 +495,12 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <p><span class="math display">\[p(k \mid a, b)={\frac {1}{b - a + 1}} = \frac{1}{n}\tag {0.3}\]</span></p>
 <p>Para valores de <span class="math inline">\(k\)</span> en el intervalo [a, b], fuera de este intervalo <span class="math inline">\(p(k) = 0\)</span>, donde <span class="math inline">\(n=b-a+1\)</span> es la cantidad total de valores que puede tomar <span class="math inline">\(k\)</span>.</p>
 <p>Podemos usar esta distribución para modelar, por ejemplo un dado no cargado.</p>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>dist <span class="op">=</span> pz.DiscreteUniform(lower<span class="op">=</span><span class="dv">1</span>, upper<span class="op">=</span><span class="dv">6</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>, support<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">7</span>))</span>
-<span id="cb10-3"><a href="#cb10-3"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co"># PreliZ usa "plot_pdf" tanto para distribuciones discretas como continuas</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>, support<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">7</span>))</span>
+<span id="cb10-4"><a href="#cb10-4"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
@@ -515,7 +516,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <p>Es la <a href="https://en.wikipedia.org/wiki/Binomial_distribution">distribución</a> de probabilidad discreta que cuenta el número de éxitos en una secuencia de <span class="math inline">\(n\)</span> ensayos de Bernoulli (experimentos si/no) independientes entre sí, con una probabilidad fija <span class="math inline">\(p\)</span> de ocurrencia del éxito entre los ensayos. Cuando <span class="math inline">\(n=1\)</span> esta distribución se reduce a la distribución de Bernoulli.</p>
 <p><span class="math display">\[p(x \mid n,p) = \frac{n!}{x!(n-x)!}p^x(1-p)^{n-x} \tag {0.4}\]</span></p>
 <p>El término <span class="math inline">\(p^x(1-p)^{n-x}\)</span> indica la probabilidad de obtener <span class="math inline">\(x\)</span> éxitos en <span class="math inline">\(n\)</span> intentos. Este término solo tiene en cuenta el número total de éxitos obtenidos pero no la secuencia en la que aparecieron. El primer término conocido como <strong>coeficiente binomial</strong> calcula todas las posibles combinaciones de <span class="math inline">\(n\)</span> en <span class="math inline">\(x\)</span>, es decir el número de subconjuntos de <span class="math inline">\(x\)</span> elementos escogidos de un conjunto con <span class="math inline">\(n\)</span> elementos.</p>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>dist <span class="op">=</span> pz.Binomial(n<span class="op">=</span><span class="dv">4</span>, p<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb11-2"><a href="#cb11-2"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
@@ -531,13 +532,17 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <p><span class="math display">\[
 p(x \mid \mu) = \frac{\mu^{x} e^{-\mu}}{x!} \tag {0.5}
 \]</span></p>
+<p>donde x es el número de eventos <span class="math inline">\((x =0,1,2,\ldots)\)</span></p>
 <p>Tanto la media como la varianza de esta distribución están dadas por <span class="math inline">\(\mu\)</span>.</p>
 <p>A medida que <span class="math inline">\(\mu\)</span> aumenta la distribución de Poisson se aproxima a una distribución Gaussiana (aunque sigue siendo discreta). La distribución de Poisson tiene estrecha relación con otra distribución de probabilidad, la binomial. Una distribución binomial puede ser aproximada con una distribución de Poisson, cuando <span class="math inline">\(n &gt;&gt; p\)</span>, es decir, cuando la cantidad de “éxitos” (<span class="math inline">\(p\)</span>) es baja respecto de la cantidad de “intentos” (p) entonces <span class="math inline">\(\text{Poisson}(np) \approx \text{Binon}(n, p)\)</span>. Por esta razón la distribución de Poisson también se conoce como “ley de los pequeños números” o “ley de los eventos raros”. Ojo que esto no implica que <span class="math inline">\(\mu\)</span> deba ser pequeña, quien es pequeño/raro es <span class="math inline">\(p\)</span> respecto de <span class="math inline">\(n\)</span>.</p>
-<div class="cell" data-execution_count="10">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>dist <span class="op">=</span> pz.Poisson(mu<span class="op">=</span><span class="fl">2.3</span>)  <span class="co"># número de veces que se espera que ocurra un evento.</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
-<span id="cb12-4"><a href="#cb12-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="co"># PreliZ conoce cuales son los límites de una distribución y los usa al grafica</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="co"># Para distribuciones que no tienen límites PreliZ usa los cuantiles 0.001 y 0.999</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co"># En el caso de la distribución de Poisson, el gráfico va de 0 a el cuantil 0.999</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb12-7"><a href="#cb12-7"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
@@ -548,9 +553,9 @@ p(x \mid \mu) = \frac{\mu^{x} e^{-\mu}}{x!} \tag {0.5}
 <h2 data-number="1.6" class="anchored" data-anchor-id="variables-aleatorias-y-distribuciones-de-probabilidad-continuas"><span class="header-section-number">1.6</span> Variables aleatorias y distribuciones de probabilidad continuas</h2>
 <p>Hasta ahora hemos visto variables aleatorias discretas y distribuciones de masa de probabilidad. Existe otro tipo de variable aleatoria que son muy usadas y son las llamadas variables aleatorias continuas, ya que toman valores en <span class="math inline">\(\mathbb{R}\)</span>.</p>
 <p>La diferencia más importante entre variables aleatoria discretas y continuas es que para las continuas <span class="math inline">\(P(X=x) = 0\)</span>, es decir, la probabilidad de cualquier valor es exactamente 0.</p>
-<p>En las gráficas anteriores, para variables discretas, es la altura de los puntos lo que define la probabilidad de cada evento. Si sumamos todas las alturas siempre obtenemos 1. En una distribución continua no tenemos una cantidad finita de <em>puntos</em> que sumar, en cambio tenemos una cantidad infinita de <em>puntos</em> que definen una curva continua, la altura de esa curva es la <em>densidad de probabilidad</em>. Si queremos averiguar cuanto más probable es el valor <span class="math inline">\(x_1\)</span> respecto de <span class="math inline">\(x_2\)</span> basta calcular:</p>
+<p>En las gráficas anteriores, para variables discretas, es la altura de los puntos lo que define la probabilidad de cada evento. Si sumamos todas las alturas siempre obtenemos 1. En una distribución continua no tenemos una cantidad finita de <em>puntos</em> que sumar, en cambio tenemos una cantidad infinita de <em>puntos</em> que definen una curva continua, la altura de esa curva es la <strong>densidad de probabilidad</strong>. Si queremos averiguar cuanto más probable es el valor <span class="math inline">\(x_1\)</span> respecto de <span class="math inline">\(x_2\)</span> basta calcular:</p>
 <p><span class="math display">\[\frac{pdf(x_1)}{pdf(x_2)} \tag {0.6}\]</span></p>
-<p>Donde <span class="math inline">\(pdf\)</span> es la función de densidad de probabilidad (por su sigla en inglés). Y es análoga a la <span class="math inline">\(pmf\)</span> que vimos para variables discretas. Una diferencia importante es que la <span class="math inline">\(pdf(x)\)</span> puede ser mayor a 1. Para obtener una probabilidad a partir de una <span class="math inline">\(pdf\)</span> debemos integrar en un intervalo dado, ya que es el área bajo la curva y no la altura lo que nos da la probabilidad, es decir es esta integral la que debe dar entre 0 y 1.</p>
+<p>Donde <span class="math inline">\(pdf\)</span> es la función de densidad de probabilidad (por su sigla en inglés). Y es análoga a la <span class="math inline">\(pmf\)</span> que vimos para variables discretas. Una diferencia importante es que la <span class="math inline">\(pdf(x)\)</span> puede devolver mayores a 1. Para obtener una probabilidad a partir de una <span class="math inline">\(pdf\)</span> debemos integrar en un intervalo dado, ya que es el área bajo la curva y no la altura lo que nos da la probabilidad, es decir es esta integral la que debe dar entre 0 y 1.</p>
 <p><span class="math display">\[P(a \lt X \lt b) =  \int_a^b pdf(x) dx\]</span></p>
 <p>En muchos textos es común usar <span class="math inline">\(p\)</span> para referirse a la probabilidad de un evento en particular o a la <span class="math inline">\(pmf\)</span> o a la <span class="math inline">\(pdf\)</span>, esperando que la diferencia se entienda por contexto.</p>
 <p>A continuación veremos varias distribuciones continuas.</p>
@@ -560,7 +565,7 @@ p(x \mid \mu) = \frac{\mu^{x} e^{-\mu}}{x!} \tag {0.5}
 <p><span class="math display">\[
 p(x \mid a,b)=\begin{cases} \frac{1}{b-a} &amp; para\ a \le x \le b \\ 0 &amp;  \text{para el resto} \end{cases} \tag {0.7}
 \]</span></p>
-<div class="cell" data-execution_count="11">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>dist <span class="op">=</span> pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>)  </span>
 <span id="cb13-2"><a href="#cb13-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb13-3"><a href="#cb13-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -583,7 +588,7 @@ p(x \mid a,b)=\begin{cases} \frac{1}{b-a} &amp; para\ a \le x \le b \\ 0 &amp;  
 <p><span class="math display">\[
 p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 } {2 \sigma^2}} \tag {0.8}
 \]</span></p>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>dist <span class="op">=</span> pz.Normal(mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>)  </span>
 <span id="cb14-2"><a href="#cb14-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -603,7 +608,7 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 <p>donde <span class="math inline">\(\Gamma\)</span> es la función <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma</a> y donde <span class="math inline">\(\nu\)</span> es un parámetro llamado <em>grados de libertad</em> en la mayoría de los textos aunque también se le dice <em>grado de normalidad</em>, ya que a medida que <span class="math inline">\(\nu\)</span> aumenta la distribución se aproxima a una Gaussiana. En el caso extremo de <span class="math inline">\(\lim_{\nu\to\infty}\)</span> la distribución es exactamente igual a una Gaussiana.</p>
 <p>En el otro <em>extremo</em>, cuando <span class="math inline">\(\nu=1\)</span>, (aunque en realidad <span class="math inline">\(\nu\)</span> puede tomar valores por debajo de 1) estamos frente a una distribución de <a href="https://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy</a>. Es similar a una Gaussiana pero las colas decrecen muy lentamente, eso provoca que en teoría esta distribución no poseen una media o varianza definidas. Es decir, es posible calcular a partir de un conjunto de datos una media, pero si los datos provienen de una distribución de Cauchy, la dispersión alrededor de la media será alta y esta dispersión no disminuirá a medida que aumente el tamaño de la muestra. La razón de este comportamiento extraño es que en distribuciones como la Cauchy están dominadas por lo que sucede en las colas de la distribución, contrario a lo que sucede por ejemplo con la distribución Gaussiana.</p>
 <p>Para esta distribución <span class="math inline">\(\sigma\)</span> no es la desviación estándar, que como ya se dijo podría estar indefinida, <span class="math inline">\(\sigma\)</span> es la <em>escala</em>. A medida que <span class="math inline">\(\nu\)</span> aumenta la <em>escala</em> converge a la desviación estándar de una distribución Gaussiana.</p>
-<div class="cell" data-scrolled="true" data-execution_count="13">
+<div class="cell" data-scrolled="true" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>dist <span class="op">=</span> pz.StudentT(nu<span class="op">=</span><span class="dv">4</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">2</span>)  </span>
 <span id="cb15-2"><a href="#cb15-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb15-3"><a href="#cb15-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -622,7 +627,7 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 \]</span></p>
 <p>La media y la desviación estándar de esta distribución están dadas por <span class="math inline">\(\frac{1}{\lambda}\)</span></p>
-<div class="cell" data-scrolled="true" data-execution_count="14">
+<div class="cell" data-scrolled="true" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>dist <span class="op">=</span> pz.Exponential(<span class="dv">3</span>)  </span>
 <span id="cb16-2"><a href="#cb16-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -638,7 +643,7 @@ p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 <h3 data-number="1.6.5" class="anchored" data-anchor-id="distribución-de-laplace"><span class="header-section-number">1.6.5</span> Distribución de Laplace</h3>
 <p>También llamada distribución <a href="https://en.wikipedia.org/wiki/Laplace_distribution">doble exponencial</a>, ya que puede pensarse como una distribución exponencial “más su imagen especular”. Esta distribución surge de medir la diferencia entre dos variables exponenciales (idénticamente distribuidas).</p>
 <p><span class="math display">\[p(x \mid \mu, b) = \frac{1}{2b} \exp \left\{ - \frac{|x - \mu|}{b} \right\} \tag {0.11}\]</span></p>
-<div class="cell" data-scrolled="true" data-execution_count="15">
+<div class="cell" data-scrolled="true" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>dist <span class="op">=</span> pz.Laplace(<span class="dv">0</span>, <span class="fl">0.7</span>)  </span>
 <span id="cb17-2"><a href="#cb17-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb17-3"><a href="#cb17-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -660,7 +665,7 @@ p(x \mid \alpha, \beta)= \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)
 <p>Si queremos expresar la distribución beta en función de la media y la dispersión alrededor de la media podemos hacerlo de la siguiente forma.</p>
 <p><span class="math display">\[\alpha = \mu \kappa\]</span> <span class="math display">\[\beta = (1 − \mu) \kappa\]</span></p>
 <p>Siendo <span class="math inline">\(\mu\)</span> la media y <span class="math inline">\(\kappa\)</span> una parámetro llamado concentración a media que <span class="math inline">\(\kappa\)</span> aumenta la dispersión disminuye. Nótese, además que <span class="math inline">\(\kappa = \alpha + \beta\)</span>.</p>
-<div class="cell" data-execution_count="16">
+<div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>dist <span class="op">=</span> pz.Beta(<span class="dv">5</span>, <span class="dv">2</span>)  </span>
 <span id="cb18-2"><a href="#cb18-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -680,7 +685,7 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 \]</span></p>
 <p>La distribución gamma se reduce a la exponencial cuando <span class="math inline">\(\alpha=1\)</span>.</p>
 <p>Otra parametrización, disponible por ej en paquetes como PyMC y Preliz, es en términos de la media y la desviación estándar.</p>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>dist <span class="op">=</span> pz.Gamma(alpha<span class="op">=</span><span class="dv">3</span>, beta<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb19-2"><a href="#cb19-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -697,23 +702,23 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 <h2 data-number="1.7" class="anchored" data-anchor-id="valor-esperado"><span class="header-section-number">1.7</span> Valor esperado</h2>
 <p>El valor esperado (también conocido como esperanza o media) es un número que resume el centro de masa de una distribución. Por ejemplo, si <span class="math inline">\(X\)</span> es una variable aleatoria discreta, podemos calcular su valor esperado como:</p>
 <p><span class="math display">\[
-    \mathbb{E}(X) = \sum_x x P(X = x)
+    \mathbb{E}[X] = \sum_{i=1}^n x_i P(X=x_i)
 \]</span></p>
 <p>En estadística usualmente también queremos medir la dispersión de una distribución, por ejemplo, para representar la incertidumbre en torno a una estimación puntual como la media. Podemos hacer esto con la varianza, que también es un valor esperado:</p>
 <p><span class="math display">\[
-\mathbb{V}(X) = \mathbb{E}(X - \mathbb{E}X)^2 = \mathbb{E}(X^2 ) - (\mathbb{E}X)^2
+\mathbb{V}(X) = \mathbb{E}[(X - \mathbb{E}[X])^2] = \mathbb{E}[X^2] - \mathbb{E}[X]^2
 \]</span></p>
 <p>La varianza aparece <em>naturalmente</em> en muchos cálculos estadísticos. Sin embargo, para reportar los resultados de un análisis suele ser más útil la desviación estándar, que es la raíz cuadrada de la varianza. La principal ventaja es que esta última está en la mismas escala/unidades que la variable aleatoria.</p>
-<p>El <span class="math inline">\(n\)</span>-ésimo momento de una variable aleatoria <span class="math inline">\(X\)</span> es <span class="math inline">\(\mathbb{E}(X^n)\)</span>, por lo que el valor esperado (media) y la varianza también se conocen como el primer y segundo momento de una distribución.</p>
-<p>Una vez fijados los parámetros de una distribución de probabilidad. Es posible calcularle sus momentos, el primer momento es la media y el segundo la varianza. Es importante notar que estos valores son propiedades de la distribución y no propiedades de una muestra. Por ejemplo la media y varianza de una distribución Beta(4, 6) es 0.4 y <span class="math inline">\(\approx 0.22\)</span>, respectivamente</p>
-<div class="cell" data-execution_count="18">
+<p>El <span class="math inline">\(n\)</span>-ésimo momento de una variable aleatoria <span class="math inline">\(X\)</span> es <span class="math inline">\(\mathbb{E}[X^n]\)</span>, por lo que el valor esperado (media) y la varianza también se conocen como el primer y segundo momento de una distribución.</p>
+<p>Una vez fijados los parámetros de una distribución de probabilidad. Es posible calcularle sus momentos, el primer momento es la media y el segundo la varianza. Es importante notar que estos valores son propiedades de la distribución y no propiedades de una muestra. Por ejemplo la media y varianza de una distribución Beta(4, 6) es <span class="math inline">\(0.4\)</span> y <span class="math inline">\(\approx 0.22\)</span>, respectivamente</p>
+<div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">6</span>).plot_pdf(moments<span class="op">=</span><span class="st">"mv"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="00_Probabilidad_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Existen otros momentos, el tercer momento se conoce como sesgo y habla de la asimetría de una distribución</p>
-<div class="cell" data-execution_count="19">
+<div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span>
 <span id="cb21-2"><a href="#cb21-2"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">10</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span>
 <span id="cb21-3"><a href="#cb21-3"></a>pz.Beta(<span class="dv">10</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -722,7 +727,7 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 </div>
 </div>
 <p>El cuarto momento, conocido como curtosis, nos habla del comportamiento de las colas o <em>valores extremos</em>. Suele calcularse de forma tal que de 0 para una Normal. Además las discusiones suelen centrarse en torno a distribuciones con curtosis positiva (como la distribución de Laplace o Student T con <span class="math inline">\(\nu &gt; 4\)</span>) por lo que es común hablar de <em>exceso</em> de curtosis. Mientras más grande la curtosis de una distribución más pesadas sus colas, es decir es más factible observar valores alejados de la media.</p>
-<div class="cell" data-execution_count="20">
+<div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>pz.Normal(<span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span>
 <span id="cb22-2"><a href="#cb22-2"></a>pz.StudentT(<span class="fl">4.1</span>, <span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span>
 <span id="cb22-3"><a href="#cb22-3"></a>pz.Uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -743,16 +748,25 @@ cdf(x) = \int_{-\infty}^{x} pdf(x) d(x) \tag {0.17}
 S(x) = 1 - cdf  \tag {0.18}
 \]</span></p>
 <p>A continuación un ejemplo de la <code>pdf</code> y <code>cdf</code> para 4 distribuciones de la familia Gaussiana.</p>
-<div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb23-2"><a href="#cb23-2"></a>x_valores <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">500</span>)</span>
-<span id="cb23-3"><a href="#cb23-3"></a>valores <span class="op">=</span> [(<span class="fl">0.</span>, <span class="fl">.2</span>), (<span class="fl">0.</span>, <span class="fl">1.</span>), (<span class="fl">0.</span>, <span class="fl">2.</span>), (<span class="fl">2.</span>, <span class="fl">.5</span>)]</span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="cf">for</span> val <span class="kw">in</span> valores:</span>
-<span id="cb23-5"><a href="#cb23-5"></a>    pz.Normal(<span class="op">*</span>val).plot_pdf(ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
-<span id="cb23-6"><a href="#cb23-6"></a>    pz.Normal(<span class="op">*</span>val).plot_cdf(ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
-<span id="cb23-7"><a href="#cb23-7"></a>    ax[<span class="dv">1</span>].get_legend().remove()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a> pz.Normal(<span class="dv">0</span>, <span class="dv">1</span>).plot_pdf()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>&lt;Axes: &gt;</code></pre>
+</div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
+<p><img src="00_Probabilidad_files/figure-html/cell-22-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb25-2"><a href="#cb25-2"></a>x_valores <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">500</span>)</span>
+<span id="cb25-3"><a href="#cb25-3"></a>valores <span class="op">=</span> [(<span class="fl">0.</span>, <span class="fl">1.</span>), (<span class="fl">0.</span>, <span class="fl">2.</span>), (<span class="fl">2.</span>, <span class="fl">.5</span>)]</span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="cf">for</span> val <span class="kw">in</span> valores:</span>
+<span id="cb25-5"><a href="#cb25-5"></a>    pz.Normal(<span class="op">*</span>val).plot_pdf(ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
+<span id="cb25-6"><a href="#cb25-6"></a>    pz.Normal(<span class="op">*</span>val).plot_cdf(ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
+<span id="cb25-7"><a href="#cb25-7"></a>    ax[<span class="dv">1</span>].get_legend().remove()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_Probabilidad_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>La siguiente figura tomada del libro <a href="http://greenteapress.com/thinkstats2/html/index.html">Think Stats</a> resume las relaciones entre la <code>cdf</code>, <code>pdf</code> y <code>pmf</code>.</p>
@@ -785,22 +799,22 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <h3 data-number="1.10.1" class="anchored" data-anchor-id="la-ley-de-los-grandes-números"><span class="header-section-number">1.10.1</span> La ley de los grandes números</h3>
 <p>El valor promedio calculado para una muestra converge al valor esperado (media) de dicha distribución. Esto no es cierto para algunas distribuciones como la distribución de Cauchy (la cual no tiene media ni varianza finita).</p>
 <p>La ley de los grandes números se suele malinterpretar y dar lugar a la paradoja del apostador. Un ejemplo de esta paradoja es creer que conviene apostar en la lotería/quiniela a un número <em>atrasado</em>, es decir un número que hace tiempo que no sale. El razonamiento, erróneo, es que como todos los números tienen la misma probabilidad a largo plazo si un número viene <em>atrasado</em> entonces hay alguna especie de fuerza que aumenta la probabilidad de ese número en los próximo sorteos para así re-establecer la equiprobabilidad de los números.</p>
-<div class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>tamaño_muestra <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>muestras <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, tamaño_muestra)</span>
-<span id="cb24-3"><a href="#cb24-3"></a>dist <span class="op">=</span> pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb24-4"><a href="#cb24-4"></a>media_verdadera <span class="op">=</span> dist.rv_frozen.stats(<span class="st">'m'</span>)</span>
-<span id="cb24-5"><a href="#cb24-5"></a></span>
-<span id="cb24-6"><a href="#cb24-6"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
-<span id="cb24-7"><a href="#cb24-7"></a>    muestra <span class="op">=</span> dist.rvs(tamaño_muestra)</span>
-<span id="cb24-8"><a href="#cb24-8"></a>    media_estimada <span class="op">=</span> [muestra[:i].mean() <span class="cf">for</span> i <span class="kw">in</span> muestras]</span>
-<span id="cb24-9"><a href="#cb24-9"></a>    plt.plot(muestras, media_estimada, lw<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb24-10"><a href="#cb24-10"></a></span>
-<span id="cb24-11"><a href="#cb24-11"></a>plt.hlines(media_verdadera, <span class="dv">0</span>, tamaño_muestra, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
-<span id="cb24-12"><a href="#cb24-12"></a>plt.ylabel(<span class="st">"media"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb24-13"><a href="#cb24-13"></a>plt.xlabel(<span class="st">"# de muestras"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>tamaño_muestra <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>muestras <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, tamaño_muestra)</span>
+<span id="cb26-3"><a href="#cb26-3"></a>dist <span class="op">=</span> pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb26-4"><a href="#cb26-4"></a>media_verdadera <span class="op">=</span> dist.rv_frozen.stats(<span class="st">'m'</span>)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb26-7"><a href="#cb26-7"></a>    muestra <span class="op">=</span> dist.rvs(tamaño_muestra)</span>
+<span id="cb26-8"><a href="#cb26-8"></a>    media_estimada <span class="op">=</span> [muestra[:i].mean() <span class="cf">for</span> i <span class="kw">in</span> muestras]</span>
+<span id="cb26-9"><a href="#cb26-9"></a>    plt.plot(muestras, media_estimada, lw<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb26-10"><a href="#cb26-10"></a></span>
+<span id="cb26-11"><a href="#cb26-11"></a>plt.hlines(media_verdadera, <span class="dv">0</span>, tamaño_muestra, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb26-12"><a href="#cb26-12"></a>plt.ylabel(<span class="st">"media"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb26-13"><a href="#cb26-13"></a>plt.xlabel(<span class="st">"# de muestras"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
+<p><img src="00_Probabilidad_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -820,28 +834,28 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <p>Los criterios 1 y 2 se pueden relajar <em>bastante</em> y aún así obtendremos aproximadamente una Gaussiana, pero del criterio 3 no hay forma de escapar. Para distribuciones como la distribución de Cauchy, que no posen media ni varianza definida este teorema no se aplica. El promedio de <span class="math inline">\(N\)</span> valores provenientes de una distribución Cauchy no siguen una Gaussiana sino una distribución de Cauchy.</p>
 <p>El teorema del límite central explica la prevalencia de la distribución Gaussiana en la naturaleza. Muchos de los fenómenos que estudiamos se pueden explicar como fluctuaciones alrededor de una media, o ser el resultado de la suma de muchos factores diferentes. Además, las Gaussianas son muy comunes en probabilidad, estadística y <em>machine learning</em> ya que que esta familia de distribuciones son más simples de manipular matemáticamente que muchas otras distribuciones.</p>
 <p>A continuación vemos una simulación que nos muestra el teorema del límite central en acción.</p>
-<div class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>iters <span class="op">=</span> <span class="dv">2000</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>dist <span class="op">=</span> pz.Exponential(<span class="dv">1</span>)</span>
-<span id="cb25-3"><a href="#cb25-3"></a>media, var <span class="op">=</span> dist.rv_frozen.stats(<span class="st">'mv'</span>)</span>
-<span id="cb25-4"><a href="#cb25-4"></a></span>
-<span id="cb25-5"><a href="#cb25-5"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb25-6"><a href="#cb25-6"></a></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="cf">for</span> i, n <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">100</span>]):</span>
-<span id="cb25-8"><a href="#cb25-8"></a>    sample <span class="op">=</span> np.mean(dist.rvs((n, iters)), axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb25-9"><a href="#cb25-9"></a></span>
-<span id="cb25-10"><a href="#cb25-10"></a>    sd <span class="op">=</span> (var<span class="op">/</span>n)<span class="op">**</span><span class="fl">0.5</span> </span>
-<span id="cb25-11"><a href="#cb25-11"></a>    x <span class="op">=</span> np.linspace(media <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> sd, media <span class="op">+</span> <span class="dv">4</span> <span class="op">*</span> sd, <span class="dv">200</span>)</span>
-<span id="cb25-12"><a href="#cb25-12"></a>    ax[<span class="dv">0</span>, i].plot(x, pz.Normal(media, sd).pdf(x))</span>
-<span id="cb25-13"><a href="#cb25-13"></a>    ax[<span class="dv">0</span>, i].hist(sample, density<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb25-14"><a href="#cb25-14"></a>    ax[<span class="dv">0</span>, i].set_title(<span class="st">'n = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(n))</span>
-<span id="cb25-15"><a href="#cb25-15"></a>    osm, osr <span class="op">=</span> stats.probplot(sample, dist<span class="op">=</span>pz.Normal(media, sd), fit<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb25-16"><a href="#cb25-16"></a>    ax[<span class="dv">1</span>, i].plot(osm, osm)</span>
-<span id="cb25-17"><a href="#cb25-17"></a>    ax[<span class="dv">1</span>, i].plot(osm, osr, <span class="st">'o'</span>)</span>
-<span id="cb25-18"><a href="#cb25-18"></a>ax[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'observados'</span>)</span>
-<span id="cb25-19"><a href="#cb25-19"></a>ax[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'esperados'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>iters <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>dist <span class="op">=</span> pz.Exponential(<span class="dv">1</span>)</span>
+<span id="cb27-3"><a href="#cb27-3"></a>media, var <span class="op">=</span> dist.rv_frozen.stats(<span class="st">'mv'</span>)</span>
+<span id="cb27-4"><a href="#cb27-4"></a></span>
+<span id="cb27-5"><a href="#cb27-5"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb27-6"><a href="#cb27-6"></a></span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="cf">for</span> i, n <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">100</span>]):</span>
+<span id="cb27-8"><a href="#cb27-8"></a>    sample <span class="op">=</span> np.mean(dist.rvs((n, iters)), axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb27-9"><a href="#cb27-9"></a></span>
+<span id="cb27-10"><a href="#cb27-10"></a>    sd <span class="op">=</span> (var<span class="op">/</span>n)<span class="op">**</span><span class="fl">0.5</span> </span>
+<span id="cb27-11"><a href="#cb27-11"></a>    x <span class="op">=</span> np.linspace(media <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> sd, media <span class="op">+</span> <span class="dv">4</span> <span class="op">*</span> sd, <span class="dv">200</span>)</span>
+<span id="cb27-12"><a href="#cb27-12"></a>    ax[<span class="dv">0</span>, i].plot(x, pz.Normal(media, sd).pdf(x))</span>
+<span id="cb27-13"><a href="#cb27-13"></a>    ax[<span class="dv">0</span>, i].hist(sample, density<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb27-14"><a href="#cb27-14"></a>    ax[<span class="dv">0</span>, i].set_title(<span class="st">'n = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(n))</span>
+<span id="cb27-15"><a href="#cb27-15"></a>    osm, osr <span class="op">=</span> stats.probplot(sample, dist<span class="op">=</span>pz.Normal(media, sd), fit<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb27-16"><a href="#cb27-16"></a>    ax[<span class="dv">1</span>, i].plot(osm, osm)</span>
+<span id="cb27-17"><a href="#cb27-17"></a>    ax[<span class="dv">1</span>, i].plot(osm, osr, <span class="st">'o'</span>)</span>
+<span id="cb27-18"><a href="#cb27-18"></a>ax[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'observados'</span>)</span>
+<span id="cb27-19"><a href="#cb27-19"></a>ax[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'esperados'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
+<p><img src="00_Probabilidad_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>

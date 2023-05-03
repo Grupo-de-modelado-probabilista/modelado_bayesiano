@@ -270,7 +270,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#divergencias" id="toc-divergencias" class="nav-link" data-scroll-target="#divergencias"><span class="toc-section-number">5.4.2</span>  Divergencias</a></li>
   </ul></li>
   <li><a href="#qué-hacer-cuando-los-diagnósticos-no-dan-bien" id="toc-qué-hacer-cuando-los-diagnósticos-no-dan-bien" class="nav-link" data-scroll-target="#qué-hacer-cuando-los-diagnósticos-no-dan-bien"><span class="toc-section-number">5.5</span>  Qué hacer cuando los diagnósticos no dan bien?</a></li>
-  <li><a href="#para-seguir-leyendo" id="toc-para-seguir-leyendo" class="nav-link" data-scroll-target="#para-seguir-leyendo"><span class="toc-section-number">5.6</span>  Para seguir leyendo</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">5.6</span>  Ejercicios</a></li>
+  <li><a href="#para-seguir-leyendo" id="toc-para-seguir-leyendo" class="nav-link" data-scroll-target="#para-seguir-leyendo"><span class="toc-section-number">5.7</span>  Para seguir leyendo</a></li>
   </ul>
 </nav>
     </div>
@@ -743,20 +744,32 @@ dtype: float64</code></pre>
 <h2 data-number="5.5" class="anchored" data-anchor-id="qué-hacer-cuando-los-diagnósticos-no-dan-bien"><span class="header-section-number">5.5</span> Qué hacer cuando los diagnósticos no dan bien?</h2>
 <p><br></p>
 <ul>
-<li><p><font color="gray"> Más muestras o más pasos de tuning (aunque es dificil llegar lejos con esto) </font></p></li>
-<li><p><font color="gray"> Burn-in </font></p></li>
+<li><p><font color="gray"> Más muestras o más pasos de tuning. Esto solo suele ser útil cuando los problemas son menores</font></p></li>
+<li><p><font color="gray"> Burn-in. Software moderno como PyMC utiliza una cantidad de muestras para ajustar los hiper-parámetros de los métodos de muestreo. Por defecto esas muestras son eliminadas, por lo que en general no es necesario hacer Burn-in manualmente. </font></p></li>
 <li><p><font color="gray"> Cambiar el método de muestreo! </font></p></li>
 <li><p>Reparametrizar el modelo</p></li>
-<li><p><font color="orange"> Mejorar los priors </font></p>
+<li><p><font color="orange"> Mejorar las distribuciones <em>a priori</em> </font></p>
 <ul>
-<li>El <em>teorema popular</em> de la estadística computacional: Cuando tienes problemas computacionales, a menudo hay un problema con tu modelo.</li>
+<li>El <em>teorema popular</em> de la estadística computacional: Cuando tienes problemas computacionales, a menudo hay un problema con tu modelo. La recomendación NO es cambiar la distribución <em>a priori</em> para mejorar la calidad del muestreo. La recomendación es que si el muestreo es malo, quizá el modelo también lo sea. En ese caso, podemos pensar en mejorar el modelo, una forma de mejorarlo es usar conocimiento previo para mejorar las distribuciones <em>a priori</em>.</li>
 </ul></li>
-<li><p>En el caso de las divergencias, estan pueden eliminarse aumentando la tasa de aceptación (<code>pm.sample(..., target_accept=x)</code> x&gt;0.8)</p></li>
+<li><p>Algunos modelos pueden expresarse en más de una forma, todas matemáticamente equivalentes. En esos casos, algunas parametrizaciones pueden ser más eficientes que otras. Por ejemplo, como veremos más adelante con modelos lineales jerárquicos.</p></li>
+<li><p>En el caso de las divergencias, estas suelen eliminarse aumentando la tasa de aceptación (<code>pm.sample(..., target_accept=x)</code> x&gt;0.8)</p></li>
 <li><p>Leer los mensajes de advertencia y sugerencias de PyMC! ;-)</p></li>
 </ul>
 </section>
-<section id="para-seguir-leyendo" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="para-seguir-leyendo"><span class="header-section-number">5.6</span> Para seguir leyendo</h2>
+<section id="ejercicios" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">5.6</span> Ejercicios</h2>
+<ol type="1">
+<li><p>Explicá en tus propias palabras que es el ESS, el <span class="math inline">\(\hat R\)</span> y el MCSE. ¿Qué información nos dan?</p></li>
+<li><p>¿Qué significa que el <span class="math inline">\(\hat R\)</span> sea 1.01? ¿Qué significa que sea 1.5? ¿Qué significa que sea 1.9?</p></li>
+<li><p>¿Qué significa que el ESS sea 100? ¿Qué significa que sea 1000? ¿Qué significa que sea 10000?</p></li>
+<li><p>¿Qué significa que el MCSE sea 0.1? ¿Qué significa que sea 0.5? ¿Qué significa que sea 1?</p></li>
+<li><p>¿Qué significa que el MCSE sea 0.1 para un parámetro cuya media es 3.15? ¿Qué significa que sea 0.5? ¿Qué significa que sea 1?</p></li>
+<li><p>¿Qué significa que el MCSE sea 0.1 para un parámetro cuya media e</p></li>
+</ol>
+</section>
+<section id="para-seguir-leyendo" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="para-seguir-leyendo"><span class="header-section-number">5.7</span> Para seguir leyendo</h2>
 <p><a href="https://github.com/arviz-devs/Exploratory-Analysis-of-Bayesian-Models/tree/master/content">Exploratory Analysis of Bayesian Models</a> Trabajo en Progreso!</p>
 <p><a href="https://arxiv.org/abs/1701.02434">A Conceptual Introduction to Hamiltonian Monte Carlo</a></p>
 <p><a href="https://arxiv.org/abs/1903.08008">Rank-normalization, folding, and localization</a></p>
