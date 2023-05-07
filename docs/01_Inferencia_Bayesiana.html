@@ -411,32 +411,20 @@ p(\theta) \propto  \theta^{\alpha-1}(1-\theta)^{\beta-1}
 <p>Respecto al último punto, veamos un ejemplo. Supongamos que el experimento de la moneda es realizado por tres personas. Una de ellas dice no saber nada de la moneda por lo tanto <em>a priori</em> todos los valores de <span class="math inline">\(\theta\)</span> son igualmente probables. La segunda persona desconfía de la moneda, ya que sospecha que es una moneda trucada, por lo tanto considera que está sesgada, pero no sabe para cual de las dos opciones. Por último, la tercer persona asegura que lo más probable es que <span class="math inline">\(\theta\)</span> tome un valor alrededor de 0.5 ya que así lo indican experimentos previos y análisis teóricos sobre tiradas de monedas. Todas estas situaciones pueden ser modeladas por la distribución beta, como se ve a continuación.</p>
 <div class="cell" data-nbpresent="{&quot;id&quot;:&quot;0862c2ab-669f-4578-b565-33fbf856f1e5&quot;}" data-scrolled="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a>params <span class="op">=</span> [(<span class="dv">1</span>, <span class="dv">1</span>), (<span class="fl">0.5</span>, <span class="fl">0.5</span>), (<span class="dv">20</span>, <span class="dv">20</span>)]</span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="cf">for</span> (a, b), ax  <span class="kw">in</span> <span class="bu">zip</span>(params, axes):</span>
-<span id="cb3-7"><a href="#cb3-7"></a>    y <span class="op">=</span> pz.Beta(a, b).rv_frozen.pdf(x)</span>
-<span id="cb3-8"><a href="#cb3-8"></a>    ax.plot(x, y)</span>
-<span id="cb3-9"><a href="#cb3-9"></a>    ax.set_yticks([])</span>
-<span id="cb3-10"><a href="#cb3-10"></a>    ax.set_title(<span class="ss">f'α = </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss"> β = </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>params <span class="op">=</span> [(<span class="dv">1</span>, <span class="dv">1</span>), (<span class="fl">0.5</span>, <span class="fl">0.5</span>), (<span class="dv">20</span>, <span class="dv">20</span>)]</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="cf">for</span> (a, b), ax  <span class="kw">in</span> <span class="bu">zip</span>(params, axes):</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    y <span class="op">=</span> pz.Beta(a, b).plot_pdf(ax<span class="op">=</span>ax, legend<span class="op">=</span><span class="st">"title"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="01_Inferencia_Bayesiana_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-nbpresent="{&quot;id&quot;:&quot;75216216-868d-4f0a-ab77-042f673db5c4&quot;}" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> beta(α, β):</span>
-<span id="cb4-2"><a href="#cb4-2"></a>    x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">130</span>)</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    plt.plot(x, pz.Beta(α, β).rv_frozen.pdf(x))</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    plt.yticks([])</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    plt.ylim(<span class="dv">0</span>, <span class="dv">6</span>)</span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a>interact(beta,</span>
-<span id="cb4-8"><a href="#cb4-8"></a>         α<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">2</span>),</span>
-<span id="cb4-9"><a href="#cb4-9"></a>         β<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="fl">0.5</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="fl">0.5</span>, value<span class="op">=</span><span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>pz.Beta().plot_interactive(fixed_lim<span class="op">=</span>(<span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="dv">10</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"b6323b64fc0e415c850c52ba89461fff","version_major":2,"version_minor":0}
+{"model_id":"465e9953e8cd436cb4ccaf8d390348a5","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -453,15 +441,10 @@ p(y \mid \theta) \propto \theta^y (1 - \theta)^{N−y}
 \]</span></p>
 <p>La elección de esta distribución para modelar nuestro problema es razonable ya que <span class="math inline">\(\theta\)</span> es la chance de obtener una cara al arrojar una moneda y ese hecho ha ocurrido <span class="math inline">\(y\)</span> veces, de la misma forma <span class="math inline">\(1-\theta\)</span> es la chance de obtener ceca lo cual ha sido observado <span class="math inline">\(N-y\)</span> veces.</p>
 <div class="cell" data-nbpresent="{&quot;id&quot;:&quot;8f7f8e91-ae8d-4f01-b29b-0f7e2bb0d8b1&quot;}" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> binomial(n, θ):</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    plt.bar(<span class="bu">range</span>(n<span class="op">+</span><span class="dv">1</span>), pz.Binomial(n, θ).rv_frozen.pmf(<span class="bu">range</span>(n<span class="op">+</span><span class="dv">1</span>)))</span>
-<span id="cb5-3"><a href="#cb5-3"></a>    plt.xticks(<span class="bu">range</span>(n<span class="op">+</span><span class="dv">1</span>))</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    plt.ylim(<span class="dv">0</span>, <span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a></span>
-<span id="cb5-6"><a href="#cb5-6"></a>interact(binomial, n<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">10</span>, value<span class="op">=</span><span class="dv">1</span>), θ<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">1</span>, step<span class="op">=</span><span class="fl">0.05</span>, value<span class="op">=</span><span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>pz.Binomial(<span class="dv">1</span>, <span class="fl">0.5</span>).plot_interactive(pointinterval<span class="op">=</span><span class="va">False</span>, fixed_lim<span class="op">=</span>(<span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="dv">1</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"e338e0ad024f481faed55c8625af6974","version_major":2,"version_minor":0}
+{"model_id":"867f77a2d39a46969f8135d5c8f18b1e","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
@@ -528,7 +511,7 @@ Y \sim &amp; \operatorname{Bin}(n=1, p=\theta)
 <span id="cb6-17"><a href="#cb6-17"></a>        plt.xticks([])</span>
 <span id="cb6-18"><a href="#cb6-18"></a>    y <span class="op">=</span> data[idx]</span>
 <span id="cb6-19"><a href="#cb6-19"></a>    <span class="cf">for</span> (a_prior, b_prior) <span class="kw">in</span> beta_params:</span>
-<span id="cb6-20"><a href="#cb6-20"></a>        posterior <span class="op">=</span> dist(a_prior <span class="op">+</span> y, b_prior <span class="op">+</span> N <span class="op">-</span> y).rv_frozen.pdf(x)</span>
+<span id="cb6-20"><a href="#cb6-20"></a>        posterior <span class="op">=</span> dist(a_prior <span class="op">+</span> y, b_prior <span class="op">+</span> N <span class="op">-</span> y).pdf(x)</span>
 <span id="cb6-21"><a href="#cb6-21"></a>        plt.fill_between(x, <span class="dv">0</span>, posterior, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
 <span id="cb6-22"><a href="#cb6-22"></a></span>
 <span id="cb6-23"><a href="#cb6-23"></a>    plt.plot(theta_real, <span class="dv">0</span>, ms<span class="op">=</span><span class="dv">9</span>, marker<span class="op">=</span><span class="st">'o'</span>, mec<span class="op">=</span><span class="st">'w'</span>, mfc<span class="op">=</span><span class="st">'k'</span>)</span>
@@ -663,13 +646,13 @@ p(\tilde{Y}  \mid  Y)  \propto \operatorname{Beta-binomial}(n=N, \alpha_{a prior
 <span id="cb8-8"><a href="#cb8-8"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
 <span id="cb8-9"><a href="#cb8-9"></a></span>
 <span id="cb8-10"><a href="#cb8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11"></a>prior <span class="op">=</span> dist(a_prior, b_prior).rv_frozen.pdf(x)</span>
+<span id="cb8-11"><a href="#cb8-11"></a>prior <span class="op">=</span> dist(a_prior, b_prior).pdf(x)</span>
 <span id="cb8-12"><a href="#cb8-12"></a>axes[<span class="dv">0</span>].fill_between(x, <span class="dv">0</span>, prior)</span>
 <span id="cb8-13"><a href="#cb8-13"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Prior"</span>)</span>
 <span id="cb8-14"><a href="#cb8-14"></a>axes[<span class="dv">0</span>].set_yticks([])</span>
 <span id="cb8-15"><a href="#cb8-15"></a></span>
 <span id="cb8-16"><a href="#cb8-16"></a></span>
-<span id="cb8-17"><a href="#cb8-17"></a>posterior <span class="op">=</span> dist(a_prior <span class="op">+</span> y, b_prior <span class="op">+</span> N <span class="op">-</span> y).rv_frozen.pdf(x)</span>
+<span id="cb8-17"><a href="#cb8-17"></a>posterior <span class="op">=</span> dist(a_prior <span class="op">+</span> y, b_prior <span class="op">+</span> N <span class="op">-</span> y).pdf(x)</span>
 <span id="cb8-18"><a href="#cb8-18"></a>axes[<span class="dv">1</span>].fill_between(x, <span class="dv">0</span>, posterior)</span>
 <span id="cb8-19"><a href="#cb8-19"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Posterior"</span>)</span>
 <span id="cb8-20"><a href="#cb8-20"></a></span>
@@ -731,7 +714,7 @@ p(\tilde{Y}  \mid  Y)  \propto \operatorname{Beta-binomial}(n=N, \alpha_{a prior
 <span id="cb9-16"><a href="#cb9-16"></a>    <span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), caras<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">6</span>), tiradas<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">9</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"9681def9a6314f7d97db5f98cf7fe107","version_major":2,"version_minor":0}
+{"model_id":"37a3a5538b5648878ea495f21bc4876f","version_major":2,"version_minor":0}
 </script>
 </div>
 </div>
