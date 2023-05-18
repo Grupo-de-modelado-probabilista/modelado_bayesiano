@@ -701,7 +701,7 @@ p(\tilde{y} \,|\, y) = \int p(\tilde{y} \,|\, \theta) \, p(\theta \,|\, y) \, d\
 <li>Generamos un <em>dato sintético</em> usando el mismo <em>likelihood</em> que usamos en el modelo, en este caso <span class="math inline">\(\tilde{y_i} \sim N(\mu_i, \sigma_i)\)</span></li>
 <li>Repetimos 1 y 2 hasta obtener la cantidad requerida de muestras.</li>
 </ol>
-<p>Usando PyMC podemos calcular esto llamando a la función <code>sample_ppc</code>. El siguiente código devuelve 100 predicciones cada una de ellas de igual tamaño al de los datos.</p>
+<p>En PyMC este proceso está automatizado en la función <code>sample_ppc</code>.</p>
 <div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>ppc_g <span class="op">=</span> pm.sample_posterior_predictive(idata_g, model<span class="op">=</span>modelo_g)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -734,7 +734,7 @@ p(\tilde{y} \,|\, y) = \int p(\tilde{y} \,|\, \theta) \, p(\theta \,|\, y) \, d\
     
 </div>
 </div>
-<p>Los datos simulados los podemos usar para compararlos con los datos observados y de esta forma evaluar el modelo. Esto se conoce como prueba predictivas <em>a posteriori</em>, como ya adelantamos algo en el capítulo anterior. En la siguiente gráfica la linea negra corresponde a los datos observados mientras que las lineas azules (semitransparentes) corresponden a datos predichos por el modelo.</p>
+<p>Los datos simulados los podemos comparar con los datos observados y de esta forma evaluar el ajuste del modelo. Esto se conoce como prueba predictiva <em>a posteriori</em>, como ya adelantamos algo en el capítulo anterior. En la siguiente gráfica la linea negra corresponde a los datos observados mientras que las lineas azules (semitransparentes) corresponden a datos predichos por el modelo. La linea turquesa (punteada) corresponde a la media de los datos predichos.</p>
 <div class="cell" data-scrolled="true" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>az.plot_ppc(ppc_g, num_pp_samples<span class="op">=</span><span class="dv">200</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
