@@ -244,15 +244,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#modelos-jerárquicos" id="toc-modelos-jerárquicos" class="nav-link active" data-scroll-target="#modelos-jerárquicos"><span class="toc-section-number">4.1</span>  Modelos Jerárquicos</a>
+  <li><a href="#compartir-información" id="toc-compartir-información" class="nav-link active" data-scroll-target="#compartir-información"><span class="toc-section-number">4.1</span>  Compartir información</a></li>
+  <li><a href="#desplazamientos-jerárquicos" id="toc-desplazamientos-jerárquicos" class="nav-link" data-scroll-target="#desplazamientos-jerárquicos"><span class="toc-section-number">4.2</span>  Desplazamientos jerárquicos</a></li>
+  <li><a href="#renacuajos-multinivel" id="toc-renacuajos-multinivel" class="nav-link" data-scroll-target="#renacuajos-multinivel"><span class="toc-section-number">4.3</span>  Renacuajos multinivel</a></li>
+  <li><a href="#tuberías-jerárquicas" id="toc-tuberías-jerárquicas" class="nav-link" data-scroll-target="#tuberías-jerárquicas"><span class="toc-section-number">4.4</span>  Tuberías jerárquicas</a>
   <ul class="collapse">
-  <li><a href="#por-qué-la-elección-de-los-hiper-a-prioris" id="toc-por-qué-la-elección-de-los-hiper-a-prioris" class="nav-link" data-scroll-target="#por-qué-la-elección-de-los-hiper-a-prioris"><span class="toc-section-number">4.1.1</span>  ¿Por qué la elección de los hiper <em>a prioris</em>?</a></li>
-  <li><a href="#mirando-el-a-posteriori-desde-varios-lados" id="toc-mirando-el-a-posteriori-desde-varios-lados" class="nav-link" data-scroll-target="#mirando-el-a-posteriori-desde-varios-lados"><span class="toc-section-number">4.1.2</span>  Mirando el <em>a posteriori</em> desde varios lados</a></li>
-  <li><a href="#contracción-shrinking" id="toc-contracción-shrinking" class="nav-link" data-scroll-target="#contracción-shrinking"><span class="toc-section-number">4.1.3</span>  Contracción (<em>shrinking</em>)</a></li>
-  <li><a href="#veamos-otro-ejemplo" id="toc-veamos-otro-ejemplo" class="nav-link" data-scroll-target="#veamos-otro-ejemplo"><span class="toc-section-number">4.1.4</span>  Veamos otro ejemplo</a></li>
+  <li><a href="#contracción" id="toc-contracción" class="nav-link" data-scroll-target="#contracción"><span class="toc-section-number">4.4.1</span>  Contracción</a></li>
   </ul></li>
-  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen"><span class="toc-section-number">4.2</span>  Resumen</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">4.3</span>  Ejercicios</a></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen"><span class="toc-section-number">4.5</span>  Resumen</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">4.6</span>  Ejercicios</a></li>
   </ul>
 </nav>
     </div>
@@ -284,7 +284,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> preliz <span class="im">as</span> pz</span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">from</span> scipy.special <span class="im">import</span> expit <span class="im">as</span> logistic</span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -313,244 +313,22 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <li>efecto de <em>contracción</em></li>
 </ul></li>
 </ul>
-<section id="modelos-jerárquicos" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="modelos-jerárquicos"><span class="header-section-number">4.1</span> Modelos Jerárquicos</h2>
-<p>El siguiente ejemplo está tomado del capítulo 9 del libro “Doing Bayesian Data Analysis” de John K. Kruschke. Supongamos que en vez de 1 moneda tenemos 3, supongamos además que sabemos que las tres monedas fueron echas con la misma matriz (en la misma fábrica). Para estimar el valor de <span class="math inline">\(\theta\)</span> tenemos dos opciones:</p>
-<ol type="1">
-<li><p>estimar un valor de <span class="math inline">\(\theta\)</span> para cada moneda por separado.</p></li>
-<li><p>juntar las tres monedas en un mismo conjunto de datos y calcular un solo valor de <span class="math inline">\(\theta\)</span></p></li>
-</ol>
-<p>La ventaja de la opción 1 es que las monedas podrían diferir entre sí por lo que calcular 3 valores de <span class="math inline">\(\theta\)</span> podría ser muy informativo. La desventaja de este modelo es que hace caso omiso a la información que indica que las 3 monedas tienen un origen común, por lo que es probable que compartan características.</p>
-<p>La ventaja de la opción 2 es que la cantidad de datos por parámetro aumentó, lo que reduce la incerteza. El problema es que pasamos a asumir que las 3 monedas son en realidad una, lo cual no sería problemático si las tres monedas fueran muy similares entre sí, pero esto podría no ser una buena aproximación.</p>
-<p>Una tercera opción es hacer algo a mitad de camino entre 1 y 2. Esto se consigue construyendo un modelo jerárquico o modelo multinivel. Este tipo de modelo nos permitirá estimar un valor de <span class="math inline">\(\theta\)</span> para cada moneda de forma tal que la estimación de cada valor de <span class="math inline">\(\theta\)</span> influencie al resto.</p>
-<p>En estadística Bayesiana construir modelos jerárquicos es sencillo. A continuación veremos que un modelo jerárquico para las 3 monedas es muy similar al usado para el caso de 1 sola moneda, solo que ahora colocamos un <em>a priori</em> ¡sobre el <em>a priori</em>!</p>
-<p>Recordemos, el modelo del capítulo anterior era:</p>
-<p><span class="math display">\[\begin{align}
-\theta &amp;\sim \operatorname{Beta}(\alpha, \beta) \\
-y &amp;\sim \operatorname{Bin}(n=1, p=\theta)
-\end{align}\]</span></p>
-<p>En un modelo jerárquico los argumentos de la distribución Beta (<span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>) no son constantes si no que son valores que proviene de alguna otra distribución. En nuestro modelo tendremos que:</p>
-<p><span class="math display">\[\begin{align}
-\mu &amp;\sim \operatorname{Beta}(\alpha, \beta) \\
-\nu &amp;\sim \operatorname{Gamma}(s, r) \\
-\theta &amp;\sim \operatorname{Beta}(\mu, \nu) \\
-y &amp;\sim \operatorname{Bin}(n=1, p=\theta)
-\end{align}\]</span></p>
-<p>Gráficamente, tenemos:</p>
-<p><img src="img/modelo_3_monedas_jerarquico.png" width="250"></p>
-<p>En los modelos jerárquicos a los parámetros <span class="math inline">\(\mu\)</span> y a <span class="math inline">\(\kappa\)</span> se los llama <em>hiper a prioris</em> o <em>hiperparámetros</em> ya que son ellos quienes determinan el valor del <em>a priori</em>. La diferencia entre el modelo del capítulo anterior y el del presente es que ahora los valores que puede tomar <span class="math inline">\(\theta\)</span> dependen no ya de una distribución fija, como podría ser <span class="math inline">\(\text{Beta}(\alpha=1\)</span> y <span class="math inline">\(\beta=1)\)</span>, si no de una distribución que depende de los valores de <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\kappa\)</span>, y que estimaremos a partir de los datos. Es decir es posible estimar el <em>a priori</em> a partir de los datos, pero solo por que hemos introducido <em>hiper a prioris</em>.</p>
-<p>Recordarán que la distribución Beta se podía parametrizar en términos de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>, pero también de <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\kappa\)</span>, donde <span class="math inline">\(\mu\)</span> es la media y <span class="math inline">\(\kappa\)</span> es la concentración (la inversa de la dispersión). Tenemos entonces que <span class="math inline">\(\mu\)</span> reflejará el valor promedio de 3 valores de <span class="math inline">\(\theta\)</span> y que si la proporción de caras en las tres monedas es similar entre si <span class="math inline">\(\kappa\)</span> tomara un valor más alto; mientras que si las monedas son diferentes entre si <span class="math inline">\(\kappa\)</span> tomará un valor más bajo.</p>
-<section id="por-qué-la-elección-de-los-hiper-a-prioris" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="por-qué-la-elección-de-los-hiper-a-prioris"><span class="header-section-number">4.1.1</span> ¿Por qué la elección de los hiper <em>a prioris</em>?</h3>
-<p>Bueno dado que <span class="math inline">\(\mu\)</span> es la media del vector <span class="math inline">\(\theta\)</span> (y que <span class="math inline">\(\theta\)</span> solo puede tomar valores entre 0 y 1), <span class="math inline">\(\mu\)</span> queda restringida a valores entre 0 y 1 (al igual que una distribución beta), siguiendo el mismo razonamiento <span class="math inline">\(\kappa\)</span> va entre <span class="math inline">\([0, \infty]\)</span> al igual que la distribución gamma. Otras distribuciones igualmente razonables podrían haber sido:</p>
-<ul>
-<li><span class="math inline">\(\mu \sim U(0, 1)\)</span></li>
-<li><span class="math inline">\(\kappa \sim \mathcal{HN}(\sigma=100)\)</span></li>
-</ul>
-<p>Primero que nada generemos algunos datos sintéticos y los pondremos de una forma que sea más simple pasárselos al modelo, esto quedará un poco más claro al la especificación del modelo.</p>
-<p>Vamos a suponer que con cada una de las 3 monedas hicimos 10 experimentos de Bernoulli (las arrojamos al aire) y obtuvimos como resultado, para cada caso, 5 caras.</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>N <span class="op">=</span>  np.array([<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>])  <span class="co"># Número de experimentos por moneda</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>z <span class="op">=</span>  np.array([<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>]) <span class="co"># np.array([1, 5, 9])  # Número de caras en los Ni experimentos.</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># vector conteniendo los índices para cada moneda (desde 0 al número de monedas)</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>monedas <span class="op">=</span> np.repeat(np.arange(<span class="bu">len</span>(N)), N)</span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co"># vector con 1 para caras y 0 para cecas</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>datos <span class="op">=</span> np.hstack([np.repeat([<span class="dv">1</span>, <span class="dv">0</span>], [z[i], N[i]<span class="op">-</span>z[i]]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(N))])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Como no sabemos demasiado sobre <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\kappa\)</span>, vamos a elegir <span class="math inline">\(\mu \sim \operatorname{Beta}(\alpha=2, \beta=2)\)</span>, lo que equivale a una distribución centrada en 0.5, pero que casi asigna la misma probabilidad a todos los valores entre 0 y 1. Y <span class="math inline">\(\kappa = \operatorname{Gamma}(\alpha=1, \beta=0.1)\)</span>, lo que equivale a una exponencial con media y desviación estándar de 10.</p>
-<p>La especificación del modelo es igual a lo que hemos venido haciendo, la única diferencia es que en la linea 8 podemos observar que hay un argumento llamando <em>shape</em>. Esto nos permite especificar las dimensiones de (en este caso) <span class="math inline">\(\theta\)</span>. PyMC permite escribir modelos <em>vectorizados</em> ahorrándonos el tener que escribir <em>for loops</em>. Esa es la razón por la cual en la celda superior creamos un vector <em>monedas</em> que usamos en la linea 10 (de la especificación del modelo) para indexar <span class="math inline">\(\theta\)</span>.</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> modelo_j:</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    <span class="co"># definimos los hiperparámetros</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    μ <span class="op">=</span> pm.Beta(<span class="st">'μ'</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    κ <span class="op">=</span> pm.Gamma(<span class="st">'κ'</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="co">#κ = pm.Gamma('κ', mu=10, sd=10)</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>    </span>
-<span id="cb5-7"><a href="#cb5-7"></a>    <span class="co"># definimos el a priori</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>    θ <span class="op">=</span> pm.Beta(<span class="st">'θ'</span>, alpha<span class="op">=</span>μ <span class="op">*</span> κ, beta<span class="op">=</span>(<span class="dv">1</span> <span class="op">-</span> μ) <span class="op">*</span> κ, shape<span class="op">=</span><span class="bu">len</span>(N))</span>
-<span id="cb5-9"><a href="#cb5-9"></a></span>
-<span id="cb5-10"><a href="#cb5-10"></a>    <span class="co"># definimos el likelihood</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a>    y <span class="op">=</span> pm.Bernoulli(<span class="st">'y'</span>, p<span class="op">=</span>θ[monedas], observed<span class="op">=</span>datos)</span>
-<span id="cb5-12"><a href="#cb5-12"></a></span>
-<span id="cb5-13"><a href="#cb5-13"></a>    <span class="co"># muestreamos</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a>    idata_j <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [μ, κ, θ]</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div>
-<div class="cell-output cell-output-display">
-
-    <div>
-      <progress value="12000" class="" max="12000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      100.00% [12000/12000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 5 seconds.</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>az.plot_posterior(idata_j, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>az.summary(idata_j, kind<span class="op">=</span><span class="st">"stats"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-
-<div>
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>μ</th>
-      <td>0.501</td>
-      <td>0.106</td>
-      <td>0.302</td>
-      <td>0.697</td>
-    </tr>
-    <tr>
-      <th>κ</th>
-      <td>15.969</td>
-      <td>11.649</td>
-      <td>0.798</td>
-      <td>36.936</td>
-    </tr>
-    <tr>
-      <th>θ[0]</th>
-      <td>0.500</td>
-      <td>0.117</td>
-      <td>0.285</td>
-      <td>0.718</td>
-    </tr>
-    <tr>
-      <th>θ[1]</th>
-      <td>0.502</td>
-      <td>0.117</td>
-      <td>0.295</td>
-      <td>0.735</td>
-    </tr>
-    <tr>
-      <th>θ[2]</th>
-      <td>0.503</td>
-      <td>0.119</td>
-      <td>0.280</td>
-      <td>0.723</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-</div>
-<p>Podemos observar que el valor de <span class="math inline">\(\kappa\)</span> del <em>a posteriori</em> es mayor que del <em>a priori</em>. Esto es razonable ya que los experimentos con las 3 monedas han resultado idénticos, indicando que la matriz tiene un efecto importante sobre el resultado de <span class="math inline">\(\theta\)</span> para cada moneda.</p>
-<p>¿Qué distribución hubiéramos obtenido para <span class="math inline">\(\kappa\)</span> si las monedas hubieran mostrado distintos resultados? Probemos que hubiera pasado si:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>z <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">9</span>]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="mirando-el-a-posteriori-desde-varios-lados" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="mirando-el-a-posteriori-desde-varios-lados"><span class="header-section-number">4.1.2</span> Mirando el <em>a posteriori</em> desde varios lados</h3>
-<p>El <em>a posteriori</em> contiene toda la información que resulta de un análisis Bayesiano. Por lo que puede ser muy informativo analizarlo desde varios lados. Además de los gráficos que provee ArviZ como el siguiente:</p>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>az.plot_pair(idata_j, marginals<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), kind<span class="op">=</span>(<span class="st">"scatter"</span>, <span class="st">"kde"</span>),</span>
-<span id="cb11-2"><a href="#cb11-2"></a>             scatter_kwargs<span class="op">=</span>{<span class="st">"alpha"</span>:<span class="fl">0.25</span>},</span>
-<span id="cb11-3"><a href="#cb11-3"></a>             point_estimate<span class="op">=</span><span class="st">"median"</span>,</span>
-<span id="cb11-4"><a href="#cb11-4"></a>             point_estimate_kwargs<span class="op">=</span>{<span class="st">"color"</span>:<span class="st">"gray"</span>},</span>
-<span id="cb11-5"><a href="#cb11-5"></a>             point_estimate_marker_kwargs<span class="op">=</span>{<span class="st">"color"</span>:<span class="st">"gray"</span>})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<p>Podemos analizar el <em>a posteriori</em> usando nuestras propias gráficas, como la siguiente.</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Creamos arreglos tomando muestras del posterior</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>posterior <span class="op">=</span> az.extract(idata_j)</span>
-<span id="cb12-3"><a href="#cb12-3"></a>theta1_pos <span class="op">=</span> posterior[<span class="st">'θ'</span>][<span class="dv">0</span>].values</span>
-<span id="cb12-4"><a href="#cb12-4"></a>theta2_pos <span class="op">=</span> posterior[<span class="st">'θ'</span>][<span class="dv">1</span>].values</span>
-<span id="cb12-5"><a href="#cb12-5"></a>theta3_pos <span class="op">=</span> posterior[<span class="st">'θ'</span>][<span class="dv">2</span>].values</span>
-<span id="cb12-6"><a href="#cb12-6"></a>mu_pos <span class="op">=</span> posterior[<span class="st">'μ'</span>].values</span>
-<span id="cb12-7"><a href="#cb12-7"></a>kappa_pos <span class="op">=</span> posterior[<span class="st">'κ'</span>].values</span>
-<span id="cb12-8"><a href="#cb12-8"></a></span>
-<span id="cb12-9"><a href="#cb12-9"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">4</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
-<span id="cb12-10"><a href="#cb12-10"></a></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="co"># Gráficos de dispersión de los hiper-parámetros</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a>ax[<span class="dv">0</span>, <span class="dv">0</span>].scatter(mu_pos, kappa_pos, marker<span class="op">=</span><span class="st">'o'</span>, alpha<span class="op">=</span><span class="fl">0.01</span>)</span>
-<span id="cb12-13"><a href="#cb12-13"></a>ax[<span class="dv">0</span>, <span class="dv">0</span>].set_xlim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb12-14"><a href="#cb12-14"></a>ax[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="vs">r'$\mu$'</span>)</span>
-<span id="cb12-15"><a href="#cb12-15"></a>ax[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="vs">r'$\kappa$'</span>)</span>
-<span id="cb12-16"><a href="#cb12-16"></a></span>
-<span id="cb12-17"><a href="#cb12-17"></a>az.plot_posterior(mu_pos, ax<span class="op">=</span>ax[<span class="dv">0</span>, <span class="dv">1</span>], round_to<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb12-18"><a href="#cb12-18"></a>ax[<span class="dv">0</span>, <span class="dv">1</span>].set_xlabel(<span class="vs">r'$\mu$'</span>)</span>
-<span id="cb12-19"><a href="#cb12-19"></a>ax[<span class="dv">0</span>, <span class="dv">1</span>].set_xlim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb12-20"><a href="#cb12-20"></a></span>
-<span id="cb12-21"><a href="#cb12-21"></a>az.plot_posterior(kappa_pos, ax<span class="op">=</span>ax[<span class="dv">0</span>, <span class="dv">2</span>], round_to<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb12-22"><a href="#cb12-22"></a>ax[<span class="dv">0</span>, <span class="dv">2</span>].set_xlabel(<span class="vs">r'$\kappa$'</span>)</span>
-<span id="cb12-23"><a href="#cb12-23"></a>count <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb12-24"><a href="#cb12-24"></a><span class="cf">for</span> i, j <span class="kw">in</span> (theta1_pos, <span class="st">'theta1'</span>), (theta2_pos, <span class="st">'theta2'</span>), (theta3_pos, <span class="st">'theta3'</span>):</span>
-<span id="cb12-25"><a href="#cb12-25"></a>    az.plot_posterior(i, ax<span class="op">=</span>ax[count, <span class="dv">0</span>], round_to<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb12-26"><a href="#cb12-26"></a>    ax[count, <span class="dv">0</span>].set_xlabel(<span class="st">'$\</span><span class="sc">{}</span><span class="st">$'</span>.<span class="bu">format</span>(j))</span>
-<span id="cb12-27"><a href="#cb12-27"></a>    ax[count, <span class="dv">0</span>].set_xlim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb12-28"><a href="#cb12-28"></a>    countb <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb12-29"><a href="#cb12-29"></a>    <span class="cf">for</span> k, l <span class="kw">in</span> (mu_pos, <span class="st">'mu'</span>), (kappa_pos, <span class="st">'kappa'</span>):</span>
-<span id="cb12-30"><a href="#cb12-30"></a>        ax[count, countb].scatter(k, i, marker<span class="op">=</span><span class="st">'o'</span>, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb12-31"><a href="#cb12-31"></a>        ax[count, countb].set_xlabel(<span class="st">'$\</span><span class="sc">{}</span><span class="st">$'</span>.<span class="bu">format</span>(l))</span>
-<span id="cb12-32"><a href="#cb12-32"></a>        ax[count, countb].set_ylabel(<span class="st">'$\</span><span class="sc">{}</span><span class="st">$'</span>.<span class="bu">format</span>(j), rotation<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb12-33"><a href="#cb12-33"></a>        ax[count, countb].set_xlim(<span class="dv">0</span>)</span>
-<span id="cb12-34"><a href="#cb12-34"></a>        ax[count, countb].set_ylim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb12-35"><a href="#cb12-35"></a>        countb <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb12-36"><a href="#cb12-36"></a>    count <span class="op">+=</span> <span class="dv">1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
-</div>
+<section id="compartir-información" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="compartir-información"><span class="header-section-number">4.1</span> Compartir información</h2>
+<p>En el ejemplo de las propinas vimos que teníamos 4 grupos, jueves, viernes, sábado y domingo. Decidimos modelar cada grupo por separado. Eso a veces está bien, pero debemos ser conscientes de nuestros supuestos. Al modelar cada grupo de forma independiente, asumimos que los grupos no están relacionados. En otras palabras, asumimos que conocer la propina de un día no nos da ninguna información sobre la propina de otro día. Esa podría ser una suposición demasiado fuerte. Como alternativa podríamos haber modelado los 4 días como un solo grupo, en este caso asumimos que no hay diferencias entre día, o al menos que esas diferencias no nos interésan.</p>
+<p>¿Es posible construir un modelo que contemple que los grupos son diferentes y al mismo tiempo comparten información? No solo es posible, además ese es el tema principal de este capítulo.</p>
+<p>Los modelos jerárquicos también se conocen como modelos multinivel, modelos de efectos mixtos, modelos de efectos aleatorios o modelos anidados. Son particularmente útiles cuando se trata de datos que se pueden describir como agrupados o con diferentes niveles, como datos anidados dentro de regiones geográficas, por ej ciudades que pertenecen a una provincia y provincias que pertenecen a un país, o con una estructura jerárquica, por ej, estudiantes dentro de escuelas, o pacientes dentro de los hospitales o también mediciones repetidas de los mismos individuos.</p>
+<p>Los modelos jerárquicos son una forma natural de compartir información entre grupos y se construyen asignado distribuciones a priori a las distribuciones a priori. Este nivel superior de distribuciones a priori se suelen denominar hiper-priors. Tener hiper-priors permite que los grupos de un modelo compartan información, al mismo tiempo que permite diferencias entre grupos. En otras palabras, podemos pensar en los parámetros de las distribuciones a priori, de cada grupo, como pertenecientes a una población común de parámetros (determinada por el hyper-prior). La siguiente figura muestra un diagrama con las diferencias entre un modelo agrupado (un solo grupo), un modelo no agrupado (todos los grupos separados) y un modelo jerárquico, también conocido como modelo parcialmente agrupado.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/hierarchical_model.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Diagrama que muestra las diferencias entre un modelo agrupado, un modelo no agrupado y un modelo jerárquico.</figcaption><p></p>
+</figure>
 </div>
 </section>
-<section id="contracción-shrinking" class="level3" data-number="4.1.3">
-<h3 data-number="4.1.3" class="anchored" data-anchor-id="contracción-shrinking"><span class="header-section-number">4.1.3</span> Contracción (<em>shrinking</em>)</h3>
-<p>Probemos ahora con otros ejemplos (puede ser conveniente guardar las figuras obtenidas con distintos nombres).</p>
-<ul>
-<li>z = [1,1,1]</li>
-<li>z = [9,9,9]</li>
-<li>z = [9,1,9]</li>
-</ul>
-<p>¿Cuáles son los valores de <span class="math inline">\(\theta\)</span> obtenidos en cada caso? Es lo mismo el valor estimado de <span class="math inline">\(\theta\)</span> para una moneda cuando cae 1 de 10 veces caras (y las otras dos también), que cuando una moneda cae 1 de 10 veces caras y las otras dos caen 9 de 10 veces cara?</p>
-<p>Como podrán ver si hacen el ejercicio ¡el valor estimado <span class="math inline">\(\theta\)</span> no es el mismo! ¿Por qué sucede esto?</p>
-<p>Porque el modelo especifica que las monedas NO son independientes. El modelo asume que las 3 monedas provienen de una misma matriz, por lo tanto la estimación de <span class="math inline">\(\theta\)</span> para una moneda es afectada por las otras y al mismo tiempo afecta a las otras. Este fenómeno se llama contracción, la razón del nombre es que las estimaciones individuales tienden a contraerse alrededor del valor promedio de las 3 estimaciones (en nuestro modelo <span class="math inline">\(\mu\)</span>) esto se hace mas evidente para los valores <em>aberrantes</em>. Si todas las monedas menos una indican un valor de <span class="math inline">\(\theta\)</span> más o menos similar la que posee el valor distinto tendrá un <span class="math inline">\(\theta\)</span> mucho más cercano al valor de las demás que si la hubiéramos estimado de forma individual.</p>
-<p>Esto quizá pueda parecerles problemático, pero no es más que un reflejo de lo que asumimos al crear el modelo. La matriz con la que fueron echas las monedas influencia el sesgo de las mismas. Entonces, la estimación de cada elemento del vector <span class="math inline">\(\theta\)</span> debe influenciar y ser influenciado por las estimaciones de los demás elementos de <span class="math inline">\(\theta\)</span>. Esto es una forma de regularización que los métodos frecuentistas deben introducir <em>ad-hoc</em>, pero que sin embargo ya viene incluido en un análisis Bayesiano.</p>
-<p>Entonces el modelo jerárquico Bayesiano que hemos construido nos dice, no solo los valores de <span class="math inline">\(\theta\)</span>, sino lo valores de <span class="math inline">\(\mu\)</span> (el sesgo promedio) introducido por la matriz y los valores de <span class="math inline">\(\kappa\)</span> (cuan fuerte es el efecto de la matriz sobre los sesgos individuales de <span class="math inline">\(\theta\)</span>).</p>
-</section>
-<section id="veamos-otro-ejemplo" class="level3" data-number="4.1.4">
-<h3 data-number="4.1.4" class="anchored" data-anchor-id="veamos-otro-ejemplo"><span class="header-section-number">4.1.4</span> Veamos otro ejemplo</h3>
-<p>Las <a href="https://www.youtube.com/watch?v=wvTv8TqWC48">proteínas</a> son moléculas formadas por 20 unidas, llamadas amino ácidos, cada amino ácido puede aparecer en una proteína 0 o más veces. Así como una melodía está definida por una sucesión de notas musicales, una proteína está definida por una sucesión de amino ácidos. Algunas variaciones de notas pueden dar como resultados pequeñas variaciones sobre la misma melodía, otras variaciones pueden resultar en melodías completamente distintas, algo similar sucede con las proteínas. Una forma de estudiar proteínas es usando resonancia magnética nuclear (la misma técnica usada para imágenes médicas). Esta técnica permite medir diversos <em>observables</em>, uno de ellos se llama <em>desplazamiento químico</em> y para simplificar diremos que podemos medir tantos desplazamientos químicos como amino ácidos tenga una proteína. Los aminoácidos son una familia de compuestos químicos por lo que tendría sentido tratarlos a todos de igual forma, pero al mismo tiempo tienen diferentes propiedades químicas, las cuales de hecho son relevantes para comprender como funcionan las proteínas! Por lo que también tiene sentido tratarlos por separado. Como ya vimos una alternativa es construir un modelo jerárquico y hacer algo a mitad de camino.</p>
+<section id="desplazamientos-jerárquicos" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="desplazamientos-jerárquicos"><span class="header-section-number">4.2</span> Desplazamientos jerárquicos</h2>
+<p>Las <a href="https://www.youtube.com/watch?v=wvTv8TqWC48">proteínas</a> son moléculas formadas por 20 unidades, llamadas amino ácidos, cada amino ácido puede aparecer en una proteína 0 o más veces. Así como una melodía está definida por una sucesión de notas musicales, una proteína está definida por una sucesión de amino ácidos. Algunas variaciones de notas pueden dar como resultados pequeñas variaciones sobre la misma melodía, otras variaciones pueden resultar en melodías completamente distintas, algo similar sucede con las proteínas. Una forma de estudiar proteínas es usando resonancia magnética nuclear (la misma técnica usada para imágenes médicas). Esta técnica permite medir diversos <em>observables</em>, uno de ellos se llama <em>desplazamiento químico</em> y para simplificar diremos que podemos medir tantos desplazamientos químicos como amino ácidos tenga una proteína. Los aminoácidos son una familia de compuestos químicos por lo que tendría sentido tratarlos a todos de igual forma, pero al mismo tiempo tienen diferentes propiedades químicas, las cuales de hecho son relevantes para comprender como funcionan las proteínas! Por lo que también tiene sentido tratarlos por separado. Como ya vimos una alternativa es construir un modelo jerárquico y hacer algo a mitad de camino.</p>
 <p>El siguiente conjunto de datos contiene valores de desplazamientos químicos para un conjunto de proteínas. Si inspeccionan el DataFrame <code>cs_data</code> verán que tiene 4 columnas:</p>
 <ul>
 <li>La primera es un código que identifica a la proteína (si tienen curiosidad pueden ingresar el identificador en esta base de datos <a href="https://www.rcsb.org" class="uri">https://www.rcsb.org</a>).</li>
@@ -559,22 +337,22 @@ NUTS: [μ, κ, θ]</code></pre>
 <li>La cuarta tiene valores experimentales.</li>
 </ul>
 <p>La motivación de este ejemplo es comparar las diferencias entre valores teóricos y experimentales, entre otras razones para evaluar la capacidad de los métodos teóricos para reproducir valores experimentales.</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>cs_data <span class="op">=</span> pd.read_csv(<span class="st">'datos/chemical_shifts_theo_exp.csv'</span>)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>diff <span class="op">=</span> cs_data.theo <span class="op">-</span> cs_data.exp</span>
-<span id="cb13-3"><a href="#cb13-3"></a>cat_encode <span class="op">=</span> pd.Categorical(cs_data[<span class="st">'aa'</span>])</span>
-<span id="cb13-4"><a href="#cb13-4"></a>idx <span class="op">=</span> cat_encode.codes</span>
-<span id="cb13-5"><a href="#cb13-5"></a>coords <span class="op">=</span> {<span class="st">"aa"</span>: cat_encode.categories}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>cs_data <span class="op">=</span> pd.read_csv(<span class="st">'datos/chemical_shifts_theo_exp.csv'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>diff <span class="op">=</span> cs_data.theo <span class="op">-</span> cs_data.exp</span>
+<span id="cb4-3"><a href="#cb4-3"></a>cat_encode <span class="op">=</span> pd.Categorical(cs_data[<span class="st">'aa'</span>])</span>
+<span id="cb4-4"><a href="#cb4-4"></a>idx <span class="op">=</span> cat_encode.codes</span>
+<span id="cb4-5"><a href="#cb4-5"></a>coords <span class="op">=</span> {<span class="st">"aa"</span>: cat_encode.categories}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Para resaltar la diferencia entre un modelo jerárquico y uno no-jerárquico vamos a construir ambos. Primero el no-jerárquico.</p>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> cs_nh:         </span>
-<span id="cb14-2"><a href="#cb14-2"></a>    μ <span class="op">=</span> pm.Normal(<span class="st">'μ'</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>, dims<span class="op">=</span><span class="st">"aa"</span>) </span>
-<span id="cb14-3"><a href="#cb14-3"></a>    σ <span class="op">=</span> pm.HalfNormal(<span class="st">'σ'</span>, sigma<span class="op">=</span><span class="dv">10</span>, dims<span class="op">=</span><span class="st">"aa"</span>) </span>
-<span id="cb14-4"><a href="#cb14-4"></a> </span>
-<span id="cb14-5"><a href="#cb14-5"></a>    y <span class="op">=</span> pm.Normal(<span class="st">'y'</span>, mu<span class="op">=</span>μ[idx], sigma<span class="op">=</span>σ[idx], observed<span class="op">=</span>diff) </span>
-<span id="cb14-6"><a href="#cb14-6"></a>     </span>
-<span id="cb14-7"><a href="#cb14-7"></a>    idata_cs_nh <span class="op">=</span> pm.sample()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> cs_nh:         </span>
+<span id="cb5-2"><a href="#cb5-2"></a>    μ <span class="op">=</span> pm.Normal(<span class="st">'μ'</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>, dims<span class="op">=</span><span class="st">"aa"</span>) </span>
+<span id="cb5-3"><a href="#cb5-3"></a>    σ <span class="op">=</span> pm.HalfNormal(<span class="st">'σ'</span>, sigma<span class="op">=</span><span class="dv">10</span>, dims<span class="op">=</span><span class="st">"aa"</span>) </span>
+<span id="cb5-4"><a href="#cb5-4"></a> </span>
+<span id="cb5-5"><a href="#cb5-5"></a>    y <span class="op">=</span> pm.Normal(<span class="st">'y'</span>, mu<span class="op">=</span>μ[idx], sigma<span class="op">=</span>σ[idx], observed<span class="op">=</span>diff) </span>
+<span id="cb5-6"><a href="#cb5-6"></a>     </span>
+<span id="cb5-7"><a href="#cb5-7"></a>    idata_cs_nh <span class="op">=</span> pm.sample()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -608,24 +386,24 @@ NUTS: [μ, σ]</code></pre>
     
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.</code></pre>
 </div>
 </div>
 <p>Y ahora el jerárquico.</p>
 <p>Este modelo tiene un hyper-prior para la media de <span class="math inline">\(\mu\)</span> y otro para la desviación estándar de <span class="math inline">\(\mu\)</span>. Para <span class="math inline">\(\sigma\)</span> no usamos un hyper-prior, es decir asumimos valores independientes. Esta es una decisión que tomé para simplificar el modelo, en principio no habría problema con usar un hyper-prior también para <span class="math inline">\(\sigma\)</span> o incluso estimar un solo valor, compartido, de <span class="math inline">\(\sigma\)</span>.</p>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> cs_h:</span>
-<span id="cb17-2"><a href="#cb17-2"></a>    <span class="co"># hyper_priors</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a>    μ_mu <span class="op">=</span> pm.Normal(<span class="st">'μ_mu'</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb17-4"><a href="#cb17-4"></a>    μ_sd <span class="op">=</span> pm.HalfNormal(<span class="st">'μ_sd'</span>, <span class="dv">10</span>)</span>
-<span id="cb17-5"><a href="#cb17-5"></a></span>
-<span id="cb17-6"><a href="#cb17-6"></a>    <span class="co"># priors</span></span>
-<span id="cb17-7"><a href="#cb17-7"></a>    μ <span class="op">=</span> pm.Normal(<span class="st">'μ'</span>, mu<span class="op">=</span>μ_mu, sigma<span class="op">=</span>μ_sd, dims<span class="op">=</span><span class="st">"aa"</span>) </span>
-<span id="cb17-8"><a href="#cb17-8"></a>    σ <span class="op">=</span> pm.HalfNormal(<span class="st">'σ'</span>, sigma<span class="op">=</span><span class="dv">10</span>, dims<span class="op">=</span><span class="st">"aa"</span>) </span>
-<span id="cb17-9"><a href="#cb17-9"></a></span>
-<span id="cb17-10"><a href="#cb17-10"></a>    y <span class="op">=</span> pm.Normal(<span class="st">'y'</span>, mu<span class="op">=</span>μ[idx], sigma<span class="op">=</span>σ[idx], observed<span class="op">=</span>diff) </span>
-<span id="cb17-11"><a href="#cb17-11"></a></span>
-<span id="cb17-12"><a href="#cb17-12"></a>    idata_cs_h <span class="op">=</span> pm.sample()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> cs_h:</span>
+<span id="cb8-2"><a href="#cb8-2"></a>    <span class="co"># hyper_priors</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>    μ_mu <span class="op">=</span> pm.Normal(<span class="st">'μ_mu'</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a>    μ_sd <span class="op">=</span> pm.HalfNormal(<span class="st">'μ_sd'</span>, <span class="dv">10</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a>    <span class="co"># priors</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>    μ <span class="op">=</span> pm.Normal(<span class="st">'μ'</span>, mu<span class="op">=</span>μ_mu, sigma<span class="op">=</span>μ_sd, dims<span class="op">=</span><span class="st">"aa"</span>) </span>
+<span id="cb8-8"><a href="#cb8-8"></a>    σ <span class="op">=</span> pm.HalfNormal(<span class="st">'σ'</span>, sigma<span class="op">=</span><span class="dv">10</span>, dims<span class="op">=</span><span class="st">"aa"</span>) </span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a>    y <span class="op">=</span> pm.Normal(<span class="st">'y'</span>, mu<span class="op">=</span>μ[idx], sigma<span class="op">=</span>σ[idx], observed<span class="op">=</span>diff) </span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a>    idata_cs_h <span class="op">=</span> pm.sample()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -654,7 +432,7 @@ NUTS: [μ_mu, μ_sd, μ, σ]</code></pre>
 
     <div>
       <progress value="8000" class="" max="8000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      100.00% [8000/8000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [8000/8000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
     
 </div>
@@ -662,15 +440,19 @@ NUTS: [μ_mu, μ_sd, μ, σ]</code></pre>
 <pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.</code></pre>
 </div>
 </div>
+<p>La siguiente figura muestra una representación gráfica de los modelos <code>cs_nh</code> (no-jerárquico) y <code>cs_h</code> (jerárquico). Se puede ver como el modelo jerárquico tiene un nivel más.</p>
+<div>
+<p><img src="img/cs_nh_vs_h.png" width="700"></p>
+</div>
 <p>Vamos a comparar los resultados usando un <code>plot_forest</code>. ArviZ permite pasar más de un modelo. Esto es útil cuando queremos comparar los valores de parámetros equivalentes entre modelos como en el presente ejemplo. Noten que estamos pasando varios argumentos para obtener el gráfico, como por ejemplo <code>combined=True</code> que combina los resultados de todas las cadenas. Los invito a explorar el significado del resto de los parámetros.</p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>axes <span class="op">=</span> az.plot_forest([idata_cs_nh, idata_cs_h], model_names<span class="op">=</span>[<span class="st">'no_jerárquico'</span>, <span class="st">'jerárquico'</span>],</span>
-<span id="cb20-2"><a href="#cb20-2"></a>                      var_names<span class="op">=</span><span class="st">'μ'</span>, combined<span class="op">=</span><span class="va">True</span>, r_hat<span class="op">=</span><span class="va">False</span>, ess<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>),</span>
-<span id="cb20-3"><a href="#cb20-3"></a>                      colors<span class="op">=</span><span class="st">'cycle'</span>)</span>
-<span id="cb20-4"><a href="#cb20-4"></a>y_lims <span class="op">=</span> axes[<span class="dv">0</span>].get_ylim()</span>
-<span id="cb20-5"><a href="#cb20-5"></a>axes[<span class="dv">0</span>].vlines(idata_cs_h.posterior[<span class="st">'μ_mu'</span>].mean(), <span class="op">*</span>y_lims, color<span class="op">=</span><span class="st">"k"</span>, ls<span class="op">=</span><span class="st">":"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>axes <span class="op">=</span> az.plot_forest([idata_cs_nh, idata_cs_h], model_names<span class="op">=</span>[<span class="st">'no_jerárquico'</span>, <span class="st">'jerárquico'</span>],</span>
+<span id="cb11-2"><a href="#cb11-2"></a>                      var_names<span class="op">=</span><span class="st">'μ'</span>, combined<span class="op">=</span><span class="va">True</span>, r_hat<span class="op">=</span><span class="va">False</span>, ess<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>),</span>
+<span id="cb11-3"><a href="#cb11-3"></a>                      colors<span class="op">=</span><span class="st">'cycle'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>y_lims <span class="op">=</span> axes[<span class="dv">0</span>].get_ylim()</span>
+<span id="cb11-5"><a href="#cb11-5"></a>axes[<span class="dv">0</span>].vlines(idata_cs_h.posterior[<span class="st">'μ_mu'</span>].mean(), <span class="op">*</span>y_lims, color<span class="op">=</span><span class="st">"k"</span>, ls<span class="op">=</span><span class="st">":"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Bien, tenemos un gráfico para 40 valores medios estimados, uno por aminoácido (20) y esto duplicado ya que tenemos dos modelos. También tenemos los intervalos de credibilidad del 94% y el rango intercuartil (el intervalo que contiene el 50% central de la distribución). La línea vertical es la media parcialmente agrupada, es decir la media según el modelo jerárquico. El valor es cercano a cero, esto es parte de lo que esperaríamos ver si los valores teóricos son buenos reproduciendo los valores experimentales.</p>
@@ -678,14 +460,350 @@ NUTS: [μ_mu, μ_sd, μ, σ]</code></pre>
 <p>Parafraseando el Zen de Python, podemos decir: <em>hierarchical models are one honking great idea - let’s do more of those!</em>.</p>
 <p>En los próximos capítulos, seguiremos construyendo modelos jerárquicos y aprendiendo cómo usarlos para construir mejores modelos. También discutiremos cómo se relacionan los modelos jerárquicos con uno de los problemas más comunes en estadística, ciencia de datos y <em>Machine learning</em> el problema del overfitting/underfitting.</p>
 </section>
+<section id="renacuajos-multinivel" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="renacuajos-multinivel"><span class="header-section-number">4.3</span> Renacuajos multinivel</h2>
+<p>Este ejemplo está tomado de <a href="https://xcelab.net/rm/statistical-rethinking/">statistical rethinking</a></p>
+<ul>
+<li><p>Tenemos 48 tanques llenos de renacuajos</p></li>
+<li><p>Queremos modelar la probabilidad de supervivencia de los renacuajos</p></li>
+<li><p>Las condiciones como la temperatura, el pH, la luz, etc. varían ligeramente entre los tanques (pero no los estamos teniendo en cuenta explícitamente)</p></li>
+<li><p>Podemos pensar en cada tanque como un grupo</p></li>
+</ul>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>d <span class="op">=</span> pd.read_csv(<span class="st">'datos/reedfrogs.csv'</span>, sep<span class="op">=</span><span class="st">","</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>d.head()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>density</th>
+      <th>pred</th>
+      <th>size</th>
+      <th>surv</th>
+      <th>propsurv</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10</td>
+      <td>no</td>
+      <td>big</td>
+      <td>9</td>
+      <td>0.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>no</td>
+      <td>big</td>
+      <td>10</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10</td>
+      <td>no</td>
+      <td>big</td>
+      <td>7</td>
+      <td>0.7</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10</td>
+      <td>no</td>
+      <td>big</td>
+      <td>10</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10</td>
+      <td>no</td>
+      <td>small</td>
+      <td>9</td>
+      <td>0.9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> modelo_renacuajos:</span>
+<span id="cb13-2"><a href="#cb13-2"></a>    <span class="co"># Hiperpriors</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>    μ <span class="op">=</span> pm.Normal(<span class="st">'μ'</span>, <span class="fl">0.</span>, <span class="fl">1.</span>)</span>
+<span id="cb13-4"><a href="#cb13-4"></a>    σ <span class="op">=</span> pm.HalfNormal(<span class="st">'σ'</span>, <span class="fl">10.</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>    <span class="co"># Prior</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>    α_tanque <span class="op">=</span> pm.Normal(<span class="st">'α_tanque'</span>, μ, σ, shape<span class="op">=</span>d.shape[<span class="dv">0</span>])</span>
+<span id="cb13-7"><a href="#cb13-7"></a>    p <span class="op">=</span> pm.Deterministic(<span class="st">'p'</span>, pm.math.sigmoid(α_tanque))  <span class="co"># transformación logística</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="co">#likelihood</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>    surv <span class="op">=</span> pm.Binomial(<span class="st">'surv'</span>, n<span class="op">=</span>d.density, p<span class="op">=</span>p, observed<span class="op">=</span>d.surv)</span>
+<span id="cb13-10"><a href="#cb13-10"></a>    </span>
+<span id="cb13-11"><a href="#cb13-11"></a>    idata_renacuajos <span class="op">=</span> pm.sample(<span class="dv">2000</span>, tune<span class="op">=</span><span class="dv">2000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [μ, σ, α_tanque]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="16000" class="" max="16000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [16000/16000 00:06&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 6 seconds.</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>pm.model_to_graphviz(modelo_renacuajos)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-11-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>En la siguiente figura se muestran las proporciones empíricas de sobrevivientes en cada tanque de renacuajos (puntos azules) y las proporciones estimadas por el modelo (puntos turquesa). La línea discontinua indica la proporción promedio de sobrevivientes teniendo en cuenta todos los tanques. Las lineas verticales dividen los tanques de acuerdo a las diferentes densidades iniciales de renacuajos: tanques pequeños (10), tanques medianos (25) y tanques grandes (35). En cada tanque, la media a posteriori del modelo multinivel está más cerca de la línea punteada que la proporción empírica. Esto refleja la información compartida entre tanques y el efecto de contracción.</p>
+<div class="cell" data-hide_input="true" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a>post_r <span class="op">=</span> az.extract(idata_renacuajos)</span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a>ax.scatter(np.arange(<span class="dv">0</span>, <span class="dv">48</span>), d.propsurv, color<span class="op">=</span><span class="st">'C0'</span>)</span>
+<span id="cb17-6"><a href="#cb17-6"></a>ax.scatter(np.arange(<span class="dv">0</span>, <span class="dv">48</span>), post_r[<span class="st">'p'</span>].mean(<span class="st">"sample"</span>), color<span class="op">=</span><span class="st">'C1'</span>)</span>
+<span id="cb17-7"><a href="#cb17-7"></a>ax.hlines(logistic(post_r[<span class="st">'μ'</span>].median(<span class="st">"sample"</span>)), <span class="op">-</span><span class="dv">1</span>, <span class="dv">49</span>, linestyles<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb17-8"><a href="#cb17-8"></a></span>
+<span id="cb17-9"><a href="#cb17-9"></a>idx <span class="op">=</span> d.density[d.density.diff() <span class="op">&gt;</span> <span class="dv">0</span>].index</span>
+<span id="cb17-10"><a href="#cb17-10"></a>ax.vlines(idx <span class="op">+</span> <span class="fl">0.5</span>, <span class="op">-</span><span class="fl">.05</span>, <span class="fl">1.05</span>, lw<span class="op">=</span><span class="fl">.5</span>)</span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">zip</span>(np.linspace(<span class="dv">0</span>, <span class="dv">48</span>, <span class="dv">7</span>)[<span class="dv">1</span>::<span class="dv">2</span>], (<span class="st">'pequeño'</span>, <span class="st">'mediano'</span>, <span class="st">'largo'</span>)):</span>
+<span id="cb17-12"><a href="#cb17-12"></a>    ax.text(i, <span class="dv">0</span>, t, horizontalalignment<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb17-13"><a href="#cb17-13"></a>ax.set_xlabel(<span class="st">'tanques'</span>)</span>
+<span id="cb17-14"><a href="#cb17-14"></a>ax.set_ylabel(<span class="st">'proporción de survivencia'</span>)</span>
+<span id="cb17-15"><a href="#cb17-15"></a>ax.set_xlim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">48</span>)</span>
+<span id="cb17-16"><a href="#cb17-16"></a>ax.set_xticks([])</span>
+<span id="cb17-17"><a href="#cb17-17"></a>ax.set_ylim(<span class="op">-</span><span class="fl">.05</span>, <span class="fl">1.05</span>)</span>
+<span id="cb17-18"><a href="#cb17-18"></a>ax.grid(<span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
 </section>
-<section id="resumen" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="resumen"><span class="header-section-number">4.2</span> Resumen</h2>
-<p>Este es un capítulo muy breve pero describe uno de los conceptos más importantes de este curso: los modelos jerárquicos. Podemos construir modelos jerárquicos cada vez que podamos identificar subgrupos en nuestros datos. En tales casos, en lugar de tratar los subgrupos como entidades separadas o ignorar los subgrupos y tratarlos como un solo gran-grupo, podemos construir un modelo para agrupar-parcialmente la información entre los grupos.</p>
+<section id="tuberías-jerárquicas" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="tuberías-jerárquicas"><span class="header-section-number">4.4</span> Tuberías jerárquicas</h2>
+<p>Supongamos que queremos analizar la calidad del agua en una ciudad, entonces tomamos muestras dividiendo la ciudad en barrios. Podemos pensar que tenemos dos opciones para analizar estos datos:</p>
+<ul>
+<li>Estudiar cada barrio como una entidad separada</li>
+<li>Reunir todos los datos y estimar la calidad del agua de la ciudad como un solo gran grupo</li>
+</ul>
+<p>Probablemente a este altura ya hayas notado el patrón. Podemos justificar la primera opción diciendo que obtenemos una visión más detallada del problema, que de otro modo podría volverse invisible o menos evidente si promediamos los datos. La segunda opción se puede justificar diciendo que si agrupamos los datos, obtenemos un tamaño de muestra más grande y por lo tanto una estimación más precisa. Pero ya sabemos que tenemos una tercera opción, ¡podemos hacer un modelo jerárquico!</p>
+<p>Para este ejemplo, vamos a utilizar datos sintéticos. Usar datos sintéticos es una excelente manera de entender las cosas. Si no entiendes algo, simúlalo! Hay muchos usos para los datos sintéticos. Aquí vamos a imaginar que hemos recolectado muestras de agua de tres regiones diferentes de la misma ciudad y hemos medido el contenido de plomo del agua; las muestras con concentraciones de plomo por encima de las recomendaciones de la Organización Mundial de la Salud (OMS) se marcan con cero y las muestras con valores por debajo de las recomendaciones se marcan con uno. Este es un escenario muy simple, en un ejemplo más realista, tendríamos una medición continua de la concentración de plomo y probablemente muchos más grupos. Sin embargo, este escenario es lo suficientemente bueno para explorar los detalles de los modelos jerárquicos. Podemos generar los datos sintéticos con el siguiente código:</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>N <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">30</span>]</span>
+<span id="cb18-2"><a href="#cb18-2"></a>G <span class="op">=</span> [<span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">18</span>]</span>
+<span id="cb18-3"><a href="#cb18-3"></a></span>
+<span id="cb18-4"><a href="#cb18-4"></a>group_idx <span class="op">=</span> np.repeat(np.arange(<span class="bu">len</span>(N)), N)</span>
+<span id="cb18-5"><a href="#cb18-5"></a></span>
+<span id="cb18-6"><a href="#cb18-6"></a>data <span class="op">=</span> []</span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(N)):</span>
+<span id="cb18-8"><a href="#cb18-8"></a>    data.extend(np.repeat([<span class="dv">1</span>, <span class="dv">0</span>], [G[i], N[i]<span class="op">-</span>G[i]]))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Estamos simulando un experimento en el que hemos medido tres grupos, cada uno formado por un determinado número de muestras; almacenamos el número total de muestras por grupo en el arreglo <code>N</code>. Usando la lista <code>G_samples</code>, mantenemos un registro del número de muestras de buena calidad por grupo. El resto del código está ahí solo para generar una lista de datos, llena de ceros y unos.</p>
+<p>El modelo para este problema es similar al que usamos para el problema de la moneda.</p>
+<p><span class="math display">\[\begin{align}
+\theta &amp;\sim \operatorname{Beta}(\alpha, \beta) \\
+y &amp;\sim \operatorname{Bin}(n=1, p=\theta)
+\end{align}\]</span></p>
+<p>excepto por dos características importantes:</p>
+<ul>
+<li>Hemos definido dos hyper-prior que influirán en la beta previa.</li>
+<li>En lugar de poner hiperprioridades en los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>, estamos definiendo la distribución beta en términos de <span class="math inline">\(\mu\)</span>, la media, y <span class="math inline">\(\nu\)</span>, la concentración (o precisión) de la distribución beta. La precisión es análoga a la inversa de la desviación estándar; cuanto mayor sea el valor de <span class="math inline">\(\nu\)</span>, más concentrada será la distribución beta. En notación estadística, nuestro modelo es:</li>
+</ul>
+<span class="math display">\[\begin{aligned}
+\mu &amp;\sim \text{Beta}(\alpha_{\mu}, \beta_{\mu}) \\
+\nu &amp;\sim \mathcal{HN}(\sigma_{\nu}) \\
+\theta_i &amp;\sim \text{Beta}(\mu, \nu) \\
+y_i &amp;\sim \text{Bin}(n=1, p=\theta_i)
+\end{aligned}\]</span>
+<p>Observen que estamos usando el subíndice <span class="math inline">\(i\)</span> para indicar que el modelo tiene grupos con diferentes valores para algunos de los parámetros. Es decir, no todos los parámetros se comparten entre los grupos. Observen también que para este modelo estamos parametrizando la distribución a priori, Beta, en términos de <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\nu\)</span> en lugar de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Esta es una práctica común en estadística Bayesiana, ya que muchas veces <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\nu\)</span> son parámetros más intuitivos que <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> modelo_j:</span>
+<span id="cb19-2"><a href="#cb19-2"></a>    <span class="co"># hypyerpriors</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a>    μ <span class="op">=</span> pm.Beta(<span class="st">'μ'</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb19-4"><a href="#cb19-4"></a>    ν <span class="op">=</span> pm.HalfNormal(<span class="st">'ν'</span>, <span class="dv">10</span>)</span>
+<span id="cb19-5"><a href="#cb19-5"></a>    <span class="co"># prior</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a>    θ <span class="op">=</span> pm.Beta(<span class="st">'θ'</span>, mu<span class="op">=</span>μ, nu<span class="op">=</span>ν, shape<span class="op">=</span><span class="bu">len</span>(N))</span>
+<span id="cb19-7"><a href="#cb19-7"></a>    <span class="co"># likelihood</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a>    y <span class="op">=</span> pm.Binomial(<span class="st">'y'</span>,n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span>θ[group_idx], observed<span class="op">=</span>data)</span>
+<span id="cb19-9"><a href="#cb19-9"></a></span>
+<span id="cb19-10"><a href="#cb19-10"></a>    idata_j <span class="op">=</span> pm.sample()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [μ, ν, θ]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="8000" class="" max="8000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [8000/8000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>az.plot_posterior(idata_j, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>az.summary(idata_j, kind<span class="op">=</span><span class="st">"stats"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>μ</th>
+      <td>0.583</td>
+      <td>0.099</td>
+      <td>0.408</td>
+      <td>0.777</td>
+    </tr>
+    <tr>
+      <th>ν</th>
+      <td>12.059</td>
+      <td>6.230</td>
+      <td>1.374</td>
+      <td>22.999</td>
+    </tr>
+    <tr>
+      <th>θ[0]</th>
+      <td>0.598</td>
+      <td>0.080</td>
+      <td>0.447</td>
+      <td>0.741</td>
+    </tr>
+    <tr>
+      <th>θ[1]</th>
+      <td>0.596</td>
+      <td>0.080</td>
+      <td>0.438</td>
+      <td>0.739</td>
+    </tr>
+    <tr>
+      <th>θ[2]</th>
+      <td>0.597</td>
+      <td>0.082</td>
+      <td>0.451</td>
+      <td>0.753</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="contracción" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="contracción"><span class="header-section-number">4.4.1</span> Contracción</h3>
+<p>Para mostrarle una de las principales consecuencias de los modelos jerárquicos, necesitaré de su ayuda, así que únanse a mí en un breve experimento. Necesitaré que impriman y guarden el resumen calculado con <code>az.summary(idata_h)</code>. Luego, quiero que vuelvan a ejecutar el modelo dos veces más después de realizar pequeños cambios en los datos sintéticos. Recuerden guardar el resumen después de cada ejecución. En total, tendremos tres corridas:</p>
+<ul>
+<li>Una ejecución configurando todos los elementos de G a 18</li>
+<li>Una ejecución configurando todos los elementos de G a 3</li>
+<li>Una última ejecución configurando un elemento en 18 y los otros dos en 3</li>
+</ul>
+<p>Antes de continuar, tómesen un momento para pensar en el resultado de este experimento. Concéntresen en el valor medio estimado de <span class="math inline">\(\theta\)</span> en cada experimento. Con base en las dos primeras ejecuciones del modelo, ¿Podrías predecir el resultado para el tercer caso?</p>
+<hr>
+<p><br> <br> <br></p>
+<p>Si ponemos el resultado en una tabla, obtenemos algo más o menos así; recuerden que pueden ocurrir pequeñas variaciones debido a la naturaleza estocástica del proceso de muestreo:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>G</th>
+<th>Media</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>18, 18, 18</td>
+<td>0,6, 0,6, 0,6</td>
+</tr>
+<tr class="even">
+<td>3, 3, 3</td>
+<td>0,11, 0,11, 0,11</td>
+</tr>
+<tr class="odd">
+<td>18, 3, 3</td>
+<td>0,55, 0,13, 0,13</td>
+</tr>
+</tbody>
+</table>
+<p>En la primera fila, podemos ver que con 18 muestras con buena calidad sobre un total de 30, obtenemos un valor medio para <span class="math inline">\(\theta\)</span> de 0,6. Tenemos 3 valores por que <span class="math inline">\(\theta\)</span> es un vector de tres elementos, uno por grupo. Luego, en la segunda fila, tenemos solo 3 muestras de buena calidad sobre un total de 30 y la media de <span class="math inline">\(\theta\)</span> es 0,11. Estos resultados no deberían sorprendernos, nuestras estimaciones son prácticamente iguales a las medias empíricas. Lo interesante viene en la tercera fila. En lugar de obtener una mezcla de las estimaciones medias de <span class="math inline">\(\theta\)</span> de las otras dos filas, como 0,6, 0,11 y 0,11, obtenemos valores diferentes, a saber, 0,55, 0,13 y 0,13.</p>
+<p>¿A que se debe esto? ¿Cometimos un error en alguna parte? Nada de eso. Lo que estamos viendo es que las estimaciones se contrajeron hacia la media común. Esto está muy bien, de hecho ya lo hemos visto en los ejemplos anteriores. Este efecto es una consecuencia directa de nuestro modelo; mediante el uso de hiper priors, estamos estimando los parámetros de la distribución Beta a partir de los datos. Cada grupo está informando al resto, y cada grupo está siendo informado por la estimación de los demás.</p>
+</section>
+</section>
+<section id="resumen" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="resumen"><span class="header-section-number">4.5</span> Resumen</h2>
+<p>En este capítulo hemos descripto uno de los conceptos más importantes de este curso: los modelos jerárquicos. Podemos construir modelos jerárquicos cada vez que podamos identificar subgrupos en nuestros datos. En tales casos, en lugar de tratar los subgrupos como entidades separadas o ignorar los subgrupos y tratarlos como un solo gran-grupo, podemos construir un modelo para agrupar-parcialmente la información entre los grupos.</p>
 <p>El principal efecto de este agrupamiento-parcial es que las estimaciones de cada subgrupo estarán sesgadas por las estimaciones del resto de los subgrupos. Este efecto se conoce como contracción y, en general, es un <em>truco</em> muy útil que ayuda a mejorar las inferencias haciéndolas más conservadoras (ya que cada subgrupo informa a los demás acercando el resto de las estimaciones hacia él) y más informativas, obtenemos estimaciones a nivel de subgrupo y el nivel del grupo.</p>
 </section>
-<section id="ejercicios" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">4.3</span> Ejercicios</h2>
+<section id="ejercicios" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">4.6</span> Ejercicios</h2>
 <ol type="1">
 <li><p>Repetí el ejercicio que hicimos con el <code>model_j</code>, pero sin la estructura jerárquica. Compará los resultados con los obtenidos de forma jerárquica.</p></li>
 <li><p>Creá una versión jerárquica para el ejemplo de las propinas agrupando parcialmente los días de la semana.</p></li>
