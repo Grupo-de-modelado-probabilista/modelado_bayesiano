@@ -251,8 +251,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#contracción" id="toc-contracción" class="nav-link" data-scroll-target="#contracción"><span class="toc-section-number">4.4.1</span>  Contracción</a></li>
   </ul></li>
-  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen"><span class="toc-section-number">4.5</span>  Resumen</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">4.6</span>  Ejercicios</a></li>
+  <li><a href="#jerarquías-futboleras" id="toc-jerarquías-futboleras" class="nav-link" data-scroll-target="#jerarquías-futboleras"><span class="toc-section-number">4.5</span>  Jerarquías futboleras</a></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen"><span class="toc-section-number">4.6</span>  Resumen</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">4.7</span>  Ejercicios</a></li>
   </ul>
 </nav>
     </div>
@@ -315,10 +316,10 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 </ul>
 <section id="compartir-información" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="compartir-información"><span class="header-section-number">4.1</span> Compartir información</h2>
-<p>En el ejemplo de las propinas vimos que teníamos 4 grupos, jueves, viernes, sábado y domingo. Decidimos modelar cada grupo por separado. Eso a veces está bien, pero debemos ser conscientes de nuestros supuestos. Al modelar cada grupo de forma independiente, asumimos que los grupos no están relacionados. En otras palabras, asumimos que conocer la propina de un día no nos da ninguna información sobre la propina de otro día. Esa podría ser una suposición demasiado fuerte. Como alternativa podríamos haber modelado los 4 días como un solo grupo, en este caso asumimos que no hay diferencias entre día, o al menos que esas diferencias no nos interésan.</p>
+<p>En el ejemplo de las propinas vimos que teníamos 4 grupos, jueves, viernes, sábado y domingo. Decidimos modelar cada grupo por separado. Eso a veces está bien, pero debemos ser conscientes de nuestros supuestos. Al modelar cada grupo de forma independiente, asumimos que los grupos no están relacionados. En otras palabras, asumimos que conocer la propina de un día no nos da ninguna información sobre la propina de los demás días. Esa podría ser una suposición demasiado fuerte. Como alternativa podríamos haber modelado los 4 días como un solo grupo, en este caso asumimos que no hay diferencias entre día, o al menos que esas diferencias no nos interesan.</p>
 <p>¿Es posible construir un modelo que contemple que los grupos son diferentes y al mismo tiempo comparten información? No solo es posible, además ese es el tema principal de este capítulo.</p>
 <p>Los modelos jerárquicos también se conocen como modelos multinivel, modelos de efectos mixtos, modelos de efectos aleatorios o modelos anidados. Son particularmente útiles cuando se trata de datos que se pueden describir como agrupados o con diferentes niveles, como datos anidados dentro de regiones geográficas, por ej ciudades que pertenecen a una provincia y provincias que pertenecen a un país, o con una estructura jerárquica, por ej, estudiantes dentro de escuelas, o pacientes dentro de los hospitales o también mediciones repetidas de los mismos individuos.</p>
-<p>Los modelos jerárquicos son una forma natural de compartir información entre grupos y se construyen asignado distribuciones a priori a las distribuciones a priori. Este nivel superior de distribuciones a priori se suelen denominar hiper-priors. Tener hiper-priors permite que los grupos de un modelo compartan información, al mismo tiempo que permite diferencias entre grupos. En otras palabras, podemos pensar en los parámetros de las distribuciones a priori, de cada grupo, como pertenecientes a una población común de parámetros (determinada por el hyper-prior). La siguiente figura muestra un diagrama con las diferencias entre un modelo agrupado (un solo grupo), un modelo no agrupado (todos los grupos separados) y un modelo jerárquico, también conocido como modelo parcialmente agrupado.</p>
+<p>Los modelos jerárquicos son una forma natural de compartir información entre grupos y se construyen asignado distribuciones a priori a las distribuciones a priori. Este nivel superior de distribuciones a priori se suelen denominar hiper-priors. Tener hiper-priors permite que los grupos de un modelo compartan información, al mismo tiempo que permite diferencias entre grupos. En otras palabras, podemos pensar en los parámetros de las distribuciones a priori, de cada grupo, como pertenecientes a una población común de parámetros (determinada por el hiper-prior). La siguiente figura muestra un diagrama con las diferencias entre un modelo agrupado (un solo grupo), un modelo no agrupado (todos los grupos separados) y un modelo jerárquico, también conocido como modelo parcialmente agrupado.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/hierarchical_model.png" class="img-fluid figure-img"></p>
@@ -333,7 +334,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <ul>
 <li>La primera es un código que identifica a la proteína (si tienen curiosidad pueden ingresar el identificador en esta base de datos <a href="https://www.rcsb.org" class="uri">https://www.rcsb.org</a>).</li>
 <li>La segunda columna tiene el nombre del amino ácido (pueden corroborar que hay tan solo 20 nombres únicos).</li>
-<li>La tercera contiene valores téoricos de desplazamientos químicos (calculados usando métodos cuánticos).</li>
+<li>La tercera contiene valores teóricos de desplazamientos químicos (calculados usando métodos cuánticos).</li>
 <li>La cuarta tiene valores experimentales.</li>
 </ul>
 <p>La motivación de este ejemplo es comparar las diferencias entre valores teóricos y experimentales, entre otras razones para evaluar la capacidad de los métodos teóricos para reproducir valores experimentales.</p>
@@ -381,7 +382,7 @@ NUTS: [μ, σ]</code></pre>
 
     <div>
       <progress value="8000" class="" max="8000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      100.00% [8000/8000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [8000/8000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
     
 </div>
@@ -456,7 +457,7 @@ NUTS: [μ_mu, μ_sd, μ, σ]</code></pre>
 </div>
 </div>
 <p>Bien, tenemos un gráfico para 40 valores medios estimados, uno por aminoácido (20) y esto duplicado ya que tenemos dos modelos. También tenemos los intervalos de credibilidad del 94% y el rango intercuartil (el intervalo que contiene el 50% central de la distribución). La línea vertical es la media parcialmente agrupada, es decir la media según el modelo jerárquico. El valor es cercano a cero, esto es parte de lo que esperaríamos ver si los valores teóricos son buenos reproduciendo los valores experimentales.</p>
-<p>La parte más relevante de este gráfico es que las estimaciones del modelo jerárquico son <em>atraidas</em> hacia la media parcialmente agrupada o, de forma equivalente, se <em>contraen</em> con respecto a las estimaciones no agrupadas. Este efecto es más notorio para los grupos más alejados de la media (como 13), además la incertidumbre es igual o menor que la del modelo no jerárquico. Decimos que las estimaciones están parcialmente agrupadas porque tenemos una estimación para cada grupo, pero las estimaciones para cada grupos se restringen mutuamente mediante el hiper prior. Por lo tanto, se obtiene una situación intermedia entre tener un solo grupo, todos los aminoácidos juntos, y tener 20 grupos separados, uno por aminoácido.</p>
+<p>La parte más relevante de este gráfico es que las estimaciones del modelo jerárquico son <em>atraídas</em> hacia la media parcialmente agrupada o, de forma equivalente, se <em>contraen</em> con respecto a las estimaciones no agrupadas. Este efecto es más notorio para los grupos más alejados de la media (como 13), además la incertidumbre es igual o menor que la del modelo no jerárquico. Decimos que las estimaciones están parcialmente agrupadas porque tenemos una estimación para cada grupo, pero las estimaciones para cada grupos se restringen mutuamente mediante el hiper prior. Por lo tanto, se obtiene una situación intermedia entre tener un solo grupo, todos los aminoácidos juntos, y tener 20 grupos separados, uno por aminoácido.</p>
 <p>Parafraseando el Zen de Python, podemos decir: <em>hierarchical models are one honking great idea - let’s do more of those!</em>.</p>
 <p>En los próximos capítulos, seguiremos construyendo modelos jerárquicos y aprendiendo cómo usarlos para construir mejores modelos. También discutiremos cómo se relacionan los modelos jerárquicos con uno de los problemas más comunes en estadística, ciencia de datos y <em>Machine learning</em> el problema del overfitting/underfitting.</p>
 </section>
@@ -573,12 +574,12 @@ NUTS: [μ, σ, α_tanque]</code></pre>
 
     <div>
       <progress value="16000" class="" max="16000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      100.00% [16000/16000 00:06&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [16000/16000 00:05&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
     
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 6 seconds.</code></pre>
+<pre><code>Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 5 seconds.</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="10">
@@ -640,7 +641,7 @@ y &amp;\sim \operatorname{Bin}(n=1, p=\theta)
 <p>excepto por dos características importantes:</p>
 <ul>
 <li>Hemos definido dos hyper-prior que influirán en la beta previa.</li>
-<li>En lugar de poner hiperprioridades en los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>, estamos definiendo la distribución beta en términos de <span class="math inline">\(\mu\)</span>, la media, y <span class="math inline">\(\nu\)</span>, la concentración (o precisión) de la distribución beta. La precisión es análoga a la inversa de la desviación estándar; cuanto mayor sea el valor de <span class="math inline">\(\nu\)</span>, más concentrada será la distribución beta. En notación estadística, nuestro modelo es:</li>
+<li>En lugar de poner hiperpriors en los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>, estamos definiendo la distribución beta en términos de <span class="math inline">\(\mu\)</span>, la media, y <span class="math inline">\(\nu\)</span>, la concentración (o precisión) de la distribución beta. La precisión es análoga a la inversa de la desviación estándar; cuanto mayor sea el valor de <span class="math inline">\(\nu\)</span>, más concentrada será la distribución beta. En notación estadística, nuestro modelo es:</li>
 </ul>
 <span class="math display">\[\begin{aligned}
 \mu &amp;\sim \text{Beta}(\alpha_{\mu}, \beta_{\mu}) \\
@@ -688,7 +689,7 @@ NUTS: [μ, ν, θ]</code></pre>
 
     <div>
       <progress value="8000" class="" max="8000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      100.00% [8000/8000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [8000/8000 00:02&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
     
 </div>
@@ -722,37 +723,37 @@ NUTS: [μ, ν, θ]</code></pre>
     <tr>
       <th>μ</th>
       <td>0.583</td>
-      <td>0.099</td>
-      <td>0.408</td>
-      <td>0.777</td>
+      <td>0.096</td>
+      <td>0.406</td>
+      <td>0.763</td>
     </tr>
     <tr>
       <th>ν</th>
-      <td>12.059</td>
-      <td>6.230</td>
-      <td>1.374</td>
-      <td>22.999</td>
+      <td>12.366</td>
+      <td>6.036</td>
+      <td>1.922</td>
+      <td>22.952</td>
     </tr>
     <tr>
       <th>θ[0]</th>
-      <td>0.598</td>
-      <td>0.080</td>
-      <td>0.447</td>
+      <td>0.595</td>
+      <td>0.079</td>
+      <td>0.446</td>
       <td>0.741</td>
     </tr>
     <tr>
       <th>θ[1]</th>
-      <td>0.596</td>
-      <td>0.080</td>
-      <td>0.438</td>
-      <td>0.739</td>
+      <td>0.597</td>
+      <td>0.079</td>
+      <td>0.447</td>
+      <td>0.740</td>
     </tr>
     <tr>
       <th>θ[2]</th>
       <td>0.597</td>
-      <td>0.082</td>
-      <td>0.451</td>
-      <td>0.753</td>
+      <td>0.080</td>
+      <td>0.448</td>
+      <td>0.743</td>
     </tr>
   </tbody>
 </table>
@@ -767,7 +768,7 @@ NUTS: [μ, ν, θ]</code></pre>
 <li>Una ejecución configurando todos los elementos de G a 3</li>
 <li>Una última ejecución configurando un elemento en 18 y los otros dos en 3</li>
 </ul>
-<p>Antes de continuar, tómesen un momento para pensar en el resultado de este experimento. Concéntresen en el valor medio estimado de <span class="math inline">\(\theta\)</span> en cada experimento. Con base en las dos primeras ejecuciones del modelo, ¿Podrías predecir el resultado para el tercer caso?</p>
+<p>Antes de continuar, tómense un momento para pensar en el resultado de este experimento. Concéntrese en el valor medio estimado de <span class="math inline">\(\theta\)</span> en cada experimento. Con base en las dos primeras ejecuciones del modelo, ¿Podrías predecir el resultado para el tercer caso?</p>
 <hr>
 <p><br> <br> <br></p>
 <p>Si ponemos el resultado en una tabla, obtenemos algo más o menos así; recuerden que pueden ocurrir pequeñas variaciones debido a la naturaleza estocástica del proceso de muestreo:</p>
@@ -797,13 +798,119 @@ NUTS: [μ, ν, θ]</code></pre>
 <p>¿A que se debe esto? ¿Cometimos un error en alguna parte? Nada de eso. Lo que estamos viendo es que las estimaciones se contrajeron hacia la media común. Esto está muy bien, de hecho ya lo hemos visto en los ejemplos anteriores. Este efecto es una consecuencia directa de nuestro modelo; mediante el uso de hiper priors, estamos estimando los parámetros de la distribución Beta a partir de los datos. Cada grupo está informando al resto, y cada grupo está siendo informado por la estimación de los demás.</p>
 </section>
 </section>
-<section id="resumen" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="resumen"><span class="header-section-number">4.5</span> Resumen</h2>
-<p>En este capítulo hemos descripto uno de los conceptos más importantes de este curso: los modelos jerárquicos. Podemos construir modelos jerárquicos cada vez que podamos identificar subgrupos en nuestros datos. En tales casos, en lugar de tratar los subgrupos como entidades separadas o ignorar los subgrupos y tratarlos como un solo gran-grupo, podemos construir un modelo para agrupar-parcialmente la información entre los grupos.</p>
+<section id="jerarquías-futboleras" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="jerarquías-futboleras"><span class="header-section-number">4.5</span> Jerarquías futboleras</h2>
+<p>Varias estructuras de datos se prestan a descripciones jerárquicas que pueden abarcar múltiples niveles. Por ejemplo, jugadores profesionales de fútbol. Como en muchos otros deportes, los jugadores tienen diferentes posiciones dentro de la cancha. Es posible que nos interese estimar algunas métricas de habilidad para cada jugador, para las posiciones y para el grupo general de jugadores de fútbol profesional. Este tipo de estructura jerárquica también se puede encontrar en muchos otros dominios, como:</p>
+<ul>
+<li><p>Investigación médica: Supongamos que estamos interesados en estimar la eficacia de diferentes fármacos para el tratamiento de una determinada enfermedad. Podemos categorizar a los pacientes según su información demográfica, la gravedad de la enfermedad y otros factores relevantes y construir un modelo jerárquico para estimar la probabilidad de curación o el éxito del tratamiento para cada subgrupo. Luego podemos usar los parámetros de la distribución de subgrupos para estimar la probabilidad general de curación o éxito del tratamiento para toda la población de pacientes.</p></li>
+<li><p>Ciencias ambientales: Supongamos que estamos interesados en estimar el impacto de un determinado contaminante en un ecosistema particular. Podemos categorizar diferentes hábitats dentro del ecosistema (p.&nbsp;ej., ríos, lagos, bosques, humedales) y construir un modelo jerárquico para estimar la distribución de los niveles de contaminantes dentro de cada hábitat. Luego podemos usar los parámetros de la distribución del hábitat para estimar la distribución general de los niveles de contaminantes dentro del ecosistema.</p></li>
+<li><p>Investigación de mercado: supongamos que estamos interesados en comprender el comportamiento de compra de los consumidores de un producto en particular en diferentes regiones. Podemos categorizar a los consumidores según su información demográfica (por ejemplo, edad, sexo, ingresos, educación) y construir un modelo jerárquico para estimar la distribución del comportamiento de compra para cada subgrupo. Luego podemos usar los parámetros de la distribución del subgrupo para estimar la distribución del comportamiento de compra para el grupo general de consumidores.</p></li>
+</ul>
+<p>Volviendo a nuestros jugadores de fútbol, hemos recopilado datos de la <em>Premier League</em>, <em>Ligue 1</em>, <em>Bundesliga</em>, <em>Serie A</em> y <em>La Liga</em>, en el transcurso de cuatro años (2017 a 2020). Supongamos que estamos interesados en la métrica de goles por tiro. Esto es lo que los estadísticos suelen llamar <em>tasa de éxito</em>, y podemos estimarlo con un modelo Binomial donde el parámetro <span class="math inline">\(n\)</span> es el número de tiros y las observaciones <span class="math inline">\(y\)</span> es el número de goles. Esto nos deja con un valor desconocido para <span class="math inline">\(p\)</span>, en ejemplos anteriores hemos estado llamando a este parámetro <span class="math inline">\(\theta\)</span> y hemos usado una distribución Beta para modelarlo. Haremos lo mismo ahora, pero jerárquicamente. <span class="math inline">\(\theta\)</span> representa la “tasa de éxito” de cada jugador y, por lo tanto, es un vector de tamaño <code>n_jugadores</code>. Usamos una distribución Beta para modelar <span class="math inline">\(\theta\)</span>. Los hiperparámetros de la distribución Beta serán los vectores <span class="math inline">\(\mu_p\)</span> y <span class="math inline">\(\nu_p\)</span>, que son vectores de tamaño 4, que representan las cuatro posiciones en nuestro conjunto de datos (defensor <code>DF</code>, centrocampista <code>MF</code>, delantero <code>FW</code> y arquero <code>GK</code>). Tendremos que indexar correctamente los vectores <span class="math inline">\(\mu_p\)</span> y <span class="math inline">\(\nu_p\)</span> para que coincidan con el número total de jugadores. Finalmente, tendremos dos parámetros globales, <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\nu\)</span>, que representan a los futbolistas profesionales.</p>
+<p>El modelo PyMC se define en el siguiente bloque de código. El <code>pm.Beta('mu', 1.7, 5.8)</code> fue elegido con la ayuda de PreliZ como prior con el 90% de la masa entre 0 y 0.5. Este es un ejemplo de un prior poco informativo, ya que no hay duda de que una tasa de éxito de 0,5 es un valor alto. Las estadísticas deportivas están bien estudiadas y hay mucha información previa que podría usarse para definir priors más fuertes. Para este ejemplo, nos conformaremos con este prior. Una justificación similar se puede hacer para el prior <code>pm.Gamma('nu', mu=125, sigma=50)</code>, que definimos como la distribución Gamma de máxima entropía con el 90% de la masa entre 50 y 200.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>futbol <span class="op">=</span> pd.read_csv(<span class="st">"datos/futbol.csv"</span>, dtype<span class="op">=</span>{<span class="st">'posición'</span>:<span class="st">'category'</span>})</span>
+<span id="cb24-2"><a href="#cb24-2"></a>pos_idx <span class="op">=</span> futbol.posición.cat.codes.values</span>
+<span id="cb24-3"><a href="#cb24-3"></a>pos_codes <span class="op">=</span> futbol.posición.cat.categories</span>
+<span id="cb24-4"><a href="#cb24-4"></a>n_pos <span class="op">=</span> pos_codes.size</span>
+<span id="cb24-5"><a href="#cb24-5"></a>n_jugadores <span class="op">=</span> futbol.index.size</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>coords <span class="op">=</span> {<span class="st">"pos"</span>: pos_codes}</span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> modelo_futbol:</span>
+<span id="cb25-3"><a href="#cb25-3"></a>    <span class="co"># Hiper-parámetros</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>    μ <span class="op">=</span> pm.Beta(<span class="st">'μ'</span>, <span class="fl">1.7</span>, <span class="fl">5.8</span>) </span>
+<span id="cb25-5"><a href="#cb25-5"></a>    ν <span class="op">=</span> pm.Gamma(<span class="st">'ν'</span>, mu<span class="op">=</span><span class="dv">125</span>, sigma<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb25-6"><a href="#cb25-6"></a></span>
+<span id="cb25-7"><a href="#cb25-7"></a>    </span>
+<span id="cb25-8"><a href="#cb25-8"></a>    <span class="co"># Parámetros por posición</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a>    μ_p <span class="op">=</span> pm.Beta(<span class="st">'μ_p'</span>,</span>
+<span id="cb25-10"><a href="#cb25-10"></a>                       mu<span class="op">=</span>μ,</span>
+<span id="cb25-11"><a href="#cb25-11"></a>                       nu<span class="op">=</span>ν,</span>
+<span id="cb25-12"><a href="#cb25-12"></a>                       dims <span class="op">=</span> <span class="st">"pos"</span>)</span>
+<span id="cb25-13"><a href="#cb25-13"></a>    </span>
+<span id="cb25-14"><a href="#cb25-14"></a>    ν_p <span class="op">=</span> pm.Gamma(<span class="st">'ν_p'</span>, mu<span class="op">=</span><span class="dv">125</span>, sigma<span class="op">=</span><span class="dv">50</span>, dims<span class="op">=</span><span class="st">"pos"</span>)</span>
+<span id="cb25-15"><a href="#cb25-15"></a> </span>
+<span id="cb25-16"><a href="#cb25-16"></a>    <span class="co"># Parámetros por jugador</span></span>
+<span id="cb25-17"><a href="#cb25-17"></a>    θ <span class="op">=</span> pm.Beta(<span class="st">'θ'</span>, </span>
+<span id="cb25-18"><a href="#cb25-18"></a>                    mu<span class="op">=</span>μ_p[pos_idx],</span>
+<span id="cb25-19"><a href="#cb25-19"></a>                    nu<span class="op">=</span>ν_p[pos_idx])</span>
+<span id="cb25-20"><a href="#cb25-20"></a>    </span>
+<span id="cb25-21"><a href="#cb25-21"></a>    _ <span class="op">=</span> pm.Binomial(<span class="st">'gs'</span>, n<span class="op">=</span>futbol.tiros.values, p<span class="op">=</span>θ, observed<span class="op">=</span>futbol.goles.values)</span>
+<span id="cb25-22"><a href="#cb25-22"></a></span>
+<span id="cb25-23"><a href="#cb25-23"></a>    idata_futbol <span class="op">=</span> pm.sample(<span class="dv">4000</span>, target_accept<span class="op">=</span><span class="fl">0.98</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [μ, ν, μ_p, ν_p, θ]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="20000" class="" max="20000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [20000/20000 04:39&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 4_000 draw iterations (4_000 + 16_000 draws total) took 280 seconds.
+The rhat statistic is larger than 1.01 for some parameters. This indicates problems during sampling. See https://arxiv.org/abs/1903.08008 for details
+The effective sample size per chain is smaller than 100 for some parameters.  A higher number is needed for reliable rhat and ess computation. See https://arxiv.org/abs/1903.08008 for details</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>pm.model_to_graphviz(modelo_futbol)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-19-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>En el panel superior de la siguiente figura tenemos la distribución a posteriori del parámetro global <span class="math inline">\(\mu\)</span>. La distribución a posteriori es cercana a 0.1. Lo que significa que, en general, para un jugador de fútbol profesional, la probabilidad de hacer un gol es en promedio del 10%. Este es un valor razonable, ya que hacer goles no es una tarea fácil y no estamos discriminando posiciones, es decir, estamos considerando jugadores cuyo papel principal no es el de hacer goles. En el panel central, tenemos el valor estimado de <span class="math inline">\(mu_p\)</span> para la posición de defensa, como es de esperar, es más alto que el parámetro global <span class="math inline">\(\mu\)</span>. En el panel inferior, tenemos el valor estimado de <span class="math inline">\(\theta\)</span> para Lionel Messi, con un valor de 0.17, que es más alto que el parámetro global <span class="math inline">\(\mu\)</span> y el valor de la posición delantera <span class="math inline">\(\mu_p\)</span>. Esto también es de esperarse, ya que Lionel Messi es el mejor jugador de fútbol del mundo, y su rol principal es hacer goles.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">7</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb29-2"><a href="#cb29-2"></a>az.plot_posterior(idata_futbol, var_names<span class="op">=</span><span class="st">'μ'</span>, ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
+<span id="cb29-3"><a href="#cb29-3"></a>ax[<span class="dv">0</span>].set_title(<span class="vs">r"Global mean"</span>)</span>
+<span id="cb29-4"><a href="#cb29-4"></a>az.plot_posterior(idata_futbol.posterior.sel(pos<span class="op">=</span><span class="st">"FW"</span>), var_names<span class="op">=</span><span class="st">'μ_p'</span>, ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
+<span id="cb29-5"><a href="#cb29-5"></a>ax[<span class="dv">1</span>].set_title(<span class="vs">r"Forward position mean"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6"></a>az.plot_posterior(idata_futbol.posterior.sel(θ_dim_0<span class="op">=</span><span class="dv">1457</span>), var_names<span class="op">=</span><span class="st">'θ'</span>, ax<span class="op">=</span>ax[<span class="dv">2</span>])</span>
+<span id="cb29-7"><a href="#cb29-7"></a>ax[<span class="dv">2</span>].set_title(<span class="vs">r"Messi mean"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>La siguiente figura muestra un <code>forest plot</code> para la distribución a posteriori del parámetro <span class="math inline">\(\mu_p\)</span>. La distribución a posteriori para delanteros se centra en torno a 0.13, como ya vimos, y es la más alta de las cuatro. Esto tiene sentido ya que el papel de los jugadores en una posición delantera es hacer goles y asistencias. El valor más bajo de <span class="math inline">\(\mu_p\)</span> es para la posición de arquero. Esto esperable, ya que la función principal es evitar que el equipo contrario haga goles. El aspecto interesante es que la incertidumbre es muy alta, esto se debe a que tenemos muy pocos arqueros haciendo goles en nuestro conjunto de datos, 3 para ser precisos. Las distribuciones a posteriori para las posiciones de defensa y mediocampo están en <em>el medio</em>, siendo ligeramente más altas para los mediocampistas. Podemos explicar esto porque el papel principal de un mediocampista es defender y atacar, y por lo tanto la probabilidad de marcar un gol es mayor que la de un defensor pero menor que la de un delantero.</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>az.plot_forest(idata_futbol, var_names<span class="op">=</span>[<span class="st">'μ_p'</span>], combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="03_Modelos_jerárquicos_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="resumen" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="resumen"><span class="header-section-number">4.6</span> Resumen</h2>
+<p>En este capítulo hemos descrito uno de los conceptos más importantes de este curso: los modelos jerárquicos. Podemos construir modelos jerárquicos cada vez que podamos identificar subgrupos en nuestros datos. En tales casos, en lugar de tratar los subgrupos como entidades separadas o ignorar los subgrupos y tratarlos como un solo gran-grupo, podemos construir un modelo para agrupar-parcialmente la información entre los grupos.</p>
 <p>El principal efecto de este agrupamiento-parcial es que las estimaciones de cada subgrupo estarán sesgadas por las estimaciones del resto de los subgrupos. Este efecto se conoce como contracción y, en general, es un <em>truco</em> muy útil que ayuda a mejorar las inferencias haciéndolas más conservadoras (ya que cada subgrupo informa a los demás acercando el resto de las estimaciones hacia él) y más informativas, obtenemos estimaciones a nivel de subgrupo y el nivel del grupo.</p>
 </section>
-<section id="ejercicios" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">4.6</span> Ejercicios</h2>
+<section id="ejercicios" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">4.7</span> Ejercicios</h2>
 <ol type="1">
 <li><p>Repetí el ejercicio que hicimos con el <code>model_j</code>, pero sin la estructura jerárquica. Compará los resultados con los obtenidos de forma jerárquica.</p></li>
 <li><p>Creá una versión jerárquica para el ejemplo de las propinas agrupando parcialmente los días de la semana.</p></li>
