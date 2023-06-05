@@ -223,12 +223,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión Lineal</span></a>
+  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Generalizando modelos lineales</span></a>
+  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión polinomial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -295,9 +295,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<blockquote class="blockquote">
-<p>Cuando tenés problemas computacionales, a menudo tenés un problema con tu modelo. El <em>teorema popular</em> de la estadística computacional.</p>
-</blockquote>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
@@ -475,7 +472,7 @@ p_a (x_{i + 1} \mid x_i) = \min \left(1, \frac{p(x_{i + 1}) \; q(x_i \mid x_{i +
 <span id="cb6-16"><a href="#cb6-16"></a></span>
 <span id="cb6-17"><a href="#cb6-17"></a>    trace[<span class="st">"θ"</span>][<span class="bu">iter</span>] <span class="op">=</span> θ</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>En la línea 9 del bloque de código anterior generamos una propuesta muestreando una distribución Normal con desviación estándar <code>can_sd</code>. En la línea 10 evaluamos el posterior en el nuevo valor generado <code>θ_can</code> y en la línea 11 calculamos la probabilidad de aceptación. En la línea 20 guardamos un valor de <code>θ</code> en el array <code>trace</code>. Dependiendo del resultado de la comparación en la línea 13, el valor guardado será nuevo o repetiremos el anterior.</p>
+<p>En la línea 9 del bloque de código anterior generamos una propuesta muestreando una distribución Normal con desviación estándar <code>can_sd</code>. En la línea 10 evaluamos el posterior en el nuevo valor generado <code>θ_can</code> y en la línea 11 calculamos la probabilidad de aceptación. En la línea 17 guardamos un valor de <code>θ</code> en el array <code>trace</code>. Dependiendo del resultado de la comparación en la línea 13, el valor guardado será nuevo o repetiremos el anterior.</p>
 <p>El primer panel de la siguiente figura muestra cada valor muestreado en cada paso, y el panel de la derecha el histograma de esos valores. El resultado parece razonable. Nada mal para unas pocas lineas de código!</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
@@ -532,10 +529,10 @@ p_a (x_{i + 1} \mid x_i) = \min \left(1, \frac{p(x_{i + 1}) \; q(x_i \mid x_{i +
 </section>
 <section id="diagnósticos-generales" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="diagnósticos-generales"><span class="header-section-number">5.3</span> Diagnósticos generales</h2>
-<p>Asintóticamente los MCMC ofrencen la respuesta correcta, el problema es que asintóticamente estamos todos muertos! En la práctica sea hace necesario contar con métodos de diagnóstico que permitan evaluar si el muestreo es correcto para muestras finitas. Si nos ponemos en pesimistas este es un problema sin solución, ya que es imposible demostrar que una muestra es correcta, solo podemos probar que NO lo es. Entonces lo que buscamos es poder recolectar evidencia a favor de la ausencia de problemas. Esto nos va a conducir a establecer algunos valores umbrales, es decir si el diagnositico <span class="math inline">\(D\)</span> da un valor superior a <span class="math inline">\(m\)</span>, tenemos un problema con nuestra muestra. Esto también es problemático, ya que establecer umbrales estrictos es en general arbitrario, salvo para casos triviales. Supongamos que yo me invento un diagnóstico para la calvice. El método es simple, hay que contar pelos. Es claro que 0 pelos corresponde a un pelado y 150.000 no, ya que esto se estima como la cantidad de pelos promedio en una cabeza promedio (sea lo que eso sea). Pero que pasa si alguien tiene 122 o 4126 pelos? A continuación veremos algunos valores umbrales, es importante entonces tomarlos con pinzas.</p>
+<p>Asintóticamente los MCMC ofrencen la respuesta correcta, el problema es que asintóticamente estamos todos muertos! En la práctica se hace necesario contar con métodos de diagnóstico que permitan evaluar si el muestreo es correcto para muestras finitas. Si nos ponemos en pesimistas este es un problema sin solución, ya que es imposible demostrar que una muestra es correcta, solo podemos probar que NO lo es. Entonces lo que buscamos es poder recolectar evidencia a favor de la ausencia de problemas. Esto nos va a conducir a establecer algunos valores umbrales, es decir si el diagnositico <span class="math inline">\(D\)</span> da un valor superior a <span class="math inline">\(m\)</span>, tenemos un problema con nuestra muestra. Esto también es problemático, ya que establecer umbrales estrictos es en general arbitrario, salvo para casos triviales. Supongamos que yo me invento un diagnóstico para la calvice. El método es simple, hay que contar pelos. Es claro que 0 pelos corresponde a un pelado y 150.000 no, ya que esto se estima como la cantidad de pelos promedio en una cabeza promedio (sea lo que eso sea). Pero que pasa si alguien tiene 122 o 4126 pelos? A continuación veremos algunos valores umbrales, es importante entonces tomarlos con pinzas.</p>
 <section id="en-la-teoría-confiamos" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="en-la-teoría-confiamos"><span class="header-section-number">5.3.1</span> En la teoría confiamos</h3>
-<p>La teoría describe cierto comportamiento de los MCMC, muchos diagnósticos están basados en evaluar si los resultados teóricos se verifican empíricamente. Por ejmplo, la teoría de MCMC dice que:</p>
+<p>La teoría describe cierto comportamiento de los MCMC, muchos diagnósticos están basados en evaluar si los resultados teóricos se verifican empíricamente. Por ejemplo, la teoría de MCMC dice que:</p>
 <ul>
 <li>El valor inicial es irrelevante, siempre debemos llegar al mismo resultado</li>
 <li>Las muestras no son realmente independientes, pero el valor de un punto solo depende del punto anterior, no hay correlaciones de largo alcance.</li>
@@ -554,7 +551,7 @@ p_a (x_{i + 1} \mid x_i) = \min \left(1, \frac{p(x_{i + 1}) \; q(x_i \mid x_{i +
 </center>
 <p>En cambio los otros tres paneles (marco magenta) muestran problemas. De izquierda a derecha y arriba a abajo:</p>
 <ul>
-<li><p>El segundo panel muestra que el muestreo es “pegajoso”, le toma muchos pasos a la cadena moverse de valores altos a valores bajos, es difícil predecir que sucedería si sequimos corriendo, la cadena se movería hacia arriba nuevamente, se estabilizaría en valos bajos, continuaría bajando aún más?</p></li>
+<li><p>El segundo panel muestra que el muestreo es “pegajoso”, le toma muchos pasos a la cadena moverse de valores altos a valores bajos, es difícil predecir que sucedería si seguimos corriendo, la cadena se movería hacia arriba nuevamente, se estabilizaría en valos bajos, continuaría bajando aún más?</p></li>
 <li><p>El tercer panel muestra una cadena menos “pegajosa”, pero también daría la impresión que aún no ha terminado de estabilizarse</p></li>
 <li><p>El último panel, en cambio, muestra que hay una región donde el sampler se mueve bien, pero cada tanto “salta” a estados donde se queda atascado. Quizá esto se deba a una distribución a posteriori multimodal o dificultades en el sampler para explorar regiones con distinta curvatura.</p></li>
 </ul>
@@ -569,7 +566,7 @@ p_a (x_{i + 1} \mid x_i) = \min \left(1, \frac{p(x_{i + 1}) \; q(x_i \mid x_{i +
 </section>
 <section id="rank-plots" class="level3" data-number="5.3.3">
 <h3 data-number="5.3.3" class="anchored" data-anchor-id="rank-plots"><span class="header-section-number">5.3.3</span> Rank plots</h3>
-<p>Los trace plots son muy comunes, pero existe una alternativa más moderna llamada rank plots. La idea básica es la siguiente. Para un parámetro tomamos todas las cadenas y ordenamos los valores de menor a mayor y les asignamos un rango es decir al valor más bajo le ponemos 1, al que sigue 0 y así hasta llegar a un número que será igual a la candidad de muestras totales (cantidad de cadenas multiplicado por la cantidad de muestras por cadena). Luego reagrupamos los rankings según las cadenas que les dieron origen y para cada cadena hacemos un histograma. Si las cadenas fuesen indistinguibles esperariamos que los histogramas sean uniformes. Ya que no hay razón para que una cadena tenga más rankings bajos (o medios o altos) que el resto.</p>
+<p>Los trace plots son muy comunes, pero existe una alternativa más moderna llamada rank plots. La idea básica es la siguiente. Para un parámetro tomamos todas las cadenas y ordenamos los valores de menor a mayor y les asignamos un rango es decir al valor más bajo le ponemos 0, al que sigue 1 y así hasta llegar a un número que será igual a la cantidad de muestras totales (cantidad de cadenas multiplicado por la cantidad de muestras por cadena). Luego reagrupamos los rankings según las cadenas que les dieron origen y para cada cadena hacemos un histograma. Si las cadenas fuesen indistinguibles esperariamos que los histogramas sean uniformes. Ya que no hay razón para que una cadena tenga más rankings bajos (o medios o altos) que el resto.</p>
 <p>La siguiente figura muestra 4 ejemplos, donde solo uno (marco cyan) no muestra problemas</p>
 <center>
 <img src="diapo/img/rankbar_single_good_bad.png" width="800">
@@ -578,12 +575,12 @@ p_a (x_{i + 1} \mid x_i) = \min \left(1, \frac{p(x_{i + 1}) \; q(x_i \mid x_{i +
 </section>
 <section id="hat-r-r-sombrero" class="level3" data-number="5.3.4">
 <h3 data-number="5.3.4" class="anchored" data-anchor-id="hat-r-r-sombrero"><span class="header-section-number">5.3.4</span> <span class="math inline">\(\hat R\)</span> (R sombrero)</h3>
-<p>Los gráficos suelen ser útiles para descrubir patrones, pero aveces queremos números, por ejmplo al evaluar rápidamente mucho parámetros. <span class="math inline">\(\hat R\)</span> es la respuesta a la pregunta. Lograron las cadenas mezclarse adecuadamente? Pero también me gusta pensalo como el jurado en un concurso de trace (o rank) plots. La versión implementada en ArviZ hace varias cosas debajo del capot, pero la idea central es que compara la varianza <em>entre</em> cadenas con la varianza <em>dentro</em> de cada cadena.</p>
+<p>Los gráficos suelen ser útiles para descrubir patrones, pero aveces queremos números, por ejemplo al evaluar rápidamente mucho parámetros. <span class="math inline">\(\hat R\)</span> es la respuesta a la pregunta. Lograron las cadenas mezclarse adecuadamente? Pero también me gusta pensarlo como el jurado en un concurso de trace (o rank) plots. La versión implementada en ArviZ hace varias cosas debajo del capot, pero la idea central es que compara la varianza <em>entre</em> cadenas con la varianza <em>dentro</em> de cada cadena.</p>
 <center>
 <img src="diapo/img/r_hat.gif" width="900">
 </center>
-<p>Idealmente $R =$1, en la práctica <span class="math inline">\(\hat R \lessapprox 1.01\)</span> son considerados seguros y en la primer fase de modelado valores más altos como <span class="math inline">\(\hat R \approx 1.1\)</span> pueden estár bien.</p>
-<p>Usando ArviZ podemos obtener <span class="math inline">\(\hat R\)</span> usando <code>az.rhat(⋅)</code>, <code>az.summary(⋅)</code> y `az.plot_forest(⋅, r_hat=True)``</p>
+<p>Idealmente <span class="math inline">\(\hat R = 1\)</span>, en la práctica <span class="math inline">\(\hat R \lessapprox 1.01\)</span> son considerados seguros y en la primer fase de modelado valores más altos como <span class="math inline">\(\hat R \approx 1.1\)</span> pueden estár bien.</p>
+<p>Usando ArviZ podemos obtener <span class="math inline">\(\hat R\)</span> usando <code>az.rhat(⋅)</code>, <code>az.summary(⋅)</code> y <code>az.plot_forest(⋅, r_hat=True)</code></p>
 </section>
 <section id="gráfico-de-autocorrelación" class="level3" data-number="5.3.5">
 <h3 data-number="5.3.5" class="anchored" data-anchor-id="gráfico-de-autocorrelación"><span class="header-section-number">5.3.5</span> Gráfico de autocorrelación</h3>
@@ -595,18 +592,11 @@ p_a (x_{i + 1} \mid x_i) = \min \left(1, \frac{p(x_{i + 1}) \; q(x_i \mid x_{i +
 <p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>cadenas_defectuosas <span class="op">=</span> {<span class="st">"cadenas_defectuosas"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1000</span>).reshape(<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>)}</span>
-<span id="cb9-2"><a href="#cb9-2"></a>az.plot_autocorr(cadenas_defectuosas)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>cadenas_adecuadas <span class="op">=</span> {<span class="st">"cadena_adecuadas"</span>: pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>).rvs(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">500</span>))}</span>
+<span id="cb9-2"><a href="#cb9-2"></a>az.plot_autocorr(cadenas_adecuadas)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>cadenas_adecuadas <span class="op">=</span> {<span class="st">"cadena_adecuadas"</span>: pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>).rvs(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">500</span>))}</span>
-<span id="cb10-2"><a href="#cb10-2"></a>az.plot_autocorr(cadenas_adecuadas)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -618,10 +608,10 @@ p_a (x_{i + 1} \mid x_i) = \min \left(1, \frac{p(x_{i + 1}) \; q(x_i \mid x_{i +
 <img src="diapo/img/ess.gif" width="600">
 </center>
 <p>Podemos estimar el <strong>tamaño de muestra efectivo</strong> (ESS), es decir, el tamaño de una muestra con la cantidad equivalente de información pero sin autocorrelación. Esto es útil para determinar si la muestra que tenemos es lo suficientemente grande. Se recomienta que el ESS sea superior a 100 por cadena. Es decir para para 4 cadenas queremos un mínimo de 400.</p>
-<p>Con ArviZ podemos obtenerlo <code>az.ess(⋅)</code>, <code>az.summary(⋅)</code> y `az.plot_forest(⋅, ess=True)``</p>
+<p>Con ArviZ podemos obtenerlo <code>az.ess(⋅)</code>, <code>az.summary(⋅)</code> y <code>az.plot_forest(⋅, ess=True)</code></p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>pd.concat((az.ess(cadenas_defectuosas).to_pandas(),</span>
-<span id="cb11-2"><a href="#cb11-2"></a>           az.ess(cadenas_adecuadas).to_pandas()))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>pd.concat((az.ess(cadenas_defectuosas).to_pandas(),</span>
+<span id="cb10-2"><a href="#cb10-2"></a>           az.ess(cadenas_adecuadas).to_pandas()))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>cadenas_defectuosas      2.282878
 cadena_adecuadas       910.058723
@@ -630,8 +620,8 @@ dtype: float64</code></pre>
 </div>
 <p>Vemos que <code>az.summary(⋅)</code> devuelve dos valores de ESS, <code>ess_bulk</code> y <code>ess_tail</code>. Esto se debe a que, distintas regiones del espacio de los parámetros pueden tener distinto valor de ESS, ya que no todas las regiones son muestreadas con la misma eficiencia. Intuitivamente uno puede pensar que al muestrear una distribución como una Gaussiana es más fácil obtener mejor calidad de muestra alrededor de la media que de las colas, simplemente por que tenemos más muestras de esa región.</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>pd.concat([az.summary(cadenas_adecuadas, kind<span class="op">=</span><span class="st">"diagnostics"</span>),</span>
-<span id="cb13-2"><a href="#cb13-2"></a>           az.summary(cadenas_defectuosas, kind<span class="op">=</span><span class="st">"diagnostics"</span>)])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>pd.concat([az.summary(cadenas_adecuadas, kind<span class="op">=</span><span class="st">"diagnostics"</span>),</span>
+<span id="cb12-2"><a href="#cb12-2"></a>           az.summary(cadenas_defectuosas, kind<span class="op">=</span><span class="st">"diagnostics"</span>)])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <div>
@@ -672,49 +662,51 @@ dtype: float64</code></pre>
 <p>Si las muestras de MCMC las vamos a usar para calcular valores centrales como medias o medianas entonces tenemos que asegurarnos que el <code>ess_bulk</code> sea lo suficientemente algo, en cambio, si queremos calcular intervalos como un HDI 95% hay que asegurarse que <code>ess_tail</code> sea adecuado.</p>
 <p>ArviZ ofrece varias funciones vinculadas al ESS. Por ejemplo si queremos evaluar el desempeño del sampler para varias regiones al mismo tiempo podemos usar <code>az.plot_ess</code>.</p>
 <div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>az.plot_ess(cadenas_adecuadas, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb13-3"><a href="#cb13-3"></a>az.plot_ess(cadenas_defectuosas, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Una forma simple de aumentar el ESS es aumentar la cantidad de muestras, pero podría darse el caso que el ESS crezca muy lento con el número de muestras, por lo que aún si aumentaramos 10 veces la cantidad de muestras estaríamos por debajo de lo requerido. Una forma de estimar “cuanto nos falta” es usar <code>az.plot_ess(⋅, kind="evolution")</code>. Este gráfico nos muestra como fue cambiando el ESS con cada muestra, lo que nos permite hacer proyecciones. En el siguiente ejemplo vemos que para <code>cadenas_adecuadas</code> el ESS crece lineamente con el número de muestras mientras que para <code>cadenas_defectuosas</code> no crece para nada. Este último caso no hay esperanzas de mejorar el ESS simplemente aumentando la cantidad de muestras.</p>
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>az.plot_ess(cadenas_adecuadas, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
-<span id="cb14-3"><a href="#cb14-3"></a>az.plot_ess(cadenas_defectuosas, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-2"><a href="#cb14-2"></a>az.plot_ess(cadenas_adecuadas, kind<span class="op">=</span><span class="st">"evolution"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb14-3"><a href="#cb14-3"></a>az.plot_ess(cadenas_defectuosas,  kind<span class="op">=</span><span class="st">"evolution"</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<p>Una forma simple de aumentar el ESS es aumentar la cantidad de muestras, pero podría darse el caso que el ESS crezca muy lento con el número de muestras, por lo que aún si aumentaramos 10 veces la cantidad de muestras estaríamos por debajo de lo requerido. Una forma de estimar “cuanto nos falta” es usar <code>az.plot_ess(⋅, kind="evolution")</code>. Este gráfico nos muestra como fue cambiando el ESS en muestra muestra, lo que nos permite hacer proyecciones. En el siguiente ejemplo vemos que para <code>cadenas_adecuadas</code> el ESS crece lineamente con el número de muestras mientras que para <code>cadenas_defectuosas</code> no crece para nada. Este último caso no hay esperanzas de mejorar el ESS simplemente aumentando la cantidad de muestras.</p>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>az.plot_ess(cadenas_adecuadas, kind<span class="op">=</span><span class="st">"evolution"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
-<span id="cb15-3"><a href="#cb15-3"></a>az.plot_ess(cadenas_defectuosas,  kind<span class="op">=</span><span class="st">"evolution"</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
 <section id="error-estándard-del-monte-carlo-mcse" class="level3" data-number="5.3.7">
 <h3 data-number="5.3.7" class="anchored" data-anchor-id="error-estándard-del-monte-carlo-mcse"><span class="header-section-number">5.3.7</span> Error estándard del Monte Carlo (MCSE)</h3>
 <p>Una ventaja del ESS es que no tiene escala, da igual si un parámetro varía entre 0.1 y 0.2 y otro entre -2000 y 5000, un ESS de 400 tiene el mismo significado en ambos casos. En modelos con muchos parámetros rápidamente podemos indentificar cuales parámetros son más problemáticos. Sin embargo, a la hora de reportar resultados no es muy informativo saber si el ESS fue de 1372 o 1501. En cambio nos gustaría saber el orden del error que estamos cometiendo al aproximar la distribución a posterori. Esa información la da el <strong>error estándard del Monte Carlo</strong> (MCSE). Al igual que el ESS, el MCSE tiene en cuenta la autocorrelación de las muestras. Este error debe estar por debajo de la precisión deseada en nuestros resultados. Es decir si para un parámetro el MCSE es 0.1, no tiene sentido reportar que la media de ese parámetro es 3.15. Ya que tranquilamente el valor correcto podría estar entre 3.4 y 2.8.</p>
-<p>Una de las cantidades devueltas por <code>summary</code> es mc_error.</p>
+<p>Una de las cantidades devueltas por <code>az.summary(⋅)</code> es mc_error.</p>
 </section>
 </section>
 <section id="diagnóstico-de-algoritmos-basados-en-gradiente" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="diagnóstico-de-algoritmos-basados-en-gradiente"><span class="header-section-number">5.4</span> Diagnóstico de algoritmos basados en gradiente</h2>
 <p>Debido a su funcionamiento interno, algoritmos como NUTS ofrecen algunas pruebas específicas que no están disponibles para otros métodos. Generalmente estas pruebas son muy sensibles</p>
-<p>Para ejemplificar esto vamos a cargar dos InferenceData de modelos pre-calculados. Los detalles de como se generaron estos idata no es relevante por el momento. Solo diremos que son dos modelos que son matemáticamente equivalente pero parametrizados de formas distintas. En este caso la parametrización afecta la eficiencia del sampler. El modelo <code>centrado</code> es muestreado de forma más eficiente que el modelo <code>no centrado</code>.</p>
+<p>Para ejemplificar esto vamos a cargar dos InferenceData de modelos pre-calculados. Los detalles de como se generaron estos idatas no son relevantes por el momento. Solo diremos que son dos modelos que son matemáticamente equivalente pero parametrizados de formas distintas. En este caso la parametrización afecta la eficiencia del sampler. El modelo <code>centrado</code> es muestreado de forma más eficiente que el modelo <code>no centrado</code>.</p>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>idata_cm <span class="op">=</span> az.load_arviz_data(<span class="st">"centered_eight"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a>idata_ncm <span class="op">=</span> az.load_arviz_data(<span class="st">"non_centered_eight"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>idata_cm <span class="op">=</span> az.load_arviz_data(<span class="st">"centered_eight"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>idata_ncm <span class="op">=</span> az.load_arviz_data(<span class="st">"non_centered_eight"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="energía-de-transición-vs-energía-marginal" class="level3" data-number="5.4.1">
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="energía-de-transición-vs-energía-marginal"><span class="header-section-number">5.4.1</span> Energía de transición vs energía marginal</h3>
-<p>Podemos pensar en un Monte Carlo Hamiltoniano como un proceso de dos pasos * Un muestreo determinista (siguiendo el hamiltoniano) * Una caminata aleatorio en el espacio del momentum</p>
-<p>Si la distribución de la energía de transición es similar a la distribución de la energía marginal, entonces NUTS es capaz de generar muestras de la distribución marginal de la energía que sean <em>casi</em> independientes entre transiciones. Esto lo podemos evaluar visualmente y numéricamente (Bayesian Fraction of Missing Information)</p>
+<p>Podemos pensar en un Monte Carlo Hamiltoniano como un proceso de dos pasos<br>
+* Un muestreo determinista (siguiendo el hamiltoniano)<br>
+* Una caminata aleatorio en el espacio del momentum</p>
+<p>Si la distribución de la energía de transición es similar a la distribución de la energía marginal, entonces NUTS es capaz de generar muestras de la distribución marginal de la energía que sean <em>casi</em> independientes entre transiciones. Esto lo podemos evaluar visualmente o numéricamente, calculando el Bayesian Fraction of Missing Information (BFMI), como se muestra en la siguiente figura.</p>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb17-2"><a href="#cb17-2"></a></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="cf">for</span> ax, idata, nombre <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), (idata_cm, idata_ncm), (<span class="st">"centrado"</span>, <span class="st">"no centrado"</span>)):</span>
-<span id="cb17-4"><a href="#cb17-4"></a>    az.plot_energy(idata, ax<span class="op">=</span>ax)</span>
-<span id="cb17-5"><a href="#cb17-5"></a>    ax.set_title(nombre)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="cf">for</span> ax, idata, nombre <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), (idata_cm, idata_ncm), (<span class="st">"centrado"</span>, <span class="st">"no centrado"</span>)):</span>
+<span id="cb16-4"><a href="#cb16-4"></a>    az.plot_energy(idata, ax<span class="op">=</span>ax)</span>
+<span id="cb16-5"><a href="#cb16-5"></a>    ax.set_title(nombre)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -723,22 +715,22 @@ dtype: float64</code></pre>
 <p>Una ventaja de NUTS es que <em>falla con el estilo</em>. Esto sucede por ejemplo al intentar pasar de regiones de baja curvatura a regiones de alta curvatura. En estos casos las trayectorias numéricas pueden divergir. En esencia esto sucede por que en esos casos no existe un único conjunto de hiper-parámetros que permita el muestreo eficiente de ambas regiones. Por lo que una de la regiones es muestreada adecuandamente y cuando el sampler se mueve hacia la otra región falla. Las trayectorias numéricas divergentes son identificadores extremadamente sensibles de <em>vecindarios patológicos</em>.</p>
 <p>El siguiente ejemplo muestra dos cosas el modelo <code>no centrado</code> muestra varias divergencias (círculos turquesas) agrupados en una región. En el modelo <code>centrado</code>, que no tiene divergencias, se puede ver que alrededor de esa misma región hay muestras para valores más pequeños de <code>tau</code>. Es decir el modelo <code>no centrado</code> falla en muestrear una región, pero al menos avisa que está teniendo problemas en muestrear esa región!</p>
 <div class="cell" data-scrolled="true" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb18-2"><a href="#cb18-2"></a></span>
-<span id="cb18-3"><a href="#cb18-3"></a></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="cf">for</span> ax, idata, nombre <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), (idata_cm, idata_ncm), (<span class="st">"centrado"</span>, <span class="st">"no_centrado"</span>)):</span>
-<span id="cb18-5"><a href="#cb18-5"></a>    az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">'theta'</span>, <span class="st">'tau'</span>], coords<span class="op">=</span>{<span class="st">'school'</span>:<span class="st">"Choate"</span>}, kind<span class="op">=</span><span class="st">'scatter'</span>,</span>
-<span id="cb18-6"><a href="#cb18-6"></a>                 divergences<span class="op">=</span><span class="va">True</span>, divergences_kwargs<span class="op">=</span>{<span class="st">'color'</span>:<span class="st">'C1'</span>},</span>
-<span id="cb18-7"><a href="#cb18-7"></a>                 ax<span class="op">=</span>ax)</span>
-<span id="cb18-8"><a href="#cb18-8"></a>    ax.set_title(nombre)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="cf">for</span> ax, idata, nombre <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), (idata_cm, idata_ncm), (<span class="st">"centrado"</span>, <span class="st">"no_centrado"</span>)):</span>
+<span id="cb17-5"><a href="#cb17-5"></a>    az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">'theta'</span>, <span class="st">'tau'</span>], coords<span class="op">=</span>{<span class="st">'school'</span>:<span class="st">"Choate"</span>}, kind<span class="op">=</span><span class="st">'scatter'</span>,</span>
+<span id="cb17-6"><a href="#cb17-6"></a>                 divergences<span class="op">=</span><span class="va">True</span>, divergences_kwargs<span class="op">=</span>{<span class="st">'color'</span>:<span class="st">'C1'</span>},</span>
+<span id="cb17-7"><a href="#cb17-7"></a>                 ax<span class="op">=</span>ax)</span>
+<span id="cb17-8"><a href="#cb17-8"></a>    ax.set_title(nombre)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-scrolled="true" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>az.plot_parallel(idata_cm, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>az.plot_parallel(idata_cm, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -766,14 +758,12 @@ dtype: float64</code></pre>
 <li><p>Explicá en tus propias palabras que es el ESS, el <span class="math inline">\(\hat R\)</span> y el MCSE. ¿Qué información nos dan?</p></li>
 <li><p>¿Qué significa que el <span class="math inline">\(\hat R\)</span> sea 1.01? ¿Qué significa que sea 1.5? ¿Qué significa que sea 1.9?</p></li>
 <li><p>¿Qué significa que el ESS sea 100? ¿Qué significa que sea 1000? ¿Qué significa que sea 10000?</p></li>
-<li><p>¿Qué significa que el MCSE sea 0.1? ¿Qué significa que sea 0.5? ¿Qué significa que sea 1?</p></li>
-<li><p>¿Qué significa que el MCSE sea 0.1 para un parámetro cuya media es 3.15? ¿Qué significa que sea 0.5? ¿Qué significa que sea 1?</p></li>
-<li><p>¿Qué significa que el MCSE sea 0.1 para un parámetro cuya media e</p></li>
+<li><p>Elegí al menos un modelo de los capítulos anteriores, genera un traceplot, un rank plot. Calcula el ESS, el <span class="math inline">\(R \hat\)</span> y el <span class="math inline">\(MCSE\)</span>. Ofrece una breve interpretación de los resultados de los diagósticos.</p></li>
 </ol>
 </section>
 <section id="para-seguir-leyendo" class="level2" data-number="5.7">
 <h2 data-number="5.7" class="anchored" data-anchor-id="para-seguir-leyendo"><span class="header-section-number">5.7</span> Para seguir leyendo</h2>
-<p><a href="https://github.com/arviz-devs/Exploratory-Analysis-of-Bayesian-Models/tree/master/content">Exploratory Analysis of Bayesian Models</a> Trabajo en Progreso!</p>
+<p><a href="https://github.com/arviz-devs/Exploratory-Analysis-of-Bayesian-Models/tree/main/content">Exploratory Analysis of Bayesian Models</a> Trabajo en Progreso!</p>
 <p><a href="https://arxiv.org/abs/1701.02434">A Conceptual Introduction to Hamiltonian Monte Carlo</a></p>
 <p><a href="https://arxiv.org/abs/1903.08008">Rank-normalization, folding, and localization</a></p>
 <p><a href="https://arxiv.org/abs/2004.06425">Computing Bayes: Bayesian Computation from 1763 to the 21st Century</a>.</p>
@@ -1041,7 +1031,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./05_Regresión_lineal.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión Lineal</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

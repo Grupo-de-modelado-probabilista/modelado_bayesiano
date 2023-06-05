@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modelado Bayesiano - 6&nbsp; Regresión Lineal</title>
+<title>Modelado Bayesiano - 6&nbsp; Regresión lineal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -131,7 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta name="citation_title" content="[6]{.chapter-number}&nbsp; [Regresión Lineal]{.chapter-title}">
+<meta name="citation_title" content="[6]{.chapter-number}&nbsp; [Regresión lineal]{.chapter-title}">
 <meta name="citation_publication_date" content="2023-04-21">
 <meta name="citation_cover_date" content="2023-04-21">
 <meta name="citation_year" content="2023">
@@ -145,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión Lineal</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -222,12 +222,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión Lineal</span></a>
+  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Generalizando modelos lineales</span></a>
+  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión polinomial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -244,19 +244,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#regresión-lineal" id="toc-regresión-lineal" class="nav-link active" data-scroll-target="#regresión-lineal"><span class="toc-section-number">7</span>  Regresión lineal</a>
-  <ul class="collapse">
-  <li><a href="#modelos-lineales-y-autocorrelación" id="toc-modelos-lineales-y-autocorrelación" class="nav-link" data-scroll-target="#modelos-lineales-y-autocorrelación"><span class="toc-section-number">7.1</span>  Modelos lineales y autocorrelación</a></li>
-  <li><a href="#interpretando-y-visualizando-el-posterior" id="toc-interpretando-y-visualizando-el-posterior" class="nav-link" data-scroll-target="#interpretando-y-visualizando-el-posterior"><span class="toc-section-number">7.2</span>  Interpretando y visualizando el posterior</a></li>
-  <li><a href="#regresión-lineal-robusta" id="toc-regresión-lineal-robusta" class="nav-link" data-scroll-target="#regresión-lineal-robusta"><span class="toc-section-number">7.3</span>  Regresión lineal robusta</a></li>
-  <li><a href="#regresión-lineal-jerárquica" id="toc-regresión-lineal-jerárquica" class="nav-link" data-scroll-target="#regresión-lineal-jerárquica"><span class="toc-section-number">7.4</span>  Regresión lineal jerárquica</a></li>
-  <li><a href="#regresión-lineal-multiple" id="toc-regresión-lineal-multiple" class="nav-link" data-scroll-target="#regresión-lineal-multiple"><span class="toc-section-number">7.5</span>  Regresión lineal Multiple</a></li>
-  <li><a href="#variables-de-confusión-y-variables-redundantes" id="toc-variables-de-confusión-y-variables-redundantes" class="nav-link" data-scroll-target="#variables-de-confusión-y-variables-redundantes"><span class="toc-section-number">7.6</span>  Variables de confusión y variables redundantes</a></li>
-  <li><a href="#multicolinearidad-o-cuando-la-correlación-es-demasiado-alta" id="toc-multicolinearidad-o-cuando-la-correlación-es-demasiado-alta" class="nav-link" data-scroll-target="#multicolinearidad-o-cuando-la-correlación-es-demasiado-alta"><span class="toc-section-number">7.7</span>  Multicolinearidad o cuando la correlación es demasiado alta</a></li>
-  <li><a href="#variables-de-efecto-de-enmascaramiento" id="toc-variables-de-efecto-de-enmascaramiento" class="nav-link" data-scroll-target="#variables-de-efecto-de-enmascaramiento"><span class="toc-section-number">7.8</span>  Variables de efecto de enmascaramiento</a></li>
-  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen"><span class="toc-section-number">7.9</span>  Resumen</a></li>
-  </ul></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">8</span>  Ejercicios</a></li>
+  <li><a href="#modelos-lineales-y-autocorrelación" id="toc-modelos-lineales-y-autocorrelación" class="nav-link active" data-scroll-target="#modelos-lineales-y-autocorrelación"><span class="toc-section-number">6.1</span>  Modelos lineales y autocorrelación</a></li>
+  <li><a href="#interpretando-y-visualizando-el-posterior" id="toc-interpretando-y-visualizando-el-posterior" class="nav-link" data-scroll-target="#interpretando-y-visualizando-el-posterior"><span class="toc-section-number">6.2</span>  Interpretando y visualizando el posterior</a></li>
+  <li><a href="#regresión-lineal-robusta" id="toc-regresión-lineal-robusta" class="nav-link" data-scroll-target="#regresión-lineal-robusta"><span class="toc-section-number">6.3</span>  Regresión lineal robusta</a></li>
+  <li><a href="#regresión-lineal-jerárquica" id="toc-regresión-lineal-jerárquica" class="nav-link" data-scroll-target="#regresión-lineal-jerárquica"><span class="toc-section-number">6.4</span>  Regresión lineal jerárquica</a></li>
+  <li><a href="#regresión-lineal-multiple" id="toc-regresión-lineal-multiple" class="nav-link" data-scroll-target="#regresión-lineal-multiple"><span class="toc-section-number">6.5</span>  Regresión lineal Multiple</a></li>
+  <li><a href="#variables-de-confusión-y-variables-redundantes" id="toc-variables-de-confusión-y-variables-redundantes" class="nav-link" data-scroll-target="#variables-de-confusión-y-variables-redundantes"><span class="toc-section-number">6.6</span>  Variables de confusión y variables redundantes</a></li>
+  <li><a href="#multicolinearidad-o-cuando-la-correlación-es-demasiado-alta" id="toc-multicolinearidad-o-cuando-la-correlación-es-demasiado-alta" class="nav-link" data-scroll-target="#multicolinearidad-o-cuando-la-correlación-es-demasiado-alta"><span class="toc-section-number">6.7</span>  Multicolinearidad o cuando la correlación es demasiado alta</a></li>
+  <li><a href="#variables-de-efecto-de-enmascaramiento" id="toc-variables-de-efecto-de-enmascaramiento" class="nav-link" data-scroll-target="#variables-de-efecto-de-enmascaramiento"><span class="toc-section-number">6.8</span>  Variables de efecto de enmascaramiento</a></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen"><span class="toc-section-number">6.9</span>  Resumen</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">7</span>  Ejercicios</a></li>
   </ul>
 </nav>
     </div>
@@ -265,7 +262,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión Lineal</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></h1>
 </div>
 
 
@@ -306,8 +303,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Interacciones</li>
 <li>Varianza variable</li>
 </ul>
-<section id="regresión-lineal" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Regresión lineal</h1>
 <p>Supongamos que tenemos una variable <span class="math inline">\(X\)</span>, y a partir de esta queremos predecir o modelar una variable <span class="math inline">\(Y\)</span>. Además, estás variables se encuentran apareadas ${(x_1,y_1), (x_2,y_2),(x_n,y_n)} $. En el caso más simple <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> son variables aleatorias continuas y unidimensionales, usando Python las representaríamos usando <em>arrays</em> de dimensión 1 de tipo flotante.</p>
 <p>Las variable <span class="math inline">\(Y\)</span> suele recibir distintos nombres como variable dependiente, predicha o respuesta, mientras que <span class="math inline">\(X\)</span> recibe nombres como variable independiente, predictora o <em>de entrada</em>. En <em>Machine learning</em> es común hablar de <em>features</em> en vez de variables y es común pensar que una regresión lineal es un ejemplo de <a href="https://es.wikipedia.org/wiki/Aprendizaje_supervisado">aprendizaje supervisado</a>.</p>
 <p>Cuando tenemos más de una variable independiente es común representarla como una matriz <span class="math inline">\(\boldsymbol{X}\)</span> (usualmente llamada <a href="https://en.wikipedia.org/wiki/Design_matrix">matriz de diseño</a>), donde por lo general las columnas representan distintos tipos de variables (o <em>features</em>) y las filas distintas observaciones, instancias , sujetos, etc. Este tipo de modelo se llama regresión lineal múltiple o regresión lineal multivariable y es quizá el caso más común de regresión lineal. El nombre regresión lineal multivariada debería reservarse a casos en que tenemos más de una variable respuesta, aunque es muy común en literatura que estos términos se usen de forma intercambiable.</p>
@@ -426,8 +421,8 @@ NUTS: [α, β, ϵ]</code></pre>
 <p><img src="05_Regresión_lineal_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<section id="modelos-lineales-y-autocorrelación" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="modelos-lineales-y-autocorrelación"><span class="header-section-number">7.1</span> Modelos lineales y autocorrelación</h2>
+<section id="modelos-lineales-y-autocorrelación" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="modelos-lineales-y-autocorrelación"><span class="header-section-number">6.1</span> Modelos lineales y autocorrelación</h2>
 <p>En un modelo lineal los parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span> están correlacionados. Esto se puede ver en la siguiente figura:</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>az.plot_pair(idata_g, var_names<span class="op">=</span><span class="st">'~μ'</span>, scatter_kwargs<span class="op">=</span>{<span class="st">'alpha'</span>:<span class="fl">0.5</span>})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -455,8 +450,8 @@ y' = \frac{y - \bar y}{y_{sd}} \tag{3.8}
 \]</span></p>
 <p>Una ventaja de la estandarización de los datos es que siempre podemos usar los mismos priors débilmente informativos, sin tener que pensar en la escala de los datos. Para datos estandarizados, la intersección siempre será alrededor de 0 y la pendiente estará restringida al intervalo [-1, 1]. Estandarizar los datos nos permite hablar en términos de Z-score, es decir, en unidades de desviaciones estándar. Si alguien dice que el valor de un parámetro es -1.3 unidades de Z-score, sabemos automáticamente que el valor en cuestión es 1.3 desviaciones estándar por debajo del valor de la media (aún cuando no sepamos cual es el valor de la media). Un cambio en una unidad Z-score es un cambio en una desviación estándar cualquiera sea la escala original de los datos. Los Z-zcore también son muy útiles cuando se trabaja con muchas variables; ya que tener todas las variables en una misma escala puede simplificar la interpretación de los datos.</p>
 </section>
-<section id="interpretando-y-visualizando-el-posterior" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="interpretando-y-visualizando-el-posterior"><span class="header-section-number">7.2</span> Interpretando y visualizando el posterior</h2>
+<section id="interpretando-y-visualizando-el-posterior" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="interpretando-y-visualizando-el-posterior"><span class="header-section-number">6.2</span> Interpretando y visualizando el posterior</h2>
 <p>Como ya hemos visto, podemos explorar el posterior usando funciones de ArviZ como <code>plot_trace</code> y <code>summary</code>, o podemos usar nuestras propias funciones. Para una regresión lineal, podría ser útil dibujar la línea promedio que ajusta los datos junto con los valores promedio de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Para reflejar la incertidumbre contenida en la distribución <em>a posteriori</em>, podemos usar líneas semitransparentes muestreadas de esta distribución:</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>plt.plot(x, y, <span class="st">'C0.'</span>)</span>
@@ -542,8 +537,8 @@ y' = \frac{y - \bar y}{y_{sd}} \tag{3.8}
 </div>
 </div>
 </section>
-<section id="regresión-lineal-robusta" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="regresión-lineal-robusta"><span class="header-section-number">7.3</span> Regresión lineal robusta</h2>
+<section id="regresión-lineal-robusta" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="regresión-lineal-robusta"><span class="header-section-number">6.3</span> Regresión lineal robusta</h2>
 <p>Asumir que los datos siguen una distribución gaussiana es perfectamente razonable en muchas situaciones. Al asumir Gaussianidad, no necesariamente estamos aceptando que los datos son gaussianos; en cambio, estamos diciendo que es una aproximación razonable para un problema determinado. Como vimos en el capítulo anterior, a veces esta suposición gaussiana falla, por ejemplo, en presencia de valores aberrantes. Aprendimos que el uso de la distribución t de Student es una forma de tratar de manera efectiva con valores atípicos y obtener una inferencia más robusta. La misma idea se puede aplicar a la regresión lineal y para ejemplificarla vamos a utilizar un conjunto de datos muy simple: el tercer grupo de datos del <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet">cuarteto de Anscombe</a></p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>ans <span class="op">=</span> pd.read_csv(<span class="st">'datos/anscombe.csv'</span>)</span>
@@ -718,8 +713,8 @@ NUTS: [α, β, ϵ, ν_]</code></pre>
 </div>
 <p>Como pueden ver, los valores de <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span> y <span class="math inline">\(\epsilon\)</span> practicamente no tienen variación (sd=0), incluso <span class="math inline">\(\epsilon\)</span> es prácticamente 0. Esto es totalmente razonable dado que estamos ajustando una línea recta a un perfecto conjunto alineado de puntos (si ignoramos el punto atípico).</p>
 </section>
-<section id="regresión-lineal-jerárquica" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="regresión-lineal-jerárquica"><span class="header-section-number">7.4</span> Regresión lineal jerárquica</h2>
+<section id="regresión-lineal-jerárquica" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="regresión-lineal-jerárquica"><span class="header-section-number">6.4</span> Regresión lineal jerárquica</h2>
 <p>En el capítulo anterior, aprendimos los rudimentos de los modelos jerárquicos. Este mismo concepto se puede aplicar a las regresiones lineales. Esto permite que los modelos realicen inferencias a nivel de subgrupo y a nivel global. Como ya vimos, esto se hace incluyendo hiperpriors.</p>
 <p>Vamos a crear ocho grupos de datos relacionados, incluido uno con un solo dato</p>
 <div class="cell" data-execution_count="18">
@@ -844,8 +839,8 @@ NUTS: [α_μ_tmp, α_σ_tmp, β_μ, β_σ, α_tmp, β, ϵ, ν]</code></pre>
 </div>
 </div>
 </section>
-<section id="regresión-lineal-multiple" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="regresión-lineal-multiple"><span class="header-section-number">7.5</span> Regresión lineal Multiple</h2>
+<section id="regresión-lineal-multiple" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="regresión-lineal-multiple"><span class="header-section-number">6.5</span> Regresión lineal Multiple</h2>
 <p>Hasta ahora hemos estado trabajando con una variable dependiente y una variable independiente, sin embargo no es inusual tener varias variables independientes que queremos incluir en nuestro modelo. Algunos ejemplos podrían ser:</p>
 <ul>
 <li>Calidad percibida del vino (dependiente) y acidez, densidad, nivel de alcohol, azúcar residual y contenido de sulfatos (variables independientes)</li>
@@ -1033,8 +1028,8 @@ NUTS: [α_tmp, β, ϵ]</code></pre>
 <p>Como podemos ver, nuestro modelo es capaz de recuperar los valores correctos (verificalo comparando contra los valores utilizados para generar los datos sintéticos).</p>
 <p>En las siguientes secciones, nos centraremos en algunas precauciones que debemos tomar al analizar los resultados de un modelo de regresión múltiple, especialmente la interpretación de las pendientes. El principal mensaje de la siguiente sección es que en una regresión lineal múltiple, cada uno de los parámetros solo tiene sentido en el contexto del resto de los parámetros.</p>
 </section>
-<section id="variables-de-confusión-y-variables-redundantes" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="variables-de-confusión-y-variables-redundantes"><span class="header-section-number">7.6</span> Variables de confusión y variables redundantes</h2>
+<section id="variables-de-confusión-y-variables-redundantes" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="variables-de-confusión-y-variables-redundantes"><span class="header-section-number">6.6</span> Variables de confusión y variables redundantes</h2>
 <p>Imagina la siguiente situación. Tenemos una variable <span class="math inline">\(z\)</span> correlacionada con la variable predictora <span class="math inline">\(x\)</span> y, al mismo tiempo, con la variable dependiente <span class="math inline">\(y\)</span>. Supongamos que la variable <span class="math inline">\(z\)</span> es la responsable de causar <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>. Por ejemplo, <span class="math inline">\(z\)</span> podría ser la revolución industrial (¡una variable realmente compleja!), <span class="math inline">\(x\)</span> el número de piratas, e <span class="math inline">\(y\)</span> la concentración de <span class="math inline">\(CO_2\)</span>. Este ejemplo debería ser muy familiar para lectores <a href="https://es.wikipedia.org/wiki/Pastafarismo">Pastafariano</a>. Si omitimos <span class="math inline">\(z\)</span> de nuestro análisis, podríamos terminar con una buena relación lineal entre <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>, incluso podríamos predecir <span class="math inline">\(x\)</span> a partir de <span class="math inline">\(y\)</span>. Sin embargo, si nuestro interés radica en minimizar el calentamiento global, podríamos pasar por alto lo que realmente está sucediendo con el mecanismo subyacente que relaciona estas variables.</p>
 <p>Lo que intento decir es la conocida expresión <strong>correlación no implica causalidad</strong>. Una razón por la que esto no es necesariamente cierto es que podemos estar omitiendo la variable <span class="math inline">\(z\)</span> de nuestro análisis. Cuando esto sucede, llamamos a <span class="math inline">\(z\)</span> <a href="https://en.wikipedia.org/wiki/Confounding">variable de confusión</a> o factor de confusión. En muchos escenarios reales <span class="math inline">\(z\)</span> es fácil de perder de vista. Tal vez no la medimos o no estaba presente en el conjunto de datos que nos enviaron, o ni siquiera pensamos que <span class="math inline">\(z\)</span> podría estar relacionado con nuestro problema. No tomar en cuenta las variables de confusión en un análisis podría llevarnos a establecer correlaciones falsas. Esto siempre es un problema cuando tratamos de explicar algo y también puede ser problemático cuando tratamos de predecir algo sin preocuparnos por comprender el mecanismo subyacente. Comprender el mecanismo nos ayuda a traducir lo que hemos aprendido a situaciones nuevas; las predicciones ciegas no siempre tienen buena transferibilidad. Por ejemplo, la cantidad de zapatillas producidas en Argentina podría utilizarse como un indicador simple para estimar la fortaleza de su economía, pero podría ser un pésimo predictor para otros países con una matriz de producción o un contexto cultural diferente.</p>
 <p>A continuación vamos a usar datos sintéticos para explorar un poco el concepto de variable de confusión. El siguiente código simula una variable de confusión como <span class="math inline">\(x_1\)</span>. Esta variable tiene influencia tanto en <span class="math inline">\(x_2\)</span> como en <span class="math inline">\(y\)</span>:</p>
@@ -1204,8 +1199,8 @@ NUTS: [α, β2, ϵ]</code></pre>
 </div>
 <p>Como podemos ver <span class="math inline">\(\beta_2\)</span> para el modelo <code>m_x1x2</code> es alrededor de cero, lo que indica una contribución casi nula de la variable <span class="math inline">\(x_2\)</span> para explicar <span class="math inline">\(y\)</span>. Esto es interesante porque ya sabemos que la variable realmente importante es <span class="math inline">\(x_1\)</span> (como se puede verificar en la generación de datos sintéticos). También hay que notar, y esto es realmente importante, <span class="math inline">\(\beta_2\)</span> para el modelo <code>m_x2</code> es alrededor de 0.55, es decir es más grande que para el modelo <code>m_x1x2</code>. En otras palabras el poder de <span class="math inline">\(x_2\)</span> para predecir <span class="math inline">\(y\)</span> se reduce cuando tenemos en cuenta <span class="math inline">\(x_1\)</span>, ya que la información en <span class="math inline">\(x_1\)</span> es redundante dado <span class="math inline">\(x_2\)</span>.</p>
 </section>
-<section id="multicolinearidad-o-cuando-la-correlación-es-demasiado-alta" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="multicolinearidad-o-cuando-la-correlación-es-demasiado-alta"><span class="header-section-number">7.7</span> Multicolinearidad o cuando la correlación es demasiado alta</h2>
+<section id="multicolinearidad-o-cuando-la-correlación-es-demasiado-alta" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="multicolinearidad-o-cuando-la-correlación-es-demasiado-alta"><span class="header-section-number">6.7</span> Multicolinearidad o cuando la correlación es demasiado alta</h2>
 <p>Llevemos el ejemplo anterior a un extremo y veamos qué sucede cuando dos variables están altamente correlacionadas. Para estudiar este problema y sus consecuencias para la inferencia, utilizaremos los mismos datos y modelos sintéticos que antes, pero ahora aumentaremos el grado de correlación entre <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span> al reducir la cantidad de <em>ruido Gaussiano</em> que agregamos a <span class="math inline">\(x_1\)</span> para obtener <span class="math inline">\(x_2\)</span>.</p>
 <div class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a><span class="co"># Este es el mismo código de una celdas antes pero con una valor más bajo de `scale`</span></span>
@@ -1300,8 +1295,8 @@ NUTS: [α, β, ϵ]</code></pre>
 <li>Otra solución es utilizar <em>a prioris</em> más fuertes para restringir los valores plausibles que puede adoptar el coeficiente, en este contexto los <em>a prioris</em> se usan como regularizadores de la inferencia (algo que discutiremos más adelante).</li>
 </ul>
 </section>
-<section id="variables-de-efecto-de-enmascaramiento" class="level2" data-number="7.8">
-<h2 data-number="7.8" class="anchored" data-anchor-id="variables-de-efecto-de-enmascaramiento"><span class="header-section-number">7.8</span> Variables de efecto de enmascaramiento</h2>
+<section id="variables-de-efecto-de-enmascaramiento" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="variables-de-efecto-de-enmascaramiento"><span class="header-section-number">6.8</span> Variables de efecto de enmascaramiento</h2>
 <p>Otro ejemplo de cómo las variables contribuyen a un resultado es el caso de las variables que enmascaran. Vamos a crear dos variables independientes (<span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span>), las cuales están positivamente correlacionadas entre sí y están correlacionadas con <span class="math inline">\(y\)</span>, pero en direcciones opuestas <span class="math inline">\(x_1\)</span> está correlacionada positivamente y <span class="math inline">\(x_2\)</span> correlacionada negativamente.</p>
 <div class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1"></a>np.random.seed(<span class="dv">42</span>)</span>
@@ -1469,13 +1464,12 @@ NUTS: [α, β2, ϵ]</code></pre>
 <p>De acuerdo a la distribución <em>a posteriori</em>, los valores de <span class="math inline">\(\beta\)</span> para <code>m_x1x2</code> están cerca de 1 y -1 (como se esperaba, de acuerdo a la forma en que generamos los datos). Para el modelo de regresión lineal simple, es decir, cuando estudiamos cada variable por separado, podemos ver que los valores de <span class="math inline">\(\beta\)</span> son más cercanos a cero, lo que indica un efecto más débil.</p>
 <p>Lo que sucede es que <span class="math inline">\(x_1\)</span> está correlacionado con <span class="math inline">\(x_2\)</span>, cuando <span class="math inline">\(x_1\)</span> aumenta <span class="math inline">\(x_2\)</span> también aumenta. Además <span class="math inline">\(y\)</span> aumenta, <span class="math inline">\(x_1\)</span> también aumenta, pero <span class="math inline">\(x_2\)</span> disminuye. Como resultado de este arreglo particular, obtenemos una cancelación parcial de los efectos a menos que incluyamos ambas variables en la misma regresión lineal. El modelo de regresión lineal puede desenredar estos efectos porque el modelo está aprendiendo, para cada punto de datos, cuál es la contribución de <span class="math inline">\(x_1\)</span> a <span class="math inline">\(y\)</span> dado un valor de <span class="math inline">\(x_2\)</span>, y al revés por <span class="math inline">\(x_2\)</span>.</p>
 </section>
-<section id="resumen" class="level2" data-number="7.9">
-<h2 data-number="7.9" class="anchored" data-anchor-id="resumen"><span class="header-section-number">7.9</span> Resumen</h2>
+<section id="resumen" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="resumen"><span class="header-section-number">6.9</span> Resumen</h2>
 <p>Una regresión lineal simple es un modelo que puede usarse para predecir y/o explicar una variable desde otra. Desde una perspectiva probabilista, un modelo de regresión lineal es una extensión del modelo Gaussiano donde la media no se estima directamente, sino que se calcula como una función lineal de una variable de predicción y algunos parámetros adicionales. Si bien la distribución gaussiana es la opción más común para la variable dependiente, somos libres de elegir otras distribuciones. Una alternativa especialmente útil cuando se trata de posibles valores atípicos, es la distribución t de Student. Otra forma útil de expandir un modelo de regresión lineal es haciendo una versión jerárquica de él. Esto es muy simple de lograr con PyMC y obtenemos los beneficios del <em>shrinkage</em>.</p>
 </section>
-</section>
-<section id="ejercicios" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Ejercicios</h1>
+<section id="ejercicios" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Ejercicios</h1>
 <ol type="1">
 <li>En la siguiente definición de modelo probabilístico cual es el <em>likelihood</em>, cual es el <em>a priori</em> y cual el <em>a posteriori</em>.</li>
 </ol>
@@ -1780,7 +1774,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./06_Generalizando_modelos_lineales.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Generalizando modelos lineales</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión polinomial</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modelado Bayesiano - 7&nbsp; Generalizando modelos lineales</title>
+<title>Modelado Bayesiano - 7&nbsp; Regresión polinomial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -131,7 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta name="citation_title" content="[7]{.chapter-number}&nbsp; [Generalizando modelos lineales]{.chapter-title}">
+<meta name="citation_title" content="[7]{.chapter-number}&nbsp; [Regresión polinomial]{.chapter-title}">
 <meta name="citation_publication_date" content="2023-04-21">
 <meta name="citation_cover_date" content="2023-04-21">
 <meta name="citation_year" content="2023">
@@ -145,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Generalizando modelos lineales</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión polinomial</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -222,12 +222,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión Lineal</span></a>
+  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Generalizando modelos lineales</span></a>
+  <a href="./06_Generalizando_modelos_lineales.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión polinomial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -244,16 +244,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#regresión-polinomial" id="toc-regresión-polinomial" class="nav-link active" data-scroll-target="#regresión-polinomial"><span class="toc-section-number">7.1</span>  Regresión polinomial</a>
+  <li><a href="#interpretando-los-parámetros-de-una-regresión-polinomial" id="toc-interpretando-los-parámetros-de-una-regresión-polinomial" class="nav-link active" data-scroll-target="#interpretando-los-parámetros-de-una-regresión-polinomial"><span class="toc-section-number">7.0.1</span>  Interpretando los parámetros de una regresión polinomial</a></li>
+  <li><a href="#varianza-variable" id="toc-varianza-variable" class="nav-link" data-scroll-target="#varianza-variable"><span class="toc-section-number">7.1</span>  Varianza variable</a></li>
+  <li><a href="#modelos-lineales-generalizados" id="toc-modelos-lineales-generalizados" class="nav-link" data-scroll-target="#modelos-lineales-generalizados"><span class="toc-section-number">7.2</span>  Modelos lineales generalizados</a></li>
+  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística"><span class="toc-section-number">7.3</span>  Regresión logística</a></li>
+  <li><a href="#el-conjunto-de-datos-del-iris" id="toc-el-conjunto-de-datos-del-iris" class="nav-link" data-scroll-target="#el-conjunto-de-datos-del-iris"><span class="toc-section-number">7.4</span>  El conjunto de datos del Iris</a>
   <ul class="collapse">
-  <li><a href="#interpretando-los-parámetros-de-una-regresión-polinomial" id="toc-interpretando-los-parámetros-de-una-regresión-polinomial" class="nav-link" data-scroll-target="#interpretando-los-parámetros-de-una-regresión-polinomial"><span class="toc-section-number">7.1.1</span>  Interpretando los parámetros de una regresión polinomial</a></li>
-  </ul></li>
-  <li><a href="#varianza-variable" id="toc-varianza-variable" class="nav-link" data-scroll-target="#varianza-variable"><span class="toc-section-number">7.2</span>  Varianza variable</a></li>
-  <li><a href="#modelos-lineales-generalizados" id="toc-modelos-lineales-generalizados" class="nav-link" data-scroll-target="#modelos-lineales-generalizados"><span class="toc-section-number">7.3</span>  Modelos lineales generalizados</a></li>
-  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística"><span class="toc-section-number">7.4</span>  Regresión logística</a></li>
-  <li><a href="#el-conjunto-de-datos-del-iris" id="toc-el-conjunto-de-datos-del-iris" class="nav-link" data-scroll-target="#el-conjunto-de-datos-del-iris"><span class="toc-section-number">7.5</span>  El conjunto de datos del Iris</a>
-  <ul class="collapse">
-  <li><a href="#el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." id="toc-el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." class="nav-link" data-scroll-target="#el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris."><span class="toc-section-number">7.5.1</span>  El modelo logístico aplicado al conjunto de datos del iris.</a></li>
+  <li><a href="#el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." id="toc-el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." class="nav-link" data-scroll-target="#el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris."><span class="toc-section-number">7.4.1</span>  El modelo logístico aplicado al conjunto de datos del iris.</a></li>
   </ul></li>
   <li><a href="#regresión-logística-múltiple" id="toc-regresión-logística-múltiple" class="nav-link" data-scroll-target="#regresión-logística-múltiple"><span class="toc-section-number">8</span>  Regresión logística múltiple</a>
   <ul class="collapse">
@@ -282,7 +279,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Generalizando modelos lineales</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión polinomial</span></h1>
 </div>
 
 
@@ -323,8 +320,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Regresión de Poisson</li>
 <li>Regresión de Poisson cero-inflada</li>
 </ul>
-<section id="regresión-polinomial" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="regresión-polinomial"><span class="header-section-number">7.1</span> Regresión polinomial</h2>
 <p>Ahora vamos a aprender cómo ajustar curvas usando una regresión lineal. Una manera de ajustar curvas usando un modelo de regresión lineal es construyendo un polinomio como este:</p>
 <p><span class="math display">\[\mu = \beta_0 x^0 + \beta_1 x^1  \dots + \beta_m x^m \tag{3.12} \]</span></p>
 <p>Si prestamos atención, podemos ver que este polinomio <em>esconde</em> un modelo lineal simple. De hecho si hacemos que <span class="math inline">\(\beta_n = 0\)</span> para <span class="math inline">\(n \gt 1\)</span> obtendremos:</p>
@@ -490,8 +485,8 @@ NUTS: [α, β1, β2, ϵ]</code></pre>
 <p><img src="06_Generalizando_modelos_lineales_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<section id="interpretando-los-parámetros-de-una-regresión-polinomial" class="level3" data-number="7.1.1">
-<h3 data-number="7.1.1" class="anchored" data-anchor-id="interpretando-los-parámetros-de-una-regresión-polinomial"><span class="header-section-number">7.1.1</span> Interpretando los parámetros de una regresión polinomial</h3>
+<section id="interpretando-los-parámetros-de-una-regresión-polinomial" class="level3" data-number="7.0.1">
+<h3 data-number="7.0.1" class="anchored" data-anchor-id="interpretando-los-parámetros-de-una-regresión-polinomial"><span class="header-section-number">7.0.1</span> Interpretando los parámetros de una regresión polinomial</h3>
 <p>Uno de los problemas de la regresión polinómica es la interpretación de sus parámetros. Si queremos saber cómo cambia <span class="math inline">\(y\)</span> por unidad de cambio de <span class="math inline">\(x\)</span>, no podemos simplemente verificar el valor de <span class="math inline">\(\beta_1\)</span>, ya que <span class="math inline">\(\beta_2\)</span>, y los coeficientes más altos (de estar presentes), tendrán un efecto en dicha cantidad. Entonces los coeficientes <span class="math inline">\(\beta\)</span> ya no son pendientes, son otra cosa. En el ejemplo anterior, <span class="math inline">\(\beta_1\)</span> es positivo y, por lo tanto, la curva comienza con una pendiente positiva, pero <span class="math inline">\(\beta_2\)</span> es negativo y, por lo tanto, después de un tiempo, la línea comienza a curvarse hacia abajo. Es como si tuviéramos dos fuerzas en juego, una empujando la línea hacia arriba y la otra hacia abajo. La interacción depende del valor de <span class="math inline">\(x\)</span>. Cuando <span class="math inline">\(x \lessapprox 11\)</span> (en la escala original, o 2 en la escala centrada), la contribución dominante proviene de <span class="math inline">\(\beta_1\)</span>, y cuando <span class="math inline">\(x \gtrapprox 11\)</span>, entonces <span class="math inline">\(\beta_2\)</span> domina.</p>
 <p>El principal problema de interpretar los parámetros en modelos polinomiales, es que en general los parámetros no se traducen a cantidades que tengan sentido a la luz de nuestro conocimiento de dominio. Es decir no podemos relacionarlos con la tasa metabólica de una célula, la energía emitida por una galaxia o el número de habitaciones en una casa. Los parámetros terminan siendo simplemente <em>perillas</em> que podemos manipular para mejorar el ajuste pero sin un significado claro. En la práctica, la mayoría de la gente suele estar de acuerdo en que los polinomios de orden superior a dos o tres generalmente no son modelos muy útiles y se prefieren alternativas, quizá como splines o los Procesos Gaussianos.</p>
 <p>En este <a href="https://www.tandfonline.com/doi/abs/10.1207/S15327906MBR3704_04">trabajo</a> se propone una versión interpretable (y no lineal) de un polinomio de grado 2.</p>
@@ -499,9 +494,8 @@ NUTS: [α, β1, β2, ϵ]</code></pre>
 \alpha_y - (\alpha_y - \alpha_0) \left(\frac{x_i}{\alpha_x} -1\right)^2
 \]</span> * <span class="math inline">\(\alpha_0\)</span> : intercepto, valor de <span class="math inline">\(Y\)</span> cuando <span class="math inline">\(x=0\)</span> * <span class="math inline">\(\alpha_x\)</span> : valor de <span class="math inline">\(x_i\)</span> que maximiza/minimiza <span class="math inline">\(Y\)</span> * <span class="math inline">\(\alpha_y\)</span> : valor máximo/mínimo de <span class="math inline">\(Y\)</span></p>
 </section>
-</section>
-<section id="varianza-variable" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="varianza-variable"><span class="header-section-number">7.2</span> Varianza variable</h2>
+<section id="varianza-variable" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="varianza-variable"><span class="header-section-number">7.1</span> Varianza variable</h2>
 <p>Hemos estado usando el modelo lineal para modelar la media de una distribución, dejando la varianza de lado. En caso que consideremos que el supuesto de varianza constante no tiene sentido podemos considerar la varianza como una función (lineal) de la variable dependiente.</p>
 <p>La Organización Mundial de la Salud y otras instituciones de salud de todo el mundo recopilan datos para recién nacidos y adultos mayores y diseñan estándares de gráficos de crecimiento. Estas tablas son un componente esencial del conjunto de herramientas pediátricas y también como una medida del bienestar general de las poblaciones con el fin de formular políticas de salud, planificar intervenciones y controlar su eficacia. Un ejemplo de tales datos son la longitud (alturas) de las niñas recién nacidas en función de la edad (en meses):</p>
 <div class="cell" data-execution_count="284">
@@ -645,8 +639,8 @@ NUTS: [α, β, γ, δ]</code></pre>
 </div>
 </div>
 </section>
-<section id="modelos-lineales-generalizados" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="modelos-lineales-generalizados"><span class="header-section-number">7.3</span> Modelos lineales generalizados</h2>
+<section id="modelos-lineales-generalizados" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="modelos-lineales-generalizados"><span class="header-section-number">7.2</span> Modelos lineales generalizados</h2>
 <p>Hasta el momento hemos asumido que la variable dependiente puede variar, a priori, sin restricciones y por ello usamos como likelihood una Gaussiana (o una generalización de esta como lo es la t de Student). Pero que podemos hacer si la variable respuesta está restringida a ser positiva, o discreta, o en el intervalo [0, 1], etc. Usando software como PyMC bastaría con cambiar el likelihood de una Gaussiana a una Poisson (o lo que haga falta), pero si solo hacemos eso tendremos problemas, ya que la combinación lineal de parámetros podría dar valores fuera del rango permitido (por ej negativos). Para subsanar este problema podemos aplicar una función a la combinación lineal de variables de entrada, algo como:</p>
 <p><span class="math display">\[\mu = f(\alpha + X \beta) \tag{4.1}\]</span></p>
 <p>donde <span class="math inline">\(f\)</span> es lo que se conoce como función inversa de enlace. Hay una gran variedad de funciones inversas de enlace que podemos elegir, probablemente la más simple sea la función identidad. Esta es una función que devuelve el mismo valor utilizado como argumento. Todos los modelos del capítulo anterior usaron la función de identidad, y por simplicidad simplemente la omitimos. La función de identidad puede no ser muy útil en sí misma, pero nos permite pensar en varios modelos diferentes de una manera unificada.</p>
@@ -655,8 +649,8 @@ NUTS: [α, β, γ, δ]</code></pre>
 </blockquote>
 <p>Veamos algunos ejemplos concretos de modelos lineales generalizados</p>
 </section>
-<section id="regresión-logística" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="regresión-logística"><span class="header-section-number">7.4</span> Regresión logística</h2>
+<section id="regresión-logística" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="regresión-logística"><span class="header-section-number">7.3</span> Regresión logística</h2>
 <p>La regresión logistica es la generalización del modelo de regresión que vimos en el capítulo pasado para cuando la variable dependiente es binaria. Esta generalización se logra en dos pasos. Primero reemplazamos <span class="math inline">\(f\)</span> en <span class="math inline">\(4.1\)</span> por la función logística:</p>
 <p><span class="math display">\[ \text{logística}(z) = \frac{1}{1 + e^{-z}} \tag{4.2}\]</span></p>
 <p>Usamos esta función por que una de sus propiedades es que no importa el valor del argumento <span class="math inline">\(z\)</span>, el resultado siempre será un valor en el intervalo [0-1]. La función logística es conocida también como función sigmoide, por su aspecto típico de <em>S</em> como se puede ver al ejecutar la siguiente celda:</p>
@@ -679,8 +673,8 @@ y = \text{Bern}(\theta) \tag{4.3}
 <p>Usando un diagrama de Kruschke una regresión logística con priors Gaussianos:</p>
 <p><img alt="regresión_logística" src="imagenes/logística.png" width="250"></p>
 </section>
-<section id="el-conjunto-de-datos-del-iris" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="el-conjunto-de-datos-del-iris"><span class="header-section-number">7.5</span> El conjunto de datos del Iris</h2>
+<section id="el-conjunto-de-datos-del-iris" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="el-conjunto-de-datos-del-iris"><span class="header-section-number">7.4</span> El conjunto de datos del Iris</h2>
 <p>Vamos a aplicar una regresión logística al conjunto de datos Iris. Este es un conjunto de datos clásico que contiene información sobre flores de 3 especies estrechamente relacionadas: setosa, virginica y versicolor. Estas serán nuestras variables dependientes, las clases que queremos predecir. Tenemos 50 individuos de cada especie y para cada individuo el conjunto de datos contiene cuatro variables (o <em>features</em>) que vamos a usar como variables independientes. Estas son el largo del pétalo, el ancho del pétalo, el largo del sépalo y el ancho del sépalo. Por si se lo están preguntando, los sépalos son hojas modificadas, cuya función está generalmente relacionada con la protección de las flores en la yema.</p>
 <p>Podemos cargar un DataFrame con el conjunto de datos del iris haciendo:</p>
 <div class="cell" data-execution_count="14">
@@ -767,8 +761,8 @@ y = \text{Bern}(\theta) \tag{4.3}
 </div>
 </div>
 <p>Antes de continuar, tómese un tiempo para estudiar las gráficas anteriores y familiarizarse con el conjunto de datos y cómo se relacionan las variables dependientes y las independientes.</p>
-<section id="el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." class="level3" data-number="7.5.1">
-<h3 data-number="7.5.1" class="anchored" data-anchor-id="el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris."><span class="header-section-number">7.5.1</span> El modelo logístico aplicado al conjunto de datos del iris.</h3>
+<section id="el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris."><span class="header-section-number">7.4.1</span> El modelo logístico aplicado al conjunto de datos del iris.</h3>
 <p>Vamos a comenzar con la regresión logística más simple posible: dos clases, setosa y versicolor, y solo una variable independiente, la longitud del sépalo. Como se hace normalmente, vamos a codificar las variables categóricas setosa y versicolor con los números 0 y 1. Usando Pandas podemos hacer:</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>df <span class="op">=</span> iris.query(<span class="st">"species == ('setosa', 'versicolor')"</span>)</span>
@@ -2319,7 +2313,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./05_Regresión_lineal.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión Lineal</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
