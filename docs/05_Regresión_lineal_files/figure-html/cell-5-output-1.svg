@@ -35,22 +35,8 @@
 <path fill="none" stroke="black" d="M57.27,-263.51C63.11,-250.76 69.77,-236.26 75.66,-223.41"/>
 <polygon fill="black" stroke="black" points="79.01,-224.52 80,-213.97 72.64,-221.6 79.01,-224.52"/>
 </g>
-<!-- α -->
-<g id="node2" class="node">
-<title>α</title>
-<ellipse fill="none" stroke="black" cx="142.72" cy="-298.38" rx="41.94" ry="37.45"/>
-<text text-anchor="middle" x="142.72" y="-309.68" font-family="Times,serif" font-size="14.00">α</text>
-<text text-anchor="middle" x="142.72" y="-294.68" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="142.72" y="-279.68" font-family="Times,serif" font-size="14.00">Normal</text>
-</g>
-<!-- α&#45;&gt;μ -->
-<g id="edge2" class="edge">
-<title>α&#45;&gt;μ</title>
-<path fill="none" stroke="black" d="M126.86,-263.51C120.84,-250.64 113.97,-235.97 107.92,-223.04"/>
-<polygon fill="black" stroke="black" points="111.09,-221.55 103.68,-213.97 104.75,-224.52 111.09,-221.55"/>
-</g>
 <!-- σ -->
-<g id="node3" class="node">
+<g id="node2" class="node">
 <title>σ</title>
 <ellipse fill="none" stroke="black" cx="212.72" cy="-187.43" rx="57.97" ry="37.45"/>
 <text text-anchor="middle" x="212.72" y="-198.73" font-family="Times,serif" font-size="14.00">σ</text>
@@ -70,6 +56,20 @@
 <title>σ&#45;&gt;y_pred</title>
 <path fill="none" stroke="black" d="M179.89,-156.37C164.4,-142.19 145.87,-125.22 129.97,-110.66"/>
 <polygon fill="black" stroke="black" points="132.14,-107.9 122.4,-103.73 127.41,-113.07 132.14,-107.9"/>
+</g>
+<!-- α -->
+<g id="node3" class="node">
+<title>α</title>
+<ellipse fill="none" stroke="black" cx="142.72" cy="-298.38" rx="41.94" ry="37.45"/>
+<text text-anchor="middle" x="142.72" y="-309.68" font-family="Times,serif" font-size="14.00">α</text>
+<text text-anchor="middle" x="142.72" y="-294.68" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="142.72" y="-279.68" font-family="Times,serif" font-size="14.00">Normal</text>
+</g>
+<!-- α&#45;&gt;μ -->
+<g id="edge2" class="edge">
+<title>α&#45;&gt;μ</title>
+<path fill="none" stroke="black" d="M126.86,-263.51C120.84,-250.64 113.97,-235.97 107.92,-223.04"/>
+<polygon fill="black" stroke="black" points="111.09,-221.55 103.68,-213.97 104.75,-224.52 111.09,-221.55"/>
 </g>
 <!-- μ&#45;&gt;y_pred -->
 <g id="edge3" class="edge">
