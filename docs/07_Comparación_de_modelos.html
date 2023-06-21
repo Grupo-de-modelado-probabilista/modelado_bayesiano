@@ -254,7 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#validación-cruzada" id="toc-validación-cruzada" class="nav-link" data-scroll-target="#validación-cruzada"><span class="toc-section-number">8.3.1</span>  Validación cruzada</a></li>
   <li><a href="#criterios-de-información" id="toc-criterios-de-información" class="nav-link" data-scroll-target="#criterios-de-información"><span class="toc-section-number">8.3.2</span>  Criterios de información</a></li>
   </ul></li>
-  <li><a href="#calcular-los-criterios-de-información-con-arviz" id="toc-calcular-los-criterios-de-información-con-arviz" class="nav-link" data-scroll-target="#calcular-los-criterios-de-información-con-arviz"><span class="toc-section-number">8.4</span>  Calcular los criterios de información con ArviZ</a></li>
+  <li><a href="#calculo-de-exactitud-predictiva-usando-arviz" id="toc-calculo-de-exactitud-predictiva-usando-arviz" class="nav-link" data-scroll-target="#calculo-de-exactitud-predictiva-usando-arviz"><span class="toc-section-number">8.4</span>  Calculo de exactitud predictiva usando ArviZ</a></li>
   <li><a href="#promedio-de-modelos" id="toc-promedio-de-modelos" class="nav-link" data-scroll-target="#promedio-de-modelos"><span class="toc-section-number">8.5</span>  Promedio de modelos</a></li>
   <li><a href="#factores-de-bayes" id="toc-factores-de-bayes" class="nav-link" data-scroll-target="#factores-de-bayes"><span class="toc-section-number">8.6</span>  Factores de Bayes</a></li>
   <li><a href="#algunas-observaciones" id="toc-algunas-observaciones" class="nav-link" data-scroll-target="#algunas-observaciones"><span class="toc-section-number">8.7</span>  Algunas observaciones</a></li>
@@ -460,7 +460,7 @@ NUTS: [α, β, ϵ]</code></pre>
     
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 4 seconds.
+<pre><code>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 5 seconds.
 Sampling: [y_pred]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -733,8 +733,8 @@ w_s = \frac{1}{p(y_i \mid \theta_s)}
 </section>
 </section>
 </section>
-<section id="calcular-los-criterios-de-información-con-arviz" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="calcular-los-criterios-de-información-con-arviz"><span class="header-section-number">8.4</span> Calcular los criterios de información con ArviZ</h2>
+<section id="calculo-de-exactitud-predictiva-usando-arviz" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="calculo-de-exactitud-predictiva-usando-arviz"><span class="header-section-number">8.4</span> Calculo de exactitud predictiva usando ArviZ</h2>
 <p>Afortunadamente, calcular los criterios de información con ArviZ es muy simple. Veamos:</p>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>waic_l <span class="op">=</span> az.waic(idata_l)</span>
@@ -743,8 +743,8 @@ w_s = \frac{1}{p(y_i \mid \theta_s)}
 <pre><code>Computed from 8000 posterior samples and 33 observations log-likelihood matrix.
 
           Estimate       SE
-elpd_waic   -14.29     2.66
-p_waic        2.37        -</code></pre>
+elpd_waic   -14.29     2.67
+p_waic        2.38        -</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="12">
@@ -754,8 +754,8 @@ p_waic        2.37        -</code></pre>
 <pre><code>Computed from 8000 posterior samples and 33 observations log-likelihood matrix.
 
           Estimate       SE
-elpd_waic    -4.56     2.33
-p_waic        2.60        -</code></pre>
+elpd_waic    -4.54     2.31
+p_waic        2.61        -</code></pre>
 </div>
 </div>
 <p>Lo mismo para LOO.</p>
@@ -766,7 +766,7 @@ p_waic        2.60        -</code></pre>
 <pre><code>Computed from 8000 posterior samples and 33 observations log-likelihood matrix.
 
          Estimate       SE
-elpd_loo   -14.32     2.66
+elpd_loo   -14.31     2.67
 p_loo        2.40        -
 ------
 
@@ -785,8 +785,8 @@ Pareto k diagnostic values:
 <pre><code>Computed from 8000 posterior samples and 33 observations log-likelihood matrix.
 
          Estimate       SE
-elpd_loo    -4.59     2.34
-p_loo        2.63        -
+elpd_loo    -4.58     2.32
+p_loo        2.65        -
 ------
 
 Pareto k diagnostic values:
@@ -804,7 +804,7 @@ Pareto k diagnostic values:
 <li>El número efectivo de parámetros</li>
 </ol>
 <p>Además LOO devuelve un diagnóstico basado en el parámetro k, correspondiente al ajuste de la distribución de Pareto.</p>
-<p>Los valores de WAIC o LOO no tienen sentido por si mismos, si no que deben ser interpretados de forma relativa. Es por ello que ArviZ ofrece dos funciones auxiliares para facilitar esta comparación veamos primero a <code>az.compare</code>.</p>
+<p>Los valores de WAIC o LOO no tienen sentido por si mismos, y deben ser interpretados de forma relativa. Es por ello que ArviZ ofrece dos funciones auxiliares para facilitar esta comparación veamos primero a <code>az.compare</code>.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>cmp_df <span class="op">=</span> az.compare({<span class="st">'modelo_l'</span>:idata_l, <span class="st">'modelo_p'</span>:idata_p})</span>
 <span id="cb23-2"><a href="#cb23-2"></a>cmp_df</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -831,24 +831,24 @@ Pareto k diagnostic values:
     <tr>
       <th>modelo_p</th>
       <td>0</td>
-      <td>-4.589516</td>
-      <td>2.630511</td>
+      <td>-4.575778</td>
+      <td>2.646204</td>
       <td>0.000000</td>
-      <td>1.0</td>
-      <td>2.337119</td>
-      <td>0.000000</td>
+      <td>1.000000e+00</td>
+      <td>2.318739</td>
+      <td>0.00000</td>
       <td>False</td>
       <td>log</td>
     </tr>
     <tr>
       <th>modelo_l</th>
       <td>1</td>
-      <td>-14.319359</td>
-      <td>2.397043</td>
-      <td>9.729844</td>
-      <td>0.0</td>
-      <td>2.662987</td>
-      <td>2.635776</td>
+      <td>-14.309050</td>
+      <td>2.399241</td>
+      <td>9.733272</td>
+      <td>3.215206e-13</td>
+      <td>2.673219</td>
+      <td>2.68794</td>
       <td>False</td>
       <td>log</td>
     </tr>
@@ -908,8 +908,8 @@ Pareto k diagnostic values:
 </section>
 <section id="factores-de-bayes" class="level2" data-number="8.6">
 <h2 data-number="8.6" class="anchored" data-anchor-id="factores-de-bayes"><span class="header-section-number">8.6</span> Factores de Bayes</h2>
-<p>Una alternativa LOO, validación cruzada y los criterios de información son los factores de Bayes. Es común que factores de Bayes aparezcan en la literatura como una alternativa Bayesiana al contraste de hipótesis frecuentista.</p>
-<p>La “manera Bayesiana” de comparar modelos es calcular la <em>verosimilitud marginal</em> de cada modelo <span class="math inline">\(p(y \mid M_k)\)</span>, es decir, la probabilidad de los datos observados <span class="math inline">\(Y\)</span> dado el modelo <span class="math inline">\(M_k\)</span>. Esta cantidad, la <em>verosimilitud marginal</em>, es simplemente la constante de normalización del teorema de Bayes. Podemos ver esto si escribimos el teorema de Bayes y hacemos explícito el hecho de que todas las inferencias dependen del modelo.</p>
+<p>Una alternativa a LOO, la validación cruzada y los criterios de información son los factores de Bayes. Es común que los factores de Bayes aparezcan en la literatura como una alternativa Bayesiana al contraste de hipótesis frecuentista.</p>
+<p>La “manera Bayesiana” de comparar <span class="math inline">\(k\)</span> modelos es calcular la <em>verosimilitud marginal</em> de cada modelo <span class="math inline">\(p(y \mid M_k)\)</span>, es decir, la probabilidad de los datos observados <span class="math inline">\(Y\)</span> dado el modelo <span class="math inline">\(M_k\)</span>. Esta cantidad, la <em>verosimilitud marginal</em>, es simplemente la constante de normalización del teorema de Bayes. Podemos ver esto si escribimos el teorema de Bayes y hacemos explícito el hecho de que todas las inferencias dependen del modelo.</p>
 <p><span class="math display">\[p (\theta \mid Y, M_k ) = \frac{p(Y \mid \theta, M_k) p(\theta \mid M_k)}{p(Y \mid M_k)}\]</span></p>
 <p>dónde:</p>
 <ul>
@@ -929,8 +929,8 @@ Pareto k diagnostic values:
 <li>30-100: muy fuerte</li>
 <li><span class="math inline">\(&gt;\)</span> 100: extremo</li>
 </ul>
-<p>Hay que tener en cuenta que si se obtiene números por debajo de 1, entonces el soporte es para el modelo en el denominador, también hay tablas disponibles para esos casos. O simplemente podemos tomar la inversa de los valores del valor obtenido.</p>
-<p>Es muy importante recordar que estas reglas son solo convenciones, guías simples en el mejor de los casos. Los resultados siempre deben ponerse en el contexto de nuestros problemas y deben ir acompañados de suficientes detalles para que otros puedan evaluar por sí mismos si están de acuerdo con nuestras conclusiones. No es lo mismo la prueba necesaria para asegurar algo en física de partículas, o en un juzgado, o para decidir realziar una evacuación frente a una catástrofe natural que se avecina.</p>
+<p>Hay que tener en cuenta que si se obtiene números por debajo de 1, entonces el soporte es para el modelo en el denominador, también hay tablas disponibles para esos casos. O simplemente podemos tomar la inversa del valor obtenido.</p>
+<p>Es muy importante recordar que estas reglas son solo convenciones, guías simples en el mejor de los casos. Los resultados siempre deben ponerse en el contexto de nuestros problemas y deben ir acompañados de suficientes detalles para que otros puedan evaluar por sí mismos si están de acuerdo con nuestras conclusiones. No es lo mismo la prueba necesaria para asegurar algo en física de partículas, o en un juzgado, o para decidir realizar una evacuación frente a una catástrofe natural que se avecina.</p>
 </section>
 <section id="algunas-observaciones" class="level2" data-number="8.7">
 <h2 data-number="8.7" class="anchored" data-anchor-id="algunas-observaciones"><span class="header-section-number">8.7</span> Algunas observaciones</h2>
@@ -938,26 +938,23 @@ Pareto k diagnostic values:
 <ul>
 <li>El bueno
 <ul>
-<li><strong>Navaja de Occam incluida</strong>: Los modelos con más parámetros tienen una penalización mayor que los modelos con menos parámetros. La razón intuitiva es que cuanto mayor es el número de parámetros, más se <em>extiende</em> el <em>prior</em> con respecto al likelihood.</li>
+<li><strong>Navaja de Occam incluida</strong>: Los modelos con más parámetros tienen una penalización mayor que los modelos con menos parámetros. La razón intuitiva es que cuanto mayor es el número de parámetros, más se <em>extiende</em> el <em>prior</em> con respecto al likelihood. Un ejemplo donde es facil ver esto es con los modelos anidados, por ej un polinomio de orden 2 “contiene” a los modelos modelos “polinomio de orden 1” y polinimo de orden 0.</li>
 </ul></li>
 <li>El malo
 <ul>
-<li>Para muchas problema la verosimilitud marginal no puede ser calculada analiticamente. Y aproximarla numéricamente suele ser una tarea difícil que suele requerir de métodos especializados. Esto se debe a que es necesario calcular una integral de una función altamente variable en un espacio de parámetros de gran dimensión.</li>
+<li>Para muchos problemas la verosimilitud marginal no puede ser calculada analiticamente. Y aproximarla numéricamente suele ser una tarea difícil que en el mejor de los casos requiere de métodos especializados y en el peor las estimaciones o no son prácticas o no son confiables. De hecho la popularidad de los métodos MCMC es que permiten obtener la distribución a posteriori sin necesidad de calcular esta cantidad.</li>
 </ul></li>
-</ul>
-<p><span class="math display">\[p(y \mid M_k) = \int_{\theta_k} p(y \mid \theta_k, M_k) \; p(\theta_k | M_k) \; d\theta_k\]</span></p>
-<ul>
 <li>El feo
 <ul>
-<li>La probabilidad marginal depende <strong>sensiblemente</strong> de la distribución a prior para los parámetros en cada modelo <span class="math inline">\(p(\theta_k \mid M_k)\)</span>.</li>
+<li>La probabilidad marginal depende <strong>muy sensiblemente</strong> de la distribución a priori de los parámetros en cada modelo <span class="math inline">\(p(\theta_k \mid M_k)\)</span>.</li>
 </ul></li>
 </ul>
-<p>Es importante notar que <em>lo bueno</em> y <em>lo feo</em> están relacionados. Usar la verosimilitud marginal para comparar modelos es una buena idea porque ya incluye una penalización para modelos complejos (lo que nos ayuda a prevenir el sobreajuste) y, al mismo tiempo, un cambio en el prior afectará los cálculos de la verosimilitud marginal. Al principio esto suena un poco tonto; ya sabemos que los priors afectan los cálculos (de lo contrario, simplemente podríamos evitarlos), pero el punto aquí es la palabra <strong>sensiblemente</strong>. Estamos hablando que cambios en el posterior que apenas tendrían efecto en el posterior tendrán un gran impacto en el valor de la verosimilitud marginal.</p>
-<p>El uso de los FB suele ser una divisoria de aguas entre Bayesianos. La dificultad de su cálculo y la sensibilidad a los priors son algunos de los argumentos. Otra razón es que al igual que lo p-valores y en general las pruebas de hipótesis los BF favorecen el pensamiento dicotómico por sobre la estimación del “tamaño del efecto”. Es decir en vez de hacernos preguntas del estilo ¿Cuantos años más de vida puede proporcionar, en promedio, un tratamiento oncológico? terminamos preguntando si la diferencia entre tratar y no tratar a un paciente es “estadísticamente significativa”. Ojo que esta última pregunta puede ser útil en algunos contextos, el punto es que en muchos otros contextos, ese tipo de preguntas no es la pregunta más relevante.</p>
+<p>Es importante notar que <em>lo bueno</em> y <em>lo feo</em> están relacionados. Usar la verosimilitud marginal para comparar modelos es una buena idea por que ya incluye una penalización para modelos complejos (lo que nos ayuda a prevenir el sobreajuste) y, al mismo tiempo, un cambio en el prior afectará los cálculos de la verosimilitud marginal. Al principio esto suena un poco tonto; ya sabemos que los priors afectan los cálculos (de lo contrario, simplemente podríamos evitarlos), pero el punto aquí es la palabra <strong>sensiblemente</strong>. Estamos hablando que cambios en el posterior que apenas tendrían efecto en el posterior tendrán un gran impacto en el valor de la verosimilitud marginal.</p>
+<p>El uso de los FB suele ser una divisoria de aguas entre Bayesianos. La dificultad de su cálculo y la sensibilidad a los priors son algunos de los argumentos en contra. Otra razón es que al igual que lo p-valores y en general las pruebas de hipótesis los BF favorecen el pensamiento dicotómico por sobre la estimación del “tamaño del efecto”. Es decir en vez de hacernos preguntas del estilo ¿Cuantos años más de vida puede proporcionar, en promedio, un tratamiento oncológico? Terminamos preguntando si la diferencia entre tratar y no tratar a un paciente es “estadísticamente significativa”. Ojo que esta última pregunta puede ser útil en algunos contextos, el punto es que en muchos otros contextos, ese tipo de preguntas no es la pregunta que nos interesa, solo la que nos enseñaron a contestar.</p>
 </section>
 <section id="cálculo-de-los-fb" class="level2" data-number="8.8">
 <h2 data-number="8.8" class="anchored" data-anchor-id="cálculo-de-los-fb"><span class="header-section-number">8.8</span> Cálculo de los FB</h2>
-<p>La verosimilitud marginal generalmente no está disponible en forma cerrada, excepto para algunos modelos. Por esta razón, se han ideado muchos métodos para calcular la probabilidad marginal. Algunos de estos métodos son tan simples e <a href="https://radfordneal.wordpress.com/2008/08/17/the-harmonic%20-mean-of-the-likelihood-worst-monte-carlo-method-ever/">ingenuos</a> que funciona muy mal en la práctica. La mayoría de los métodos útiles se han propuesto originalmente en el campo de la mecánica estadística. Esta conexión se explica porque la verosimilitud marginal es análoga a una cantidad central en física estadística conocida como <em>función de partición</em> que a su vez está estrechamente relacionada con otra cantidad muy importante, la <em>energía libre</em>. Muchas de las conexiones entre la mecánica estadística y la inferencia bayesiana se resumen <a href="https://arxiv.org/abs/1706.01428">aquí</a>.</p>
+<p>Como ya mencionamos la verosimilitud marginal (y los factores de Bayes derivadas de ella) generalmente no está disponible en forma cerrada, excepto para algunos modelos. Por esta razón, se han ideado muchos métodos numéricos para su cálculo. Algunos de estos métodos son tan simples e <a href="https://radfordneal.wordpress.com/2008/08/17/the-harmonic%20-mean-of-the-likelihood-worst-monte-carlo-method-ever/">ingenuos</a> que funciona muy mal en la práctica.</p>
 <section id="analiticamente" class="level3" data-number="8.8.1">
 <h3 data-number="8.8.1" class="anchored" data-anchor-id="analiticamente"><span class="header-section-number">8.8.1</span> Analiticamente</h3>
 <p>Para algunos modelos, como el modelo beta-binomial, podemos calcular la verosimilitud marginal analíticamente. Si escribimos este modelo como:</p>
@@ -972,7 +969,7 @@ Pareto k diagnostic values:
 </ul>
 <p>Como solo nos importa el valor relativo de la <em>verosimilitud marginal</em> bajo dos modelos diferentes (para los mismos datos), podemos omitir el coeficiente binomial <span class="math inline">\(\binom {n}{h}\)</span>, por lo que podemos escribir:</p>
 <p><span class="math display">\[p(y) \propto \frac{B(\alpha + h,\ \beta + n - h)} {B(\alpha, \beta)}\]</span></p>
-<p>Esta expresión ha sido codificada en la siguiente celda, pero con un giro. Usaremos la función <code>betaln</code> en lugar de la función <code>beta</code>, esto se hace para evitar el overflow.</p>
+<p>Esta expresión ha sido codificada en la siguiente celda, pero con un giro. Usaremos la función <code>betaln</code>, que devuelve el logaritmo natural de la función <code>beta</code>, es común en estadística hacer cálculos en escala logaritmica, esto reduce problemas numéricos al trabajar con probabilidades.</p>
 <div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">def</span> beta_binom(prior, y):</span>
 <span id="cb27-2"><a href="#cb27-2"></a>    <span class="co">"""</span></span>
@@ -989,7 +986,7 @@ Pareto k diagnostic values:
 <span id="cb27-13"><a href="#cb27-13"></a>    p_y <span class="op">=</span> np.exp(betaln(alpha <span class="op">+</span> h, beta <span class="op">+</span> n <span class="op">-</span> h) <span class="op">-</span> betaln(alpha, beta))</span>
 <span id="cb27-14"><a href="#cb27-14"></a>    <span class="cf">return</span> p_y</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Nuestros datos para este ejemplo consisten en 100 “lanzamientos de una moneda” y el mismo número de “caras” y cecas” observadas. Compararemos dos modelos uno con un prior uniforme y otro con un prior <em>más concentrado</em> alrededor de <span class="math inline">\(\theta = 0.5\)</span></p>
+<p>Nuestros datos para este ejemplo consisten en 100 “lanzamientos de una moneda” y el mismo número de “caras” y cecas” observadas. Compararemos dos modelos uno con un prior uniforme y otro con un a priori <em>más concentrado</em> alrededor de <span class="math inline">\(\theta = 0.5\)</span></p>
 <div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>y <span class="op">=</span> np.repeat([<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">50</span>, <span class="dv">50</span>])  <span class="co"># 50 "caras" y 50 "cecas"</span></span>
 <span id="cb28-2"><a href="#cb28-2"></a>priors <span class="op">=</span> ((<span class="dv">1</span>, <span class="dv">1</span>), (<span class="dv">30</span>, <span class="dv">30</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -997,7 +994,7 @@ Pareto k diagnostic values:
 <div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="cf">for</span> a, b <span class="kw">in</span> priors:</span>
 <span id="cb29-2"><a href="#cb29-2"></a>    x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">300</span>)</span>
-<span id="cb29-3"><a href="#cb29-3"></a>    x_pdf <span class="op">=</span> pz.Beta(a, b).rv_frozen.pdf(x)</span>
+<span id="cb29-3"><a href="#cb29-3"></a>    x_pdf <span class="op">=</span> pz.Beta(a, b).pdf(x)</span>
 <span id="cb29-4"><a href="#cb29-4"></a>    plt.plot(x, x_pdf, label<span class="op">=</span><span class="vs">rf"$\alpha$ = </span><span class="sc">{</span>a<span class="sc">:d}</span><span class="vs">, $\beta$ = </span><span class="sc">{</span>b<span class="sc">:d}</span><span class="vs">"</span>)</span>
 <span id="cb29-5"><a href="#cb29-5"></a>    plt.yticks([])</span>
 <span id="cb29-6"><a href="#cb29-6"></a>    plt.xlabel(<span class="st">"$</span><span class="ch">\\</span><span class="st">theta$"</span>)</span>
@@ -1018,7 +1015,7 @@ Pareto k diagnostic values:
 </section>
 <section id="sequential-monte-carlo" class="level3" data-number="8.8.2">
 <h3 data-number="8.8.2" class="anchored" data-anchor-id="sequential-monte-carlo"><span class="header-section-number">8.8.2</span> Sequential Monte Carlo</h3>
-<p>El método Sequential Monte Carlo es un método de meustreo que básicamente progresa mediante una serie de secuencias sucesivas desde el prior al posterior. Un subproducto de este proceso es la estimación de la verosimilitud marginal. En realidad, por razones numéricas, el valor devuelto es el logaritmo de la verosimilitud marginal.</p>
+<p>El método Sequential Monte Carlo es un método de muestreo que básicamente progresa mediante una serie de secuencias sucesivas desde el prior al posterior. Un subproducto de este proceso es la estimación de la verosimilitud marginal. En realidad, por razones numéricas, el valor devuelto es el logaritmo de la verosimilitud marginal.</p>
 <div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>models <span class="op">=</span> []</span>
 <span id="cb32-2"><a href="#cb32-2"></a>idatas <span class="op">=</span> []</span>
