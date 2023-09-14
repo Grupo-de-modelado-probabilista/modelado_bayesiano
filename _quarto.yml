@@ -28,7 +28,7 @@ book:
     - 03_Modelos_jerárquicos.ipynb
     - 04_Diagnóstico_MCMC.ipynb
     - 05_Regresión_lineal.ipynb
-    - 06_Regresión_lineal_II.ipynb
+    - 06_Regresión_lineal_con_Bambi.ipynb
     - 07_Comparación_de_modelos.ipynb
     # - 08_Modelos_de_mezcla.ipynb
 

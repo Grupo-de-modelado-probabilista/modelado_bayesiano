@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modelado Bayesiano - 7&nbsp; Regresión lineal II</title>
+<title>Modelado Bayesiano - 7&nbsp; Regresión lineal con Bambi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -131,7 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta name="citation_title" content="[7]{.chapter-number}&nbsp; [Regresión lineal II]{.chapter-title}">
+<meta name="citation_title" content="[7]{.chapter-number}&nbsp; [Regresión lineal con Bambi]{.chapter-title}">
 <meta name="citation_publication_date" content="2023-04-21">
 <meta name="citation_cover_date" content="2023-04-21">
 <meta name="citation_year" content="2023">
@@ -145,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal II</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal con Bambi</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -227,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06_Regresión_lineal_II.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal II</span></a>
+  <a href="./06_Regresión_lineal_con_Bambi.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal con Bambi</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -264,7 +264,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal II</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal con Bambi</span></h1>
 </div>
 
 
@@ -456,14 +456,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>un_modelo.build()</span>
 <span id="cb13-2"><a href="#cb13-2"></a>un_modelo.graph()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-10-output-1.svg" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-10-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>modelo_h.build()</span>
 <span id="cb14-2"><a href="#cb14-2"></a>modelo_h.graph()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-11-output-1.svg" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-11-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <p>La sintaxis de la fórmula es muy simple, pero también muy poderosa. Acabamos de arañar la superficie de lo que podemos hacer con él. En lugar de describir la sintaxis de una vez, la mostraremos mediante ejemplos. Así que comencemos ajustando el modelo de bicicleta del capítulo anterior.</p>
@@ -509,7 +509,7 @@ NUTS: [alquiladas_alpha, Intercept, temperatura]</code></pre>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>modelo_t.graph()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-14-output-1.svg" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-14-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <p>Ahora vamos a graficar el ajuste medio a posteriori y las predicciones. Para ello usaremos la función <code>plot_predictions</code> del módulo <code>interpret</code>.</p>
@@ -523,7 +523,7 @@ NUTS: [alquiladas_alpha, Intercept, temperatura]</code></pre>
 <span id="cb20-7"><a href="#cb20-7"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"media"</span>)</span>
 <span id="cb20-8"><a href="#cb20-8"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"predicciones"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Probemos ahora ajustar un modelo de regresión con dos variables predictoras, <code>temperatura</code> y <code>humedad</code>.</p>
@@ -568,7 +568,7 @@ NUTS: [alquiladas_alpha, Intercept, temperatura, humedad]</code></pre>
 <span id="cb24-3"><a href="#cb24-3"></a>                               legend<span class="op">=</span><span class="va">False</span>,</span>
 <span id="cb24-4"><a href="#cb24-4"></a>                               fig_kwargs<span class="op">=</span>{<span class="st">"sharey"</span>:<span class="va">True</span>, <span class="st">"sharex"</span>:<span class="va">True</span>})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>En la figura anterior podemos ver que la temperatura tiene un efecto positivo en el número de bicicletas alquiladas, mientras que la humedad tiene un efecto negativo. También podemos ver que el efecto de la temperatura es más fuerte que el de la humedad.</p>
@@ -637,7 +637,7 @@ NUTS: [alquiladas_alpha, Intercept, poly(hora, degree=4)]</code></pre>
 <pre><code>Text(0, 0.5, '')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-19-output-2.png" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-19-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Un problema con los polinomios es que actúan <em>globalmente</em>. Cuando aplicamos un polinomio de grado <span class="math inline">\(m\)</span> estamos diciendo que la relación entre las variables independientes y dependientes es de grado <span class="math inline">\(m\)</span> para todo el conjunto de datos. Esto puede resultar problemático cuando diferentes regiones de nuestros datos necesitan diferentes niveles de flexibilidad. Esto podría conducir, por ejemplo, a curvas demasiado flexibles. A medida que aumenta el grado, el ajuste se vuelve más sensible a la eliminación de puntos o, de manera equivalente, a la adición de datos futuros. En otras palabras, a medida que aumenta el grado, el modelo se vuelve más propenso a sobreajustarse. La regresión polinomial Bayesiana generalmente sufre menos de este “exceso” gracias al uso de priors y al cálculo de toda una distribución a posteriori y no una estimación puntual.</p>
@@ -695,7 +695,7 @@ NUTS: [alquiladas_alpha, Intercept, bs(hora, degree=3, knots=knots)]</code></pre
 <span id="cb35-2"><a href="#cb35-2"></a>bmb.interpret.plot_predictions(modelo_spline, idata_spline, <span class="st">"hora"</span>, ax<span class="op">=</span>ax)</span>
 <span id="cb35-3"><a href="#cb35-3"></a>ax.plot(bicis.hora, bicis.alquiladas, <span class="st">"C2."</span>, zorder<span class="op">=-</span><span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Cuando trabajamos con splines, una decisión importante es determinar el número y la ubicación de los nudos. Esto puede ser una tarea algo desalentadora ya que el número óptimo de nudos y su espaciado no son evidentes de inmediato. Una sugerencia útil para determinar las ubicaciones de los nudos es considerar colocarlos según cuantiles en lugar de hacerlo de manera uniforme. Por ejemplo <code>nudos = np.quantile(bicis.hora, np.linspace(0, 1, num_knots))</code>. Al hacerlo, colocaríamos más nudos en áreas donde tenemos una mayor cantidad de datos, y menos nudos en áreas con menos datos. Esto da como resultado una aproximación más adaptable que captura efectivamente la variabilidad en regiones con una mayor densidad de puntos de datos. Además, es posible que deseemos ajustar splines con distintos números de nudos y posiciones y luego evaluar los resultados, utilizando herramientas como LOO, como veremos en el próximo capítulo.</p>
@@ -804,7 +804,7 @@ NUTS: [Intercept, np.sqrt(Meses), sigma_Intercept, sigma_Meses]</code></pre>
 <span id="cb43-20"><a href="#cb43-20"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Alfa a posteriori"</span>, yticks<span class="op">=</span>[])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>La siguiente figura muestra el ajuste a posteriori para <code>model_dis</code>. Observe que el modelo puede capturar el aumento de la variabilidad a medida que los bebés crecen.</p>
@@ -817,7 +817,7 @@ NUTS: [Intercept, np.sqrt(Meses), sigma_Intercept, sigma_Meses]</code></pre>
 <span id="cb44-6"><a href="#cb44-6"></a></span>
 <span id="cb44-7"><a href="#cb44-7"></a>ax.plot(bebes.Meses, bebes.Longitud, <span class="st">"C2."</span>, zorder<span class="op">=-</span><span class="dv">3</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-26-output-1.png" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-26-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Al trabajar con PyMC vimos que el muestreo de la distribución predictiva a posteriori, evaluado en valores no observados, requiere que definamos el modelo con las “X” como <code>Mutable_data</code> y luego actualicemos el valor de la variable mutable antes de calcular la distribución predictiva posterior. Con Bambi esto no es necesario, podemos usar el método <code>predict</code> para predecir nuevos valores pasando los nuevos valores al argumento <code>data</code>. Por ejemplo, predigamos la longitud de un bebé a los 0,5 meses (15 días):</p>
@@ -3026,7 +3026,7 @@ dl.xr-attrs {
 <span id="cb47-14"><a href="#cb47-14"></a>plt.legend()<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="06_Regresión_lineal_II_files/figure-html/cell-29-output-1.png" class="img-fluid"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/cell-29-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -3152,7 +3152,7 @@ dl.xr-attrs {
 <div class="cell-output cell-output-display">
 <div id="fig-scatter_pen" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="06_Regresión_lineal_II_files/figure-html/fig-scatter_pen-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-scatter_pen-output-1.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Figura&nbsp;7.1: Largo del pico (bill_length) vs masa (body_mass) para 3 especies de pingüinos.</figcaption><p></p>
 </figure>
 </div>
@@ -3208,7 +3208,7 @@ NUTS: [body_mass_sigma, Intercept, bill_length, species]</code></pre>
 <div class="cell-output cell-output-display">
 <div id="fig-penguins_posterior" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="06_Regresión_lineal_II_files/figure-html/fig-penguins_posterior-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-penguins_posterior-output-1.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Figura&nbsp;7.2: Fores plot para la distribución a posteriori de <code>modelo_p</code>.</figcaption><p></p>
 </figure>
 </div>
@@ -3231,7 +3231,7 @@ NUTS: [body_mass_sigma, Intercept, bill_length, species]</code></pre>
 <div class="cell-output cell-output-display">
 <div id="fig-penguins_predictions-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="06_Regresión_lineal_II_files/figure-html/fig-penguins_predictions-output-2.png" class="img-fluid figure-img" data-ref-parent="fig-penguins_predictions"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-penguins_predictions-output-2.png" class="img-fluid figure-img" data-ref-parent="fig-penguins_predictions"></p>
 <p></p><figcaption class="figure-caption">(b)</figcaption><p></p>
 </figure>
 </div>
@@ -3359,7 +3359,7 @@ NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length, bill_depth:bill_leng
 <div class="cell-output cell-output-display">
 <div id="fig-interaction_vs_noninteraction" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="06_Regresión_lineal_II_files/figure-html/fig-interaction_vs_noninteraction-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-interaction_vs_noninteraction-output-1.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Figura&nbsp;7.4: Comparación de un modelo sin interacción (las lineas se mantienen paralelas) y con interacción (las lineas se cruzan).</figcaption><p></p>
 </figure>
 </div>
@@ -3396,7 +3396,7 @@ NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length, bill_depth:bill_leng
 <div class="cell-output cell-output-display">
 <div id="fig-interaction_comparisons" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="06_Regresión_lineal_II_files/figure-html/fig-interaction_comparisons-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-interaction_comparisons-output-1.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Figura&nbsp;7.5: Contraste de para <code>bill_length</code> de 1,8 a 1,4 cm para 3 valores fijos de <code>bill_length</code>, 3.5, 4.5 y 5.5.</figcaption><p></p>
 </figure>
 </div>
@@ -3477,7 +3477,7 @@ NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length, bill_depth:bill_leng
 <div class="cell-output cell-output-display">
 <div id="fig-interaction_slopes" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="06_Regresión_lineal_II_files/figure-html/fig-interaction_slopes-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-interaction_slopes-output-1.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Figura&nbsp;7.6: Comparación de las pendientes de bill_depth evaluada en 1.8 para tres valores de <code>bill_length</code>, 3.5, 4.5 y 5.5.</figcaption><p></p>
 </figure>
 </div>
