@@ -28,8 +28,10 @@ book:
     - 03_Modelos_jerárquicos.ipynb
     - 04_Diagnóstico_MCMC.ipynb
     - 05_Regresión_lineal.ipynb
-    - 06_Generalizando_modelos_lineales.ipynb
+    - 06_Regresión_lineal_II.ipynb
     - 07_Comparación_de_modelos.ipynb
+    # - 08_Modelos_de_mezcla.ipynb
+
 
   page-navigation: true
   reader-mode: true
@@ -53,6 +55,7 @@ format:
   html:
     toc: true
     code-line-numbers: true
+    code-summary: "Mostrar Código"
     number-sections: true
     number-offset: -1
     lang: es
