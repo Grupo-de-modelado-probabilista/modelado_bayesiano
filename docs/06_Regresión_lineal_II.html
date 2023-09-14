@@ -649,19 +649,9 @@ NUTS: [alquiladas_alpha, Intercept, poly(hora, degree=4)]</code></pre>
 \mu = \beta_0 + \beta_1 B_{1}(X_{1}) + \beta_2 B_{2}(X_{2}) + \cdots + \beta_m B_{m}(X_{m})
 \]</span></p>
 <p>Somos libres de elegir las funciones <span class="math inline">\(B_{m}\)</span>, por ejemplo, podemos elegir polinomios. Una opción popular es usar B-splines, no vamos a discutir su definición, pero podemos pensar en ellos como una forma de crear curvas suaves de tal manera que obtengamos flexibilidad, como con los polinomios, pero menos propensos al sobreajuste. Los B-splines son polinomios por partes, es decir, polinomios que están restringidos a afectar solo una parte de los datos. La siguiente figura muestra 3 ejemplos de polinomios por partes de grado creciente. Las líneas verticales punteadas muestran los “nudos”, que son los puntos utilizados para restringir las regiones, la línea gris discontinua representa la función que queremos aproximar y las líneas negras son los polinomios por partes.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/piecewise.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">img</figcaption><p></p>
-</figure>
-</div>
+<p><img src="img/piecewise.png" class="img-fluid"></p>
 <p>La siguiente figura muestra ejemplos de splines de grado 1 y 3, los puntos en la parte inferior representan los nudos y las líneas discontinuas son los B-splines. En la parte superior tenemos todos los B-splines con igual peso, usamos una escala de grises para resaltar que tenemos muchos B-splines. En el panel inferior, cada B-splines tiene un peso diferente (los multiplicamos por coeficientes <span class="math inline">\(\beta_m\)</span>), si sumamos los B-splines ponderados obtenemos como resultado la línea negra. Esta línea negra es lo que solemos llamar “la spline”. Podemos utilizar la estadística Bayesiana para encontrar los pesos adecuados para los B-splines.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/splines_weighted.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">img</figcaption><p></p>
-</figure>
-</div>
+<p><img src="img/splines_weighted.png" class="img-fluid"></p>
 <p>Podemos usar B-splines con Bambi usando la función <code>bs</code>. Por ejemplo, ajustemos un spline de grado 3 a los datos de las bicis:</p>
 <div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>num_knots <span class="op">=</span> <span class="dv">6</span></span>
@@ -3398,18 +3388,16 @@ NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length, bill_depth:bill_leng
 <section id="interpretando-modelos-con-bambi" class="level2" data-number="7.8">
 <h2 data-number="7.8" class="anchored" data-anchor-id="interpretando-modelos-con-bambi"><span class="header-section-number">7.8</span> Interpretando modelos con Bambi</h2>
 <p>Ya hemos usado <code>bmb.interpret_plot_predictions</code> en este capítulo. Pero esa no es la única herramienta que nos ofrece Bambi para ayudarnos a comprender los modelos. Otra opción es <code>bmb.interpret_plot_comparisons</code>. Esta herramienta nos ayuda a responder la pregunta: ¿Cuál es la diferencia predictiva esperada cuando comparamos dos valores de una variable determinada mientras mantenemos el resto en valores constantes?</p>
-<p>UCOmo ejemplo usemos <code>model_int</code>, que ya ajustamos en la sección anterior.</p>
+<p>Como ejemplo usemos <code>model_int</code>, que ya ajustamos en la sección anterior.</p>
 <div class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a><span class="co"># fig-cap: Contraste de para `bill_length` de 1,8 a 1,4 cm para 3 valores fijos de `bill_length`, 3.5, 4.5 y 5.5.</span></span>
-<span id="cb61-2"><a href="#cb61-2"></a></span>
-<span id="cb61-3"><a href="#cb61-3"></a>bmb.interpret.plot_comparisons(model_int, idata_int,</span>
-<span id="cb61-4"><a href="#cb61-4"></a>                               contrast<span class="op">=</span>{<span class="st">"bill_depth"</span>:[<span class="fl">1.4</span>, <span class="fl">1.8</span>]},</span>
-<span id="cb61-5"><a href="#cb61-5"></a>                               conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a>bmb.interpret.plot_comparisons(model_int, idata_int,</span>
+<span id="cb61-2"><a href="#cb61-2"></a>                               contrast<span class="op">=</span>{<span class="st">"bill_depth"</span>:[<span class="fl">1.4</span>, <span class="fl">1.8</span>]},</span>
+<span id="cb61-3"><a href="#cb61-3"></a>                               conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="fig-interaction_comparisons" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="06_Regresión_lineal_II_files/figure-html/fig-interaction_comparisons-output-1.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figura&nbsp;7.5: <strong>?(caption)</strong></figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figura&nbsp;7.5: Contraste de para <code>bill_length</code> de 1,8 a 1,4 cm para 3 valores fijos de <code>bill_length</code>, 3.5, 4.5 y 5.5.</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -3483,21 +3471,19 @@ NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length, bill_depth:bill_leng
 </div>
 <p>Otra función muy útil es Otra función útil es <code>bmb.interpret_plot_slopes</code>. Esta función es similar a <code>bmb.interpret_plot_comparison</code>, la “tasa de cambio instantánea” o pendiente en un valor dado.</p>
 <div class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1"></a><span class="co"># fig-cap: Comparación de las pendientes de bill_depth evaluada en 1.8 para tres valores de `bill_length`, 3.5, 4.5 y 5.5.</span></span>
-<span id="cb63-2"><a href="#cb63-2"></a></span>
-<span id="cb63-3"><a href="#cb63-3"></a>bmb.interpret.plot_slopes(model_int, idata_int,</span>
-<span id="cb63-4"><a href="#cb63-4"></a>                          wrt<span class="op">=</span>{<span class="st">"bill_depth"</span>:<span class="fl">1.8</span>},</span>
-<span id="cb63-5"><a href="#cb63-5"></a>                          conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1"></a>bmb.interpret.plot_slopes(model_int, idata_int,</span>
+<span id="cb63-2"><a href="#cb63-2"></a>                          wrt<span class="op">=</span>{<span class="st">"bill_depth"</span>:<span class="fl">1.8</span>},</span>
+<span id="cb63-3"><a href="#cb63-3"></a>                          conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="fig-interaction_slopes" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="06_Regresión_lineal_II_files/figure-html/fig-interaction_slopes-output-1.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figura&nbsp;7.6: <strong>?(caption)</strong></figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figura&nbsp;7.6: Comparación de las pendientes de bill_depth evaluada en 1.8 para tres valores de <code>bill_length</code>, 3.5, 4.5 y 5.5.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<p>La <a href="#fig-interaction_slopes">Figura&nbsp;<span>7.6</span></a><span class="math inline">\(\ref{}\)</span> muestra que las pendientes para <code>bill_depth</code> en 1.8 son:</p>
+<p>La <a href="#fig-interaction_slopes">Figura&nbsp;<span>7.6</span></a> muestra que las pendientes para <code>bill_depth</code> en 1.8 son:</p>
 <ul>
 <li><span class="math inline">\(\approx\)</span> 2 kg/cm para un largo de pico de 3.5</li>
 <li>-1.4 kg/cm para un largo de pico de4.5</li>
