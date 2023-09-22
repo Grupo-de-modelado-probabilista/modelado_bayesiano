@@ -25,7 +25,7 @@
     "href": "index.html#instalación",
     "title": "Modelado Bayesiano",
     "section": "Instalación",
-    "text": "Instalación\nPara usar este material es necesario tener instalado Python. Se recomienda la versión 3.9 o superior. Además es necesario instalar los siguientes paquetes:\n\nPyMC 5.3.0\nArviZ 0.15.1\nPreliZ 0.3.0\ngraphviz (una dependencia opcional de PyMC)\n\nSe recomienda instalar primero Anaconda. Luego instalar el resto de los paquetes con los comandos:\nconda install pip\npip install pymc==5.3.0 arviz==0.15.1 preliz==0.3.0 graphviz\nComo alternativa pueden crear un ambiente con los paquetes necesario descargando el archivo y ejecutando el comando\nconda env create -f environment.yml"
+    "text": "Instalación\nPara usar este material es necesario tener instalado Python. Se recomienda la versión 3.9 o superior. Además es necesario instalar los siguientes paquetes:\n\nPyMC 5.8.2\nArviZ 0.16.1\nPreliZ 0.3.3\ngraphviz (una dependencia opcional de PyMC)\n\nSe recomienda instalar primero Anaconda. Luego instalar el resto de los paquetes con los comandos:\nconda install pip\npip install pymc==5.8.3 arviz==0.16.1 preliz==0.3.3 graphviz\nComo alternativa pueden crear un ambiente con los paquetes necesario descargando el archivo y ejecutando el comando\nconda env create -f environment.yml"
   },
   {
     "objectID": "index.html#contribuciones",
