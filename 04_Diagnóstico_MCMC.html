@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Modelado Bayesiano - 5&nbsp; Diagnóstico del muestreo</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05_Regresión_lineal.html" rel="next">
+<link href="./03_Modelos_jerárquicos.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta name="citation_title" content="[5]{.chapter-number}&nbsp; [Diagnóstico del muestreo]{.chapter-title}">
+<meta name="citation_publication_date" content="2023-04-21">
+<meta name="citation_cover_date" content="2023-04-21">
+<meta name="citation_year" content="2023">
+<meta name="citation_doi" content="https://doi.org/10.5281/zenodo.7851296">
+<meta name="citation_language" content="es">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diagnóstico del muestreo</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Modelado Bayesiano</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="" title="github" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano">
+          Fuente
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano/issues/new">
+          Reportar errores
+          </a>
+        </li>
+    </ul>
+    <a href="https://cafecito.app/aloctavodia" title="donaciones" class="sidebar-tool px-1"><i class="bi bi-cup"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">‎</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_Probabilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Probabilidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Inferencia_Bayesiana.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inferencia Bayesiana</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Programación_probabilística.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Programación probabilista</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Modelos_jerárquicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Modelado Jerárquico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Diagnóstico_MCMC.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diagnóstico del muestreo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Regresión_lineal_con_Bambi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal con Bambi</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Comparación_de_modelos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparación de modelos</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#revisitando-el-teorema-de-bayes" id="toc-revisitando-el-teorema-de-bayes" class="nav-link active" data-scroll-target="#revisitando-el-teorema-de-bayes"><span class="toc-section-number">5.1</span>  Revisitando el teorema de Bayes</a></li>
+  <li><a href="#calculando-la-distribución-a-posteriori" id="toc-calculando-la-distribución-a-posteriori" class="nav-link" data-scroll-target="#calculando-la-distribución-a-posteriori"><span class="toc-section-number">5.2</span>  Calculando la distribución a posteriori</a>
+  <ul class="collapse">
+  <li><a href="#método-de-la-grilla" id="toc-método-de-la-grilla" class="nav-link" data-scroll-target="#método-de-la-grilla"><span class="toc-section-number">5.2.1</span>  Método de la grilla</a></li>
+  <li><a href="#markov-chain-monte-carlo-mcmc" id="toc-markov-chain-monte-carlo-mcmc" class="nav-link" data-scroll-target="#markov-chain-monte-carlo-mcmc"><span class="toc-section-number">5.2.2</span>  Markov Chain Monte Carlo (MCMC)</a></li>
+  <li><a href="#metropolis-hastings" id="toc-metropolis-hastings" class="nav-link" data-scroll-target="#metropolis-hastings"><span class="toc-section-number">5.2.3</span>  Metropolis-Hastings</a></li>
+  <li><a href="#mh-adaptativo" id="toc-mh-adaptativo" class="nav-link" data-scroll-target="#mh-adaptativo"><span class="toc-section-number">5.2.4</span>  MH adaptativo</a></li>
+  <li><a href="#montecarlo-hamiltoniano-hmc" id="toc-montecarlo-hamiltoniano-hmc" class="nav-link" data-scroll-target="#montecarlo-hamiltoniano-hmc"><span class="toc-section-number">5.2.5</span>  Montecarlo Hamiltoniano (HMC)</a></li>
+  </ul></li>
+  <li><a href="#diagnósticos-generales" id="toc-diagnósticos-generales" class="nav-link" data-scroll-target="#diagnósticos-generales"><span class="toc-section-number">5.3</span>  Diagnósticos generales</a>
+  <ul class="collapse">
+  <li><a href="#en-la-teoría-confiamos" id="toc-en-la-teoría-confiamos" class="nav-link" data-scroll-target="#en-la-teoría-confiamos"><span class="toc-section-number">5.3.1</span>  En la teoría confiamos</a></li>
+  <li><a href="#trace-plots" id="toc-trace-plots" class="nav-link" data-scroll-target="#trace-plots"><span class="toc-section-number">5.3.2</span>  Trace plots</a></li>
+  <li><a href="#rank-plots" id="toc-rank-plots" class="nav-link" data-scroll-target="#rank-plots"><span class="toc-section-number">5.3.3</span>  Rank plots</a></li>
+  <li><a href="#hat-r-r-sombrero" id="toc-hat-r-r-sombrero" class="nav-link" data-scroll-target="#hat-r-r-sombrero"><span class="toc-section-number">5.3.4</span>  <span class="math inline">\(\hat R\)</span> (R sombrero)</a></li>
+  <li><a href="#gráfico-de-autocorrelación" id="toc-gráfico-de-autocorrelación" class="nav-link" data-scroll-target="#gráfico-de-autocorrelación"><span class="toc-section-number">5.3.5</span>  Gráfico de autocorrelación</a></li>
+  <li><a href="#tamaño-de-muestra-efectivo-ess" id="toc-tamaño-de-muestra-efectivo-ess" class="nav-link" data-scroll-target="#tamaño-de-muestra-efectivo-ess"><span class="toc-section-number">5.3.6</span>  Tamaño de muestra efectivo (ESS)</a></li>
+  <li><a href="#error-estándard-del-monte-carlo-mcse" id="toc-error-estándard-del-monte-carlo-mcse" class="nav-link" data-scroll-target="#error-estándard-del-monte-carlo-mcse"><span class="toc-section-number">5.3.7</span>  Error estándard del Monte Carlo (MCSE)</a></li>
+  </ul></li>
+  <li><a href="#diagnóstico-de-algoritmos-basados-en-gradiente" id="toc-diagnóstico-de-algoritmos-basados-en-gradiente" class="nav-link" data-scroll-target="#diagnóstico-de-algoritmos-basados-en-gradiente"><span class="toc-section-number">5.4</span>  Diagnóstico de algoritmos basados en gradiente</a>
+  <ul class="collapse">
+  <li><a href="#energía-de-transición-vs-energía-marginal" id="toc-energía-de-transición-vs-energía-marginal" class="nav-link" data-scroll-target="#energía-de-transición-vs-energía-marginal"><span class="toc-section-number">5.4.1</span>  Energía de transición vs energía marginal</a></li>
+  <li><a href="#divergencias" id="toc-divergencias" class="nav-link" data-scroll-target="#divergencias"><span class="toc-section-number">5.4.2</span>  Divergencias</a></li>
+  </ul></li>
+  <li><a href="#qué-hacer-cuando-los-diagnósticos-no-dan-bien" id="toc-qué-hacer-cuando-los-diagnósticos-no-dan-bien" class="nav-link" data-scroll-target="#qué-hacer-cuando-los-diagnósticos-no-dan-bien"><span class="toc-section-number">5.5</span>  Qué hacer cuando los diagnósticos no dan bien?</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">5.6</span>  Ejercicios</a></li>
+  <li><a href="#para-seguir-leyendo" id="toc-para-seguir-leyendo" class="nav-link" data-scroll-target="#para-seguir-leyendo"><span class="toc-section-number">5.7</span>  Para seguir leyendo</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diagnóstico del muestreo</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> preliz <span class="im">as</span> pz</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interact</span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="im">import</span> ipywidgets <span class="im">as</span> ipyw</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="im">from</span> IPython.display <span class="im">import</span> IFrame</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Los objetivos de este capítulo son:</p>
+<ul>
+<li><p>Obtener nociones básicas de métodos de Markov Chain Monte Carlo y su rol en estadística Bayesiana</p></li>
+<li><p>Discutir algunos de los métodos de diagnóstico del muestreo más usados</p></li>
+</ul>
+<section id="revisitando-el-teorema-de-bayes" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="revisitando-el-teorema-de-bayes"><span class="header-section-number">5.1</span> Revisitando el teorema de Bayes</h2>
+<p>El teorema de Bayes, tiene una formulación que a primera vista parece muy inocente. Tan solo cuatro términos relacionados por una multiplicación y una división.</p>
+<p><span class="math display">\[
+\underbrace{p(\boldsymbol{\theta} \mid \boldsymbol{Y})}_{\text{posterior}} = \frac{\overbrace{p(\boldsymbol{Y} \mid \boldsymbol{\theta})}^{\text{likelihood}}\; \overbrace{p(\boldsymbol{\theta})}^{\text{prior}}}{\underbrace{{p(\boldsymbol{Y})}}_{\text{marginal likelihood}}}
+\]</span></p>
+<p>Pareciera que no sirve de mucho y que es fácil de calcular. Sin embargo, ambas apreciaciones son incorrectas. El resto de los capítulos se centran en mostrar contra ejemplos a la primera aseveración, así que veamos por que a veces su cálculo puede ser difícil y se requieren métodos numéricos.</p>
+<p>La razón está en el cálculo del likelihood marginal. El cual toma la forma de una integral.</p>
+<p><span class="math display">\[
+{p(\boldsymbol{Y}) = \int_{\boldsymbol{\Theta}} p(\boldsymbol{Y} \mid \boldsymbol{\theta})p(\boldsymbol{\theta}) d\boldsymbol{\theta}}
+\]</span></p>
+<p>Esta integral suele ser difícil de resolver. Veamos, esta expresión nos dice que debemos evaluar el likelihood para cada uno de los posibles valores del prior <span class="math inline">\(\theta\)</span>. En la práctica esa tarea no siempre es sencilla o barata de realizar. Si <span class="math inline">\(\theta\)</span> representa un solo parámetro desconocido (como en el modelo beta-binomial) entonces solo hay que resolver una integral, pero si <span class="math inline">\(\theta\)</span> representa dos parámetros (como en el modelo Gaussiano) entonces la integral será doble. En definitiva la integral tendrá tantas dimensiones como parámetros el modelo. En general las integrales en grandes dimensiones no son simples de resolver.</p>
+<p>Algo que puede ser poco intuitivo es que esto se contrapone con el cálculo de la distribución a posteriori. Para obtener una buena aproximación a la distribución a posteriori bastaría con concentrarse en las regiones donde tanto la contribución del prior como del likelihood son <em>relativamente grandes</em> (área gris en la siguiente figura), en general esto es lo que hacen la mayoría de los métodos numéricos. En cambio esta misma aproximación puede conducir a errores en el cálculo del likelihood marginal</p>
+<center>
+<img src="img/grid.png" width="800">
+</center>
+<p>Para algunos problemas es posible calcular la distribución a posteriori de forma analítica. Esto ya lo vimos para el modelo beta-binomial donde la posterior es:</p>
+<p><span class="math display">\[
+p(\theta \mid y) \propto \operatorname{Beta}(\alpha_{a priori} + y, \beta_{a priori} + N - y)
+\]</span></p>
+<p>Para esos casos suele ser posible también calcular el marginal likelihood de forma analítica.</p>
+<p>Pero en general no tenemos expresiones analíticas y entonces debemos confiar en métodos numéricos.</p>
+</section>
+<section id="calculando-la-distribución-a-posteriori" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="calculando-la-distribución-a-posteriori"><span class="header-section-number">5.2</span> Calculando la distribución a posteriori</h2>
+<p>Hay muchas formas de calcular la distribución a posteriori</p>
+<ul>
+<li><font color="gray"> Conjugación </font></li>
+<li><font color="gray"> Método de Laplace </font></li>
+<li><font color="gray"> Aproximación de Laplace Anidada Integrada (INLA) </font></li>
+<li><font color="gray"> Inferencia Variacional (VI) </font></li>
+<li>Markov Chain Monte Carlo (MCMC)</li>
+<li><font color="gray"> Sequential Monte Carlo </font></li>
+<li>…</li>
+</ul>
+<p>Por ahora solo hablaremos de los métodos MCMC ya que, por el momento, son los métodos más generales. Pero para entender de forma más simple que es lo que hacen estos métodos conviene empezar desde otro método, conocido como método de la grilla.</p>
+<section id="método-de-la-grilla" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="método-de-la-grilla"><span class="header-section-number">5.2.1</span> Método de la grilla</h3>
+<p>El método de grilla es un enfoque simple de fuerza bruta. La idea central es que incluso si no somos capaces de calcular todo la distribución a posteriori, en general si somos capaces de evaluar el a priori y el likelihood punto-a-punto.</p>
+<p>Para un modelo con un solo parámetro el método de la grilla se puede resumir de la siguiente forma:</p>
+<ul>
+<li><p>Encuentre un intervalo razonable para el parámetro (el prior debe dar algunas pistas).</p></li>
+<li><p>Defina una grilla de puntos (generalmente equidistantes) en ese intervalo.</p></li>
+<li><p>Para cada punto de la grilla, evalúe el prior y el likelihood en ese punto y multiplique</p></li>
+</ul>
+<p>La siguiente figura ilustra este método</p>
+<center>
+<img src="img/grid.gif" width="800">
+</center>
+<p>El siguiente bloque de código (que ya usamos antes) implementa un método de la grilla interactivo</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> a_posteriori_grilla(grilla<span class="op">=</span><span class="dv">10</span>, a<span class="op">=</span><span class="dv">1</span>, b<span class="op">=</span><span class="dv">1</span>, caras<span class="op">=</span><span class="dv">6</span>, tiradas<span class="op">=</span><span class="dv">9</span>):</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, grilla)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>    prior <span class="op">=</span> pz.Beta(a, b).rv_frozen.pdf(grid)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    likelihood <span class="op">=</span> pz.Binomial(n<span class="op">=</span>tiradas, p<span class="op">=</span>grid).rv_frozen.pmf(caras)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    posterior <span class="op">=</span> likelihood <span class="op">*</span> prior</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    posterior <span class="op">/=</span> posterior.<span class="bu">sum</span>()</span>
+<span id="cb3-7"><a href="#cb3-7"></a>    _, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>))</span>
+<span id="cb3-8"><a href="#cb3-8"></a>    ax[<span class="dv">0</span>].set_title(<span class="st">'caras = </span><span class="sc">{}</span><span class="ch">\n</span><span class="st">tiradas = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(caras, tiradas))</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    <span class="cf">for</span> i, (e, e_n) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>([prior, likelihood, posterior], [<span class="st">'a priori'</span>, <span class="st">'likelihood'</span>, <span class="st">'a posteriori'</span>])):</span>
+<span id="cb3-10"><a href="#cb3-10"></a>        ax[i].set_yticks([])</span>
+<span id="cb3-11"><a href="#cb3-11"></a>        ax[i].plot(grid, e, <span class="st">'o-'</span>, label<span class="op">=</span>e_n)</span>
+<span id="cb3-12"><a href="#cb3-12"></a>        ax[i].legend()</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a></span>
+<span id="cb3-15"><a href="#cb3-15"></a>interact(a_posteriori_grilla, grilla<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">2</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">100</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">15</span>), a<span class="op">=</span>ipyw.FloatSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), b<span class="op">=</span>ipyw.FloatSlider(</span>
+<span id="cb3-16"><a href="#cb3-16"></a>    <span class="bu">min</span><span class="op">=</span><span class="dv">1</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">7</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>), caras<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">6</span>), tiradas<span class="op">=</span>ipyw.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">20</span>, step<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="dv">9</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"f5512610ed19496a81d42b7d84cfe73b","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<p>Utilizando la función <code>a_posteriori_grilla</code> podemos comprobar que para obtener una mejor aproximación se puede aumentar el número de puntos de la cuadrícula. Esta estrategia puede ser útil en unas pocas dimensiones (parámetros). Pero no escala. En la siguiente figura vemos que si necesitamos 4 puntos en 1D, para mantener ese mismo grado de precisión necesitaremos 16 puntos en 2D y 64 en 3D. La velocidad con la que crecen la cantidad de evaluaciones necesarias crece demasiado rápido, una grilla de 100 en 10 dimensiones requeriría de 1e+20 puntos!</p>
+<center>
+<img src="img/grid_dimensions.png" width="800">
+</center>
+<p>Como si eso no fuera poco, la cosa es más complicada. En espacios de alta dimensión se dan una serie de fenómemos conocidos como <strong>concentración de la medida</strong> o en versión marketinera la <strong>maldición de la dimensionalidad</strong> 👻. Por ejemplo:</p>
+<ul>
+<li><p>En una hiper-esfera casi todo el volumen está en la superficie. Es decir, si uno pelara una hiper-naranja se quedaría con hambre!</p></li>
+<li><p>En un hiper-cubo la masa se concentra en las esquinas</p></li>
+<li><p>En una Gaussiana hiper-dimensional casi toda la masa está lejos de la moda</p></li>
+</ul>
+<p>La idea de estimar la distribución a posteriori evaluando, punto a punto, likelihood y prior es muy buena, pero la idea de construir una grilla predefinida solo funciona en muy bajas dimensiones.</p>
+<p>Pero no todo está perdido, que tal si mantenemos la idea de la evaluación puntual, pero nos concentramos en las <em>regiones que importan</em>?</p>
+</section>
+<section id="markov-chain-monte-carlo-mcmc" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="markov-chain-monte-carlo-mcmc"><span class="header-section-number">5.2.2</span> Markov Chain Monte Carlo (MCMC)</h3>
+<p>Esta es una familia muy extensa de métodos utilizados para resolver muchos problemas, entre los que se encuentra el cálculo de la distribución a posteriori. Conceptualmente se puede pensar a estos métodos como generalizaciones del método de la grilla, ya que también se basan en la posibilidad de realizar evaluaciones punto a punto del prior y likelihood. La diferencia crucial es que en vez de utilizar una grilla predefinida el método realiza evaluaciones que progresivamente se concentran en regiones de alta probabilidad. No solo eso si no que eventualmente el método devolverá muestras de forma proporcional a la probabilidad a posteriori. Es decir si una región es 3 veces más probable que otra obtendremos 3 veces más muestras de esa región que de la otra.</p>
+<p>A muy grandes rasgos, y dado un punto inicial arbitrario, los métodos MCMC, constan de dos pasos.</p>
+<ol type="1">
+<li>Generar un nuevo punto a partir de perturbar uno preexistente.</li>
+<li>Aceptar o rechazar ese nuevo punto de forma probabilista y comparando la probabilidad del punto preexistente y del nuevo punto.</li>
+</ol>
+<p>Esta es esencialmente la receta, la forma exacta en que hacemos cada uno de estos pasos define los distintos métodos dentro de la familia MCMC. Veamos uno de los más sencillos de entender y de implementar.</p>
+</section>
+<section id="metropolis-hastings" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="metropolis-hastings"><span class="header-section-number">5.2.3</span> Metropolis-Hastings</h3>
+<p>Metropolis-Hastings no es un algoritmo muy moderno o particularmente eficiente, pero Metropolis-Hastings es simple de entender y también proporciona una base para comprender métodos más sofisticados y poderosos.</p>
+<p>El algoritmo Metropolis-Hasting se define de la siguiente manera:</p>
+<ol type="1">
+<li>Inicialice el valor del parámetro <span class="math inline">\(\boldsymbol{X}\)</span> en <span class="math inline">\(x_i\)</span></li>
+<li>Utilice una distribución de propuesta <span class="math inline">\(q(x_{i + 1} \mid x_i)\)</span> para generar un nuevo valor <span class="math inline">\(x_{i + 1}\)</span></li>
+<li>Calcule la probabilidad de aceptar el nuevo valor como:</li>
+</ol>
+<p><span class="math display">\[
+p_a (x_{i + 1} \mid x_i) = \min \left(1, \frac{p(x_{i + 1}) \; q(x_i \mid x_{i + 1})} {p(x_i) \; q (x_{i + 1} \mid x_i)} \right)
+\]</span></p>
+<ol start="4" type="1">
+<li>Si <span class="math inline">\(p_a &gt; R\)</span> donde <span class="math inline">\(R \sim \mathcal{U}(0, 1)\)</span>, guarde el nuevo valor; de lo contrario, guarde el anterior.</li>
+<li>Iterar de 2 a 4 hasta que se haya generado una muestra <em>suficientemente grande</em></li>
+</ol>
+<p>El algoritmo Metropolis es muy general y se puede usar en aplicaciones no Bayesianas, pero para la presente discusión, <span class="math inline">\(p(x_i)\)</span> es la densidad del posterior evaluada en el valor del parámetro <span class="math inline">\(x_i\)</span>. Una forma de simplificar un poco el método es notar que si <span class="math inline">\(q\)</span> es una distribución simétrica, los términos <span class="math inline">\(q(x_i \mid x_{i + 1})\)</span> y <span class="math inline">\(q(x_{i + 1} \mid x_i)\)</span> se cancelarán (conceptualmente significa que es igualmente probable que vayamos de <span class="math inline">\(x_{i+1}\)</span> a <span class="math inline">\(x_i\)</span> o de <span class="math inline">\(x_{i}\)</span> a <span class="math inline">\(x_{i+1}\)</span>), dejando solo un cociente entre el posterior evaluado en dos puntos. Este algoritmo siempre aceptará moverse de una región de baja probabilidad a una más alta y aceptará probabilísticamente moverse de una región de alta a una baja probabilidad.</p>
+<p>¡Otra observación importante es que el algoritmo Metropolis-Hastings no es un método de optimización! No nos importa encontrar el valor del parámetro con la máxima probabilidad, queremos <em>explorar</em> la distribución <span class="math inline">\(p\)</span>. Es decir aún si el método encuentra un máximo aún puede moverse a regiones de probabilidades más bajas.</p>
+<p>Para hacer las cosas más concretas, intentemos resolver el modelo Beta-Binomial.</p>
+<span class="math display">\[\begin{aligned}
+    \theta \sim &amp;\; \text{Beta}(\alpha, \beta) \\
+    Y \sim &amp;\; \text{Bin}(n=1, p=\theta)
+\end{aligned}\]</span>
+<p>Este modelo tiene una solución analítica. Pero supongamos que no sabemos cómo calcular el posterior y, por lo tanto, implementaremos el algoritmo Metropolis-Hastings usando Python.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> post(θ, Y, α<span class="op">=</span><span class="dv">1</span>, β<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    <span class="cf">if</span> <span class="dv">0</span> <span class="op">&lt;=</span> θ <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb4-3"><a href="#cb4-3"></a>        prior <span class="op">=</span> stats.beta(α, β).pdf(θ)</span>
+<span id="cb4-4"><a href="#cb4-4"></a>        like  <span class="op">=</span> stats.bernoulli(θ).pmf(Y).prod()</span>
+<span id="cb4-5"><a href="#cb4-5"></a>        prob <span class="op">=</span> like <span class="op">*</span> prior</span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-7"><a href="#cb4-7"></a>        prob <span class="op">=</span> <span class="op">-</span>np.inf</span>
+<span id="cb4-8"><a href="#cb4-8"></a>    <span class="cf">return</span> prob</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>También necesitamos datos, por lo que generaremos algunos datos falsos aleatorios para este propósito.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>Y <span class="op">=</span> stats.bernoulli(<span class="fl">0.7</span>).rvs(<span class="dv">20</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y finalmente ejecutamos nuestra implementación del algoritmo Metropolis-Hastings:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>n_iters <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>can_sd <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>α <span class="op">=</span> β <span class="op">=</span>  <span class="dv">1</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>θ <span class="op">=</span> <span class="fl">0.5</span> </span>
+<span id="cb6-5"><a href="#cb6-5"></a>trace <span class="op">=</span> {<span class="st">"θ"</span>:np.zeros(n_iters)}</span>
+<span id="cb6-6"><a href="#cb6-6"></a>p2 <span class="op">=</span> post(θ, Y, α, β)</span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(n_iters):</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    θ_can <span class="op">=</span> stats.norm(θ, can_sd).rvs(<span class="dv">1</span>)</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    p1 <span class="op">=</span> post(θ_can, Y, α, β)  </span>
+<span id="cb6-11"><a href="#cb6-11"></a>    pa <span class="op">=</span> p1 <span class="op">/</span> p2</span>
+<span id="cb6-12"><a href="#cb6-12"></a></span>
+<span id="cb6-13"><a href="#cb6-13"></a>    <span class="cf">if</span> pa <span class="op">&gt;</span> stats.uniform(<span class="dv">0</span>, <span class="dv">1</span>).rvs(<span class="dv">1</span>):</span>
+<span id="cb6-14"><a href="#cb6-14"></a>        θ <span class="op">=</span> θ_can</span>
+<span id="cb6-15"><a href="#cb6-15"></a>        p2 <span class="op">=</span> p1</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a>    trace[<span class="st">"θ"</span>][<span class="bu">iter</span>] <span class="op">=</span> θ</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>En la línea 9 del bloque de código anterior generamos una propuesta muestreando una distribución Normal con desviación estándar <code>can_sd</code>. En la línea 10 evaluamos el posterior en el nuevo valor generado <code>θ_can</code> y en la línea 11 calculamos la probabilidad de aceptación. En la línea 17 guardamos un valor de <code>θ</code> en el array <code>trace</code>. Dependiendo del resultado de la comparación en la línea 13, el valor guardado será nuevo o repetiremos el anterior.</p>
+<p>El primer panel de la siguiente figura muestra cada valor muestreado en cada paso, y el panel de la derecha el histograma de esos valores. El resultado parece razonable. Nada mal para unas pocas lineas de código!</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>axes[<span class="dv">0</span>].plot(trace[<span class="st">'θ'</span>])</span>
+<span id="cb7-3"><a href="#cb7-3"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'θ'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a>axes[<span class="dv">1</span>].hist(trace[<span class="st">'θ'</span>], orientation<span class="op">=</span><span class="st">"horizontal"</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-5"><a href="#cb7-5"></a>axes[<span class="dv">1</span>].set_xticks([])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p><a href="https://chi-feng.github.io/mcmc-demo/app.html?algorithm=RandomWalkMH&amp;target=banana">Acá</a> pueden ver una versión interactiva de un Metropolis-Hastings</p>
+</section>
+<section id="mh-adaptativo" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="mh-adaptativo"><span class="header-section-number">5.2.4</span> MH adaptativo</h3>
+<p>En teoría, y si tomaramos infinitas muestras, cualquier distribución de propuesta sería útil. Sin embargo, en la práctica la eficiencia cambia drásticamente de acuerdoa la distribución de propuesta que utilicemos. Es por ello que para obtener un MH realmente eficiente es necesario ajustar hiperparámetros como la distribución de propuesta para cada problema. Esto se puede hacer dedicando una cierta cantidad de pasos (tuning), estos pasos luego se descartan</p>
+<ul>
+<li>Aún el RWMH adaptativo puede tener problemas para ciertas problemas
+<ul>
+<li>Parámetros muy correlacionados</li>
+<li>Alta dimensión (muchos parámetros)</li>
+<li>Geometrías complejas</li>
+</ul></li>
+</ul>
+<p>Existen otras formas de generar aún mejores propuestas</p>
+</section>
+<section id="montecarlo-hamiltoniano-hmc" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="montecarlo-hamiltoniano-hmc"><span class="header-section-number">5.2.5</span> Montecarlo Hamiltoniano (HMC)</h3>
+<p>En vez de proponer nuevos puntos al azar podemos usar una analogía física. Simulamos una particula sin fricción que se mueve por la distribución a posteriori. Esto se puede hacer si conocemos el Hamiltoniano del sistema. En términos simples, un hamiltoniano es una descripción de la energía total de un sistema físico.</p>
+<p><span class="math display">\[
+\underbrace{H(\overbrace{\mathbf{q}}^{\text{posición}}, \overbrace{\mathbf{p}}^{\text{momemtum}})}_{\text{Hamiltoniano}}  = \underbrace{K(\mathbf{p}, \mathbf{q})}_{\text{Energía cinética}} + \underbrace{V(\mathbf{q})}_{\text{Energía potencial}}
+\]</span></p>
+<p>La posición <span class="math inline">\(q\)</span> se corresponde con los valores que puedan tomar los parámetros del modelo probabilista y la energía potencial es la probabilidad a posteriori de esos valores. El momentum, en cambio, lo sacamos de la galera. Es simplemente una variable auxiliar que nos permite calcular el hamiltoniano y “mover” el sistema.</p>
+<p>Entonces, a grandes rasgos un HMC tiene dos pasos que se repiten hasta obtener la cantidad de muestras necesarias:</p>
+<ol type="1">
+<li>Generar un nuevo punto a partir del hamiltoniano</li>
+<li>Aceptar o rechazar ese nuevo punto de forma probabilista y comparando la probabilidad del punto preexistente y del nuevo punto.</li>
+</ol>
+<p>Por qué es buena idea usar el hamiltoniano? En un MH la propuesta es aleatoria, es como querer encontrar algo en una habitación desconocida a oscuras, hay que ir a tientas. Mientras que con el Hamiltoniano es como tener una linterna, ahora podemos ver que hay en la habitación, al menos localmente a donde apuntemos con la linterna. Veamos, una explicación un poco más matemática. Resolver el hamiltoniano implica calcular derivadas, las derivadas nos dan información sobre la curvatura de una función, por ejemplo el cálculo de la primer derivada en un punto nos dice hacia donde (de)crece una función. Si siquieramos la derivada buscando, hacia donde crece la función, eventualmente llegariamos a un máximo (asumiendo que este existe). Esto se llama maximizar una función. Al agregar el <em>momemtum</em> podemos hacer algo más interesante, podemos simular un trayectoria que explore la distribución a posteriori. Esto es importante en estadística Bayesiana, ya que no solo queremos el máximo, si no una descripción de toda la distribución a posteriori.</p>
+<center>
+<img src="diapo/img/hmc_landscape.gif" width="700">
+</center>
+<p>Un HMC tiene varios hipeparámetros, por ejemplo para simular una trayectoria tenemos que hacerlo de a pasos discretos, mientras más pequeños los pasos más fidedigna la simulación, pero también más costosa. Otro hiperparámetro es la longitud de cada simulación si esta es muy corta demoraremos mucho tiempo en explorar la distribución a posteriori, pero si está es muy larga corremos el riesgo de volver al mismo lugar.</p>
+<p>En la siguiente figura se muestran tres ejemplos. A la izquierda el paso es muy corto, por lo que la exploración no es eficiente, en el centro el paso es correcto pero la simulación demasiado larga, tanto que volvemos al punto de partida, a la derecha tanto el paso como el tiempo de simulación son adecuamos y la propuesta genera un punto alejado en el espacio de los parámetros, pero con alta probabilidad de aceptación. De hecho en este ejemplo la probabilidad de aceptación es 1, ya que la pdf es la misma para el punto de partida que para el punto final.</p>
+<center>
+<img src="img/hmc_1D.gif" width="900">
+</center>
+<p>Este es otro ejemplo, en cada caso se muestra una densidad de probabilidad que va de más probable (amarillo) a menos probable (violeta), las flechas naranjas indican la trayectoria calculada de a pasos. En en el primero caso vemos una trayectoria elíptica tan larga que vuelve al punto de partida. En el segundo ejemplo vemos que el paso no es adecuado, esto produce una simulación inestable que se manifiesta en <strong>divergencias</strong> de la trayectoria correcta. En este último caso, y como en el ejemplo anterior, vemos que tanto el paso como el tiempo de simulación son adecuamos y la propuesta genera un punto alejado en el espacio de los parámetros, pero con alta probabilidad de aceptación (1 en este caso).</p>
+<center>
+<img src="diapo/img/HMC_trayectoria.png" width="900">
+</center>
+<p>Cuando los hiper-parámetros de un HMC son adecuados, el muestreo es muy eficiente, mucho más eficiente que un MH. Los valores de los hiper-parámetros dependen esencialmente de la geometría de la distribución a posteriori, por lo que no existe un solo conjunto de hiper-parámetros mejor que los demás. Es por ello que en la práctica estos se calculan de forma adaptativa corriendo una cantidad de pasos de HMC los cuales se utilizan para ajustar eso hiper-parámetros automáticamente y luego se descartan. NUTS (No U-Turn sampler), el sampler por defecto en PyMC es un HMC dinámico y adaptativo. El nombre proviene de una rutina del método que evita que las trayectorias den vueltas en U.</p>
+</section>
+</section>
+<section id="diagnósticos-generales" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="diagnósticos-generales"><span class="header-section-number">5.3</span> Diagnósticos generales</h2>
+<p>Asintóticamente los MCMC ofrencen la respuesta correcta, el problema es que asintóticamente estamos todos muertos! En la práctica se hace necesario contar con métodos de diagnóstico que permitan evaluar si el muestreo es correcto para muestras finitas. Si nos ponemos en pesimistas este es un problema sin solución, ya que es imposible demostrar que una muestra es correcta, solo podemos probar que NO lo es. Entonces lo que buscamos es poder recolectar evidencia a favor de la ausencia de problemas. Esto nos va a conducir a establecer algunos valores umbrales, es decir si el diagnositico <span class="math inline">\(D\)</span> da un valor superior a <span class="math inline">\(m\)</span>, tenemos un problema con nuestra muestra. Esto también es problemático, ya que establecer umbrales estrictos es en general arbitrario, salvo para casos triviales. Supongamos que yo me invento un diagnóstico para la calvice. El método es simple, hay que contar pelos. Es claro que 0 pelos corresponde a un pelado y 150.000 no, ya que esto se estima como la cantidad de pelos promedio en una cabeza promedio (sea lo que eso sea). Pero que pasa si alguien tiene 122 o 4126 pelos? A continuación veremos algunos valores umbrales, es importante entonces tomarlos con pinzas.</p>
+<section id="en-la-teoría-confiamos" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="en-la-teoría-confiamos"><span class="header-section-number">5.3.1</span> En la teoría confiamos</h3>
+<p>La teoría describe cierto comportamiento de los MCMC, muchos diagnósticos están basados en evaluar si los resultados teóricos se verifican empíricamente. Por ejemplo, la teoría de MCMC dice que:</p>
+<ul>
+<li>El valor inicial es irrelevante, siempre debemos llegar al mismo resultado</li>
+<li>Las muestras no son realmente independientes, pero el valor de un punto solo depende del punto anterior, no hay correlaciones de largo alcance.</li>
+<li>Si miramos la muestra como una secuencia no deberíamos ser capaces de encontrar patrón alguno
+<ul>
+<li>Por ej, para una muestra lo suficientemente larga, la primera porción debe ser indistinguible de la última (y la mismo cualquier otra combinación de regiones).</li>
+</ul></li>
+<li>Para un mismo problema cada muestra generada va a ser diferente de las otras, pero a los fines prácticos las muestras deberían ser indistinguibles unas de otros</li>
+</ul>
+</section>
+<section id="trace-plots" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="trace-plots"><span class="header-section-number">5.3.2</span> Trace plots</h3>
+<p>Este es un gráfico muy común. Para cada parámetro graficamos su valor (eje-y) en cada iteración (eje-x). Lo esperable es no ver ningún patrón, solo ruido como en primer panel de la siguiente figura (marco turquesa).</p>
+<center>
+<img src="diapo/img/trace_single_good_bad.png" width="800">
+</center>
+<p>En cambio los otros tres paneles (marco magenta) muestran problemas. De izquierda a derecha y arriba a abajo:</p>
+<ul>
+<li><p>El segundo panel muestra que el muestreo es “pegajoso”, le toma muchos pasos a la cadena moverse de valores altos a valores bajos, es difícil predecir que sucedería si seguimos corriendo, la cadena se movería hacia arriba nuevamente, se estabilizaría en valos bajos, continuaría bajando aún más?</p></li>
+<li><p>El tercer panel muestra una cadena menos “pegajosa”, pero también daría la impresión que aún no ha terminado de estabilizarse</p></li>
+<li><p>El último panel, en cambio, muestra que hay una región donde el sampler se mueve bien, pero cada tanto “salta” a estados donde se queda atascado. Quizá esto se deba a una distribución a posteriori multimodal o dificultades en el sampler para explorar regiones con distinta curvatura.</p></li>
+</ul>
+<p>Como ya vimos por defecto PyMC corre más de una cadena, por lo que un traceplot ideal debería verse como esto:</p>
+<center>
+<img src="diapo/img/trace_multiple_good.png" width="800/">
+</center>
+<p>ArviZ permite graficar trace-plots usando la función <code>az.plot_trace()</code>. Por defecto obtenemos el trace a la derecha y un KDE (para variables continuas) y un histograma (para discretas) a la izquierda</p>
+<center>
+<img src="diapo/img/trace_multiple_good_arviz.png" width="900">
+</center>
+</section>
+<section id="rank-plots" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="rank-plots"><span class="header-section-number">5.3.3</span> Rank plots</h3>
+<p>Los trace plots son muy comunes, pero existe una alternativa más moderna llamada rank plots. La idea básica es la siguiente. Para un parámetro tomamos todas las cadenas y ordenamos los valores de menor a mayor y les asignamos un rango es decir al valor más bajo le ponemos 0, al que sigue 1 y así hasta llegar a un número que será igual a la cantidad de muestras totales (cantidad de cadenas multiplicado por la cantidad de muestras por cadena). Luego reagrupamos los rankings según las cadenas que les dieron origen y para cada cadena hacemos un histograma. Si las cadenas fuesen indistinguibles esperariamos que los histogramas sean uniformes. Ya que no hay razón para que una cadena tenga más rankings bajos (o medios o altos) que el resto.</p>
+<p>La siguiente figura muestra 4 ejemplos, donde solo uno (marco cyan) no muestra problemas</p>
+<center>
+<img src="diapo/img/rankbar_single_good_bad.png" width="800">
+</center>
+<p>En ArviZ los rank plots se pueden obtener con la función <code>az.plot_rank</code> o pasando un argumento a plot_trace <code>az.plot_trace(⋅, kind="rank_bars")</code></p>
+</section>
+<section id="hat-r-r-sombrero" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="hat-r-r-sombrero"><span class="header-section-number">5.3.4</span> <span class="math inline">\(\hat R\)</span> (R sombrero)</h3>
+<p>Los gráficos suelen ser útiles para descrubir patrones, pero aveces queremos números, por ejemplo al evaluar rápidamente mucho parámetros. <span class="math inline">\(\hat R\)</span> es la respuesta a la pregunta. Lograron las cadenas mezclarse adecuadamente? Pero también me gusta pensarlo como el jurado en un concurso de trace (o rank) plots. La versión implementada en ArviZ hace varias cosas debajo del capot, pero la idea central es que compara la varianza <em>entre</em> cadenas con la varianza <em>dentro</em> de cada cadena.</p>
+<center>
+<img src="diapo/img/r_hat.gif" width="900">
+</center>
+<p>Idealmente <span class="math inline">\(\hat R = 1\)</span>, en la práctica <span class="math inline">\(\hat R \lessapprox 1.01\)</span> son considerados seguros y en la primer fase de modelado valores más altos como <span class="math inline">\(\hat R \approx 1.1\)</span> pueden estár bien.</p>
+<p>Usando ArviZ podemos obtener <span class="math inline">\(\hat R\)</span> usando <code>az.rhat(⋅)</code>, <code>az.summary(⋅)</code> y <code>az.plot_forest(⋅, r_hat=True)</code></p>
+</section>
+<section id="gráfico-de-autocorrelación" class="level3" data-number="5.3.5">
+<h3 data-number="5.3.5" class="anchored" data-anchor-id="gráfico-de-autocorrelación"><span class="header-section-number">5.3.5</span> Gráfico de autocorrelación</h3>
+<p>Idealmente, una muestra debe ser independiente e idénticamente distribuida (iid). Por definición, las muestras MCMC están correlacionadas. En la práctica, queremos muestras con baja autocorrelación. En ArviZ obtenemos este gráfico con la función <code>az.plot_autocorr()</code></p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>cadenas_defectuosas <span class="op">=</span> {<span class="st">"cadenas_defectuosas"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1000</span>).reshape(<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>)}</span>
+<span id="cb8-2"><a href="#cb8-2"></a>az.plot_autocorr(cadenas_defectuosas)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>cadenas_adecuadas <span class="op">=</span> {<span class="st">"cadena_adecuadas"</span>: pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>).rvs(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">500</span>))}</span>
+<span id="cb9-2"><a href="#cb9-2"></a>az.plot_autocorr(cadenas_adecuadas)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="tamaño-de-muestra-efectivo-ess" class="level3" data-number="5.3.6">
+<h3 data-number="5.3.6" class="anchored" data-anchor-id="tamaño-de-muestra-efectivo-ess"><span class="header-section-number">5.3.6</span> Tamaño de muestra efectivo (ESS)</h3>
+<p>Como las muestras de un MCMC están correlacionadas la cantidad de información “útil” es menor que una muestra del mismo tamaño pero iid.</p>
+<br> <br>
+<center>
+<img src="diapo/img/ess.gif" width="600">
+</center>
+<p>Podemos estimar el <strong>tamaño de muestra efectivo</strong> (ESS), es decir, el tamaño de una muestra con la cantidad equivalente de información pero sin autocorrelación. Esto es útil para determinar si la muestra que tenemos es lo suficientemente grande. Se recomienta que el ESS sea superior a 100 por cadena. Es decir para para 4 cadenas queremos un mínimo de 400.</p>
+<p>Con ArviZ podemos obtenerlo <code>az.ess(⋅)</code>, <code>az.summary(⋅)</code> y <code>az.plot_forest(⋅, ess=True)</code></p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>pd.concat((az.ess(cadenas_defectuosas).to_pandas(),</span>
+<span id="cb10-2"><a href="#cb10-2"></a>           az.ess(cadenas_adecuadas).to_pandas()))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>cadenas_defectuosas      2.282878
+cadena_adecuadas       910.058723
+dtype: float64</code></pre>
+</div>
+</div>
+<p>Vemos que <code>az.summary(⋅)</code> devuelve dos valores de ESS, <code>ess_bulk</code> y <code>ess_tail</code>. Esto se debe a que, distintas regiones del espacio de los parámetros pueden tener distinto valor de ESS, ya que no todas las regiones son muestreadas con la misma eficiencia. Intuitivamente uno puede pensar que al muestrear una distribución como una Gaussiana es más fácil obtener mejor calidad de muestra alrededor de la media que de las colas, simplemente por que tenemos más muestras de esa región.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>pd.concat([az.summary(cadenas_adecuadas, kind<span class="op">=</span><span class="st">"diagnostics"</span>),</span>
+<span id="cb12-2"><a href="#cb12-2"></a>           az.summary(cadenas_defectuosas, kind<span class="op">=</span><span class="st">"diagnostics"</span>)])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>cadena_adecuadas</th>
+      <td>0.010</td>
+      <td>0.007</td>
+      <td>910.0</td>
+      <td>988.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>cadenas_defectuosas</th>
+      <td>0.198</td>
+      <td>0.165</td>
+      <td>2.0</td>
+      <td>11.0</td>
+      <td>3.05</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Si las muestras de MCMC las vamos a usar para calcular valores centrales como medias o medianas entonces tenemos que asegurarnos que el <code>ess_bulk</code> sea lo suficientemente algo, en cambio, si queremos calcular intervalos como un HDI 95% hay que asegurarse que <code>ess_tail</code> sea adecuado.</p>
+<p>ArviZ ofrece varias funciones vinculadas al ESS. Por ejemplo si queremos evaluar el desempeño del sampler para varias regiones al mismo tiempo podemos usar <code>az.plot_ess</code>.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>az.plot_ess(cadenas_adecuadas, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb13-3"><a href="#cb13-3"></a>az.plot_ess(cadenas_defectuosas, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Una forma simple de aumentar el ESS es aumentar la cantidad de muestras, pero podría darse el caso que el ESS crezca muy lento con el número de muestras, por lo que aún si aumentaramos 10 veces la cantidad de muestras estaríamos por debajo de lo requerido. Una forma de estimar “cuanto nos falta” es usar <code>az.plot_ess(⋅, kind="evolution")</code>. Este gráfico nos muestra como fue cambiando el ESS con cada muestra, lo que nos permite hacer proyecciones. En el siguiente ejemplo vemos que para <code>cadenas_adecuadas</code> el ESS crece lineamente con el número de muestras mientras que para <code>cadenas_defectuosas</code> no crece para nada. Este último caso no hay esperanzas de mejorar el ESS simplemente aumentando la cantidad de muestras.</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>az.plot_ess(cadenas_adecuadas, kind<span class="op">=</span><span class="st">"evolution"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb14-3"><a href="#cb14-3"></a>az.plot_ess(cadenas_defectuosas,  kind<span class="op">=</span><span class="st">"evolution"</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="error-estándard-del-monte-carlo-mcse" class="level3" data-number="5.3.7">
+<h3 data-number="5.3.7" class="anchored" data-anchor-id="error-estándard-del-monte-carlo-mcse"><span class="header-section-number">5.3.7</span> Error estándard del Monte Carlo (MCSE)</h3>
+<p>Una ventaja del ESS es que no tiene escala, da igual si un parámetro varía entre 0.1 y 0.2 y otro entre -2000 y 5000, un ESS de 400 tiene el mismo significado en ambos casos. En modelos con muchos parámetros rápidamente podemos indentificar cuales parámetros son más problemáticos. Sin embargo, a la hora de reportar resultados no es muy informativo saber si el ESS fue de 1372 o 1501. En cambio nos gustaría saber el orden del error que estamos cometiendo al aproximar la distribución a posterori. Esa información la da el <strong>error estándard del Monte Carlo</strong> (MCSE). Al igual que el ESS, el MCSE tiene en cuenta la autocorrelación de las muestras. Este error debe estar por debajo de la precisión deseada en nuestros resultados. Es decir si para un parámetro el MCSE es 0.1, no tiene sentido reportar que la media de ese parámetro es 3.15. Ya que tranquilamente el valor correcto podría estar entre 3.4 y 2.8.</p>
+<p>Una de las cantidades devueltas por <code>az.summary(⋅)</code> es mc_error.</p>
+</section>
+</section>
+<section id="diagnóstico-de-algoritmos-basados-en-gradiente" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="diagnóstico-de-algoritmos-basados-en-gradiente"><span class="header-section-number">5.4</span> Diagnóstico de algoritmos basados en gradiente</h2>
+<p>Debido a su funcionamiento interno, algoritmos como NUTS ofrecen algunas pruebas específicas que no están disponibles para otros métodos. Generalmente estas pruebas son muy sensibles</p>
+<p>Para ejemplificar esto vamos a cargar dos InferenceData de modelos pre-calculados. Los detalles de como se generaron estos idatas no son relevantes por el momento. Solo diremos que son dos modelos que son matemáticamente equivalente pero parametrizados de formas distintas. En este caso la parametrización afecta la eficiencia del sampler. El modelo <code>centrado</code> es muestreado de forma más eficiente que el modelo <code>no centrado</code>.</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>idata_cm <span class="op">=</span> az.load_arviz_data(<span class="st">"centered_eight"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>idata_ncm <span class="op">=</span> az.load_arviz_data(<span class="st">"non_centered_eight"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="energía-de-transición-vs-energía-marginal" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="energía-de-transición-vs-energía-marginal"><span class="header-section-number">5.4.1</span> Energía de transición vs energía marginal</h3>
+<p>Podemos pensar en un Monte Carlo Hamiltoniano como un proceso de dos pasos<br>
+* Un muestreo determinista (siguiendo el hamiltoniano)<br>
+* Una caminata aleatorio en el espacio del momentum</p>
+<p>Si la distribución de la energía de transición es similar a la distribución de la energía marginal, entonces NUTS es capaz de generar muestras de la distribución marginal de la energía que sean <em>casi</em> independientes entre transiciones. Esto lo podemos evaluar visualmente o numéricamente, calculando el Bayesian Fraction of Missing Information (BFMI), como se muestra en la siguiente figura.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="cf">for</span> ax, idata, nombre <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), (idata_cm, idata_ncm), (<span class="st">"centrado"</span>, <span class="st">"no centrado"</span>)):</span>
+<span id="cb16-4"><a href="#cb16-4"></a>    az.plot_energy(idata, ax<span class="op">=</span>ax)</span>
+<span id="cb16-5"><a href="#cb16-5"></a>    ax.set_title(nombre)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="divergencias" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="divergencias"><span class="header-section-number">5.4.2</span> Divergencias</h3>
+<p>Una ventaja de NUTS es que <em>falla con el estilo</em>. Esto sucede por ejemplo al intentar pasar de regiones de baja curvatura a regiones de alta curvatura. En estos casos las trayectorias numéricas pueden divergir. En esencia esto sucede por que en esos casos no existe un único conjunto de hiper-parámetros que permita el muestreo eficiente de ambas regiones. Por lo que una de la regiones es muestreada adecuandamente y cuando el sampler se mueve hacia la otra región falla. Las trayectorias numéricas divergentes son identificadores extremadamente sensibles de <em>vecindarios patológicos</em>.</p>
+<p>El siguiente ejemplo muestra dos cosas el modelo <code>no centrado</code> muestra varias divergencias (círculos turquesas) agrupados en una región. En el modelo <code>centrado</code>, que no tiene divergencias, se puede ver que alrededor de esa misma región hay muestras para valores más pequeños de <code>tau</code>. Es decir el modelo <code>no centrado</code> falla en muestrear una región, pero al menos avisa que está teniendo problemas en muestrear esa región!</p>
+<div class="cell" data-scrolled="true" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="cf">for</span> ax, idata, nombre <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), (idata_cm, idata_ncm), (<span class="st">"centrado"</span>, <span class="st">"no_centrado"</span>)):</span>
+<span id="cb17-5"><a href="#cb17-5"></a>    az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">'theta'</span>, <span class="st">'tau'</span>], coords<span class="op">=</span>{<span class="st">'school'</span>:<span class="st">"Choate"</span>}, kind<span class="op">=</span><span class="st">'scatter'</span>,</span>
+<span id="cb17-6"><a href="#cb17-6"></a>                 divergences<span class="op">=</span><span class="va">True</span>, divergences_kwargs<span class="op">=</span>{<span class="st">'color'</span>:<span class="st">'C1'</span>},</span>
+<span id="cb17-7"><a href="#cb17-7"></a>                 ax<span class="op">=</span>ax)</span>
+<span id="cb17-8"><a href="#cb17-8"></a>    ax.set_title(nombre)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-scrolled="true" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>az.plot_parallel(idata_cm, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_Diagnóstico_MCMC_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="qué-hacer-cuando-los-diagnósticos-no-dan-bien" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="qué-hacer-cuando-los-diagnósticos-no-dan-bien"><span class="header-section-number">5.5</span> Qué hacer cuando los diagnósticos no dan bien?</h2>
+<p><br></p>
+<ul>
+<li><p><font color="gray"> Más muestras o más pasos de tuning. Esto solo suele ser útil cuando los problemas son menores</font></p></li>
+<li><p><font color="gray"> Burn-in. Software moderno como PyMC utiliza una cantidad de muestras para ajustar los hiper-parámetros de los métodos de muestreo. Por defecto esas muestras son eliminadas, por lo que en general no es necesario hacer Burn-in manualmente. </font></p></li>
+<li><p><font color="gray"> Cambiar el método de muestreo! </font></p></li>
+<li><p>Reparametrizar el modelo</p></li>
+<li><p><font color="orange"> Mejorar las distribuciones <em>a priori</em> </font></p>
+<ul>
+<li>El <em>teorema popular</em> de la estadística computacional: Cuando tienes problemas computacionales, a menudo hay un problema con tu modelo. La recomendación NO es cambiar la distribución <em>a priori</em> para mejorar la calidad del muestreo. La recomendación es que si el muestreo es malo, quizá el modelo también lo sea. En ese caso, podemos pensar en mejorar el modelo, una forma de mejorarlo es usar conocimiento previo para mejorar las distribuciones <em>a priori</em>.</li>
+</ul></li>
+<li><p>Algunos modelos pueden expresarse en más de una forma, todas matemáticamente equivalentes. En esos casos, algunas parametrizaciones pueden ser más eficientes que otras. Por ejemplo, como veremos más adelante con modelos lineales jerárquicos.</p></li>
+<li><p>En el caso de las divergencias, estas suelen eliminarse aumentando la tasa de aceptación (<code>pm.sample(..., target_accept=x)</code> x&gt;0.8)</p></li>
+<li><p>Leer los mensajes de advertencia y sugerencias de PyMC! ;-)</p></li>
+</ul>
+</section>
+<section id="ejercicios" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">5.6</span> Ejercicios</h2>
+<ol type="1">
+<li><p>Explicá en tus propias palabras que es el ESS, el <span class="math inline">\(\hat R\)</span> y el MCSE. ¿Qué información nos dan?</p></li>
+<li><p>¿Qué significa que el <span class="math inline">\(\hat R\)</span> sea 1.01? ¿Qué significa que sea 1.5? ¿Qué significa que sea 1.9?</p></li>
+<li><p>¿Qué significa que el ESS sea 100? ¿Qué significa que sea 1000? ¿Qué significa que sea 10000?</p></li>
+<li><p>Elegí al menos un modelo de los capítulos anteriores, genera un traceplot, un rank plot. Calcula el ESS, el <span class="math inline">\(R \hat\)</span> y el <span class="math inline">\(MCSE\)</span>. Ofrece una breve interpretación de los resultados de los diagósticos.</p></li>
+</ol>
+</section>
+<section id="para-seguir-leyendo" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="para-seguir-leyendo"><span class="header-section-number">5.7</span> Para seguir leyendo</h2>
+<p><a href="https://github.com/arviz-devs/Exploratory-Analysis-of-Bayesian-Models/tree/main/content">Exploratory Analysis of Bayesian Models</a> Trabajo en Progreso!</p>
+<p><a href="https://arxiv.org/abs/1701.02434">A Conceptual Introduction to Hamiltonian Monte Carlo</a></p>
+<p><a href="https://arxiv.org/abs/1903.08008">Rank-normalization, folding, and localization</a></p>
+<p><a href="https://arxiv.org/abs/2004.06425">Computing Bayes: Bayesian Computation from 1763 to the 21st Century</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"state":{},"version_major":2,"version_minor":0}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03_Modelos_jerárquicos.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Modelado Jerárquico</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05_Regresión_lineal.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>
