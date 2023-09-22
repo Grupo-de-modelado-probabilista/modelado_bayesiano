@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -122,13 +93,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "resultados adicionales en este documento",
     "search-clear-button-title": "Borrar",
     "search-detached-cancel-button-title": "Cancelar",
-    "search-submit-button-title": "Enviar"
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <meta name="citation_title" content="[6]{.chapter-number}&nbsp; [Regresión lineal]{.chapter-title}">
@@ -143,11 +116,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05_Regresión_lineal.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -155,27 +133,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Modelado Bayesiano</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="" title="github" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-github"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano">
-          Fuente
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano/issues/new">
-          Reportar errores
-          </a>
-        </li>
-    </ul>
-    <a href="https://cafecito.app/aloctavodia" title="donaciones" class="sidebar-tool px-1"><i class="bi bi-cup"></i></a>
-  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+    <div class="dropdown">
+      <a href="" title="github" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="github"><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano">
+            Fuente
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano/issues/new">
+            Reportar errores
+            </a>
+          </li>
+      </ul>
+    </div>
+    <a href="https://cafecito.app/aloctavodia" rel="" title="donaciones" class="quarto-navigation-tool px-1" aria-label="donaciones"><i class="bi bi-cup"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Modo claro/oscuro"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Modo sin distracciones">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
   </div>
@@ -183,85 +163,95 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Buscar"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">‎</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">‎</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00_Probabilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Probabilidad</span></a>
+  <a href="./00_Probabilidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Probabilidad</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01_Inferencia_Bayesiana.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inferencia Bayesiana</span></a>
+  <a href="./01_Inferencia_Bayesiana.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inferencia Bayesiana</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02_Programación_probabilística.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Programación probabilista</span></a>
+  <a href="./02_Programación_probabilística.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Programación probabilista</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_Modelos_jerárquicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Modelado Jerárquico</span></a>
+  <a href="./03_Modelos_jerárquicos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Modelado Jerárquico</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04_Diagnóstico_MCMC.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diagnóstico del muestreo</span></a>
+  <a href="./04_Diagnóstico_MCMC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diagnóstico del muestreo</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></a>
+  <a href="./05_Regresión_lineal.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06_Regresión_lineal_con_Bambi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal con Bambi</span></a>
+  <a href="./06_Regresión_lineal_con_Bambi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal con Bambi</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07_Comparación_de_modelos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparación de modelos</span></a>
+  <a href="./07_Comparación_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparación de modelos</span></span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#la-idea-central-en-regresión-lineal" id="toc-la-idea-central-en-regresión-lineal" class="nav-link active" data-scroll-target="#la-idea-central-en-regresión-lineal"><span class="toc-section-number">6.1</span>  La idea central en regresión lineal</a></li>
-  <li><a href="#bicicletas-lineales" id="toc-bicicletas-lineales" class="nav-link" data-scroll-target="#bicicletas-lineales"><span class="toc-section-number">6.2</span>  Bicicletas lineales</a>
+  <li><a href="#la-idea-central-en-regresión-lineal" id="toc-la-idea-central-en-regresión-lineal" class="nav-link active" data-scroll-target="#la-idea-central-en-regresión-lineal"><span class="header-section-number">6.1</span> La idea central en regresión lineal</a></li>
+  <li><a href="#bicicletas-lineales" id="toc-bicicletas-lineales" class="nav-link" data-scroll-target="#bicicletas-lineales"><span class="header-section-number">6.2</span> Bicicletas lineales</a>
   <ul class="collapse">
-  <li><a href="#interpretando-la-media-a-posteriori" id="toc-interpretando-la-media-a-posteriori" class="nav-link" data-scroll-target="#interpretando-la-media-a-posteriori"><span class="toc-section-number">6.2.1</span>  Interpretando la media a posteriori</a></li>
-  <li><a href="#interpretando-las-predicciones-a-posteriori" id="toc-interpretando-las-predicciones-a-posteriori" class="nav-link" data-scroll-target="#interpretando-las-predicciones-a-posteriori"><span class="toc-section-number">6.2.2</span>  Interpretando las predicciones a posteriori</a></li>
+  <li><a href="#interpretando-la-media-a-posteriori" id="toc-interpretando-la-media-a-posteriori" class="nav-link" data-scroll-target="#interpretando-la-media-a-posteriori"><span class="header-section-number">6.2.1</span> Interpretando la media a posteriori</a></li>
+  <li><a href="#interpretando-las-predicciones-a-posteriori" id="toc-interpretando-las-predicciones-a-posteriori" class="nav-link" data-scroll-target="#interpretando-las-predicciones-a-posteriori"><span class="header-section-number">6.2.2</span> Interpretando las predicciones a posteriori</a></li>
   </ul></li>
-  <li><a href="#generalizando-el-modelo-lineal" id="toc-generalizando-el-modelo-lineal" class="nav-link" data-scroll-target="#generalizando-el-modelo-lineal"><span class="toc-section-number">6.3</span>  Generalizando el modelo lineal</a></li>
-  <li><a href="#generalizando-el-modelo-lineal-para-datos-de-conteo" id="toc-generalizando-el-modelo-lineal-para-datos-de-conteo" class="nav-link" data-scroll-target="#generalizando-el-modelo-lineal-para-datos-de-conteo"><span class="toc-section-number">6.4</span>  Generalizando el modelo lineal para datos de conteo</a></li>
-  <li><a href="#regresión-robusta" id="toc-regresión-robusta" class="nav-link" data-scroll-target="#regresión-robusta"><span class="toc-section-number">6.5</span>  Regresión robusta</a></li>
-  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística"><span class="toc-section-number">6.6</span>  Regresión logística</a></li>
-  <li><a href="#el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." id="toc-el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." class="nav-link" data-scroll-target="#el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris."><span class="toc-section-number">6.7</span>  El modelo logístico aplicado al conjunto de datos del iris.</a></li>
-  <li><a href="#clasificación-con-regresión-logística" id="toc-clasificación-con-regresión-logística" class="nav-link" data-scroll-target="#clasificación-con-regresión-logística"><span class="toc-section-number">6.8</span>  Clasificación con regresión logística</a></li>
-  <li><a href="#interpretación-de-los-coeficientes-de-una-regresión-logística" id="toc-interpretación-de-los-coeficientes-de-una-regresión-logística" class="nav-link" data-scroll-target="#interpretación-de-los-coeficientes-de-una-regresión-logística"><span class="toc-section-number">6.9</span>  Interpretación de los coeficientes de una regresión logística</a></li>
-  <li><a href="#varianza-variable" id="toc-varianza-variable" class="nav-link" data-scroll-target="#varianza-variable"><span class="toc-section-number">6.10</span>  Varianza variable</a></li>
-  <li><a href="#regresión-por-cuantiles" id="toc-regresión-por-cuantiles" class="nav-link" data-scroll-target="#regresión-por-cuantiles"><span class="toc-section-number">6.11</span>  Regresión por cuantiles</a></li>
-  <li><a href="#regresión-lineal-jerárquica" id="toc-regresión-lineal-jerárquica" class="nav-link" data-scroll-target="#regresión-lineal-jerárquica"><span class="toc-section-number">6.12</span>  Regresión lineal jerárquica</a></li>
-  <li><a href="#regresión-lineal-múltiple" id="toc-regresión-lineal-múltiple" class="nav-link" data-scroll-target="#regresión-lineal-múltiple"><span class="toc-section-number">6.13</span>  Regresión lineal múltiple</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="toc-section-number">6.14</span>  Ejercicios</a></li>
+  <li><a href="#generalizando-el-modelo-lineal" id="toc-generalizando-el-modelo-lineal" class="nav-link" data-scroll-target="#generalizando-el-modelo-lineal"><span class="header-section-number">6.3</span> Generalizando el modelo lineal</a></li>
+  <li><a href="#generalizando-el-modelo-lineal-para-datos-de-conteo" id="toc-generalizando-el-modelo-lineal-para-datos-de-conteo" class="nav-link" data-scroll-target="#generalizando-el-modelo-lineal-para-datos-de-conteo"><span class="header-section-number">6.4</span> Generalizando el modelo lineal para datos de conteo</a></li>
+  <li><a href="#regresión-robusta" id="toc-regresión-robusta" class="nav-link" data-scroll-target="#regresión-robusta"><span class="header-section-number">6.5</span> Regresión robusta</a></li>
+  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística"><span class="header-section-number">6.6</span> Regresión logística</a></li>
+  <li><a href="#el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." id="toc-el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris." class="nav-link" data-scroll-target="#el-modelo-logístico-aplicado-al-conjunto-de-datos-del-iris."><span class="header-section-number">6.7</span> El modelo logístico aplicado al conjunto de datos del iris.</a></li>
+  <li><a href="#clasificación-con-regresión-logística" id="toc-clasificación-con-regresión-logística" class="nav-link" data-scroll-target="#clasificación-con-regresión-logística"><span class="header-section-number">6.8</span> Clasificación con regresión logística</a></li>
+  <li><a href="#interpretación-de-los-coeficientes-de-una-regresión-logística" id="toc-interpretación-de-los-coeficientes-de-una-regresión-logística" class="nav-link" data-scroll-target="#interpretación-de-los-coeficientes-de-una-regresión-logística"><span class="header-section-number">6.9</span> Interpretación de los coeficientes de una regresión logística</a></li>
+  <li><a href="#varianza-variable" id="toc-varianza-variable" class="nav-link" data-scroll-target="#varianza-variable"><span class="header-section-number">6.10</span> Varianza variable</a></li>
+  <li><a href="#regresión-por-cuantiles" id="toc-regresión-por-cuantiles" class="nav-link" data-scroll-target="#regresión-por-cuantiles"><span class="header-section-number">6.11</span> Regresión por cuantiles</a></li>
+  <li><a href="#regresión-lineal-jerárquica" id="toc-regresión-lineal-jerárquica" class="nav-link" data-scroll-target="#regresión-lineal-jerárquica"><span class="header-section-number">6.12</span> Regresión lineal jerárquica</a></li>
+  <li><a href="#regresión-lineal-múltiple" id="toc-regresión-lineal-múltiple" class="nav-link" data-scroll-target="#regresión-lineal-múltiple"><span class="header-section-number">6.13</span> Regresión lineal múltiple</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">6.14</span> Ejercicios</a></li>
   </ul>
 </nav>
     </div>
@@ -270,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresión lineal</span></h1>
 </div>
 
 
@@ -290,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </blockquote>
 <div class="cell" data-execution_count="1">
 <details>
-<summary>Mostrar Código</summary>
+<summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -308,7 +298,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="cell" data-execution_count="2">
 <details>
-<summary>Mostrar Código</summary>
+<summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>plt.style.use(<span class="st">'arviz-doc'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -2967,63 +2957,64 @@ Y &amp;\sim \text{Bern}(\theta)
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>iris <span class="op">=</span> pd.read_csv(<span class="st">'datos/iris.csv'</span>)</span>
 <span id="cb29-2"><a href="#cb29-2"></a>iris.head()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>sepal_length</th>
-      <th>sepal_width</th>
-      <th>petal_length</th>
-      <th>petal_width</th>
-      <th>species</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>5.1</td>
-      <td>3.5</td>
-      <td>1.4</td>
-      <td>0.2</td>
-      <td>setosa</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>4.9</td>
-      <td>3.0</td>
-      <td>1.4</td>
-      <td>0.2</td>
-      <td>setosa</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>4.7</td>
-      <td>3.2</td>
-      <td>1.3</td>
-      <td>0.2</td>
-      <td>setosa</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>4.6</td>
-      <td>3.1</td>
-      <td>1.5</td>
-      <td>0.2</td>
-      <td>setosa</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>5.0</td>
-      <td>3.6</td>
-      <td>1.4</td>
-      <td>0.2</td>
-      <td>setosa</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">sepal_length</th>
+<th data-quarto-table-cell-role="th">sepal_width</th>
+<th data-quarto-table-cell-role="th">petal_length</th>
+<th data-quarto-table-cell-role="th">petal_width</th>
+<th data-quarto-table-cell-role="th">species</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>5.1</td>
+<td>3.5</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>4.9</td>
+<td>3.0</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>4.7</td>
+<td>3.2</td>
+<td>1.3</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4.6</td>
+<td>3.1</td>
+<td>1.5</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5.0</td>
+<td>3.6</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -3088,63 +3079,64 @@ NUTS: [α, β]</code></pre>
 <div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>az.summary(idata_rl, var_names<span class="op">=</span><span class="st">'~θ'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>α</th>
-      <td>0.261</td>
-      <td>0.308</td>
-      <td>-0.333</td>
-      <td>0.821</td>
-      <td>0.005</td>
-      <td>0.004</td>
-      <td>3700.0</td>
-      <td>2828.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>β</th>
-      <td>5.209</td>
-      <td>1.008</td>
-      <td>3.489</td>
-      <td>7.259</td>
-      <td>0.018</td>
-      <td>0.013</td>
-      <td>3293.0</td>
-      <td>2351.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>bd</th>
-      <td>-0.049</td>
-      <td>0.059</td>
-      <td>-0.151</td>
-      <td>0.071</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>3755.0</td>
-      <td>2745.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">sd</th>
+<th data-quarto-table-cell-role="th">hdi_3%</th>
+<th data-quarto-table-cell-role="th">hdi_97%</th>
+<th data-quarto-table-cell-role="th">mcse_mean</th>
+<th data-quarto-table-cell-role="th">mcse_sd</th>
+<th data-quarto-table-cell-role="th">ess_bulk</th>
+<th data-quarto-table-cell-role="th">ess_tail</th>
+<th data-quarto-table-cell-role="th">r_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">α</td>
+<td>0.261</td>
+<td>0.308</td>
+<td>-0.333</td>
+<td>0.821</td>
+<td>0.005</td>
+<td>0.004</td>
+<td>3700.0</td>
+<td>2828.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">β</td>
+<td>5.209</td>
+<td>1.008</td>
+<td>3.489</td>
+<td>7.259</td>
+<td>0.018</td>
+<td>0.013</td>
+<td>3293.0</td>
+<td>2351.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">bd</td>
+<td>-0.049</td>
+<td>0.059</td>
+<td>-0.151</td>
+<td>0.071</td>
+<td>0.001</td>
+<td>0.001</td>
+<td>3755.0</td>
+<td>2745.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -4033,9 +4025,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -4100,6 +4106,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -4154,7 +4246,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
   </div>
 </footer>
 
