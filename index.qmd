@@ -46,16 +46,16 @@ Por último quienes no tengan interés en aprender a usar código para analisis 
 ## Instalación
 Para usar este material es necesario tener instalado Python. Se recomienda la versión 3.9 o superior. Además es necesario instalar los siguientes paquetes:
 
-* PyMC 5.3.0
-* ArviZ 0.15.1
-* PreliZ 0.3.0
+* PyMC 5.8.2
+* ArviZ 0.16.1
+* PreliZ 0.3.3
 * graphviz (una dependencia opcional de PyMC)
 
 Se recomienda instalar primero [Anaconda](https://www.continuum.io/downloads). Luego instalar el resto de los paquetes con los comandos:
 
 `conda install pip`
 
-`pip install pymc==5.3.0 arviz==0.15.1 preliz==0.3.0 graphviz`
+`pip install pymc==5.8.3 arviz==0.16.1 preliz==0.3.3 graphviz`
 
 Como alternativa pueden crear un ambiente con los paquetes necesario descargando el [archivo](environment.yml) y ejecutando el comando
 
