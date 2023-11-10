@@ -73,6 +73,8 @@ theme:
 
 citation:
   type: book
+  container-title: "Modelado Bayesiano"
   doi: https://doi.org/10.5281/zenodo.7851296
+  url: https://gmp.net.ar/modelado_bayesiano/
   issued: 2023/04/21
 google-scholar: true
