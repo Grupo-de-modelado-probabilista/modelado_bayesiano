@@ -50,6 +50,9 @@ book:
       - icon: cup
         href: https://cafecito.app/aloctavodia
         text: donaciones
+    footer: <center><br />¡Apoya la creación de contenido con una donación!</center><a href='https://cafecito.app/aloctavodia' rel='noopener' target='_blank'><img srcset='https://cdn.cafecito.app/imgs/buttons/button_6.png 1x, https://cdn.cafecito.app/imgs/buttons/button_6_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_6_3.75x.png 3.75x' src='https://cdn.cafecito.app/imgs/buttons/button_6.png' alt='Invitame un café en cafecito.app' /></a>
+
+
 
 format:
   html:
@@ -78,3 +81,7 @@ citation:
   url: https://gmp.net.ar/modelado_bayesiano/
   issued: 2023/04/21
 google-scholar: true
+
+website:
+  google-analytics: "UA-XXXXXXdXX"
+  cookie-consent: true
