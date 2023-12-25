@@ -1,4 +1,4 @@
-project:
+2project:
   type: book
   output-dir: docs
 
@@ -83,5 +83,5 @@ citation:
 google-scholar: true
 
 website:
-  google-analytics: "UA-XXXXXXdXX"
+  google-analytics: "G-CYV0K39WW5"
   cookie-consent: true
