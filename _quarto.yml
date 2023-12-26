@@ -18,8 +18,6 @@ book:
       country: Argentina
       postal-code: 5700
   date: today
-  #cover-image: cover.png
-
   chapters:
     - index.qmd
     - 00_Probabilidad.ipynb
@@ -32,7 +30,8 @@ book:
     - 07_Comparación_de_modelos.ipynb
     # - 08_Modelos_de_mezcla.ipynb
 
-
+  google-analytics: "G-CYV0K39WW5"
+  cookie-consent: true
   page-navigation: true
   reader-mode: true
   page-footer: <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a><br />Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.
@@ -82,6 +81,3 @@ citation:
   issued: 2023/04/21
 google-scholar: true
 
-website:
-  google-analytics: "G-CYV0K39WW5"
-  cookie-consent: true
