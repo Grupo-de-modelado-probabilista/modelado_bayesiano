@@ -45,11 +45,7 @@ book:
             url:  https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano
           - text: Reportar errores
             url:  https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano/issues/new
-      - icon: cup
-        href: https://cafecito.app/aloctavodia
-        text: donaciones
-    footer: <center><br />¡Apoya la creación de contenido con una donación!</center><a href='https://cafecito.app/aloctavodia' rel='noopener' target='_blank'><img srcset='https://cdn.cafecito.app/imgs/buttons/button_6.png 1x, https://cdn.cafecito.app/imgs/buttons/button_6_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_6_3.75x.png 3.75x' src='https://cdn.cafecito.app/imgs/buttons/button_6.png' alt='Invitame un café en cafecito.app' /></a>
-
+    footer: <center><br />¡Apoya la creación de contenido con una donación! (solo pagos Argentina)<a href='https://cafecito.app/aloctavodia' rel='noopener' target='_blank'><img srcset='https://cdn.cafecito.app/imgs/buttons/button_6.png 1x, https://cdn.cafecito.app/imgs/buttons/button_6_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_6_3.75x.png 3.75x' src='https://cdn.cafecito.app/imgs/buttons/button_6.png' alt='Invitame un café en cafecito.app' /></a><br /><br />Support content creation with a donation! (Pay from everywhere)<a href='https://ko-fi.com/B0B5SN6SD' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></center>
 
 
 format:
