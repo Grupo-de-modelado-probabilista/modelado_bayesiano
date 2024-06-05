@@ -1,4 +1,4 @@
-arviz==0.16.1
-pymc==5.8.2
-preliz==0.3.3
+arviz==0.18.0
+pymc==5.15.1
+preliz==0.7.0
 git+https://github.com/bambinos/bambi.git@main
