@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -83,7 +83,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "Sin resultados",
     "search-matching-documents-text": "documentos encontrados",
@@ -92,6 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "resultado adicional en este documento",
     "search-more-matches-text": "resultados adicionales en este documento",
     "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancelar",
     "search-submit-button-title": "Enviar",
     "search-label": "Buscar"
@@ -107,12 +114,39 @@ gtag('js', new Date());
 gtag('config', 'G-B8PPDKVG6F', { 'anonymize_ip': true});
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta name="citation_title" content="[1]{.chapter-number}&nbsp; [Probabilidad]{.chapter-title}">
 <meta name="citation_publication_date" content="2023-04-21">
@@ -130,12 +164,12 @@ gtag('config', 'G-B8PPDKVG6F', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./00_Probabilidad.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Probabilidad</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./00_Probabilidad.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Probabilidad</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -145,7 +179,7 @@ gtag('config', 'G-B8PPDKVG6F', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Modelado Bayesiano</a> 
@@ -165,8 +199,8 @@ gtag('config', 'G-B8PPDKVG6F', { 'anonymize_ip': true});
           </li>
       </ul>
     </div>
-    <a href="https://twitter.com/aloctavodia" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
-    <a href="https://bayes.club/@aloctavodia" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-mastodon"></i></a>
+    <a href="https://twitter.com/aloctavodia" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="https://bayes.club/@aloctavodia" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-mastodon"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Modo claro/oscuro"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Modo sin distracciones">
   <div class="quarto-reader-toggle-btn">
@@ -244,7 +278,7 @@ gtag('config', 'G-B8PPDKVG6F', { 'anonymize_ip': true});
 <br>¡Apoya la creación de contenido con una donación! (solo pagos Argentina)<a href="https://cafecito.app/aloctavodia" rel="noopener" target="_blank"><img srcset="https://cdn.cafecito.app/imgs/buttons/button_6.png 1x, https://cdn.cafecito.app/imgs/buttons/button_6_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_6_3.75x.png 3.75x" src="https://cdn.cafecito.app/imgs/buttons/button_6.png" alt="Invitame un café en cafecito.app"></a><br><br>Support content creation with a donation! (Pay from everywhere)<a href="https://ko-fi.com/B0B5SN6SD" target="_blank"><img height="36" style="border:0px;height:36px;" src="https://storage.ko-fi.com/cdn/kofi1.png?v=3" border="0" alt="Buy Me a Coffee at ko-fi.com"></a>
 </center>
 </div></div></nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -301,12 +335,14 @@ gtag('config', 'G-B8PPDKVG6F', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <blockquote class="blockquote">
 <p>La teoría de la probabilidad es tan solo sentido común reducido a cálculo. -Pierre-Simon Laplace</p>
 </blockquote>
-<div class="cell" data-execution_count="1">
+<div id="cell-1" class="cell" data-hide_input="false" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -316,12 +352,12 @@ gtag('config', 'G-B8PPDKVG6F', { 'anonymize_ip': true});
 <span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> ipywidgets <span class="im">as</span> ipyw</span>
 <span id="cb1-8"><a href="#cb1-8"></a><span class="im">import</span> time</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="2">
+<div id="cell-2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>az.style.use(<span class="st">'arviz-doc'</span>)  <span class="co"># aplica estilo a los gráficos</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>np.random.seed(<span class="dv">42</span>)  <span class="co"># semilla para fijar números aleatorios</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>plt.rcParams[<span class="st">'lines.linewidth'</span>] <span class="op">=</span> <span class="dv">3</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="3">
+<div id="cell-3" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%%</span>javascript</span>
 <span id="cb3-2"><a href="#cb3-2"></a>IPython.OutputArea.prototype._should_scroll <span class="op">=</span> function(lines) {</span>
 <span id="cb3-3"><a href="#cb3-3"></a>    <span class="cf">return</span> false<span class="op">;</span></span>
@@ -344,7 +380,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <h2 data-number="1.1" class="anchored" data-anchor-id="azahar-azar-y-dados"><span class="header-section-number">1.1</span> Azahar, azar y dados</h2>
 <p>Las palabras azahar y azar no son similares por casualidad ambas provienen de la misma palabra árabe que significa flor. Desde la antigüedad, y hasta el día de hoy, ciertos juegos, como el juego de la <a href="https://es.wikipedia.org/wiki/Juego_de_las_tabas">taba</a>, utilizan un hueso con dos lados planos a modo de dado. De hecho se podría decir que la taba es el antecesor del dado moderno. Para facilitar distinguir un lado del otro, es común que uno de los lados esté marcado de alguna forma. Resulta ser que los árabes usaban una flor. Con el tiempo el castellano adoptó azahar, para designar solo ciertas flores como las del <a href="https://www.youtube.com/watch?v=JNKnWEHdcH0">naranjo</a> y azar como sinónimo de aleatorio.</p>
 <p>Empecemos, entonces imaginando que tenemos un dado de 6 caras, cada vez que arrojamos el dado solo es posible obtener un número entero del 1-6 es decir <code>{1, 2, 3, 4, 5, 6}</code>. Al arrojar el dado podemos obtener cualquier de estos números sin preferencia de uno sobre otro. Usando Python podemos programar un dado de 6 caras de la siguiente forma:</p>
-<div class="cell" data-execution_count="4">
+<div id="cell-6" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> dado():</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    semilla <span class="op">=</span> time.perf_counter_ns()</span>
 <span id="cb4-3"><a href="#cb4-3"></a>    <span class="cf">return</span> semilla <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span></span>
@@ -364,7 +400,7 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <li>Una tercera alternativa es recolectar datos y analizarlos, esta última es la opción preferida por quienes practican disciplinas científicas, en particular la estadística.</li>
 </ul>
 <p>Usando Python podemos <em>simular</em> la recolección de datos de la siguiente forma.</p>
-<div class="cell" data-execution_count="5">
+<div id="cell-9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> experimento(N<span class="op">=</span><span class="dv">100</span>):</span>
 <span id="cb6-2"><a href="#cb6-2"></a>    <span class="co"># llamamos a `dado` N veces y guardamos los resultados en `muestra`</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>    muestra <span class="op">=</span> [dado() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N)]   </span>
@@ -430,7 +466,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 </blockquote>
 <p>Dado el parámetro <code>radio</code> una circunferencia queda perfectamente definida. Si necesitáramos ubicar la circunferencia respecto de otros objetos en el plano, necesitaríamos además las coordenadas del centro, pero omitamos ese <em>detalle</em> por el momento.</p>
 <p>Veamos el siguiente ejemplo:</p>
-<div class="cell" data-execution_count="6">
+<div id="cell-14" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">def</span> dibuja_circ(radio):</span>
 <span id="cb8-2"><a href="#cb8-2"></a>    _, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
 <span id="cb8-3"><a href="#cb8-3"></a>    x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">100</span>)</span>
@@ -452,7 +488,7 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <p>Podríamos decir que no existe una sola circunferencia, sino una familia de circunferencias donde cada miembro se diferencia del resto solo por el valor del parámetro <code>radio</code>, ya que una vez definido este parámetro la circunferencia queda definida.</p>
 <p>De forma similar las distribuciones de probabilidad vienen en familias cuyos miembros quedan definidos por uno o más parámetros. Es común que los nombres de los parámetros de las distribuciones de probabilidad sean letras del alfabeto griego, aunque esto no es siempre así.</p>
 <p>En el siguiente ejemplo tenemos una distribución de probabilidad que podríamos usar para representar un dado y que es controlada por dos parámetros <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>:</p>
-<div class="cell" data-scrolled="true" data-execution_count="7">
+<div id="cell-16" class="cell" data-scrolled="true" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> dist_dado(α, β):</span>
 <span id="cb9-2"><a href="#cb9-2"></a>    n <span class="op">=</span> <span class="dv">5</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>    x <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">6</span>)</span>
@@ -501,19 +537,23 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <p><span class="math display">\[p(k \mid a, b)={\frac {1}{b - a + 1}} = \frac{1}{n}\tag {0.3}\]</span></p>
 <p>Para valores de <span class="math inline">\(k\)</span> en el intervalo [a, b], fuera de este intervalo <span class="math inline">\(p(k) = 0\)</span>, donde <span class="math inline">\(n=b-a+1\)</span> es la cantidad total de valores que puede tomar <span class="math inline">\(k\)</span>.</p>
 <p>Podemos usar esta distribución para modelar, por ejemplo un dado no cargado.</p>
-<div class="cell" data-execution_count="8">
+<div id="cell-20" class="cell" data-hide_input="false" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>dist <span class="op">=</span> pz.DiscreteUniform(lower<span class="op">=</span><span class="dv">1</span>, upper<span class="op">=</span><span class="dv">6</span>)</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co"># PreliZ usa "plot_pdf" tanto para distribuciones discretas como continuas</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>, support<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">7</span>))</span>
 <span id="cb10-4"><a href="#cb10-4"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb10-5"><a href="#cb10-5"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>En la figura anterior la altura de cada punto indica la probabilidad de cada evento, usamos puntos y lineas punteadas para remarcar que la distribución es discreta. En este ejemplo en concreto la distribución uniforme está definida en el intervalo [1, 6]. Por lo tanto todos los valores menores a 1 y mayores a 6 tienen probabilidad 0. Al ser una distribución uniforme todos los puntos tienen la misma altura y esa altura es <span class="math inline">\(\frac{1}{6}\)</span>.</p>
 <p>Los <strong>parámetros</strong> de la distribución discreta uniforme son dos: * El límite inferior representado con la letra “a” en la expresión 0.3 * El límite superior representado con la letra “b” en la expresión 0.3</p>
-<p>Si cambiamos los parámetros la “forma particular” de la distribución cambiará (prueben por ejemplo reemplazar <code>upper=6</code> en el bloque de código anterior por <code>upper=4</code>). Es por ello que se suele hablar de familia de distribuciones, cada miembro de esa familia es una distribución con una combinación particular y válida de parámetros. Por ejemplo <em>la familia de distribuciones discretas uniforme</em> es aquella indicada en la expresión 0.3, siempre y cuando: * <span class="math inline">\(a &lt; b\)</span> * <span class="math inline">\(a \in \mathbb {Z}\)</span> * <span class="math inline">\(b \in \mathbb {Z}\)</span></p>
+<p>Si cambiamos los parámetros la “forma particular” de la distribución cambiará (prueben por ejemplo reemplazar <code>upper=6</code> en el bloque de código anterior por <code>upper=4</code>). Es por ello que se suele hablar de familia de distribuciones, cada miembro de esa familia es una distribución con una combinación particular y válida de parámetros. Por ejemplo <em>la familia de distribuciones discretas uniforme</em> es aquella indicada en la expresión 0.3, siempre y cuando: * <span class="math inline">\(a &lt; b\)</span> * <span class="math inline">\(a \in \mathbb {Z}\)</span> * <span class="math inline">\(b \in  \mathbb {Z}\)</span></p>
 <p>donde <span class="math inline">\(\mathbb {Z}\)</span> es el conjunto de los números enteros.</p>
 <p>Es común vincular los parámetros con cantidades que tienen sentido <em>físico</em> por ejemplo en un dado de 6 caras tiene sentido que <span class="math inline">\(a=1\)</span> y <span class="math inline">\(b=6\)</span>. A veces desconocemos los valores de los parámetros y es nuestro trabajo utilizar datos y métodos estadísticos para encontrar esos valores.</p>
 </section>
@@ -522,13 +562,17 @@ P(A \mid B) \triangleq \frac{P(A, B)}{P(B)} \tag{0.2}
 <p>Es la <a href="https://en.wikipedia.org/wiki/Binomial_distribution">distribución</a> de probabilidad discreta que cuenta el número de éxitos en una secuencia de <span class="math inline">\(n\)</span> ensayos de Bernoulli (experimentos si/no) independientes entre sí, con una probabilidad fija <span class="math inline">\(p\)</span> de ocurrencia del éxito entre los ensayos. Cuando <span class="math inline">\(n=1\)</span> esta distribución se reduce a la distribución de Bernoulli.</p>
 <p><span class="math display">\[p(x \mid n,p) = \frac{n!}{x!(n-x)!}p^x(1-p)^{n-x} \tag {0.4}\]</span></p>
 <p>El término <span class="math inline">\(p^x(1-p)^{n-x}\)</span> indica la probabilidad de obtener <span class="math inline">\(x\)</span> éxitos en <span class="math inline">\(n\)</span> intentos. Este término solo tiene en cuenta el número total de éxitos obtenidos pero no la secuencia en la que aparecieron. El primer término conocido como <strong>coeficiente binomial</strong> calcula todas las posibles combinaciones de <span class="math inline">\(n\)</span> en <span class="math inline">\(x\)</span>, es decir el número de subconjuntos de <span class="math inline">\(x\)</span> elementos escogidos de un conjunto con <span class="math inline">\(n\)</span> elementos.</p>
-<div class="cell" data-execution_count="9">
+<div id="cell-23" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>dist <span class="op">=</span> pz.Binomial(n<span class="op">=</span><span class="dv">4</span>, p<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb11-2"><a href="#cb11-2"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb11-4"><a href="#cb11-4"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -541,7 +585,7 @@ p(x \mid \mu) = \frac{\mu^{x} e^{-\mu}}{x!} \tag {0.5}
 <p>donde x es el número de eventos <span class="math inline">\((x =0,1,2,\ldots)\)</span></p>
 <p>Tanto la media como la varianza de esta distribución están dadas por <span class="math inline">\(\mu\)</span>.</p>
 <p>A medida que <span class="math inline">\(\mu\)</span> aumenta la distribución de Poisson se aproxima a una distribución Gaussiana (aunque sigue siendo discreta). La distribución de Poisson tiene estrecha relación con otra distribución de probabilidad, la binomial. Una distribución binomial puede ser aproximada con una distribución de Poisson, cuando <span class="math inline">\(n &gt;&gt; p\)</span>, es decir, cuando la cantidad de “éxitos” (<span class="math inline">\(p\)</span>) es baja respecto de la cantidad de “intentos” (p) entonces <span class="math inline">\(\text{Poisson}(np) \approx \text{Binon}(n, p)\)</span>. Por esta razón la distribución de Poisson también se conoce como “ley de los pequeños números” o “ley de los eventos raros”. Ojo que esto no implica que <span class="math inline">\(\mu\)</span> deba ser pequeña, quien es pequeño/raro es <span class="math inline">\(p\)</span> respecto de <span class="math inline">\(n\)</span>.</p>
-<div class="cell" data-execution_count="10">
+<div id="cell-25" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>dist <span class="op">=</span> pz.Poisson(mu<span class="op">=</span><span class="fl">2.3</span>)  <span class="co"># número de veces que se espera que ocurra un evento.</span></span>
 <span id="cb12-2"><a href="#cb12-2"></a><span class="co"># PreliZ conoce cuales son los límites de una distribución y los usa al grafica</span></span>
 <span id="cb12-3"><a href="#cb12-3"></a><span class="co"># Para distribuciones que no tienen límites PreliZ usa los cuantiles 0.001 y 0.999</span></span>
@@ -550,7 +594,11 @@ p(x \mid \mu) = \frac{\mu^{x} e^{-\mu}}{x!} \tag {0.5}
 <span id="cb12-6"><a href="#cb12-6"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb12-7"><a href="#cb12-7"></a>ax.set_ylabel(<span class="st">'p(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -571,7 +619,7 @@ p(x \mid \mu) = \frac{\mu^{x} e^{-\mu}}{x!} \tag {0.5}
 <p><span class="math display">\[
 p(x \mid a,b)=\begin{cases} \frac{1}{b-a} &amp; para\ a \le x \le b \\ 0 &amp;  \text{para el resto} \end{cases} \tag {0.7}
 \]</span></p>
-<div class="cell" data-execution_count="11">
+<div id="cell-28" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>dist <span class="op">=</span> pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>)  </span>
 <span id="cb13-2"><a href="#cb13-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb13-3"><a href="#cb13-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -579,7 +627,11 @@ p(x \mid a,b)=\begin{cases} \frac{1}{b-a} &amp; para\ a \le x \le b \\ 0 &amp;  
 <span id="cb13-5"><a href="#cb13-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb13-6"><a href="#cb13-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>En la figura anterior la curva azul representa la <span class="math inline">\(pdf\)</span>. La <span class="math inline">\(pdf\)</span> es un objeto matemático que da la descripción exacta de la distribución, no es algo que exista en la <em>realidad</em> si no una construcción matemática que es útil para aproximar o modelar algún aspecto de la <em>realidad</em>. La <span class="math inline">\(pdf\)</span> es como las esferas, las esferas no existen pero pueden ser útiles para describir objetos tales como pelotas, planetas, átomos, aún cuando ni las pelotas, planetas o átomos sean esferas.</p>
@@ -594,7 +646,7 @@ p(x \mid a,b)=\begin{cases} \frac{1}{b-a} &amp; para\ a \le x \le b \\ 0 &amp;  
 <p><span class="math display">\[
 p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 } {2 \sigma^2}} \tag {0.8}
 \]</span></p>
-<div class="cell" data-execution_count="12">
+<div id="cell-31" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>dist <span class="op">=</span> pz.Normal(mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>)  </span>
 <span id="cb14-2"><a href="#cb14-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -602,7 +654,11 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 <span id="cb14-5"><a href="#cb14-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb14-6"><a href="#cb14-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -614,7 +670,7 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 <p>donde <span class="math inline">\(\Gamma\)</span> es la función <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma</a> y donde <span class="math inline">\(\nu\)</span> es un parámetro llamado <em>grados de libertad</em> en la mayoría de los textos aunque también se le dice <em>grado de normalidad</em>, ya que a medida que <span class="math inline">\(\nu\)</span> aumenta la distribución se aproxima a una Gaussiana. En el caso extremo de <span class="math inline">\(\lim_{\nu\to\infty}\)</span> la distribución es exactamente igual a una Gaussiana.</p>
 <p>En el otro <em>extremo</em>, cuando <span class="math inline">\(\nu=1\)</span>, (aunque en realidad <span class="math inline">\(\nu\)</span> puede tomar valores por debajo de 1) estamos frente a una distribución de <a href="https://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy</a>. Es similar a una Gaussiana pero las colas decrecen muy lentamente, eso provoca que en teoría esta distribución no poseen una media o varianza definidas. Es decir, es posible calcular a partir de un conjunto de datos una media, pero si los datos provienen de una distribución de Cauchy, la dispersión alrededor de la media será alta y esta dispersión no disminuirá a medida que aumente el tamaño de la muestra. La razón de este comportamiento extraño es que en distribuciones como la Cauchy están dominadas por lo que sucede en las colas de la distribución, contrario a lo que sucede por ejemplo con la distribución Gaussiana.</p>
 <p>Para esta distribución <span class="math inline">\(\sigma\)</span> no es la desviación estándar, que como ya se dijo podría estar indefinida, <span class="math inline">\(\sigma\)</span> es la <em>escala</em>. A medida que <span class="math inline">\(\nu\)</span> aumenta la <em>escala</em> converge a la desviación estándar de una distribución Gaussiana.</p>
-<div class="cell" data-scrolled="true" data-execution_count="13">
+<div id="cell-33" class="cell" data-scrolled="true" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>dist <span class="op">=</span> pz.StudentT(nu<span class="op">=</span><span class="dv">4</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">2</span>)  </span>
 <span id="cb15-2"><a href="#cb15-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb15-3"><a href="#cb15-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -622,7 +678,11 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 <span id="cb15-5"><a href="#cb15-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb15-6"><a href="#cb15-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -633,7 +693,7 @@ p(x \mid \mu,\sigma) = \frac{1}{\sigma \sqrt{ 2 \pi}} e^{ - \frac{ (x - \mu)^2 }
 p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 \]</span></p>
 <p>La media y la desviación estándar de esta distribución están dadas por <span class="math inline">\(\frac{1}{\lambda}\)</span></p>
-<div class="cell" data-scrolled="true" data-execution_count="14">
+<div id="cell-35" class="cell" data-scrolled="true" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>dist <span class="op">=</span> pz.Exponential(<span class="dv">3</span>)  </span>
 <span id="cb16-2"><a href="#cb16-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -641,7 +701,11 @@ p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 <span id="cb16-5"><a href="#cb16-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb16-6"><a href="#cb16-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -649,7 +713,7 @@ p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 <h3 data-number="1.6.5" class="anchored" data-anchor-id="distribución-de-laplace"><span class="header-section-number">1.6.5</span> Distribución de Laplace</h3>
 <p>También llamada distribución <a href="https://en.wikipedia.org/wiki/Laplace_distribution">doble exponencial</a>, ya que puede pensarse como una distribución exponencial “más su imagen especular”. Esta distribución surge de medir la diferencia entre dos variables exponenciales (idénticamente distribuidas).</p>
 <p><span class="math display">\[p(x \mid \mu, b) = \frac{1}{2b} \exp \left\{ - \frac{|x - \mu|}{b} \right\} \tag {0.11}\]</span></p>
-<div class="cell" data-scrolled="true" data-execution_count="15">
+<div id="cell-37" class="cell" data-scrolled="true" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>dist <span class="op">=</span> pz.Laplace(<span class="dv">0</span>, <span class="fl">0.7</span>)  </span>
 <span id="cb17-2"><a href="#cb17-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb17-3"><a href="#cb17-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -657,7 +721,11 @@ p(x \mid \lambda) = \lambda e^{-\lambda x} \tag {0.10}
 <span id="cb17-5"><a href="#cb17-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb17-6"><a href="#cb17-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -671,7 +739,7 @@ p(x \mid \alpha, \beta)= \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)
 <p>Si queremos expresar la distribución beta en función de la media y la dispersión alrededor de la media podemos hacerlo de la siguiente forma.</p>
 <p><span class="math display">\[\alpha = \mu \kappa\]</span> <span class="math display">\[\beta = (1 − \mu) \kappa\]</span></p>
 <p>Siendo <span class="math inline">\(\mu\)</span> la media y <span class="math inline">\(\kappa\)</span> una parámetro llamado concentración a media que <span class="math inline">\(\kappa\)</span> aumenta la dispersión disminuye. Nótese, además que <span class="math inline">\(\kappa = \alpha + \beta\)</span>.</p>
-<div class="cell" data-execution_count="16">
+<div id="cell-39" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>dist <span class="op">=</span> pz.Beta(<span class="dv">5</span>, <span class="dv">2</span>)  </span>
 <span id="cb18-2"><a href="#cb18-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -679,7 +747,11 @@ p(x \mid \alpha, \beta)= \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)
 <span id="cb18-5"><a href="#cb18-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb18-6"><a href="#cb18-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -691,7 +763,7 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 \]</span></p>
 <p>La distribución gamma se reduce a la exponencial cuando <span class="math inline">\(\alpha=1\)</span>.</p>
 <p>Otra parametrización, disponible por ej en paquetes como PyMC y Preliz, es en términos de la media y la desviación estándar.</p>
-<div class="cell" data-execution_count="17">
+<div id="cell-41" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>dist <span class="op">=</span> pz.Gamma(alpha<span class="op">=</span><span class="dv">3</span>, beta<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb19-2"><a href="#cb19-2"></a>x_rvs <span class="op">=</span> dist.rvs(<span class="dv">500</span>)  <span class="co"># muestrear 500 valores de la distribución</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a>ax <span class="op">=</span> dist.plot_pdf(moments<span class="op">=</span><span class="st">"md"</span>)</span>
@@ -699,7 +771,11 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 <span id="cb19-5"><a href="#cb19-5"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb19-6"><a href="#cb19-6"></a>ax.set_ylabel(<span class="st">'pdf(x)'</span>, rotation<span class="op">=</span><span class="dv">0</span>, labelpad<span class="op">=</span><span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -717,28 +793,40 @@ p(x \mid \alpha, \beta) = \frac{\beta^{\alpha}x^{\alpha-1}e^{-\beta x}}{\Gamma(\
 <p>La varianza aparece <em>naturalmente</em> en muchos cálculos estadísticos. Sin embargo, para reportar los resultados de un análisis suele ser más útil la desviación estándar, que es la raíz cuadrada de la varianza. La principal ventaja es que esta última está en la mismas escala/unidades que la variable aleatoria.</p>
 <p>El <span class="math inline">\(n\)</span>-ésimo momento de una variable aleatoria <span class="math inline">\(X\)</span> es <span class="math inline">\(\mathbb{E}[X^n]\)</span>, por lo que el valor esperado (media) y la varianza también se conocen como el primer y segundo momento de una distribución.</p>
 <p>Una vez fijados los parámetros de una distribución de probabilidad. Es posible calcularle sus momentos, el primer momento es la media y el segundo la varianza. Es importante notar que estos valores son propiedades de la distribución y no propiedades de una muestra. Por ejemplo la media y varianza de una distribución Beta(4, 6) es <span class="math inline">\(0.4\)</span> y <span class="math inline">\(\approx 0.22\)</span>, respectivamente</p>
-<div class="cell" data-execution_count="18">
+<div id="cell-43" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">6</span>).plot_pdf(moments<span class="op">=</span><span class="st">"mv"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Existen otros momentos, el tercer momento se conoce como sesgo y habla de la asimetría de una distribución</p>
-<div class="cell" data-execution_count="19">
+<div id="cell-45" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span>
 <span id="cb21-2"><a href="#cb21-2"></a>pz.Beta(<span class="dv">4</span>, <span class="dv">10</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span>
 <span id="cb21-3"><a href="#cb21-3"></a>pz.Beta(<span class="dv">10</span>, <span class="dv">4</span>).plot_pdf(moments<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>El cuarto momento, conocido como curtosis, nos habla del comportamiento de las colas o <em>valores extremos</em>. Suele calcularse de forma tal que de 0 para una Normal. Además las discusiones suelen centrarse en torno a distribuciones con curtosis positiva (como la distribución de Laplace o Student T con <span class="math inline">\(\nu &gt; 4\)</span>) por lo que es común hablar de <em>exceso</em> de curtosis. Mientras más grande la curtosis de una distribución más pesadas sus colas, es decir es más factible observar valores alejados de la media.</p>
-<div class="cell" data-execution_count="20">
+<div id="cell-47" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>pz.Normal(<span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span>
 <span id="cb22-2"><a href="#cb22-2"></a>pz.StudentT(<span class="fl">4.1</span>, <span class="dv">0</span>, <span class="dv">1</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span>
 <span id="cb22-3"><a href="#cb22-3"></a>pz.Uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>).plot_pdf(moments<span class="op">=</span><span class="st">"k"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -754,7 +842,7 @@ cdf(x) = \int_{-\infty}^{x} pdf(x) d(x) \tag {0.17}
 S(x) = 1 - cdf  \tag {0.18}
 \]</span></p>
 <p>A continuación un ejemplo de la <code>pdf</code> y <code>cdf</code> para 4 distribuciones de la familia Gaussiana.</p>
-<div class="cell" data-execution_count="21">
+<div id="cell-49" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>_, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb23-2"><a href="#cb23-2"></a>x_valores <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">500</span>)</span>
 <span id="cb23-3"><a href="#cb23-3"></a>valores <span class="op">=</span> [(<span class="fl">0.</span>, <span class="fl">1.</span>), (<span class="fl">0.</span>, <span class="fl">2.</span>), (<span class="fl">2.</span>, <span class="fl">.5</span>)]</span>
@@ -763,7 +851,11 @@ S(x) = 1 - cdf  \tag {0.18}
 <span id="cb23-6"><a href="#cb23-6"></a>    pz.Normal(<span class="op">*</span>val).plot_cdf(ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
 <span id="cb23-7"><a href="#cb23-7"></a>    ax[<span class="dv">1</span>].get_legend().remove()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>La siguiente figura tomada del libro <a href="http://greenteapress.com/thinkstats2/html/index.html">Think Stats</a> resume las relaciones entre la <code>cdf</code>, <code>pdf</code> y <code>pmf</code>.</p>
@@ -796,7 +888,7 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <h3 data-number="1.10.1" class="anchored" data-anchor-id="la-ley-de-los-grandes-números"><span class="header-section-number">1.10.1</span> La ley de los grandes números</h3>
 <p>El valor promedio calculado para una muestra converge al valor esperado (media) de dicha distribución. Esto no es cierto para algunas distribuciones como la distribución de Cauchy (la cual no tiene media ni varianza finita).</p>
 <p>La ley de los grandes números se suele malinterpretar y dar lugar a la paradoja del apostador. Un ejemplo de esta paradoja es creer que conviene apostar en la lotería/quiniela a un número <em>atrasado</em>, es decir un número que hace tiempo que no sale. El razonamiento, erróneo, es que como todos los números tienen la misma probabilidad a largo plazo si un número viene <em>atrasado</em> entonces hay alguna especie de fuerza que aumenta la probabilidad de ese número en los próximo sorteos para así re-establecer la equiprobabilidad de los números.</p>
-<div class="cell" data-execution_count="22">
+<div id="cell-53" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>tamaño_muestra <span class="op">=</span> <span class="dv">200</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a>muestras <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, tamaño_muestra)</span>
 <span id="cb24-3"><a href="#cb24-3"></a>dist <span class="op">=</span> pz.Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
@@ -811,7 +903,11 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <span id="cb24-12"><a href="#cb24-12"></a>plt.ylabel(<span class="st">"media"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
 <span id="cb24-13"><a href="#cb24-13"></a>plt.xlabel(<span class="st">"# de muestras"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -831,7 +927,7 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <p>Los criterios 1 y 2 se pueden relajar <em>bastante</em> y aún así obtendremos aproximadamente una Gaussiana, pero del criterio 3 no hay forma de escapar. Para distribuciones como la distribución de Cauchy, que no posen media ni varianza definida este teorema no se aplica. El promedio de <span class="math inline">\(N\)</span> valores provenientes de una distribución Cauchy no siguen una Gaussiana sino una distribución de Cauchy.</p>
 <p>El teorema del límite central explica la prevalencia de la distribución Gaussiana en la naturaleza. Muchos de los fenómenos que estudiamos se pueden explicar como fluctuaciones alrededor de una media, o ser el resultado de la suma de muchos factores diferentes. Además, las Gaussianas son muy comunes en probabilidad, estadística y <em>machine learning</em> ya que que esta familia de distribuciones son más simples de manipular matemáticamente que muchas otras distribuciones.</p>
 <p>A continuación vemos una simulación que nos muestra el teorema del límite central en acción.</p>
-<div class="cell" data-execution_count="23">
+<div id="cell-55" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>iters <span class="op">=</span> <span class="dv">2000</span></span>
 <span id="cb25-2"><a href="#cb25-2"></a>dist <span class="op">=</span> pz.Exponential(<span class="dv">1</span>)</span>
 <span id="cb25-3"><a href="#cb25-3"></a>media, var <span class="op">=</span> dist.rv_frozen.stats(<span class="st">'mv'</span>)</span>
@@ -852,7 +948,11 @@ p(A) = \sum_B p(A, B) = \sum_B p(A \mid B) {p(B)} \tag {0.16}
 <span id="cb25-18"><a href="#cb25-18"></a>ax[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'observados'</span>)</span>
 <span id="cb25-19"><a href="#cb25-19"></a>ax[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'esperados'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="00_Probabilidad_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="00_Probabilidad_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -940,6 +1040,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
   }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
   const toggleColorMode = (alternate) => {
     // Switch the stylesheets
     const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
@@ -1006,13 +1133,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1091,10 +1220,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1104,8 +1250,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1117,7 +1272,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1161,6 +1439,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1186,6 +1465,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1247,12 +1552,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
+      <a href="./index.html" class="pagination-link" aria-label="‎">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">‎</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01_Inferencia_Bayesiana.html" class="pagination-link">
+      <a href="./01_Inferencia_Bayesiana.html" class="pagination-link" aria-label="Inferencia Bayesiana">
         <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inferencia Bayesiana</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -1263,12 +1568,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       &nbsp;
     </div>   
-    <div class="nav-footer-center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</div>
+    <div class="nav-footer-center">
+<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>Este obra está bajo <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">licencia Creative Commons Reconocimiento 4.0 Internacional</a>.</p>
+</div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
   </div>
 </footer>
+
 
 
 
