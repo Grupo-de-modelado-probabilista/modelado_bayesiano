@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modelado Bayesiano - 7&nbsp; Regresión lineal con Bambi</title>
+<title>7&nbsp; Regresión lineal con Bambi – Modelado Bayesiano</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -66,17 +67,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <link href="./07_Comparación_de_modelos.html" rel="next">
 <link href="./05_Regresión_lineal.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-72c03078af0861ca4e6c5a22356555be.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2b66037661b4cf6b980b39a38e9fe92f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-72c03078af0861ca4e6c5a22356555be.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -118,7 +122,7 @@ gtag('config', 'G-B8PPDKVG6F', { 'anonymize_ip': true});
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -149,28 +153,190 @@ window.Quarto = {
 </script>
 
 <meta name="citation_title" content="[7]{.chapter-number}&nbsp; [Regresión lineal con Bambi]{.chapter-title}">
-<meta name="citation_publication_date" content="2023-04-21">
-<meta name="citation_cover_date" content="2023-04-21">
-<meta name="citation_year" content="2023">
+<meta name="citation_publication_date" content="2025-05-29">
+<meta name="citation_cover_date" content="2025-05-29">
+<meta name="citation_year" content="2025">
 <meta name="citation_fulltext_html_url" content="https://gmp.net.ar/modelado_bayesiano/">
 <meta name="citation_doi" content="https://doi.org/10.5281/zenodo.7851296">
 <meta name="citation_language" content="es">
 <meta name="citation_book_title" content="Modelado Bayesiano">
 </head>
 
-<body class="nav-sidebar docked">
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_Regresión_lineal_con_Bambi.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regresión lineal con Bambi</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -185,7 +351,7 @@ window.Quarto = {
       <a href="./">Modelado Bayesiano</a> 
         <div class="sidebar-tools-main tools-wide">
     <div class="dropdown">
-      <a href="" title="github" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="github"><i class="bi bi-github"></i></a>
+      <a href="" title="github" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="github"><i class="bi bi-github"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
           <li>
             <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/Grupo-de-modelado-probabilista/Modelado_Bayesiano">
@@ -305,6 +471,7 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -532,8 +699,7 @@ window.Quarto = {
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [alquiladas_alpha, Intercept, temperatura]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+NUTS: [alquiladas_alpha, Intercept, temperatura]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -546,9 +712,12 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+</div>
 </div>
 <div id="cell-22" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>modelo_t.graph()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>modelo_t.graph()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 <figure class="figure">
@@ -559,14 +728,14 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 <p>Ahora vamos a graficar el ajuste medio a posteriori y las predicciones. Para ello usaremos la función <code>plot_predictions</code> del módulo <code>interpret</code>.</p>
 <div id="cell-24" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>)) </span>
-<span id="cb19-2"><a href="#cb19-2"></a>bmb.interpret.plot_predictions(modelo_t, idata_t, <span class="st">"temperatura"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
-<span id="cb19-3"><a href="#cb19-3"></a>bmb.interpret.plot_predictions(modelo_t, idata_t, <span class="st">"temperatura"</span>, pps<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
-<span id="cb19-4"><a href="#cb19-4"></a></span>
-<span id="cb19-5"><a href="#cb19-5"></a>axes[<span class="dv">0</span>].plot(bicis.temperatura, bicis.alquiladas, <span class="st">"."</span>, color<span class="op">=</span><span class="st">"0.5"</span>,  zorder<span class="op">=-</span><span class="dv">3</span>)</span>
-<span id="cb19-6"><a href="#cb19-6"></a>axes[<span class="dv">1</span>].plot(bicis.temperatura, bicis.alquiladas, <span class="st">"."</span>, color<span class="op">=</span><span class="st">"0.5"</span>, zorder<span class="op">=-</span><span class="dv">3</span>)</span>
-<span id="cb19-7"><a href="#cb19-7"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"media"</span>)</span>
-<span id="cb19-8"><a href="#cb19-8"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"predicciones"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>)) </span>
+<span id="cb20-2"><a href="#cb20-2"></a>bmb.interpret.plot_predictions(modelo_t, idata_t, <span class="st">"temperatura"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb20-3"><a href="#cb20-3"></a>bmb.interpret.plot_predictions(modelo_t, idata_t, <span class="st">"temperatura"</span>, pps<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb20-4"><a href="#cb20-4"></a></span>
+<span id="cb20-5"><a href="#cb20-5"></a>axes[<span class="dv">0</span>].plot(bicis.temperatura, bicis.alquiladas, <span class="st">"."</span>, color<span class="op">=</span><span class="st">"0.5"</span>,  zorder<span class="op">=-</span><span class="dv">3</span>)</span>
+<span id="cb20-6"><a href="#cb20-6"></a>axes[<span class="dv">1</span>].plot(bicis.temperatura, bicis.alquiladas, <span class="st">"."</span>, color<span class="op">=</span><span class="st">"0.5"</span>, zorder<span class="op">=-</span><span class="dv">3</span>)</span>
+<span id="cb20-7"><a href="#cb20-7"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"media"</span>)</span>
+<span id="cb20-8"><a href="#cb20-8"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"predicciones"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -577,16 +746,15 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 <p>Probemos ahora ajustar un modelo de regresión con dos variables predictoras, <code>temperatura</code> y <code>humedad</code>.</p>
 <div id="cell-26" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>modelo_th <span class="op">=</span> bmb.Model(<span class="st">"alquiladas ~ temperatura + humedad"</span>, bicis, </span>
-<span id="cb20-2"><a href="#cb20-2"></a>                     family<span class="op">=</span><span class="st">"negativebinomial"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3"></a>                     </span>
-<span id="cb20-4"><a href="#cb20-4"></a>idata_th <span class="op">=</span> modelo_th.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>modelo_th <span class="op">=</span> bmb.Model(<span class="st">"alquiladas ~ temperatura + humedad"</span>, bicis, </span>
+<span id="cb21-2"><a href="#cb21-2"></a>                     family<span class="op">=</span><span class="st">"negativebinomial"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3"></a>                     </span>
+<span id="cb21-4"><a href="#cb21-4"></a>idata_th <span class="op">=</span> modelo_th.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [alquiladas_alpha, Intercept, temperatura, humedad]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+NUTS: [alquiladas_alpha, Intercept, temperatura, humedad]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -599,12 +767,15 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+</div>
 </div>
 <div id="cell-27" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>bmb.interpret.plot_predictions(modelo_th, idata_th, [<span class="st">"temperatura"</span>, <span class="st">"humedad"</span>],</span>
-<span id="cb22-2"><a href="#cb22-2"></a>                               subplot_kwargs<span class="op">=</span>{<span class="st">"group"</span>:<span class="va">None</span>, <span class="st">"panel"</span>:<span class="st">"humedad"</span>},</span>
-<span id="cb22-3"><a href="#cb22-3"></a>                               legend<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb22-4"><a href="#cb22-4"></a>                               fig_kwargs<span class="op">=</span>{<span class="st">"sharey"</span>:<span class="va">True</span>, <span class="st">"sharex"</span>:<span class="va">True</span>})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>bmb.interpret.plot_predictions(modelo_th, idata_th, [<span class="st">"temperatura"</span>, <span class="st">"humedad"</span>],</span>
+<span id="cb24-2"><a href="#cb24-2"></a>                               subplot_kwargs<span class="op">=</span>{<span class="st">"group"</span>:<span class="va">None</span>, <span class="st">"panel"</span>:<span class="st">"humedad"</span>},</span>
+<span id="cb24-3"><a href="#cb24-3"></a>                               legend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb24-4"><a href="#cb24-4"></a>                               fig_kwargs<span class="op">=</span>{<span class="st">"sharey"</span>:<span class="va">True</span>, <span class="st">"sharex"</span>:<span class="va">True</span>})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/osvaldo/anaconda3/envs/pymc/lib/python3.11/site-packages/bambi/interpret/utils.py:383: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
   if is_string_dtype(x) or is_categorical_dtype(x):</code></pre>
@@ -628,22 +799,21 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>donde <span class="math inline">\(m\)</span> es el grado del polinomio.</p>
 <p>Hay dos cosas importantes a tener en cuenta. Primero, la regresión polinómica sigue siendo una regresión lineal; la linealidad se refiere a los coeficientes (los <span class="math inline">\(\beta\)</span>s), no a las variables (los <span class="math inline">\(x\)</span>s). La segunda es que simplemente estamos creando nuevas variables de la nada. La única variable observada es , el resto son sólo potencias de . Crear nuevas variables a partir de las observadas es un “truco” perfectamente válido al hacer regresión, a veces la transformación puede estar motivada o justificada por la teoría (como sacar la raíz cuadrada de la longitud de los bebés), pero a veces es solo una forma de ajustar una curva. La intuición con los polinomios es que para un valor dado de , cuanto mayor sea el grado del polinomio, más flexible será el ajuste. Un polinomio de grado 1 es una línea, un polinomio de grado 2 es una curva que puede subir o bajar, un polinomio de grado 3 es una curva que puede subir y luego bajar (o al revés), y así sucesivamente. Note que dije “puede” porque si tenemos un polinomio de grado 3 como <span class="math inline">\(\beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3\)</span> pero los coeficientes <span class="math inline">\(\beta_2\)</span> y <span class="math inline">\(\beta_3\)</span> son 0 (o prácticamente 0), entonces la curva será una línea.</p>
 <p>Hay dos formas de definir una regresión polinómica con Bambi. Podemos escribir los polinomios <em>brutos</em>:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="co">"y ~ x + I(x ** 2) + I(x ** 3) + I(x ** 4)"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="co">"y ~ x + I(x ** 2) + I(x ** 3) + I(x ** 4)"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>donde usamos la función de identidad <code>I</code> para dejar claro que queremos elevar <span class="math inline">\(x\)</span> a alguna potencia. Necesitamos esto porque el operador <code>**</code> tiene un significado especial para Bambi. Si usamos esta sintaxis, le estamos diciendo a Bambi que modele la media de <span class="math inline">\(y\)</span> como <span class="math inline">\(\alpha + \beta_0 x + \beta_0 x^2 + \beta_0 x^3 + \beta_0 x^4\)</span></p>
 <p>Alternativamente podemos escribir</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">"y ~ poly(x, 4)"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="co">"y ~ poly(x, 4)"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Esto también generará un polinomio de grado 4, pero los términos del polinomio serán ortogonales entre sí, lo que significa que la correlación entre los términos se reduce. Sin entrar en detalles matemáticos, esto tiene al menos dos consecuencias importantes con respecto a los polinomios <em>brutos</em>. En primer lugar, la estimación puede ser numéricamente más estable y, en segundo lugar, la interpretación de los coeficientes es diferente. En la regresión polinómica <em>estándar</em>, los coeficientes pueden ser difíciles de interpretar, ya que cambiar el valor de un coeficiente afecta a todo el polinomio. En cambio, los polinomios ortogonales permiten interpretar más claramente el efecto de cada término, ya que son independientes entre sí. Si bien la interpretación de los coeficientes es diferente, otros resultados siguen siendo los mismos. Por ejemplo, deberías obtener las mismas predicciones con ambos enfoques.</p>
 <p>Construyamos un polinomio ortogonal de grado 4 para modelar los datos de la bicis. Para este ejemplo, usaremos la variable <code>hora</code>:</p>
 <div id="cell-31" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>modelo_poly4 <span class="op">=</span> bmb.Model(<span class="st">"alquiladas ~ poly(hora, degree=4)"</span>, bicis,</span>
-<span id="cb26-2"><a href="#cb26-2"></a>                       family<span class="op">=</span><span class="st">"negativebinomial"</span>)</span>
-<span id="cb26-3"><a href="#cb26-3"></a>idata_poly4 <span class="op">=</span> modelo_poly4.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>modelo_poly4 <span class="op">=</span> bmb.Model(<span class="st">"alquiladas ~ poly(hora, degree=4)"</span>, bicis,</span>
+<span id="cb28-2"><a href="#cb28-2"></a>                       family<span class="op">=</span><span class="st">"negativebinomial"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3"></a>idata_poly4 <span class="op">=</span> modelo_poly4.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [alquiladas_alpha, Intercept, poly(hora, degree=4)]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+NUTS: [alquiladas_alpha, Intercept, poly(hora, degree=4)]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -656,18 +826,21 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+</div>
 </div>
 <div id="cell-32" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="st">"col"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>)) </span>
-<span id="cb28-2"><a href="#cb28-2"></a>bmb.interpret.plot_predictions(modelo_poly4, idata_poly4, <span class="st">"hora"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
-<span id="cb28-3"><a href="#cb28-3"></a>bmb.interpret.plot_predictions(modelo_poly4, idata_poly4, <span class="st">"hora"</span>, pps<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
-<span id="cb28-4"><a href="#cb28-4"></a></span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="cf">for</span> ax <span class="kw">in</span> axes.ravel():</span>
-<span id="cb28-6"><a href="#cb28-6"></a>    ax.plot(bicis.hora, bicis.alquiladas, <span class="st">"C2."</span>, zorder<span class="op">=-</span><span class="dv">3</span>)</span>
-<span id="cb28-7"><a href="#cb28-7"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"media"</span>)</span>
-<span id="cb28-8"><a href="#cb28-8"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"predicciones"</span>)</span>
-<span id="cb28-9"><a href="#cb28-9"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">""</span>)</span>
-<span id="cb28-10"><a href="#cb28-10"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">""</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="st">"col"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>)) </span>
+<span id="cb31-2"><a href="#cb31-2"></a>bmb.interpret.plot_predictions(modelo_poly4, idata_poly4, <span class="st">"hora"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb31-3"><a href="#cb31-3"></a>bmb.interpret.plot_predictions(modelo_poly4, idata_poly4, <span class="st">"hora"</span>, pps<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb31-4"><a href="#cb31-4"></a></span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="cf">for</span> ax <span class="kw">in</span> axes.ravel():</span>
+<span id="cb31-6"><a href="#cb31-6"></a>    ax.plot(bicis.hora, bicis.alquiladas, <span class="st">"C2."</span>, zorder<span class="op">=-</span><span class="dv">3</span>)</span>
+<span id="cb31-7"><a href="#cb31-7"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"media"</span>)</span>
+<span id="cb31-8"><a href="#cb31-8"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"predicciones"</span>)</span>
+<span id="cb31-9"><a href="#cb31-9"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">""</span>)</span>
+<span id="cb31-10"><a href="#cb31-10"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">""</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>Text(0, 0.5, '')</code></pre>
 </div>
@@ -693,17 +866,16 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p><img src="img/splines_weighted.png" class="img-fluid"></p>
 <p>Podemos usar B-splines con Bambi usando la función <code>bs</code>. Por ejemplo, ajustemos un spline de grado 3 a los datos de las bicis:</p>
 <div id="cell-35" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>num_knots <span class="op">=</span> <span class="dv">6</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>knots <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">23</span>, num_knots<span class="op">+</span><span class="dv">2</span>)[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb30-3"><a href="#cb30-3"></a>modelo_spline <span class="op">=</span> bmb.Model(<span class="st">"alquiladas ~ bs(hora, degree=3, knots=knots)"</span>, bicis,           </span>
-<span id="cb30-4"><a href="#cb30-4"></a>                         family<span class="op">=</span><span class="st">"negativebinomial"</span>)</span>
-<span id="cb30-5"><a href="#cb30-5"></a>idata_spline <span class="op">=</span> modelo_spline.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>num_knots <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a>knots <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">23</span>, num_knots<span class="op">+</span><span class="dv">2</span>)[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb33-3"><a href="#cb33-3"></a>modelo_spline <span class="op">=</span> bmb.Model(<span class="st">"alquiladas ~ bs(hora, degree=3, knots=knots)"</span>, bicis,           </span>
+<span id="cb33-4"><a href="#cb33-4"></a>                         family<span class="op">=</span><span class="st">"negativebinomial"</span>)</span>
+<span id="cb33-5"><a href="#cb33-5"></a>idata_spline <span class="op">=</span> modelo_spline.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [alquiladas_alpha, Intercept, bs(hora, degree=3, knots=knots)]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.</code></pre>
+NUTS: [alquiladas_alpha, Intercept, bs(hora, degree=3, knots=knots)]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -716,12 +888,15 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.</code></pre>
+</div>
 </div>
 <p>En la siguiente figura podemos ver que el número de bicicletas de alquiler es el más bajo a altas horas de la noche. Luego se produce un aumento, probablemente cuando la gente se despierta y va al trabajo, a la escuela u otras actividades. Tenemos un primer pico alrededor de la hora 8, luego un ligero descenso, seguido por el segundo pico alrededor de la hora 18, probablemente porque la gente regresa a casa, después del cual hay un descenso constante. Observe que la curva no es muy suave, esto se debe a que los datos están discretizados (por hora).</p>
 <div id="cell-37" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>_, ax <span class="op">=</span> plt.subplots(sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="st">"col"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>)) </span>
-<span id="cb32-2"><a href="#cb32-2"></a>bmb.interpret.plot_predictions(modelo_spline, idata_spline, <span class="st">"hora"</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb32-3"><a href="#cb32-3"></a>ax.plot(bicis.hora, bicis.alquiladas, <span class="st">"C2."</span>, zorder<span class="op">=-</span><span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>_, ax <span class="op">=</span> plt.subplots(sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="st">"col"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>)) </span>
+<span id="cb36-2"><a href="#cb36-2"></a>bmb.interpret.plot_predictions(modelo_spline, idata_spline, <span class="st">"hora"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb36-3"><a href="#cb36-3"></a>ax.plot(bicis.hora, bicis.alquiladas, <span class="st">"C2."</span>, zorder<span class="op">=-</span><span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -737,17 +912,16 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>Anteriormente vimos que podemos usar modelos lineales para parámetros distintos de la media. Por ejemplo, podemos utilizar un modelo lineal para la media y un modelo lineal para la desviación estándar de una distribución Gaussiana. Estos modelos suelen denominarse modelos distribucionales. La sintaxis de Bambi para los modelos distribucionales es muy similar, sólo necesitamos agregar una línea para los parámetros auxiliares que queremos modelar. Por ejemplo, sigma para una Gaussiano o alfa para un NegativaBinomial</p>
 <p>Reproduzcamos ahora un ejemplo del capítulo anterior, el ejemplo de los bebés.</p>
 <div id="cell-40" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>bebes <span class="op">=</span> pd.read_csv(<span class="st">'datos/babies.csv'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a>bebes <span class="op">=</span> pd.read_csv(<span class="st">'datos/babies.csv'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-41" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>modelo_cons <span class="op">=</span> bmb.Model(<span class="st">"Longitud ~ np.sqrt(Meses)"</span>, bebes)</span>
-<span id="cb34-2"><a href="#cb34-2"></a>idata_cons <span class="op">=</span> modelo_cons.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>modelo_cons <span class="op">=</span> bmb.Model(<span class="st">"Longitud ~ np.sqrt(Meses)"</span>, bebes)</span>
+<span id="cb38-2"><a href="#cb38-2"></a>idata_cons <span class="op">=</span> modelo_cons.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [Longitud_sigma, Intercept, np.sqrt(Meses)]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+NUTS: [Longitud_sigma, Intercept, np.sqrt(Meses)]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -760,21 +934,23 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+</div>
 </div>
 <p>En el modelo anterior sigma es constante, ahora veamos un modelo distribucional. En este modelo <code>sigma</code> es una función lineal de <code>Meses</code>.</p>
 <div id="cell-43" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>formula <span class="op">=</span> bmb.Formula(</span>
-<span id="cb36-2"><a href="#cb36-2"></a>    <span class="st">"Longitud ~ np.sqrt(Meses)"</span>,</span>
-<span id="cb36-3"><a href="#cb36-3"></a>    <span class="st">"sigma ~ Meses"</span></span>
-<span id="cb36-4"><a href="#cb36-4"></a>)</span>
-<span id="cb36-5"><a href="#cb36-5"></a>modelo_dis <span class="op">=</span> bmb.Model(formula, bebes)</span>
-<span id="cb36-6"><a href="#cb36-6"></a>idata_dis <span class="op">=</span> modelo_dis.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>formula <span class="op">=</span> bmb.Formula(</span>
+<span id="cb41-2"><a href="#cb41-2"></a>    <span class="st">"Longitud ~ np.sqrt(Meses)"</span>,</span>
+<span id="cb41-3"><a href="#cb41-3"></a>    <span class="st">"sigma ~ Meses"</span></span>
+<span id="cb41-4"><a href="#cb41-4"></a>)</span>
+<span id="cb41-5"><a href="#cb41-5"></a>modelo_dis <span class="op">=</span> bmb.Model(formula, bebes)</span>
+<span id="cb41-6"><a href="#cb41-6"></a>idata_dis <span class="op">=</span> modelo_dis.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [Intercept, np.sqrt(Meses), sigma_Intercept, sigma_Meses]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+NUTS: [Intercept, np.sqrt(Meses), sigma_Intercept, sigma_Meses]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -787,31 +963,34 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+</div>
 </div>
 <p>En la siguiente figura podemos ver los valores a posteriori de sigma para los modelos con sigma constante y variable. Podemos ver que cuando se permite que sigma varíe obtenemos valores por debajo y por encima de la estimación para un sigma constante, lo que significa que estamos subestimando y sobreestimando este parámetro cuando no permitimos que cambie.</p>
 <div id="cell-45" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
-<span id="cb38-2"><a href="#cb38-2"></a><span class="im">from</span> matplotlib.lines <span class="im">import</span> Line2D</span>
-<span id="cb38-3"><a href="#cb38-3"></a></span>
-<span id="cb38-4"><a href="#cb38-4"></a><span class="cf">for</span> idx <span class="kw">in</span> idata_dis.posterior.coords.get(<span class="st">"Longitud_obs"</span>):</span>
-<span id="cb38-5"><a href="#cb38-5"></a>    values <span class="op">=</span> idata_dis.posterior[<span class="st">"sigma"</span>].sel(Longitud_obs<span class="op">=</span>idx).to_numpy().flatten()</span>
-<span id="cb38-6"><a href="#cb38-6"></a>    grid, pdf <span class="op">=</span> az.kde(values)</span>
-<span id="cb38-7"><a href="#cb38-7"></a>    ax.plot(grid, pdf, lw<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"C1"</span>)</span>
-<span id="cb38-8"><a href="#cb38-8"></a></span>
-<span id="cb38-9"><a href="#cb38-9"></a>values <span class="op">=</span> idata_cons.posterior[<span class="st">"Longitud_sigma"</span>].to_numpy().flatten()</span>
-<span id="cb38-10"><a href="#cb38-10"></a>grid, pdf <span class="op">=</span> az.kde(values)</span>
-<span id="cb38-11"><a href="#cb38-11"></a>ax.plot(grid, pdf, lw<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span><span class="st">"C0"</span>)</span>
-<span id="cb38-12"><a href="#cb38-12"></a></span>
-<span id="cb38-13"><a href="#cb38-13"></a>handles <span class="op">=</span> [</span>
-<span id="cb38-14"><a href="#cb38-14"></a>    Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], label<span class="op">=</span><span class="st">"sigma variable"</span>, lw<span class="op">=</span><span class="fl">1.5</span>, color<span class="op">=</span><span class="st">"k"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>),</span>
-<span id="cb38-15"><a href="#cb38-15"></a>    Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], label<span class="op">=</span><span class="st">"sigma constante"</span>, lw<span class="op">=</span><span class="fl">1.5</span>, color<span class="op">=</span><span class="st">"C0"</span>)</span>
-<span id="cb38-16"><a href="#cb38-16"></a>]</span>
-<span id="cb38-17"><a href="#cb38-17"></a></span>
-<span id="cb38-18"><a href="#cb38-18"></a>legend <span class="op">=</span> ax.legend(handles<span class="op">=</span>handles, loc<span class="op">=</span><span class="st">"upper right"</span>)</span>
-<span id="cb38-19"><a href="#cb38-19"></a></span>
-<span id="cb38-20"><a href="#cb38-20"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Alfa a posteriori"</span>, yticks<span class="op">=</span>[])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb44-2"><a href="#cb44-2"></a><span class="im">from</span> matplotlib.lines <span class="im">import</span> Line2D</span>
+<span id="cb44-3"><a href="#cb44-3"></a></span>
+<span id="cb44-4"><a href="#cb44-4"></a><span class="cf">for</span> idx <span class="kw">in</span> idata_dis.posterior.coords.get(<span class="st">"Longitud_obs"</span>):</span>
+<span id="cb44-5"><a href="#cb44-5"></a>    values <span class="op">=</span> idata_dis.posterior[<span class="st">"sigma"</span>].sel(Longitud_obs<span class="op">=</span>idx).to_numpy().flatten()</span>
+<span id="cb44-6"><a href="#cb44-6"></a>    grid, pdf <span class="op">=</span> az.kde(values)</span>
+<span id="cb44-7"><a href="#cb44-7"></a>    ax.plot(grid, pdf, lw<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"C1"</span>)</span>
+<span id="cb44-8"><a href="#cb44-8"></a></span>
+<span id="cb44-9"><a href="#cb44-9"></a>values <span class="op">=</span> idata_cons.posterior[<span class="st">"Longitud_sigma"</span>].to_numpy().flatten()</span>
+<span id="cb44-10"><a href="#cb44-10"></a>grid, pdf <span class="op">=</span> az.kde(values)</span>
+<span id="cb44-11"><a href="#cb44-11"></a>ax.plot(grid, pdf, lw<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span><span class="st">"C0"</span>)</span>
+<span id="cb44-12"><a href="#cb44-12"></a></span>
+<span id="cb44-13"><a href="#cb44-13"></a>handles <span class="op">=</span> [</span>
+<span id="cb44-14"><a href="#cb44-14"></a>    Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], label<span class="op">=</span><span class="st">"sigma variable"</span>, lw<span class="op">=</span><span class="fl">1.5</span>, color<span class="op">=</span><span class="st">"k"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>),</span>
+<span id="cb44-15"><a href="#cb44-15"></a>    Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], label<span class="op">=</span><span class="st">"sigma constante"</span>, lw<span class="op">=</span><span class="fl">1.5</span>, color<span class="op">=</span><span class="st">"C0"</span>)</span>
+<span id="cb44-16"><a href="#cb44-16"></a>]</span>
+<span id="cb44-17"><a href="#cb44-17"></a></span>
+<span id="cb44-18"><a href="#cb44-18"></a>legend <span class="op">=</span> ax.legend(handles<span class="op">=</span>handles, loc<span class="op">=</span><span class="st">"upper right"</span>)</span>
+<span id="cb44-19"><a href="#cb44-19"></a></span>
+<span id="cb44-20"><a href="#cb44-20"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Alfa a posteriori"</span>, yticks<span class="op">=</span>[])<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -823,13 +1002,13 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 <p>La siguiente figura muestra el ajuste a posteriori para <code>model_dis</code>. Observe que el modelo puede capturar el aumento de la variabilidad a medida que los bebés crecen.</p>
 <div id="cell-47" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a>_, ax <span class="op">=</span> plt.subplots(sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="st">"col"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>)) </span>
-<span id="cb39-2"><a href="#cb39-2"></a>bmb.interpret.plot_predictions(modelo_dis, idata_dis, <span class="st">"Meses"</span>, ax<span class="op">=</span>ax, fig_kwargs<span class="op">=</span>{<span class="st">"color"</span>:<span class="st">"k"</span>})</span>
-<span id="cb39-3"><a href="#cb39-3"></a>bmb.interpret.plot_predictions(modelo_dis, idata_dis, <span class="st">"Meses"</span>, pps<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb39-4"><a href="#cb39-4"></a>ax_ <span class="op">=</span> bmb.interpret.plot_predictions(modelo_dis, idata_dis, <span class="st">"Meses"</span>, pps<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax, prob<span class="op">=</span><span class="fl">0.65</span>)</span>
-<span id="cb39-5"><a href="#cb39-5"></a>ax_[<span class="dv">1</span>][<span class="dv">0</span>].get_children()[<span class="dv">5</span>].set_facecolor(<span class="st">'C1'</span>)  </span>
-<span id="cb39-6"><a href="#cb39-6"></a></span>
-<span id="cb39-7"><a href="#cb39-7"></a>ax.plot(bebes.Meses, bebes.Longitud, <span class="st">"C2."</span>, zorder<span class="op">=-</span><span class="dv">3</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a>_, ax <span class="op">=</span> plt.subplots(sharey<span class="op">=</span><span class="va">True</span>, sharex<span class="op">=</span><span class="st">"col"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>)) </span>
+<span id="cb45-2"><a href="#cb45-2"></a>bmb.interpret.plot_predictions(modelo_dis, idata_dis, <span class="st">"Meses"</span>, ax<span class="op">=</span>ax, fig_kwargs<span class="op">=</span>{<span class="st">"color"</span>:<span class="st">"k"</span>})</span>
+<span id="cb45-3"><a href="#cb45-3"></a>bmb.interpret.plot_predictions(modelo_dis, idata_dis, <span class="st">"Meses"</span>, pps<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb45-4"><a href="#cb45-4"></a>ax_ <span class="op">=</span> bmb.interpret.plot_predictions(modelo_dis, idata_dis, <span class="st">"Meses"</span>, pps<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax, prob<span class="op">=</span><span class="fl">0.65</span>)</span>
+<span id="cb45-5"><a href="#cb45-5"></a>ax_[<span class="dv">1</span>][<span class="dv">0</span>].get_children()[<span class="dv">5</span>].set_facecolor(<span class="st">'C1'</span>)  </span>
+<span id="cb45-6"><a href="#cb45-6"></a></span>
+<span id="cb45-7"><a href="#cb45-7"></a>ax.plot(bebes.Meses, bebes.Longitud, <span class="st">"C2."</span>, zorder<span class="op">=-</span><span class="dv">3</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -840,11 +1019,11 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 <p>Al trabajar con PyMC vimos que el muestreo de la distribución predictiva a posteriori, evaluado en valores no observados, requiere que definamos el modelo con las “X” como <code>Mutable_data</code> y luego actualicemos el valor de la variable mutable antes de calcular la distribución predictiva posterior. Con Bambi esto no es necesario, podemos usar el método <code>predict</code> para predecir nuevos valores pasando los nuevos valores al argumento <code>data</code>. Por ejemplo, predigamos la longitud de un bebé a los 0,5 meses (15 días):</p>
 <div id="cell-49" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>modelo_dis.predict(idata_dis, kind<span class="op">=</span><span class="st">"pps"</span>, data<span class="op">=</span>pd.DataFrame({<span class="st">"Meses"</span>:[<span class="fl">0.5</span>]}))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a>modelo_dis.predict(idata_dis, kind<span class="op">=</span><span class="st">"pps"</span>, data<span class="op">=</span>pd.DataFrame({<span class="st">"Meses"</span>:[<span class="fl">0.5</span>]}))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Esto agrega un grupo <code>posterior_predictive</code> a <code>idata_dis</code></p>
 <div id="cell-51" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>idata_dis</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>idata_dis</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 
             <div>
@@ -3028,20 +3207,20 @@ dl.xr-attrs {
 <div id="cell-52" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a>ref <span class="op">=</span> <span class="fl">52.5</span></span>
-<span id="cb42-2"><a href="#cb42-2"></a>y_ppc <span class="op">=</span> idata_dis.posterior_predictive[<span class="st">"Longitud"</span>].stack(sample<span class="op">=</span>(<span class="st">"chain"</span>, <span class="st">"draw"</span>))</span>
-<span id="cb42-3"><a href="#cb42-3"></a>grid, pdf <span class="op">=</span> az.stats.density_utils._kde_linear(y_ppc.values)</span>
-<span id="cb42-4"><a href="#cb42-4"></a>plt.plot(grid, pdf)</span>
-<span id="cb42-5"><a href="#cb42-5"></a>percentile <span class="op">=</span> <span class="bu">int</span>((y_ppc <span class="op">&lt;=</span> ref).mean() <span class="op">*</span> <span class="dv">100</span>)</span>
-<span id="cb42-6"><a href="#cb42-6"></a>plt.fill_between(</span>
-<span id="cb42-7"><a href="#cb42-7"></a>    grid[grid <span class="op">&lt;</span> ref],</span>
-<span id="cb42-8"><a href="#cb42-8"></a>    pdf[grid <span class="op">&lt;</span> ref],</span>
-<span id="cb42-9"><a href="#cb42-9"></a>    label<span class="op">=</span><span class="st">"percentilo = </span><span class="sc">{:2d}</span><span class="st">"</span>.<span class="bu">format</span>(percentile),</span>
-<span id="cb42-10"><a href="#cb42-10"></a>    color<span class="op">=</span><span class="st">"C1"</span>,</span>
-<span id="cb42-11"><a href="#cb42-11"></a>)</span>
-<span id="cb42-12"><a href="#cb42-12"></a>plt.xlabel(<span class="st">"Longitud"</span>)</span>
-<span id="cb42-13"><a href="#cb42-13"></a>plt.yticks([])</span>
-<span id="cb42-14"><a href="#cb42-14"></a>plt.legend()<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a>ref <span class="op">=</span> <span class="fl">52.5</span></span>
+<span id="cb48-2"><a href="#cb48-2"></a>y_ppc <span class="op">=</span> idata_dis.posterior_predictive[<span class="st">"Longitud"</span>].stack(sample<span class="op">=</span>(<span class="st">"chain"</span>, <span class="st">"draw"</span>))</span>
+<span id="cb48-3"><a href="#cb48-3"></a>grid, pdf <span class="op">=</span> az.stats.density_utils._kde_linear(y_ppc.values)</span>
+<span id="cb48-4"><a href="#cb48-4"></a>plt.plot(grid, pdf)</span>
+<span id="cb48-5"><a href="#cb48-5"></a>percentile <span class="op">=</span> <span class="bu">int</span>((y_ppc <span class="op">&lt;=</span> ref).mean() <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb48-6"><a href="#cb48-6"></a>plt.fill_between(</span>
+<span id="cb48-7"><a href="#cb48-7"></a>    grid[grid <span class="op">&lt;</span> ref],</span>
+<span id="cb48-8"><a href="#cb48-8"></a>    pdf[grid <span class="op">&lt;</span> ref],</span>
+<span id="cb48-9"><a href="#cb48-9"></a>    label<span class="op">=</span><span class="st">"percentilo = </span><span class="sc">{:2d}</span><span class="st">"</span>.<span class="bu">format</span>(percentile),</span>
+<span id="cb48-10"><a href="#cb48-10"></a>    color<span class="op">=</span><span class="st">"C1"</span>,</span>
+<span id="cb48-11"><a href="#cb48-11"></a>)</span>
+<span id="cb48-12"><a href="#cb48-12"></a>plt.xlabel(<span class="st">"Longitud"</span>)</span>
+<span id="cb48-13"><a href="#cb48-13"></a>plt.yticks([])</span>
+<span id="cb48-14"><a href="#cb48-14"></a>plt.legend()<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -3067,8 +3246,8 @@ dl.xr-attrs {
 <div id="cell-55" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a>penguins <span class="op">=</span> pd.read_csv(<span class="st">"datos/penguins.csv"</span>).dropna()</span>
-<span id="cb43-2"><a href="#cb43-2"></a>penguins.head()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a>penguins <span class="op">=</span> pd.read_csv(<span class="st">"datos/penguins.csv"</span>).dropna()</span>
+<span id="cb49-2"><a href="#cb49-2"></a>penguins.head()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="29">
 <div>
@@ -3153,27 +3332,27 @@ dl.xr-attrs {
 <div id="cell-fig-scatter_pen" class="cell" data-execution_count="30">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a><span class="co"># Get unique categories</span></span>
-<span id="cb44-2"><a href="#cb44-2"></a>unique_categories <span class="op">=</span> np.unique(penguins.species)</span>
-<span id="cb44-3"><a href="#cb44-3"></a></span>
-<span id="cb44-4"><a href="#cb44-4"></a><span class="co"># Create color map for categories</span></span>
-<span id="cb44-5"><a href="#cb44-5"></a>category_color_map <span class="op">=</span> {cat: <span class="ss">f"C</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i, cat <span class="kw">in</span> <span class="bu">enumerate</span>(unique_categories)}</span>
-<span id="cb44-6"><a href="#cb44-6"></a></span>
-<span id="cb44-7"><a href="#cb44-7"></a><span class="co"># Generate colors for each category</span></span>
-<span id="cb44-8"><a href="#cb44-8"></a>colors <span class="op">=</span> [category_color_map[cat] <span class="cf">for</span> cat <span class="kw">in</span> penguins.species]</span>
-<span id="cb44-9"><a href="#cb44-9"></a></span>
-<span id="cb44-10"><a href="#cb44-10"></a><span class="co"># Create scatter plot for each category</span></span>
-<span id="cb44-11"><a href="#cb44-11"></a><span class="cf">for</span> cat <span class="kw">in</span> unique_categories:</span>
-<span id="cb44-12"><a href="#cb44-12"></a>    category_data <span class="op">=</span> penguins[penguins.species <span class="op">==</span> cat]</span>
-<span id="cb44-13"><a href="#cb44-13"></a>    plt.scatter(category_data.body_mass, category_data.bill_length, c<span class="op">=</span>category_color_map[cat], label<span class="op">=</span>cat)</span>
-<span id="cb44-14"><a href="#cb44-14"></a></span>
-<span id="cb44-15"><a href="#cb44-15"></a><span class="co"># Add labels and legend</span></span>
-<span id="cb44-16"><a href="#cb44-16"></a>plt.ylabel(<span class="st">"Body mass (g)"</span>)</span>
-<span id="cb44-17"><a href="#cb44-17"></a>plt.xlabel(<span class="st">"Bill length (mm)"</span>)</span>
-<span id="cb44-18"><a href="#cb44-18"></a>plt.legend(labels<span class="op">=</span>unique_categories, loc<span class="op">=</span><span class="st">"lower right"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a><span class="co"># Get unique categories</span></span>
+<span id="cb50-2"><a href="#cb50-2"></a>unique_categories <span class="op">=</span> np.unique(penguins.species)</span>
+<span id="cb50-3"><a href="#cb50-3"></a></span>
+<span id="cb50-4"><a href="#cb50-4"></a><span class="co"># Create color map for categories</span></span>
+<span id="cb50-5"><a href="#cb50-5"></a>category_color_map <span class="op">=</span> {cat: <span class="ss">f"C</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i, cat <span class="kw">in</span> <span class="bu">enumerate</span>(unique_categories)}</span>
+<span id="cb50-6"><a href="#cb50-6"></a></span>
+<span id="cb50-7"><a href="#cb50-7"></a><span class="co"># Generate colors for each category</span></span>
+<span id="cb50-8"><a href="#cb50-8"></a>colors <span class="op">=</span> [category_color_map[cat] <span class="cf">for</span> cat <span class="kw">in</span> penguins.species]</span>
+<span id="cb50-9"><a href="#cb50-9"></a></span>
+<span id="cb50-10"><a href="#cb50-10"></a><span class="co"># Create scatter plot for each category</span></span>
+<span id="cb50-11"><a href="#cb50-11"></a><span class="cf">for</span> cat <span class="kw">in</span> unique_categories:</span>
+<span id="cb50-12"><a href="#cb50-12"></a>    category_data <span class="op">=</span> penguins[penguins.species <span class="op">==</span> cat]</span>
+<span id="cb50-13"><a href="#cb50-13"></a>    plt.scatter(category_data.body_mass, category_data.bill_length, c<span class="op">=</span>category_color_map[cat], label<span class="op">=</span>cat)</span>
+<span id="cb50-14"><a href="#cb50-14"></a></span>
+<span id="cb50-15"><a href="#cb50-15"></a><span class="co"># Add labels and legend</span></span>
+<span id="cb50-16"><a href="#cb50-16"></a>plt.ylabel(<span class="st">"Body mass (g)"</span>)</span>
+<span id="cb50-17"><a href="#cb50-17"></a>plt.xlabel(<span class="st">"Bill length (mm)"</span>)</span>
+<span id="cb50-18"><a href="#cb50-18"></a>plt.legend(labels<span class="op">=</span>unique_categories, loc<span class="op">=</span><span class="st">"lower right"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-scatter_pen" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-scatter_pen" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter_pen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-scatter_pen-output-1.png" class="img-fluid figure-img">
@@ -3187,14 +3366,13 @@ Figura&nbsp;7.1: Largo del pico (bill_length) vs masa (body_mass) para 3 especie
 </div>
 <p>Para ajustar un modelo con variables categoricas no necesitamos de ninguna sintáxis especial</p>
 <div id="cell-58" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a>modelo_p <span class="op">=</span> bmb.Model(<span class="st">"body_mass ~ bill_length + species"</span>, data<span class="op">=</span>penguins)</span>
-<span id="cb45-2"><a href="#cb45-2"></a>idata_p <span class="op">=</span> modelo_p.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a>modelo_p <span class="op">=</span> bmb.Model(<span class="st">"body_mass ~ bill_length + species"</span>, data<span class="op">=</span>penguins)</span>
+<span id="cb51-2"><a href="#cb51-2"></a>idata_p <span class="op">=</span> modelo_p.fit()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [body_mass_sigma, Intercept, bill_length, species]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+NUTS: [body_mass_sigma, Intercept, bill_length, species]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -3207,6 +3385,9 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.</code></pre>
+</div>
 </div>
 <p>La <a href="#fig-penguins_posterior" class="quarto-xref">Figura&nbsp;<span>7.2</span></a> muestra un forest plot para <code>model_p</code>. ¿Notás algo inesperado? No hay valores posteriores para <code>Adelie</code>. Esto no es un error. De forma predeterminada, Bambi codifica variables categóricas con <code>N</code> niveles (3 especies) como <code>N-1</code> variables (2 especies). Así, los coeficientes <code>species-Chinstrap</code> y <code>species-Gentoo</code> representan deflecciones del modelo base:</p>
 <p><span class="math display">\[
@@ -3215,14 +3396,14 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div id="cell-fig-penguins_posterior" class="cell" data-execution_count="32">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>ax <span class="op">=</span> az.plot_forest(idata_p, combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>))</span>
-<span id="cb47-2"><a href="#cb47-2"></a>mean_chinstrap <span class="op">=</span> idata_p.posterior[<span class="st">"species"</span>].sel(species_dim<span class="op">=</span><span class="st">"Chinstrap"</span>).mean()</span>
-<span id="cb47-3"><a href="#cb47-3"></a>mean_gentoo <span class="op">=</span> idata_p.posterior[<span class="st">"species"</span>].sel(species_dim<span class="op">=</span><span class="st">"Gentoo"</span>).mean()</span>
-<span id="cb47-4"><a href="#cb47-4"></a>ax[<span class="dv">0</span>].annotate(<span class="ss">f"</span><span class="sc">{</span>mean_chinstrap<span class="sc">.</span>item()<span class="sc">:.2f}</span><span class="ss">"</span>, (mean_chinstrap , <span class="fl">2.5</span>), weight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb47-5"><a href="#cb47-5"></a>ax[<span class="dv">0</span>].annotate(<span class="ss">f"</span><span class="sc">{</span>mean_gentoo<span class="sc">.</span>item()<span class="sc">:.2f}</span><span class="ss">"</span>, (mean_gentoo , <span class="fl">1.7</span>), weight<span class="op">=</span><span class="st">'bold'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1"></a>ax <span class="op">=</span> az.plot_forest(idata_p, combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>))</span>
+<span id="cb54-2"><a href="#cb54-2"></a>mean_chinstrap <span class="op">=</span> idata_p.posterior[<span class="st">"species"</span>].sel(species_dim<span class="op">=</span><span class="st">"Chinstrap"</span>).mean()</span>
+<span id="cb54-3"><a href="#cb54-3"></a>mean_gentoo <span class="op">=</span> idata_p.posterior[<span class="st">"species"</span>].sel(species_dim<span class="op">=</span><span class="st">"Gentoo"</span>).mean()</span>
+<span id="cb54-4"><a href="#cb54-4"></a>ax[<span class="dv">0</span>].annotate(<span class="ss">f"</span><span class="sc">{</span>mean_chinstrap<span class="sc">.</span>item()<span class="sc">:.2f}</span><span class="ss">"</span>, (mean_chinstrap , <span class="fl">2.5</span>), weight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb54-5"><a href="#cb54-5"></a>ax[<span class="dv">0</span>].annotate(<span class="ss">f"</span><span class="sc">{</span>mean_gentoo<span class="sc">.</span>item()<span class="sc">:.2f}</span><span class="ss">"</span>, (mean_gentoo , <span class="fl">1.7</span>), weight<span class="op">=</span><span class="st">'bold'</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-penguins_posterior" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-penguins_posterior" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-penguins_posterior-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-penguins_posterior-output-1.png" class="img-fluid figure-img">
@@ -3238,15 +3419,15 @@ Figura&nbsp;7.2: Fores plot para la distribución a posteriori de <code>modelo_p
 <div class="cell" data-execution_count="33">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a>bmb.interpret.plot_predictions(modelo_p, idata_p, [<span class="st">"bill_length"</span>,  <span class="st">"species"</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a>bmb.interpret.plot_predictions(modelo_p, idata_p, [<span class="st">"bill_length"</span>,  <span class="st">"species"</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-penguins_predictions" class="cell quarto-figure quarto-figure-center quarto-float anchored" data-execution_count="33">
+<div id="fig-penguins_predictions" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="33">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-penguins_predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div id="fig-penguins_predictions-1" class="cell-output cell-output-display quarto-figure quarto-figure-center quarto-float anchored" data-execution_count="33">
+<div id="fig-penguins_predictions-1" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="33">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-penguins_predictions-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<pre id="fig-penguins_predictions-1" class="cell-output cell-output-display" data-execution_count="33"><code>(&lt;Figure size 3450x1500 with 1 Axes&gt;,
+<pre><code>(&lt;Figure size 3450x1500 with 1 Axes&gt;,
  array([&lt;Axes: xlabel='bill_length', ylabel='body_mass'&gt;], dtype=object))</code></pre>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-penguins_predictions-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -3255,7 +3436,7 @@ Figura&nbsp;7.2: Fores plot para la distribución a posteriori de <code>modelo_p
 </figure>
 </div>
 <div class="cell-output cell-output-display">
-<div id="fig-penguins_predictions-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-penguins_predictions-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-penguins_predictions-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-penguins_predictions-output-2.png" id="fig-penguins_predictions-2" class="img-fluid figure-img" data-ref-parent="fig-penguins_predictions">
@@ -3305,25 +3486,19 @@ Figura&nbsp;7.3
 </blockquote>
 <p>Definir una interacción es fácil; para un modelo PyMC, solo necesitamos multiplicar los dos predictores y agreagar un coeficiente más al modelo. Para que un modelo de Bambi es aún más fácil, usamos el operador <code>:</code>. Veamos un ejemplo de un modelo con y sin interacciones.</p>
 <div id="cell-65" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># Sin interacción</span></span>
-<span id="cb49-2"><a href="#cb49-2"></a>model_noint <span class="op">=</span> bmb.Model(<span class="st">"body_mass ~ bill_depth + bill_length"</span>, data<span class="op">=</span>penguins)</span>
-<span id="cb49-3"><a href="#cb49-3"></a>idata_noint <span class="op">=</span> model_noint.fit()</span>
-<span id="cb49-4"><a href="#cb49-4"></a></span>
-<span id="cb49-5"><a href="#cb49-5"></a><span class="co"># COn interacción</span></span>
-<span id="cb49-6"><a href="#cb49-6"></a>model_int <span class="op">=</span> bmb.Model(<span class="st">"body_mass ~ bill_depth + bill_length + bill_depth:bill_length"</span>, data<span class="op">=</span>penguins)</span>
-<span id="cb49-7"><a href="#cb49-7"></a>idata_int <span class="op">=</span> model_int.fit()</span>
-<span id="cb49-8"><a href="#cb49-8"></a>                    </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a><span class="co"># Sin interacción</span></span>
+<span id="cb57-2"><a href="#cb57-2"></a>model_noint <span class="op">=</span> bmb.Model(<span class="st">"body_mass ~ bill_depth + bill_length"</span>, data<span class="op">=</span>penguins)</span>
+<span id="cb57-3"><a href="#cb57-3"></a>idata_noint <span class="op">=</span> model_noint.fit()</span>
+<span id="cb57-4"><a href="#cb57-4"></a></span>
+<span id="cb57-5"><a href="#cb57-5"></a><span class="co"># COn interacción</span></span>
+<span id="cb57-6"><a href="#cb57-6"></a>model_int <span class="op">=</span> bmb.Model(<span class="st">"body_mass ~ bill_depth + bill_length + bill_depth:bill_length"</span>, data<span class="op">=</span>penguins)</span>
+<span id="cb57-7"><a href="#cb57-7"></a>idata_int <span class="op">=</span> model_int.fit()</span>
+<span id="cb57-8"><a href="#cb57-8"></a>                    </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.
-Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length, bill_depth:bill_length]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 11 seconds.</code></pre>
+NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -3336,6 +3511,13 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.
+Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [body_mass_sigma, Intercept, bill_depth, bill_length, bill_depth:bill_length]</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"a42e5f5329254bb09dc219131f810a1e","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -3347,26 +3529,29 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 11 seconds.</code></pre>
+</div>
 </div>
 <p>En la <a href="#fig-interaction_vs_noninteraction" class="quarto-xref">Figura&nbsp;<span>7.4</span></a> tenemos el ajuste de regresión media para <code>bill_depth</code> evaluado en 5 valores fijos de <code>bill_length</code>. A la izquierda tenemos el resultado dpara <code>model_noint</code> (sin interacciones) y a la derecha para <code>model_int</code> (con interacciones). Podemos ver que cuando no tenemos interacciones las rectas ajustadas para <code>bill_ depth</code> son paralelas en diferentes niveles de <code>bill_length</code>. En cambio, cuando tenemos interacciones las rectas ya no son paralelas, precisamente porque el efecto de cambiar <code>bill_depth</code> sobre cuánto cambia <code>body_mass</code> ya no es constante sino que está modulado por los valores de <code>bill_length</code>. Si generás una figura como <a href="#fig-interaction_vs_noninteraction" class="quarto-xref">Figura&nbsp;<span>7.4</span></a>, pero fijando <code>bill_depth</code> en vez de <code>bill_length</code> observarás un fenómeno parecido.</p>
 <div id="cell-fig-interaction_vs_noninteraction" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">4.5</span>), gridspec_kw<span class="op">=</span>{<span class="st">'hspace'</span>: <span class="fl">0.1</span>})</span>
-<span id="cb51-2"><a href="#cb51-2"></a></span>
-<span id="cb51-3"><a href="#cb51-3"></a>bmb.interpret.plot_predictions(model_noint, idata_noint,</span>
-<span id="cb51-4"><a href="#cb51-4"></a>                                [<span class="st">"bill_depth"</span>,  <span class="st">"bill_length"</span>],</span>
-<span id="cb51-5"><a href="#cb51-5"></a>                                ax<span class="op">=</span>axes[<span class="dv">0</span>],</span>
-<span id="cb51-6"><a href="#cb51-6"></a>                                legend<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb51-7"><a href="#cb51-7"></a>                                )</span>
-<span id="cb51-8"><a href="#cb51-8"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Sin interacción"</span>)</span>
-<span id="cb51-9"><a href="#cb51-9"></a></span>
-<span id="cb51-10"><a href="#cb51-10"></a></span>
-<span id="cb51-11"><a href="#cb51-11"></a>bmb.interpret.plot_predictions(model_int, idata_int,</span>
-<span id="cb51-12"><a href="#cb51-12"></a>                               [<span class="st">"bill_depth"</span>,  <span class="st">"bill_length"</span>],</span>
-<span id="cb51-13"><a href="#cb51-13"></a>                                ax<span class="op">=</span>axes[<span class="dv">1</span>],</span>
-<span id="cb51-14"><a href="#cb51-14"></a>                                )</span>
-<span id="cb51-15"><a href="#cb51-15"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Con interacción"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a>_, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">4.5</span>), gridspec_kw<span class="op">=</span>{<span class="st">'hspace'</span>: <span class="fl">0.1</span>})</span>
+<span id="cb61-2"><a href="#cb61-2"></a></span>
+<span id="cb61-3"><a href="#cb61-3"></a>bmb.interpret.plot_predictions(model_noint, idata_noint,</span>
+<span id="cb61-4"><a href="#cb61-4"></a>                                [<span class="st">"bill_depth"</span>,  <span class="st">"bill_length"</span>],</span>
+<span id="cb61-5"><a href="#cb61-5"></a>                                ax<span class="op">=</span>axes[<span class="dv">0</span>],</span>
+<span id="cb61-6"><a href="#cb61-6"></a>                                legend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb61-7"><a href="#cb61-7"></a>                                )</span>
+<span id="cb61-8"><a href="#cb61-8"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Sin interacción"</span>)</span>
+<span id="cb61-9"><a href="#cb61-9"></a></span>
+<span id="cb61-10"><a href="#cb61-10"></a></span>
+<span id="cb61-11"><a href="#cb61-11"></a>bmb.interpret.plot_predictions(model_int, idata_int,</span>
+<span id="cb61-12"><a href="#cb61-12"></a>                               [<span class="st">"bill_depth"</span>,  <span class="st">"bill_length"</span>],</span>
+<span id="cb61-13"><a href="#cb61-13"></a>                                ax<span class="op">=</span>axes[<span class="dv">1</span>],</span>
+<span id="cb61-14"><a href="#cb61-14"></a>                                )</span>
+<span id="cb61-15"><a href="#cb61-15"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Con interacción"</span>)<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/osvaldo/anaconda3/envs/pymc/lib/python3.11/site-packages/bambi/interpret/utils.py:383: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
@@ -3375,7 +3560,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
   if is_string_dtype(x) or is_categorical_dtype(x):</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<div id="fig-interaction_vs_noninteraction" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-interaction_vs_noninteraction" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interaction_vs_noninteraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-interaction_vs_noninteraction-output-2.png" class="img-fluid figure-img">
@@ -3412,11 +3597,11 @@ Figura&nbsp;7.4: Comparación de un modelo sin interacción (las lineas se manti
 <p>Ya hemos usado <code>bmb.interpret_plot_predictions</code> en este capítulo. Pero esa no es la única herramienta que nos ofrece Bambi para ayudarnos a comprender los modelos. Otra opción es <code>bmb.interpret_plot_comparisons</code>. Esta herramienta nos ayuda a responder la pregunta: ¿Cuál es la diferencia predictiva esperada cuando comparamos dos valores de una variable determinada mientras mantenemos el resto en valores constantes?</p>
 <p>Como ejemplo usemos <code>model_int</code>, que ya ajustamos en la sección anterior.</p>
 <div id="cell-fig-interaction_comparisons" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>bmb.interpret.plot_comparisons(model_int, idata_int,</span>
-<span id="cb53-2"><a href="#cb53-2"></a>                               contrast<span class="op">=</span>{<span class="st">"bill_depth"</span>:[<span class="fl">1.4</span>, <span class="fl">1.8</span>]},</span>
-<span id="cb53-3"><a href="#cb53-3"></a>                               conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1"></a>bmb.interpret.plot_comparisons(model_int, idata_int,</span>
+<span id="cb63-2"><a href="#cb63-2"></a>                               contrast<span class="op">=</span>{<span class="st">"bill_depth"</span>:[<span class="fl">1.4</span>, <span class="fl">1.8</span>]},</span>
+<span id="cb63-3"><a href="#cb63-3"></a>                               conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div id="fig-interaction_comparisons" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-interaction_comparisons" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interaction_comparisons-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-interaction_comparisons-output-1.png" class="img-fluid figure-img">
@@ -3438,9 +3623,9 @@ Figura&nbsp;7.5: Contraste de para <code>bill_length</code> de 1,8 a 1,4 cm para
 <div id="cell-72" class="cell" data-execution_count="37">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1"></a>bmb.interpret.comparisons(model_int, idata_int,</span>
-<span id="cb54-2"><a href="#cb54-2"></a>                          contrast<span class="op">=</span>{<span class="st">"bill_depth"</span>:[<span class="fl">1.4</span>, <span class="fl">1.8</span>]},</span>
-<span id="cb54-3"><a href="#cb54-3"></a>                          conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1"></a>bmb.interpret.comparisons(model_int, idata_int,</span>
+<span id="cb64-2"><a href="#cb64-2"></a>                          contrast<span class="op">=</span>{<span class="st">"bill_depth"</span>:[<span class="fl">1.4</span>, <span class="fl">1.8</span>]},</span>
+<span id="cb64-3"><a href="#cb64-3"></a>                          conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="37">
 <div>
@@ -3498,15 +3683,15 @@ Figura&nbsp;7.5: Contraste de para <code>bill_length</code> de 1,8 a 1,4 cm para
 </div>
 <p>Otra función muy útil es Otra función útil es <code>bmb.interpret_plot_slopes</code>. Esta función es similar a <code>bmb.interpret_plot_comparison</code>, la “tasa de cambio instantánea” o pendiente en un valor dado.</p>
 <div id="cell-fig-interaction_slopes" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a>bmb.interpret.plot_slopes(model_int, idata_int,</span>
-<span id="cb55-2"><a href="#cb55-2"></a>                          wrt<span class="op">=</span>{<span class="st">"bill_depth"</span>:<span class="fl">1.8</span>},</span>
-<span id="cb55-3"><a href="#cb55-3"></a>                          conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1"></a>bmb.interpret.plot_slopes(model_int, idata_int,</span>
+<span id="cb65-2"><a href="#cb65-2"></a>                          wrt<span class="op">=</span>{<span class="st">"bill_depth"</span>:<span class="fl">1.8</span>},</span>
+<span id="cb65-3"><a href="#cb65-3"></a>                          conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/osvaldo/anaconda3/envs/pymc/lib/python3.11/site-packages/bambi/interpret/effects.py:841: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
   if is_categorical_dtype(model.data[wrt_name]) or is_string_dtype(model.data[wrt_name]):</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<div id="fig-interaction_slopes" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-interaction_slopes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interaction_slopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06_Regresión_lineal_con_Bambi_files/figure-html/fig-interaction_slopes-output-2.png" class="img-fluid figure-img">
@@ -3528,9 +3713,9 @@ Figura&nbsp;7.6: Comparación de las pendientes de bill_depth evaluada en 1.8 pa
 <div id="cell-76" class="cell" data-execution_count="39">
 <details class="code-fold">
 <summary>Mostrar Código</summary>
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a>bmb.interpret.slopes(model_int, idata_int,</span>
-<span id="cb57-2"><a href="#cb57-2"></a>                     wrt<span class="op">=</span>{<span class="st">"bill_depth"</span>:<span class="fl">1.8</span>},</span>
-<span id="cb57-3"><a href="#cb57-3"></a>                     conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1"></a>bmb.interpret.slopes(model_int, idata_int,</span>
+<span id="cb67-2"><a href="#cb67-2"></a>                     wrt<span class="op">=</span>{<span class="st">"bill_depth"</span>:<span class="fl">1.8</span>},</span>
+<span id="cb67-3"><a href="#cb67-3"></a>                     conditional<span class="op">=</span>{<span class="st">"bill_length"</span>:[<span class="fl">3.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>]})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/osvaldo/anaconda3/envs/pymc/lib/python3.11/site-packages/bambi/interpret/effects.py:841: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
@@ -3624,18 +3809,17 @@ Figura&nbsp;7.6: Comparación de las pendientes de bill_depth evaluada en 1.8 pa
 <p>Para ilustrar cómo usar Kulprit, usaremos el conjunto de datos de grasa corporal. Este conjunto de datos tiene medidas de 251 individuos, incluida su edad, peso, altura, circunferencia del abdomen, etc. Nuestro propósito es predecir el porcentaje de grasa corporal (según lo estimado por la variable <code>siri</code>). Dado que obtener mediciones precisas de la grasa corporal es costoso y potencialmente molesto para los pacientes, queremos reducir las mediciones manteniendo una buena precisión predictiva para <code>siri</code>. El conjunto de datos original incluye 13 variables. Para que este ejemplo sea realmente simple, he preseleccionado 6.</p>
 <p>Lo primero que debemos hacer es definir y ajustar un modelo de Bambi, como es habitual. Tenemos que asegurarnos de incluir el argumento <code>idata_kwargs={'log_likelihood':True}}</code>. Internamente, Kulprit calcula el ELPD, usando LOO.</p>
 <div id="cell-80" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1"></a>body <span class="op">=</span> pd.read_csv(<span class="st">"datos/body_fat.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1"></a>body <span class="op">=</span> pd.read_csv(<span class="st">"datos/body_fat.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-81" class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"siri ~ age + weight + height + abdomen + thigh + wrist"</span>,</span>
-<span id="cb60-2"><a href="#cb60-2"></a>                  data<span class="op">=</span>body)</span>
-<span id="cb60-3"><a href="#cb60-3"></a>idata <span class="op">=</span> model.fit(idata_kwargs<span class="op">=</span>{<span class="st">'log_likelihood'</span>: <span class="va">True</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"siri ~ age + weight + height + abdomen + thigh + wrist"</span>,</span>
+<span id="cb70-2"><a href="#cb70-2"></a>                  data<span class="op">=</span>body)</span>
+<span id="cb70-3"><a href="#cb70-3"></a>idata <span class="op">=</span> model.fit(idata_kwargs<span class="op">=</span>{<span class="st">'log_likelihood'</span>: <span class="va">True</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [siri_sigma, Intercept, age, weight, height, abdomen, thigh, wrist]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 8 seconds.</code></pre>
+NUTS: [siri_sigma, Intercept, age, weight, height, abdomen, thigh, wrist]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
@@ -3648,15 +3832,18 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 8 seconds.</code></pre>
+</div>
 </div>
 <p>El principal punto de entrada de Kulprir es mediante la clase <code>ProjectionPredictive</code>. Una vez provista del modelo de Bambi y los datos resultantes del ajuste de ese modelo. Podemos pedirle a Kulprit que realice una búsqueda. Este paso puede demorar un rato, es la parte pesada de todo el proceso.</p>
 <div id="cell-83" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1"></a>ppi <span class="op">=</span> kpt.ProjectionPredictive(model, idata)</span>
-<span id="cb62-2"><a href="#cb62-2"></a>ppi.search()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1"></a>ppi <span class="op">=</span> kpt.ProjectionPredictive(model, idata)</span>
+<span id="cb73-2"><a href="#cb73-2"></a>ppi.search()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Una vez finalizada la búsqueda, podemos pedirle a Kulprit que compare los submodelos en términos del ELPD. Los submodelos se mostrarán ordenados desde el ELPD más bajo hasta el más alto, como en la siguiente figura</p>
 <div id="cell-85" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1"></a>ppi.plot_compare(plot<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1"></a>ppi.plot_compare(plot<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/osvaldo/proyectos/00_BM/arviz-devs/arviz/arviz/stats/stats.py:792: UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.62 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
   warnings.warn(
@@ -3674,7 +3861,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>En el eje x, tenemos el tamaño del submodelo, es decir, el número de variables; Comenzamos en cero porque incluimos un modelo con solo un intercepto y sin ninguna covariables. La línea gris discontinua corresponde al ELPD del modelo de referencia.</p>
 <p>Podemos ver que un submodelo de tamaño 3 es prácticamente equivalente al modelo de referencia. Pero ¿qué variables se incluyen exactamente en este y otros submodelos? Si imprimimos el objeto <code>ppi</code>, luego de realizar una búsqueda, obtendremos una lista ordenada de las fórmulas de los submodelos que coinciden con el orden en el gráfico obtenido con el comando <code>ppi.plot_compare()</code></p>
 <div id="cell-87" class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1"></a>ppi</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1"></a>ppi</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="44">
 <pre><code>  0 siri ~ 1
   1 siri ~ abdomen
@@ -3690,12 +3877,12 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>En resumen, como ocurre con otras herramientas estadísticas, los resultados no deben tomarse a ciegas sino en contexto; usted deben tener la última palabra y no sus herramientas. Las herramientas solo deben ayudar a fundamentar sus decisiones.</p>
 <p>Bien, digamos que efectivamente estamos interesados en el submodelo de tamaño 3 calculado por Kulprit; podemos conseguirlo con:</p>
 <div id="cell-89" class="cell" data-execution_count="45">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1"></a>submodelo <span class="op">=</span> ppi.project(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1"></a>submodelo <span class="op">=</span> ppi.project(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Desde el objeto <code>submodel</code>, podemos recuperar información útil como el modelo de Bambi <code>submodelo.model</code> o el objeto InferenceData <code>submodelo.idata</code>.</p>
 <p>Una advertencia al interpretar estos dos objetos: <code>submodelo.model</code> es un modelo de Bambi generado a partir de una fórmula. Así, sus priors serán los computados automáticamente por Bambi. Pero el posterior que calcula Kulprit, que está almacenado en <code>submodelo.idata.posterior</code>, no proviene directamente de este modelo. Ya que los priors son “heredados” implícitamente durante el paso de proyección.</p>
 <div id="cell-91" class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1"></a>az.plot_posterior(submodelo.idata, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1"></a>az.plot_posterior(submodelo.idata, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -3708,11 +3895,11 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>En condiciones muy generales, deberían ser distribuciones válidas, lo son al menos para obtener una idea aproximada de los valores de los parámetros y, por supuesto, es suficiente para la selección de variables. La falta de priors explícitos podría dificultar la interpretación del modelo, pero si solo nos importan las predicciones, eso no debería ser un problema. Por supuesto, siempre es posible usar Kulprit para determianr el submodelo y luego Bambi (o PyMC) para calcular explícitamente el posterior de ese modelo adaptado los priors de ser necesario.</p>
 <p>La siguiente figura muestra un forestplot para el posteriors del submodelo 3 y para el modelo de referencia. Observe que aquí hay dos posibles fuentes de diferencias: las diferencias entre MCMC y los métodos predictivos por proyección y las diferencias intrínsecas entre los posteriors para ambos modelos.</p>
 <div id="cell-93" class="cell" data-execution_count="47">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1"></a>ppi.plot_densities(var_names<span class="op">=</span>[<span class="st">"~Intercept"</span>, <span class="st">"~age"</span>, <span class="st">"~height"</span>, <span class="st">"~thigh"</span>],</span>
-<span id="cb69-2"><a href="#cb69-2"></a>                   submodels<span class="op">=</span>[<span class="dv">3</span>],</span>
-<span id="cb69-3"><a href="#cb69-3"></a>                   kind<span class="op">=</span><span class="st">"forest"</span>,</span>
-<span id="cb69-4"><a href="#cb69-4"></a>                   figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">4</span>),</span>
-<span id="cb69-5"><a href="#cb69-5"></a>                   plot_kwargs<span class="op">=</span>{<span class="st">"colors"</span>:[<span class="st">"C0"</span>, <span class="st">"C2"</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1"></a>ppi.plot_densities(var_names<span class="op">=</span>[<span class="st">"~Intercept"</span>, <span class="st">"~age"</span>, <span class="st">"~height"</span>, <span class="st">"~thigh"</span>],</span>
+<span id="cb80-2"><a href="#cb80-2"></a>                   submodels<span class="op">=</span>[<span class="dv">3</span>],</span>
+<span id="cb80-3"><a href="#cb80-3"></a>                   kind<span class="op">=</span><span class="st">"forest"</span>,</span>
+<span id="cb80-4"><a href="#cb80-4"></a>                   figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">4</span>),</span>
+<span id="cb80-5"><a href="#cb80-5"></a>                   plot_kwargs<span class="op">=</span>{<span class="st">"colors"</span>:[<span class="st">"C0"</span>, <span class="st">"C2"</span>]})<span class="op">;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -3727,372 +3914,255 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
     }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
       });
     }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copiado");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copiado");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
         }
-        return container.innerHTML
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -4100,185 +4170,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./05_Regresión_lineal.html" class="pagination-link" aria-label="Regresión lineal">
